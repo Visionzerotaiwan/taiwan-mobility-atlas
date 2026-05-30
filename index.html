@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣交通安全地圖｜全國面量圖 · Taiwan A1 Choropleth 2016–2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --lime:   #C8D400;
+  --lime-dk:#A8B200;
+  --lime-lt:#E8F000;
+  --black:  #1A1A1A;
+  --grey-1: #4A4A4A;
+  --grey-2: #888888;
+  --grey-3: #D0D0D0;
+  --grey-4: #F2F2F2;
+  --white:  #FFFFFF;
+  --red:    #D94F3D;
+  --blue:   #3A7CC3;
+  --gold:   #E8A825;
+  --font-zh: 'Noto Sans TC', sans-serif;
+  --font-en: 'Space Grotesk', sans-serif;
+}
+body { font-family: var(--font-zh); background: var(--grey-4); color: var(--black); line-height: 1.6; }
+.shell { max-width: 1440px; margin: 0 auto; padding: 48px 40px 80px; }
+
+/* Header */
+.page-header {
+  display: flex; align-items: flex-end; gap: 24px;
+  margin-bottom: 56px; padding-bottom: 24px;
+  border-bottom: 2px solid var(--black);
+}
+.page-header .logo-mark {
+  font-family: var(--font-en); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.18em; border: 1.5px solid var(--black);
+  padding: 5px 10px; text-transform: uppercase; line-height: 1.5;
+  white-space: nowrap;
+}
+.page-header .title-block { flex: 1; }
+.page-header h1 {
+  font-family: var(--font-en); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--grey-2); line-height: 1.6;
+}
+.page-header .title-zh {
+  font-family: var(--font-zh); font-weight: 300; font-size: 26px;
+  letter-spacing: 0.06em; color: var(--black); margin-top: 4px;
+}
+.page-header .meta {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2);
+  text-align: right; line-height: 1.6;
+}
+.page-header .meta strong { color: var(--black); font-weight: 600; }
+
+.section { margin-bottom: 48px; }
+.section-label {
+  font-family: var(--font-en); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--grey-2); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--grey-3); }
+
+/* Overview cover */
+.cover {
+  background: var(--white); padding: 36px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px;
+  position: relative; overflow: hidden;
+}
+.cover .big-num {
+  font-family: var(--font-en); font-size: 120px; font-weight: 300;
+  line-height: 0.9; letter-spacing: -0.02em; color: var(--black);
+}
+.cover .big-num sup {
+  font-size: 14px; font-weight: 500; letter-spacing: 0.2em;
+  color: var(--grey-2); vertical-align: top; margin-left: 12px;
+}
+.cover .big-label-zh {
+  font-weight: 100; font-size: 20px; letter-spacing: 0.1em; margin-top: 14px;
+}
+.cover .big-label-en {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); margin-top: 6px;
+}
+.cover .span-meta {
+  margin-top: 10px; font-size: 12px; font-weight: 300;
+  color: var(--grey-1); letter-spacing: 0.04em;
+}
+.cover .donut {
+  position: absolute; right: -50px; top: -30px;
+  width: 280px; height: 280px; opacity: 0.5; pointer-events: none;
+}
+.kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-content: end; position: relative; z-index: 1; }
+.kpi { border-top: 1px solid var(--grey-3); padding-top: 14px; }
+.kpi .kpi-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 4px;
+}
+.kpi .kpi-zh { font-size: 11px; color: var(--grey-1); font-weight: 300; margin-bottom: 6px; }
+.kpi .kpi-num { font-family: var(--font-en); font-size: 38px; font-weight: 300; line-height: 1; }
+.kpi .kpi-num small { font-size: 13px; color: var(--grey-2); letter-spacing: 0.05em; margin-left: 4px; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex; flex-wrap: wrap; gap: 18px 24px;
+  align-items: center; padding: 18px 24px;
+  background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+}
+.filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-group-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+}
+.cat-pill {
+  font-size: 11px; font-weight: 400; padding: 6px 11px;
+  border: 1px solid var(--grey-3); cursor: pointer;
+  letter-spacing: 0.03em; background: var(--white);
+  user-select: none; transition: background .12s, border-color .12s;
+}
+.cat-pill.en { font-family: var(--font-en); letter-spacing: 0.05em; font-weight: 500; }
+.cat-pill:hover { border-color: var(--black); }
+.cat-pill.active { background: var(--lime); border-color: var(--lime); font-weight: 700; }
+
+/* Map area */
+.map-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 24px; }
+.map-wrap { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px; }
+#map { height: 720px; background: var(--grey-4); border: 1px solid var(--grey-3); }
+.map-legend {
+  display: flex; flex-wrap: wrap; gap: 4px 10px; padding: 12px 4px 4px;
+  align-items: center; font-family: var(--font-en); font-size: 10px;
+  color: var(--grey-1); letter-spacing: 0.05em;
+}
+.legend-swatch { width: 24px; height: 12px; border: 1px solid var(--black); }
+.legend-tick { color: var(--grey-2); margin: 0 2px; font-size: 10px; }
+.legend-title {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); margin-right: 8px;
+}
+
+/* Side panel */
+.side-panel {
+  background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 28px; display: flex; flex-direction: column;
+  gap: 20px; max-height: 720px; overflow: auto;
+}
+.side-panel h3 {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+  margin-bottom: 8px;
+}
+.detail-empty {
+  font-size: 13px; color: var(--grey-2); font-weight: 300;
+  line-height: 1.8; padding: 24px 0; text-align: center;
+  border-top: 1px dashed var(--grey-3); border-bottom: 1px dashed var(--grey-3);
+}
+.detail-empty .en {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-3); margin-top: 8px; display: block;
+}
+.detail-name {
+  font-size: 20px; font-weight: 300; letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.detail-county {
+  font-family: var(--font-en); font-size: 11px; letter-spacing: 0.15em;
+  color: var(--grey-2); margin-bottom: 16px; text-transform: uppercase;
+}
+.detail-stat {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  padding: 14px 0; border-top: 1px solid var(--grey-3);
+}
+.detail-stat .stat-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 4px;
+}
+.detail-stat .stat-val {
+  font-family: var(--font-en); font-size: 26px; font-weight: 300;
+  line-height: 1;
+}
+.detail-stat .stat-val small {
+  font-size: 11px; color: var(--grey-2); margin-left: 4px;
+}
+.detail-section h4 {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+  margin-bottom: 10px; margin-top: 6px;
+  padding-top: 14px; border-top: 1px solid var(--grey-3);
+}
+.detail-mode-row {
+  display: grid; grid-template-columns: 70px 1fr 40px;
+  align-items: center; gap: 10px; padding: 5px 0; font-size: 11px;
+}
+.detail-mode-row .m-label { color: var(--grey-1); }
+.detail-mode-row .m-track { height: 8px; background: var(--grey-4); overflow: hidden; }
+.detail-mode-row .m-fill { height: 100%; }
+.detail-mode-row .m-val {
+  font-family: var(--font-en); font-weight: 600; font-size: 11px;
+  text-align: right;
+}
+
+/* Counties bar */
+.county-card {
+  background: var(--white); padding: 28px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.county-card h4 {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+  margin-bottom: 4px;
+}
+.county-card .card-zh {
+  font-size: 13px; color: var(--black); margin-bottom: 18px; letter-spacing: 0.05em;
+}
+.county-row {
+  display: grid; grid-template-columns: 80px 1fr 60px 60px;
+  gap: 12px; align-items: center; padding: 7px 0;
+  border-top: 1px solid var(--grey-4); font-size: 11px;
+}
+.county-row:first-child { border-top: none; }
+.county-row .c-name { color: var(--grey-1); font-weight: 400; }
+.county-row .c-track { height: 10px; background: var(--grey-4); overflow: hidden; }
+.county-row .c-fill { height: 100%; background: var(--black); transition: width .2s; }
+.county-row .c-abs {
+  font-family: var(--font-en); font-weight: 600; font-size: 11px; text-align: right;
+}
+.county-row .c-rate {
+  font-family: var(--font-en); font-size: 10.5px; color: var(--grey-1); text-align: right;
+}
+.county-row .c-rate small {
+  font-size: 8px; color: var(--grey-3); letter-spacing: 0.18em; display: block;
+}
+
+footer {
+  border-top: 2px solid var(--black);
+  padding-top: 20px; margin-top: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.2em;
+  color: var(--grey-2); text-transform: uppercase;
+}
+footer .tags { display: flex; gap: 6px; }
+footer .tag { padding: 3px 10px; font-weight: 600; background: var(--white); border: 1px solid var(--grey-3); }
+footer .tag.lime { background: var(--lime); border-color: var(--lime); color: var(--black); }
+footer .tag.black { background: var(--black); color: var(--white); border-color: var(--black); }
+
+.district-feature {
+  cursor: pointer;
+  transition: fill-opacity .15s;
+}
+.district-feature.selected { stroke: var(--black) !important; stroke-width: 2 !important; }
+
+@media (max-width: 1024px) {
+  .map-grid, .cover { grid-template-columns: 1fr; }
+  #map { height: 540px; }
+  .side-panel { max-height: none; }
+}
+@media (max-width: 768px) {
+  .shell { padding: 32px 18px 56px; }
+  .cover { padding: 24px; gap: 24px; }
+  .cover .big-num { font-size: 80px; }
+  .cover .donut { width: 180px; height: 180px; opacity: 0.25; }
+  #map { height: 460px; }
+}
+@media (max-width: 480px) {
+  .cover .big-num { font-size: 64px; }
+  .kpi .kpi-num { font-size: 28px; }
+  #map { height: 380px; }
+  .filter-bar { padding: 14px 14px; gap: 10px 14px; }
+  .filter-group { width: 100%; }
+  .filter-group-label { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="page-header">
+  <div class="logo-mark">Taiwan<br>Mobility<br>Atlas</div>
+  <div class="title-block">
+    <h1>National Choropleth · A1 Fatal Crashes 2016–2025</h1>
+    <div class="title-zh">台灣全國交通安全面量圖｜十年回顧</div>
+  </div>
+  <div class="meta">A1 Open Dataset<br><strong>17,175 deaths · 364 districts</strong></div>
+</div>
+
+<!-- 01 — Overview -->
+<div class="section">
+  <div class="section-label">01 — Decade Overview 全國十年總覽</div>
+  <div class="cover">
+    <svg class="donut" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#C8D400" stroke-width="32"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#E8F000" stroke-width="32" stroke-dasharray="220 280" opacity="0.55"/>
+    </svg>
+    <div>
+      <div class="big-num">17,175<sup>人</sup></div>
+      <div class="big-label-zh">十年內全台道路 A1 死亡人數</div>
+      <div class="big-label-en">Lives lost on Taiwan's roads · 2016 — 2025</div>
+      <div class="span-meta">364 個鄉鎮市區 · 22 個縣市 · 平均每年 1,718 人</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-zh">A1 死亡事故件數</div><div class="kpi-num">16,713</div></div>
+      <div class="kpi"><div class="kpi-label">Motorcycle Victim</div><div class="kpi-zh">機車為最弱勢用路人</div><div class="kpi-num" id="kMoto">—<small>%</small></div></div>
+      <div class="kpi"><div class="kpi-label">Pedestrian Victim</div><div class="kpi-zh">行人受害</div><div class="kpi-num" id="kPed">—<small>%</small></div></div>
+      <div class="kpi"><div class="kpi-label">Most Deaths · County</div><div class="kpi-zh">十年累計第一</div><div class="kpi-num" style="font-size:22px;font-family:var(--font-zh);">台南市<small style="font-family:var(--font-en);"> 1,785</small></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 — Choropleth -->
+<div class="section">
+  <div class="section-label">02 — District-Level Choropleth 行政區面量圖</div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">Victim</span>
+      <span class="cat-pill active" data-mode="all">全部</span>
+      <span class="cat-pill" data-mode="機車">機車</span>
+      <span class="cat-pill" data-mode="汽車">汽/貨車</span>
+      <span class="cat-pill" data-mode="人">行人</span>
+      <span class="cat-pill" data-mode="慢車">自行車/慢車</span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Year</span>
+      <span class="cat-pill en active" data-year="all">All</span>
+      <span class="cat-pill en" data-year="2016">2016</span>
+      <span class="cat-pill en" data-year="2017">2017</span>
+      <span class="cat-pill en" data-year="2018">2018</span>
+      <span class="cat-pill en" data-year="2019">2019</span>
+      <span class="cat-pill en" data-year="2020">2020</span>
+      <span class="cat-pill en" data-year="2021">2021</span>
+      <span class="cat-pill en" data-year="2022">2022</span>
+      <span class="cat-pill en" data-year="2023">2023</span>
+      <span class="cat-pill en" data-year="2024">2024</span>
+      <span class="cat-pill en" data-year="2025">2025</span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Metric</span>
+      <span class="cat-pill active" data-metric="abs">累計 Total</span>
+      <span class="cat-pill" data-metric="rate">每萬人 Per 10k</span>
+    </div>
+    <div class="filter-group" style="margin-left:auto">
+      <span class="filter-group-label" id="filterCount">— deaths shown</span>
+    </div>
+  </div>
+
+  <div class="map-grid">
+    <div class="map-wrap">
+      <div id="map"></div>
+      <div class="map-legend">
+        <span class="legend-title" id="legendTitle">Quintile · 0 → max</span>
+        <span id="legendBins" style="display:flex;align-items:center;gap:1px"></span>
+      </div>
+    </div>
+    <div class="side-panel">
+      <h3>District Detail — 行政區明細</h3>
+      <div class="detail-empty" id="detailEmpty">
+        點選任一行政區（區/鄉/鎮/市）以查看分布
+        <span class="en">Click a district on the map</span>
+      </div>
+      <div id="detailCard" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 — Counties roll-up -->
+<div class="section">
+  <div class="section-label">03 — Counties 縣市彙整</div>
+  <div class="county-card">
+    <h4>By County</h4>
+    <div class="card-zh">十年累計死亡（依當前篩選條件動態更新）</div>
+    <div id="byCounty"></div>
+  </div>
+</div>
+
+<!-- 04 — Notes -->
+<div class="section">
+  <div class="section-label">04 — Notes 資料說明</div>
+  <div class="county-card">
+    <div class="card-zh">關於本面量圖</div>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
+      本面量圖整理自<strong>內政部警政署 A1 級道路交通事故</strong>公開資料，
+      涵蓋年度民國 105 至 114 年（2016–2025），共 16,713 件事件、17,175 人死亡，
+      分布於 364 個鄉鎮市區（22 個縣市）。
+    </p>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>受害者運具邏輯</strong>：每筆事件以其中<strong>最弱勢用路人</strong>之運具為類別
+      （優先序：行人 &gt; 自行車/慢車 &gt; 機車 &gt; 汽/貨車）。例如左轉小客車撞死行人，
+      在原資料 P1 為駕駛、運具為汽車，本地圖會歸類為「行人」。
+    </p>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>每萬人率</strong>：採用<strong>戶政司 dataset 8410 民國 102 年</strong>之人口數作為分母，
+      可呈現「不只看絕對數量，而是相對風險」之治理優先序。2013 vs 2025 期間人口分布變化有限，
+      適用於相對比較。
+    </p>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>邊界圖資</strong>：依 g0v/twgeojson 之鄉鎮市區界（1982 年版，整併至 2014 年後行政地理）。
+      連江縣東引鄉與台東縣綠島鄉等少數島嶼之邊界與資料皆有侷限。
+    </p>
+    <p style="font-size:11px;color:var(--grey-2);font-weight:300;line-height:1.8;margin-top:14px;font-family:var(--font-en);letter-spacing:0.05em">
+      Sources · National Police Agency (A1) · MOI Household Registration dataset 8410 · g0v/twgeojson district boundaries
+    </p>
+  </div>
+</div>
+
+<footer>
+  <div>Taiwan Mobility Atlas · National Choropleth · Designed by 吳昀慶</div>
+  <div class="tags">
+    <span class="tag lime">面量圖</span>
+    <span class="tag">364 districts</span>
+    <span class="tag black">2026</span>
+  </div>
+</footer>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(async () => {
+  // Load assets in parallel
+  const [districts, agg, populations] = await Promise.all([
+    fetch('districts.geojson').then(r => r.json()),
+    fetch('agg.json').then(r => r.json()),
+    fetch('populations.json').then(r => r.json()),
+  ]);
+
+  // Build lookup: (county, district) → agg record
+  const aggMap = new Map();
+  agg.forEach(r => aggMap.set(`${r.county}|${r.district}`, r));
+  // (county, district) → population
+  function popOf(county, district) {
+    return (populations[county] || {})[district] || null;
+  }
+
+  const MODES = ['機車', '汽車', '人', '慢車', '其他'];
+  const MODE_COLOR = { '機車': '#1A1A1A', '汽車': '#3A7CC3', '人': '#D94F3D', '慢車': '#E8A825', '其他': '#888888' };
+
+  const state = {
+    mode: 'all',     // all | 機車 | 汽車 | 人 | 慢車
+    year: 'all',     // all | 2016 .. 2025
+    metric: 'abs',   // abs | rate
+    selectedKey: null,
+  };
+
+  // Compute the metric value for a (county, district) under current filter
+  function valueFor(county, district) {
+    const rec = aggMap.get(`${county}|${district}`);
+    if (!rec) return 0;
+    let count;
+    if (state.mode === 'all' && state.year === 'all') {
+      count = rec.events;
+    } else if (state.mode === 'all') {
+      count = rec.by_year[state.year] || 0;
+    } else if (state.year === 'all') {
+      count = rec.by_mode[state.mode] || 0;
+    } else {
+      const my = rec.by_mode_year[state.mode];
+      count = my ? (my[state.year] || 0) : 0;
+    }
+    if (state.metric === 'rate') {
+      const pop = popOf(county, district);
+      if (!pop || pop <= 0) return 0;
+      return count / pop * 10000;
+    }
+    return count;
+  }
+
+  // Build a sequential colour scale based on current values (quintile breaks)
+  // Bottom: pale, going lime → gold → red.
+  const COLOR_BINS = ['#F2F2F2', '#E8F000', '#C8D400', '#E8A825', '#D94F3D'];
+  function quantileBreaks(values) {
+    const non0 = values.filter(v => v > 0).sort((a, b) => a - b);
+    if (!non0.length) return [0, 0, 0, 0];
+    const q = p => non0[Math.min(non0.length - 1, Math.floor(non0.length * p))];
+    return [q(0.2), q(0.4), q(0.6), q(0.8)];
+  }
+  function colorFor(v, breaks) {
+    if (v <= 0) return COLOR_BINS[0];
+    if (v <= breaks[0]) return COLOR_BINS[1];
+    if (v <= breaks[1]) return COLOR_BINS[2];
+    if (v <= breaks[2]) return COLOR_BINS[3];
+    return COLOR_BINS[4];
+  }
+
+  // Init Leaflet
+  const map = L.map('map', {
+    center: [23.7, 121.0], zoom: 7,
+    zoomControl: true, scrollWheelZoom: true,
+    minZoom: 6, maxZoom: 14,
+    attributionControl: true,
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: 'abcd', maxZoom: 19,
+  }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd', maxZoom: 19, pane: 'shadowPane',
+  }).addTo(map);
+
+  let breaks = [0, 0, 0, 0];
+  const layer = L.geoJSON(districts, {
+    style: f => {
+      const v = valueFor(f.properties.COUNTYNAME, f.properties.TOWNNAME);
+      return {
+        fillColor: colorFor(v, breaks),
+        fillOpacity: 0.78,
+        color: '#888',
+        weight: 0.5,
+        className: 'district-feature',
+      };
+    },
+    onEachFeature: (f, lyr) => {
+      const p = f.properties;
+      lyr.on({
+        mouseover: e => {
+          e.target.setStyle({ weight: 1.5, color: '#1A1A1A' });
+          e.target.bringToFront();
+        },
+        mouseout: e => {
+          if (state.selectedKey !== `${p.COUNTYNAME}|${p.TOWNNAME}`) {
+            layer.resetStyle(e.target);
+          }
+        },
+        click: e => selectDistrict(p.COUNTYNAME, p.TOWNNAME, e.target),
+      });
+      const updateTooltip = () => {
+        const v = valueFor(p.COUNTYNAME, p.TOWNNAME);
+        const pop = popOf(p.COUNTYNAME, p.TOWNNAME);
+        const label = state.metric === 'rate'
+          ? `${v.toFixed(2)} / 萬`
+          : `${v} 件`;
+        lyr.bindTooltip(`<strong>${p.COUNTYNAME} ${p.TOWNNAME}</strong><br>${label}` +
+          (pop ? `<br><span style="opacity:0.7;font-family:'Space Grotesk';font-size:10px">人口 ${pop.toLocaleString()}</span>` : ''),
+          { sticky: true, direction: 'top', offset: [0, -4] }
+        );
+      };
+      lyr._updateTooltip = updateTooltip;
+      updateTooltip();
+    },
+  }).addTo(map);
+
+  // Selected district detail panel
+  let selectedLayer = null;
+  function selectDistrict(county, district, lyr) {
+    if (selectedLayer) layer.resetStyle(selectedLayer);
+    selectedLayer = lyr;
+    state.selectedKey = `${county}|${district}`;
+    lyr.setStyle({ weight: 2.5, color: '#1A1A1A' });
+    lyr.bringToFront();
+    renderDetail(county, district);
+  }
+  function renderDetail(county, district) {
+    const rec = aggMap.get(`${county}|${district}`);
+    const pop = popOf(county, district);
+    const empty = document.getElementById('detailEmpty');
+    const card = document.getElementById('detailCard');
+    empty.style.display = 'none';
+    card.style.display = 'block';
+    if (!rec) {
+      card.innerHTML = `
+        <div class="detail-name">${district}</div>
+        <div class="detail-county">${county} · No A1 fatalities recorded</div>
+        ${pop ? `<div style="font-size:11px;color:var(--grey-2);">人口 ${pop.toLocaleString()}</div>` : ''}
+      `;
+      return;
+    }
+    const totalDeaths = rec.deaths;
+    const totalEvents = rec.events;
+    const rate = pop ? (totalDeaths / pop * 10000) : null;
+    const modeRows = MODES
+      .map(m => [m, rec.by_mode[m] || 0])
+      .filter(([m, v]) => v > 0)
+      .sort((a, b) => b[1] - a[1]);
+    const maxMode = Math.max(...modeRows.map(([m, v]) => v), 1);
+    const modesHTML = modeRows.map(([m, v]) =>
+      `<div class="detail-mode-row">
+         <span class="m-label">${m}</span>
+         <span class="m-track"><span class="m-fill" style="width:${v/maxMode*100}%;background:${MODE_COLOR[m]}"></span></span>
+         <span class="m-val">${v}</span>
+       </div>`
+    ).join('');
+    // Year mini bars
+    const years = Object.keys(rec.by_year).map(Number).sort();
+    const maxYr = Math.max(...years.map(y => rec.by_year[y] || 0), 1);
+    const yearHTML = years.map(y => `
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1;min-width:14px">
+        <div style="width:80%;background:var(--lime);height:${(rec.by_year[y]||0)/maxYr*80}px;min-height:1px"></div>
+        <div style="font-family:var(--font-en);font-size:9px;color:var(--grey-2);margin-top:4px;letter-spacing:0.04em">${String(y).slice(2)}</div>
+      </div>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="detail-name">${district}</div>
+      <div class="detail-county">${county} · ${pop ? pop.toLocaleString() + ' 人' : 'population N/A'}</div>
+      <div class="detail-stat">
+        <div>
+          <div class="stat-label">10y Deaths</div>
+          <div class="stat-val">${totalDeaths}<small>人</small></div>
+        </div>
+        <div>
+          <div class="stat-label">10y Events</div>
+          <div class="stat-val">${totalEvents}<small>件</small></div>
+        </div>
+        <div>
+          <div class="stat-label">Per 10k</div>
+          <div class="stat-val">${rate != null ? rate.toFixed(2) : '—'}<small>/萬</small></div>
+        </div>
+        <div>
+          <div class="stat-label">Filter Now</div>
+          <div class="stat-val">${valueFor(county, district).toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="detail-section">
+        <h4>By Victim Mode</h4>
+        ${modesHTML || '<div style="font-size:11px;color:#888">no breakdown</div>'}
+      </div>
+      <div class="detail-section">
+        <h4>By Year</h4>
+        <div style="display:flex;gap:3px;align-items:flex-end;height:90px;padding:4px 0">${yearHTML}</div>
+      </div>
+    `;
+  }
+
+  // Render legend with current breaks
+  function renderLegend() {
+    const el = document.getElementById('legendBins');
+    const fmt = v => state.metric === 'rate' ? v.toFixed(1) : Math.round(v);
+    el.innerHTML = [
+      `<span class="legend-tick">0</span>`,
+      `<span class="legend-swatch" style="background:${COLOR_BINS[0]}"></span>`,
+      `<span class="legend-tick">${fmt(breaks[0])}</span>`,
+      `<span class="legend-swatch" style="background:${COLOR_BINS[1]}"></span>`,
+      `<span class="legend-tick">${fmt(breaks[1])}</span>`,
+      `<span class="legend-swatch" style="background:${COLOR_BINS[2]}"></span>`,
+      `<span class="legend-tick">${fmt(breaks[2])}</span>`,
+      `<span class="legend-swatch" style="background:${COLOR_BINS[3]}"></span>`,
+      `<span class="legend-tick">${fmt(breaks[3])}</span>`,
+      `<span class="legend-swatch" style="background:${COLOR_BINS[4]}"></span>`,
+      `<span class="legend-tick">+</span>`,
+    ].join('');
+    document.getElementById('legendTitle').textContent =
+      `Quintile · ${state.metric === 'rate' ? 'Per 10,000 residents' : 'Cumulative deaths'}`;
+  }
+
+  function renderCounties() {
+    const c = {};
+    districts.features.forEach(f => {
+      const v = valueFor(f.properties.COUNTYNAME, f.properties.TOWNNAME);
+      const cy = f.properties.COUNTYNAME;
+      c[cy] = (c[cy] || 0) + v;
+    });
+    // Compute population totals per county for rate calc
+    const cpop = {};
+    Object.keys(populations).forEach(cy => {
+      cpop[cy] = Object.values(populations[cy]).reduce((s, v) => s + v, 0);
+    });
+    const rows = Object.entries(c).map(([cy, v]) => {
+      const pop = cpop[cy] || 0;
+      const rate = pop ? (v / pop * 10000) : 0;
+      return { name: cy, value: v, pop, rate };
+    });
+    rows.sort((a, b) => b.value - a.value);
+    const maxV = Math.max(1, ...rows.map(r => r.value));
+    const el = document.getElementById('byCounty');
+    el.innerHTML = rows.map((r, i) => {
+      return `<div class="county-row">
+        <div class="c-name">${r.name}</div>
+        <div class="c-track"><div class="c-fill" style="width:${r.value/maxV*100}%"></div></div>
+        <div class="c-abs">${state.metric === 'rate' ? r.value.toFixed(1) : r.value.toLocaleString()}</div>
+        <div class="c-rate">${r.rate.toFixed(1)}<small>/萬 · ${(r.pop/10000).toFixed(0)}萬</small></div>
+      </div>`;
+    }).join('');
+  }
+
+  function recompute() {
+    const values = districts.features.map(f =>
+      valueFor(f.properties.COUNTYNAME, f.properties.TOWNNAME));
+    breaks = quantileBreaks(values);
+    layer.eachLayer(l => {
+      const f = l.feature;
+      const v = valueFor(f.properties.COUNTYNAME, f.properties.TOWNNAME);
+      l.setStyle({ fillColor: colorFor(v, breaks) });
+      if (l._updateTooltip) l._updateTooltip();
+    });
+    // Re-select highlight if still applicable
+    if (selectedLayer) {
+      selectedLayer.setStyle({ weight: 2.5, color: '#1A1A1A' });
+      selectedLayer.bringToFront();
+      const [cty, dist] = state.selectedKey.split('|');
+      renderDetail(cty, dist);
+    }
+    renderLegend();
+    renderCounties();
+    // KPI
+    const totalShown = values.reduce((s, v) => s + (state.metric === 'rate' ? 0 : v), 0);
+    document.getElementById('filterCount').textContent =
+      state.metric === 'rate'
+        ? `${districts.features.length} districts shown`
+        : `${totalShown.toLocaleString()} ${state.mode==='all' && state.year==='all' ? 'events' : 'events under filter'}`;
+  }
+
+  // Wire filter pills
+  document.querySelectorAll('[data-mode]').forEach(el => el.addEventListener('click', () => {
+    document.querySelectorAll('[data-mode]').forEach(x => x.classList.remove('active'));
+    el.classList.add('active'); state.mode = el.dataset.mode; recompute();
+  }));
+  document.querySelectorAll('[data-year]').forEach(el => el.addEventListener('click', () => {
+    document.querySelectorAll('[data-year]').forEach(x => x.classList.remove('active'));
+    el.classList.add('active'); state.year = el.dataset.year; recompute();
+  }));
+  document.querySelectorAll('[data-metric]').forEach(el => el.addEventListener('click', () => {
+    document.querySelectorAll('[data-metric]').forEach(x => x.classList.remove('active'));
+    el.classList.add('active'); state.metric = el.dataset.metric; recompute();
+  }));
+
+  // KPI numbers (one-time)
+  let allMoto = 0, allPed = 0;
+  agg.forEach(r => { allMoto += (r.by_mode['機車'] || 0); allPed += (r.by_mode['人'] || 0); });
+  const total = agg.reduce((s, r) => s + r.events, 0);
+  document.getElementById('kMoto').innerHTML =
+    `${Math.round(allMoto/total*100)}<small>%</small>`;
+  document.getElementById('kPed').innerHTML =
+    `${Math.round(allPed/total*100)}<small>%</small>`;
+
+  recompute();
+})();
+</script>
+</body>
+</html>
