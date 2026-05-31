@@ -88,6 +88,14 @@ body {
   line-height: 1.6;
 }
 .page-header .meta strong { color: var(--black); font-weight: 600; }
+.disclaimer {
+  margin-top: 8px;
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--grey-2);
+  line-height: 1.5;
+}
 
 /* ── Section titles ── */
 .section { margin-bottom: 56px; }
@@ -1001,6 +1009,13 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   font-size: 8px; letter-spacing: 0.18em; color: var(--grey-3);
   display: block; margin-top: -2px;
 }
+.district-row.lowN-row { opacity: 0.5; }
+.lowN {
+  font-family: var(--font-en); font-size: 8px; font-weight: 600;
+  letter-spacing: 0.08em; color: var(--gold);
+  border: 1px solid var(--gold); border-radius: 2px;
+  padding: 0 3px; margin-left: 6px; vertical-align: 1px;
+}
 
 /* ── i18n + logo ── */
 .t-en { display: none; }
@@ -1041,6 +1056,10 @@ body.lang-en #hdrTitleZh { display: none; }
   <div class="title-block">
     <h1 id="hdrH1">Traffic Safety Map · 10-year Review 2016 — 2025</h1>
     <div class="title-zh" id="hdrTitleZh">交通安全地圖｜十年回顧</div>
+    <div class="disclaimer">
+      <span class="t-zh">A1（24 小時內死亡）· 非官方專案 · 資料來源：內政部警政署交通事故開放資料</span>
+      <span class="t-en">A1 (death within 24 h) · unofficial project · source: National Police Agency open data</span>
+    </div>
   </div>
   <div class="meta">
     <select id="citySelect" aria-label="選擇縣市"></select><br>
@@ -1071,7 +1090,7 @@ body.lang-en #hdrTitleZh { display: none; }
       </div>
       <div class="kpi">
         <div class="kpi-label">Motorcycle</div>
-        <div class="kpi-zh"><span class="t-zh">機車為主要事故方</span><span class="t-en">Motorcyclist victims</span></div>
+        <div class="kpi-zh"><span class="t-zh">機車為受害最多的用路人</span><span class="t-en">Motorcyclists — most victims</span></div>
         <div class="kpi-num" id="kMoto">226<small><span class="t-zh">件</span><span class="t-en">ev</span></small></div>
       </div>
       <div class="kpi">
@@ -1966,8 +1985,10 @@ const markerLayer = L.layerGroup().addTo(map);
         : (r.deaths / maxAbs * 100);
       const rateTxt = r.rate != null ? r.rate.toFixed(1) : '—';
       const popTxt  = r.pop  != null ? (r.pop >= 10000 ? (r.pop/10000).toFixed(1)+TT('萬','0k') : String(r.pop)) : '—';
-      return `<div class="district-row ${rankCls}">
-        <div class="d-name">${r.name}</div>
+      const low = districtSort === 'rate' && r.deaths < 30;  // unstable per-10k rate
+      const flag = low ? `<span class="lowN" title="${TT('樣本數 <30，每萬人率僅供參考','N<30 — rate unstable')}">N&lt;30</span>` : '';
+      return `<div class="district-row ${rankCls}${low ? ' lowN-row' : ''}">
+        <div class="d-name">${r.name}${flag}</div>
         <div class="d-track"><div class="d-fill" style="width:${fillPct.toFixed(1)}%"></div></div>
         <div class="d-abs">${r.deaths}<small style="font-family:var(--font-en);font-size:8px;color:var(--grey-2);letter-spacing:0.1em;display:block">DEATHS</small></div>
         <div class="d-rate">${rateTxt}<small>${TT('/萬','/10k')} · ${popTxt}</small></div>

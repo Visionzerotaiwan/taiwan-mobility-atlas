@@ -55,6 +55,14 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   text-align: right; line-height: 1.6;
 }
 .page-header .meta strong { color: var(--black); font-weight: 600; }
+.disclaimer {
+  margin-top: 8px;
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--grey-2);
+  line-height: 1.5;
+}
 
 .section { margin-bottom: 48px; }
 .section-label {
@@ -286,6 +294,13 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 .nav-chip .nc-fill { height: 100%; background: var(--lime-dk); }
 .county-row.clickable { cursor: pointer; }
 .county-row.clickable:hover { background: var(--grey-4); }
+.county-row.lowN-row { opacity: 0.5; }
+.lowN {
+  font-family: var(--font-en); font-size: 8px; font-weight: 600;
+  letter-spacing: 0.08em; color: var(--gold);
+  border: 1px solid var(--gold); border-radius: 2px;
+  padding: 0 3px; margin-left: 6px; vertical-align: 1px;
+}
 .detail-link {
   display: inline-block; margin-top: 14px; padding: 8px 14px;
   background: var(--lime); border: 1px solid var(--lime);
@@ -350,6 +365,10 @@ body.lang-en .t-en-b { display: block; }
   <div class="title-block">
     <h1>National Choropleth · A1 Fatal Crashes 2016–2025</h1>
     <div class="title-zh"><span class="t-zh">台灣全國交通安全面量圖｜十年回顧</span><span class="t-en">Taiwan National Road-Safety Choropleth · 10-Year Review</span></div>
+    <div class="disclaimer">
+      <span class="t-zh">A1（24 小時內死亡）· 非官方專案 · 資料來源：內政部警政署交通事故開放資料</span>
+      <span class="t-en">A1 (death within 24 h) · unofficial project · source: National Police Agency open data</span>
+    </div>
   </div>
   <div class="meta">A1 Open Dataset<br><strong>17,175 deaths · 364 districts</strong></div>
 </div>
@@ -370,7 +389,7 @@ body.lang-en .t-en-b { display: block; }
     </div>
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-zh"><span class="t-zh">A1 死亡事故件數</span><span class="t-en">A1 fatal crash events</span></div><div class="kpi-num">16,713</div></div>
-      <div class="kpi"><div class="kpi-label">Motorcycle Victim</div><div class="kpi-zh"><span class="t-zh">機車為最弱勢用路人</span><span class="t-en">Motorcyclist = most-vulnerable party</span></div><div class="kpi-num" id="kMoto">—<small>%</small></div></div>
+      <div class="kpi"><div class="kpi-label">Most Victims</div><div class="kpi-zh"><span class="t-zh">機車為受害最多的用路人</span><span class="t-en">Motorcyclists — most victims</span></div><div class="kpi-num" id="kMoto">—<small>%</small></div></div>
       <div class="kpi"><div class="kpi-label">Pedestrian Victim</div><div class="kpi-zh"><span class="t-zh">行人受害</span><span class="t-en">Pedestrian victims</span></div><div class="kpi-num" id="kPed">—<small>%</small></div></div>
       <div class="kpi"><div class="kpi-label">Most Deaths · County</div><div class="kpi-zh"><span class="t-zh">十年累計第一</span><span class="t-en">Highest 10-yr total</span></div><div class="kpi-num" style="font-size:22px;font-family:var(--font-zh);">台南市<small style="font-family:var(--font-en);"> 1,785</small></div></div>
     </div>
@@ -472,7 +491,8 @@ body.lang-en .t-en-b { display: block; }
       <div class="card-zh"><span class="t-zh">點選縣市進入完整地圖 · 顏色＝當前指標、長條＝相對比例</span><span class="t-en">Tap a county for its full map · colour = current metric, bar = relative scale</span></div>
       <div id="byCounty"></div>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--grey-3);font-family:var(--font-en);font-size:9px;letter-spacing:0.12em;color:var(--grey-2);line-height:1.7">
-        Rate · deaths per 100,000 residents (2013 population, MOI dataset 8410)
+        Rate · deaths per 100,000 residents (2013 population, MOI dataset 8410)<br>
+        <span class="t-zh">標 N&lt;30 之縣市樣本數過小，每十萬人率波動大、僅供參考</span><span class="t-en" style="display:none">Counties tagged N&lt;30 have too few deaths for a stable per-100k rate — interpret with caution</span>
       </div>
     </div>
   </div>
@@ -899,13 +919,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     rows.sort((a, b) => countyState.metric === 'per100k' ? (b.rate - a.rate) : (b.deaths - a.deaths));
     const maxV = Math.max(1, ...rows.map(r => countyState.metric === 'per100k' ? r.rate : r.deaths));
+    const smallN = countyState.metric === 'per100k';  // small-sample caveat only matters for the rate
     document.getElementById('byCounty').innerHTML = rows.map(r => {
       const slug = C2S[r.name];
       const tag = slug ? 'a' : 'div';
       const href = slug ? ` href="city.html?c=${slug}"` : '';
       const cur = countyState.metric === 'per100k' ? r.rate : r.deaths;
-      return `<${tag}${href} class="county-row${slug ? ' clickable' : ''}" style="text-decoration:none;color:inherit">
-        <div class="c-name">${r.name}${slug ? ' ›' : ''}</div>
+      const low = smallN && r.deaths < 30;  // unstable per-100k rate
+      const flag = low ? `<span class="lowN" title="${TT('樣本數 <30，每十萬人率僅供參考','N<30 — rate unstable')}">N&lt;30</span>` : '';
+      return `<${tag}${href} class="county-row${slug ? ' clickable' : ''}${low ? ' lowN-row' : ''}" style="text-decoration:none;color:inherit">
+        <div class="c-name">${r.name}${slug ? ' ›' : ''}${flag}</div>
         <div class="c-track"><div class="c-fill" style="width:${cur/maxV*100}%"></div></div>
         <div class="c-abs">${countyState.metric === 'per100k' ? r.rate.toFixed(1) : r.deaths.toLocaleString()}</div>
         <div class="c-rate">${r.rate.toFixed(1)}<small>${TT('/10萬 · '+r.deaths+' 死', '/100k · '+r.deaths+' d')}</small></div>
