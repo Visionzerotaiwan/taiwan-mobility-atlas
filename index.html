@@ -314,65 +314,91 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   .filter-group { width: 100%; }
   .filter-group-label { width: 100%; }
 }
+
+/* ── i18n + logo ── */
+.t-en { display: none; }
+body.lang-en .t-zh { display: none; }
+body.lang-en .t-en { display: inline; }
+.t-en-b { display: none; }
+body.lang-en .t-zh-b { display: none; }
+body.lang-en .t-en-b { display: block; }
+.lang-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 2000;
+  display: flex; border: 1.5px solid var(--black); background: var(--white);
+  font-family: var(--font-en); font-size: 11px; font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.lang-toggle .lt-opt { padding: 6px 12px; cursor: pointer; letter-spacing: 0.08em; color: var(--grey-2); }
+.lang-toggle .lt-opt.active { background: var(--black); color: var(--white); }
+.partner-logos {
+  background: var(--white); padding: 36px 24px; text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-top: 56px;
+}
+.partner-logos .pl-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 18px;
+}
+.partner-logos img { max-width: 560px; width: 100%; height: auto; }
 </style>
 </head>
 <body>
+<div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
 <div class="shell">
 
 <div class="page-header">
   <div class="logo-mark">Taiwan<br>Mobility<br>Atlas</div>
   <div class="title-block">
     <h1>National Choropleth · A1 Fatal Crashes 2016–2025</h1>
-    <div class="title-zh">台灣全國交通安全面量圖｜十年回顧</div>
+    <div class="title-zh"><span class="t-zh">台灣全國交通安全面量圖｜十年回顧</span><span class="t-en">Taiwan National Road-Safety Choropleth · 10-Year Review</span></div>
   </div>
   <div class="meta">A1 Open Dataset<br><strong>17,175 deaths · 364 districts</strong></div>
 </div>
 
 <!-- 01 — Overview -->
 <div class="section">
-  <div class="section-label">01 — Decade Overview 全國十年總覽</div>
+  <div class="section-label"><span class="t-zh">01 — Decade Overview 全國十年總覽</span><span class="t-en">01 — Decade Overview</span></div>
   <div class="cover">
     <svg class="donut" viewBox="0 0 200 200" aria-hidden="true">
       <circle cx="100" cy="100" r="80" fill="none" stroke="#C8D400" stroke-width="32"/>
       <circle cx="100" cy="100" r="80" fill="none" stroke="#E8F000" stroke-width="32" stroke-dasharray="220 280" opacity="0.55"/>
     </svg>
     <div>
-      <div class="big-num">17,175<sup>人</sup></div>
-      <div class="big-label-zh">十年內全台道路 A1 死亡人數</div>
+      <div class="big-num">17,175<sup><span class="t-zh">人</span><span class="t-en">deaths</span></sup></div>
+      <div class="big-label-zh"><span class="t-zh">十年內全台道路 A1 死亡人數</span><span class="t-en">A1 road deaths nationwide, last 10 years</span></div>
       <div class="big-label-en">Lives lost on Taiwan's roads · 2016 — 2025</div>
-      <div class="span-meta">364 個鄉鎮市區 · 22 個縣市 · 平均每年 1,718 人</div>
+      <div class="span-meta"><span class="t-zh">364 個鄉鎮市區 · 22 個縣市 · 平均每年 1,718 人</span><span class="t-en">364 districts · 22 counties · ~1,718 deaths per year</span></div>
     </div>
     <div class="kpis">
-      <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-zh">A1 死亡事故件數</div><div class="kpi-num">16,713</div></div>
-      <div class="kpi"><div class="kpi-label">Motorcycle Victim</div><div class="kpi-zh">機車為最弱勢用路人</div><div class="kpi-num" id="kMoto">—<small>%</small></div></div>
-      <div class="kpi"><div class="kpi-label">Pedestrian Victim</div><div class="kpi-zh">行人受害</div><div class="kpi-num" id="kPed">—<small>%</small></div></div>
-      <div class="kpi"><div class="kpi-label">Most Deaths · County</div><div class="kpi-zh">十年累計第一</div><div class="kpi-num" style="font-size:22px;font-family:var(--font-zh);">台南市<small style="font-family:var(--font-en);"> 1,785</small></div></div>
+      <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-zh"><span class="t-zh">A1 死亡事故件數</span><span class="t-en">A1 fatal crash events</span></div><div class="kpi-num">16,713</div></div>
+      <div class="kpi"><div class="kpi-label">Motorcycle Victim</div><div class="kpi-zh"><span class="t-zh">機車為最弱勢用路人</span><span class="t-en">Motorcyclist = most-vulnerable party</span></div><div class="kpi-num" id="kMoto">—<small>%</small></div></div>
+      <div class="kpi"><div class="kpi-label">Pedestrian Victim</div><div class="kpi-zh"><span class="t-zh">行人受害</span><span class="t-en">Pedestrian victims</span></div><div class="kpi-num" id="kPed">—<small>%</small></div></div>
+      <div class="kpi"><div class="kpi-label">Most Deaths · County</div><div class="kpi-zh"><span class="t-zh">十年累計第一</span><span class="t-en">Highest 10-yr total</span></div><div class="kpi-num" style="font-size:22px;font-family:var(--font-zh);">台南市<small style="font-family:var(--font-en);"> 1,785</small></div></div>
     </div>
   </div>
 </div>
 
 <!-- 01b — County navigator -->
 <div class="section">
-  <div class="section-label">02 — 22 Counties 縣市深度地圖</div>
+  <div class="section-label"><span class="t-zh">02 — 22 Counties 縣市深度地圖</span><span class="t-en">02 — 22 Counties</span></div>
   <div class="nav-card">
     <h4>Explore by County</h4>
-    <div class="card-zh">點選任一縣市，進入該地的完整互動地圖（事故點位、熱力圖、優先治理路段、幹線疊圖、逐年趨勢、行政區面量）</div>
+    <div class="card-zh"><span class="t-zh">點選任一縣市，進入該地的完整互動地圖（事故點位、熱力圖、優先治理路段、幹線疊圖、逐年趨勢、行政區面量）</span><span class="t-en">Tap any county to open its full interactive map — crash points, heatmap, priority road segments, highway overlay, yearly trend, district choropleth</span></div>
     <div class="nav-grid" id="navGrid"></div>
   </div>
 </div>
 
 <!-- 03 — Choropleth -->
 <div class="section">
-  <div class="section-label">03 — District-Level Choropleth 行政區面量圖</div>
+  <div class="section-label"><span class="t-zh">03 — District-Level Choropleth 行政區面量圖</span><span class="t-en">03 — District-Level Choropleth</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
       <span class="filter-group-label">Victim</span>
-      <span class="cat-pill active" data-mode="all">全部</span>
-      <span class="cat-pill" data-mode="機車">機車</span>
-      <span class="cat-pill" data-mode="汽車">汽/貨車</span>
-      <span class="cat-pill" data-mode="人">行人</span>
-      <span class="cat-pill" data-mode="慢車">自行車/慢車</span>
+      <span class="cat-pill active" data-mode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
+      <span class="cat-pill" data-mode="機車"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="cat-pill" data-mode="汽車"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
+      <span class="cat-pill" data-mode="人"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">Year</span>
@@ -390,8 +416,8 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     </div>
     <div class="filter-group">
       <span class="filter-group-label">Metric</span>
-      <span class="cat-pill active" data-metric="abs">A1 事故數量</span>
-      <span class="cat-pill" data-metric="rate">每萬人 Per 10k</span>
+      <span class="cat-pill active" data-metric="abs"><span class="t-zh">A1 事故數量</span><span class="t-en">A1 events</span></span>
+      <span class="cat-pill" data-metric="rate"><span class="t-zh">每萬人 Per 10k</span><span class="t-en">Per 10k</span></span>
     </div>
     <div class="filter-group" style="margin-left:auto">
       <span class="filter-group-label" id="filterCount">— A1 事故</span>
@@ -407,10 +433,11 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
       </div>
     </div>
     <div class="side-panel">
-      <h3>District Detail — 行政區明細</h3>
+      <h3>District Detail<span class="t-zh"> — 行政區明細</span><span class="t-en"></span></h3>
       <div class="detail-empty" id="detailEmpty">
-        點選任一行政區（區/鄉/鎮/市）以查看分布
-        <span class="en">Click a district on the map</span>
+        <span class="t-zh">點選任一行政區（區/鄉/鎮/市）以查看分布</span>
+        <span class="en t-en" style="display:none">Click a district on the map to inspect</span>
+        <span class="en t-zh">Click a district on the map</span>
       </div>
       <div id="detailCard" style="display:none"></div>
     </div>
@@ -419,13 +446,13 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- 04 — County choropleth -->
 <div class="section">
-  <div class="section-label">04 — County Choropleth 縣市死亡熱力圖</div>
+  <div class="section-label"><span class="t-zh">04 — County Choropleth 縣市死亡熱力圖</span><span class="t-en">04 — County Choropleth</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
       <span class="filter-group-label">Metric</span>
-      <span class="cat-pill active" data-cmetric="abs">A1 死亡數</span>
-      <span class="cat-pill" data-cmetric="per100k">每十萬人 Per 100k</span>
+      <span class="cat-pill active" data-cmetric="abs"><span class="t-zh">A1 死亡數</span><span class="t-en">A1 deaths</span></span>
+      <span class="cat-pill" data-cmetric="per100k"><span class="t-zh">每十萬人 Per 100k</span><span class="t-en">Per 100k</span></span>
     </div>
     <div class="filter-group" style="margin-left:auto">
       <span class="filter-group-label" id="countyStat">—</span>
@@ -441,8 +468,8 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
       </div>
     </div>
     <div class="county-card" style="max-height:672px;overflow:auto">
-      <h4>Ranking · 全 22 縣市</h4>
-      <div class="card-zh">點選縣市進入完整地圖 · 顏色＝當前指標、長條＝相對比例</div>
+      <h4>Ranking<span class="t-zh"> · 全 22 縣市</span><span class="t-en"> · all 22 counties</span></h4>
+      <div class="card-zh"><span class="t-zh">點選縣市進入完整地圖 · 顏色＝當前指標、長條＝相對比例</span><span class="t-en">Tap a county for its full map · colour = current metric, bar = relative scale</span></div>
       <div id="byCounty"></div>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--grey-3);font-family:var(--font-en);font-size:9px;letter-spacing:0.12em;color:var(--grey-2);line-height:1.7">
         Rate · deaths per 100,000 residents (2013 population, MOI dataset 8410)
@@ -453,27 +480,45 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- 05 — Notes -->
 <div class="section">
-  <div class="section-label">05 — Notes 資料說明</div>
+  <div class="section-label"><span class="t-zh">05 — Notes 資料說明</span><span class="t-en">05 — Notes</span></div>
   <div class="county-card">
-    <div class="card-zh">關於本面量圖</div>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
+    <div class="card-zh"><span class="t-zh">關於本面量圖</span><span class="t-en">About this choropleth</span></div>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
       本面量圖整理自<strong>內政部警政署 A1 級道路交通事故</strong>公開資料，
       涵蓋年度民國 105 至 114 年（2016–2025），共 16,713 件事件、17,175 人死亡，
       分布於 364 個鄉鎮市區（22 個縣市）。
     </p>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
+      Built from the <strong>National Police Agency A1 (fatal) road-crash</strong> open dataset,
+      covering 2016–2025 — 16,713 events, 17,175 deaths, across 364 districts (22 counties).
+    </p>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
       <strong>受害者運具邏輯</strong>：每筆事件以其中<strong>最弱勢用路人</strong>之運具為類別
       （優先序：行人 &gt; 自行車/慢車 &gt; 機車 &gt; 汽/貨車）。例如左轉小客車撞死行人，
       在原資料 P1 為駕駛、運具為汽車，本地圖會歸類為「行人」。
     </p>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>Victim-mode logic</strong>: each event is classified by its <strong>most-vulnerable road user</strong>
+      (priority: pedestrian &gt; bicycle/slow vehicle &gt; motorcycle &gt; car/truck). E.g. a left-turning car that
+      kills a pedestrian is recorded with the driver as party-1 (a car) in the raw data, but is classified here as “pedestrian”.
+    </p>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
       <strong>每萬人率</strong>：採用<strong>戶政司 dataset 8410 民國 102 年</strong>之人口數作為分母，
       可呈現「不只看絕對數量，而是相對風險」之治理優先序。2013 vs 2025 期間人口分布變化有限，
       適用於相對比較。
     </p>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>Per-capita rates</strong> use population from <strong>MOI Household-Registration dataset 8410 (2013)</strong>
+      as the denominator, surfacing relative risk rather than raw counts. Population shifts 2013→2025 are modest, so the
+      comparison holds.
+    </p>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
       <strong>邊界圖資</strong>：依 g0v/twgeojson 之鄉鎮市區界（1982 年版，整併至 2014 年後行政地理）。
       連江縣東引鄉與台東縣綠島鄉等少數島嶼之邊界與資料皆有侷限。
+    </p>
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>Boundaries</strong> from g0v/twgeojson district polygons (1982 edition, normalised to post-2014 administrative
+      geography). A few small islands (Lienchiang–Dongyin, Taitung–Green Island) have limited boundary/data coverage.
     </p>
     <p style="font-size:11px;color:var(--grey-2);font-weight:300;line-height:1.8;margin-top:14px;font-family:var(--font-en);letter-spacing:0.05em">
       Sources · National Police Agency (A1) · MOI Household Registration dataset 8410 · g0v/twgeojson district boundaries
@@ -481,10 +526,16 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   </div>
 </div>
 
+<div class="partner-logos">
+  <div class="pl-label t-zh">資料夥伴 · 合作單位</div>
+  <div class="pl-label t-en" style="display:none">In partnership with</div>
+  <img src="assets/tcan_vzt_logo.png" alt="TCAN 台灣氣候行動網路 · Vision Zero Taiwan 還路於民行人路權促進會">
+</div>
+
 <footer>
   <div>Taiwan Mobility Atlas · National Choropleth · Designed by 吳昀慶</div>
   <div class="tags">
-    <span class="tag lime">面量圖</span>
+    <span class="tag lime"><span class="t-zh">面量圖</span><span class="t-en">Choropleth</span></span>
     <span class="tag">364 districts</span>
     <span class="tag black">2026</span>
   </div>
@@ -495,6 +546,25 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="data/cities.js"></script>
 <script>
+// ── i18n core ──
+window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
+function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+function setLang(l) {
+  window.__LANG = l;
+  document.body.classList.toggle('lang-en', l === 'en');
+  document.documentElement.lang = l === 'en' ? 'en' : 'zh-TW';
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === l));
+  if (window.__renderNav) window.__renderNav();
+  if (window.__rerender) window.__rerender();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o =>
+    o.addEventListener('click', () => setLang(o.dataset.lang)));
+  setLang(window.__LANG);
+});
+</script>
+<script>
 // County navigator (independent of the choropleth app)
 (function () {
   const CITIES = window.CITIES || [];
@@ -503,14 +573,17 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   const grid = document.getElementById('navGrid');
   if (!grid || !CITIES.length) return;
   const maxD = Math.max(...CITIES.map(c => c.deaths), 1);
-  grid.innerHTML = CITIES.map(c =>
-    `<a class="nav-chip" href="city.html?c=${c.slug}">
-       <span class="nc-zh">${c.zh}</span>
-       <span class="nc-en">${c.en}</span>
-       <span class="nc-deaths">${c.deaths.toLocaleString()} 死 · ${c.events.toLocaleString()} 件</span>
-       <span class="nc-bar"><span class="nc-fill" style="width:${c.deaths/maxD*100}%"></span></span>
-     </a>`
-  ).join('');
+  window.__renderNav = function () {
+    grid.innerHTML = CITIES.map(c =>
+      `<a class="nav-chip" href="city.html?c=${c.slug}">
+         <span class="nc-zh">${window.__LANG === 'en' ? c.en : c.zh}</span>
+         <span class="nc-en">${window.__LANG === 'en' ? c.zh : c.en}</span>
+         <span class="nc-deaths">${TT(c.deaths.toLocaleString()+' 死 · '+c.events.toLocaleString()+' 件', c.deaths.toLocaleString()+' deaths · '+c.events.toLocaleString()+' events')}</span>
+         <span class="nc-bar"><span class="nc-fill" style="width:${c.deaths/maxD*100}%"></span></span>
+       </a>`
+    ).join('');
+  };
+  window.__renderNav();
 })();
 </script>
 <script>
@@ -626,10 +699,10 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
         const v = valueFor(p.COUNTYNAME, p.TOWNNAME);
         const pop = popOf(p.COUNTYNAME, p.TOWNNAME);
         const label = state.metric === 'rate'
-          ? `${v.toFixed(2)} / 萬`
-          : `${v} 件`;
+          ? `${v.toFixed(2)} ${TT('/ 萬','/10k')}`
+          : `${v} ${TT('件','events')}`;
         lyr.bindTooltip(`<strong>${p.COUNTYNAME} ${p.TOWNNAME}</strong><br>${label}` +
-          (pop ? `<br><span style="opacity:0.7;font-family:'Space Grotesk';font-size:10px">人口 ${pop.toLocaleString()}</span>` : ''),
+          (pop ? `<br><span style="opacity:0.7;font-family:'Space Grotesk';font-size:10px">${TT('人口','pop')} ${pop.toLocaleString()}</span>` : ''),
           { sticky: true, direction: 'top', offset: [0, -4] }
         );
       };
@@ -657,13 +730,13 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     card.style.display = 'block';
     const slug = (window.__COUNTY2SLUG || {})[county];
     const countyLink = slug
-      ? `<a class="detail-link" href="city.html?c=${slug}">前往 ${county} 完整地圖 →</a>`
+      ? `<a class="detail-link" href="city.html?c=${slug}">${TT('前往 '+county+' 完整地圖 →','Open '+county+' full map →')}</a>`
       : '';
     if (!rec) {
       card.innerHTML = `
         <div class="detail-name">${district}</div>
-        <div class="detail-county">${county} · No A1 fatalities recorded</div>
-        ${pop ? `<div style="font-size:11px;color:var(--grey-2);">人口 ${pop.toLocaleString()}</div>` : ''}
+        <div class="detail-county">${county} · ${TT('查無 A1 死亡紀錄','No A1 fatalities recorded')}</div>
+        ${pop ? `<div style="font-size:11px;color:var(--grey-2);">${TT('人口','pop')} ${pop.toLocaleString()}</div>` : ''}
         ${countyLink}
       `;
       return;
@@ -695,19 +768,19 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
     card.innerHTML = `
       <div class="detail-name">${district}</div>
-      <div class="detail-county">${county} · ${pop ? pop.toLocaleString() + ' 人' : 'population N/A'}</div>
+      <div class="detail-county">${county} · ${pop ? pop.toLocaleString() + TT(' 人',' people') : TT('人口從缺','population N/A')}</div>
       <div class="detail-stat">
         <div>
           <div class="stat-label">10y Deaths</div>
-          <div class="stat-val">${totalDeaths}<small>人</small></div>
+          <div class="stat-val">${totalDeaths}<small>${TT('人','deaths')}</small></div>
         </div>
         <div>
           <div class="stat-label">10y Events</div>
-          <div class="stat-val">${totalEvents}<small>件</small></div>
+          <div class="stat-val">${totalEvents}<small>${TT('件','events')}</small></div>
         </div>
         <div>
           <div class="stat-label">Per 10k</div>
-          <div class="stat-val">${rate != null ? rate.toFixed(2) : '—'}<small>/萬</small></div>
+          <div class="stat-val">${rate != null ? rate.toFixed(2) : '—'}<small>${TT('/萬','/10k')}</small></div>
         </div>
         <div>
           <div class="stat-label">Filter Now</div>
@@ -744,7 +817,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
       `<span class="legend-tick">+</span>`,
     ].join('');
     document.getElementById('legendTitle').textContent =
-      `Quintile · ${state.metric === 'rate' ? '每萬人 A1 事故' : 'A1 事故數量'}`;
+      `Quintile · ${state.metric === 'rate' ? TT('每萬人 A1 事故','A1 events per 10k') : TT('A1 事故數量','A1 events')}`;
   }
 
   // ====================================================================
@@ -798,8 +871,8 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
       lyr._upd = () => {
         const d = countyDeaths(cy), r = countyRate(cy), p = countyPop[cy] || 0;
         lyr.bindTooltip(
-          `<strong>${cy}</strong><br>${d.toLocaleString()} 死 · ${r.toFixed(1)} / 10萬` +
-          `<br><span style="opacity:.7;font-family:'Space Grotesk';font-size:10px">人口 ${p.toLocaleString()} · 點選進入</span>`,
+          `<strong>${cy}</strong><br>` + TT(`${d.toLocaleString()} 死 · ${r.toFixed(1)} / 10萬`, `${d.toLocaleString()} deaths · ${r.toFixed(1)} per 100k`) +
+          `<br><span style="opacity:.7;font-family:'Space Grotesk';font-size:10px">` + TT(`人口 ${p.toLocaleString()} · 點選進入`, `pop ${p.toLocaleString()} · click to open`) + `</span>`,
           { sticky: true, direction: 'top', offset: [0, -4] });
       };
       lyr._upd();
@@ -816,7 +889,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
          i < 4 ? `<span class="legend-tick">${fmt(countyBreaks[i])}</span>` : `<span class="legend-tick">+</span>`]),
     ].join('');
     document.getElementById('countyLegendTitle').textContent =
-      `Quintile · ${countyState.metric === 'per100k' ? '每十萬人死亡' : 'A1 死亡數'}`;
+      `Quintile · ${countyState.metric === 'per100k' ? TT('每十萬人死亡','Deaths per 100k') : TT('A1 死亡數','A1 deaths')}`;
   }
 
   function renderCountyRanking() {
@@ -835,7 +908,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
         <div class="c-name">${r.name}${slug ? ' ›' : ''}</div>
         <div class="c-track"><div class="c-fill" style="width:${cur/maxV*100}%"></div></div>
         <div class="c-abs">${countyState.metric === 'per100k' ? r.rate.toFixed(1) : r.deaths.toLocaleString()}</div>
-        <div class="c-rate">${r.rate.toFixed(1)}<small>/10萬 · ${r.deaths} 死</small></div>
+        <div class="c-rate">${r.rate.toFixed(1)}<small>${TT('/10萬 · '+r.deaths+' 死', '/100k · '+r.deaths+' d')}</small></div>
       </${tag}>`;
     }).join('');
   }
@@ -854,7 +927,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     const totPop = Object.values(countyPop).reduce((s, v) => s + v, 0);
     const natRate = totPop ? (totDeaths / totPop * 100000) : 0;
     document.getElementById('countyStat').textContent =
-      `全國 ${totDeaths.toLocaleString()} 死 · ${natRate.toFixed(1)} / 10萬`;
+      TT(`全國 ${totDeaths.toLocaleString()} 死 · ${natRate.toFixed(1)} / 10萬`, `Nationwide ${totDeaths.toLocaleString()} deaths · ${natRate.toFixed(1)} per 100k`);
   }
 
   document.querySelectorAll('[data-cmetric]').forEach(el => el.addEventListener('click', () => {
@@ -884,8 +957,8 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     const totalShown = values.reduce((s, v) => s + (state.metric === 'rate' ? 0 : v), 0);
     document.getElementById('filterCount').textContent =
       state.metric === 'rate'
-        ? `${districts.features.length} districts shown`
-        : `${totalShown.toLocaleString()} 件 A1 事故${state.mode==='all' && state.year==='all' ? '' : '（篩選後）'}`;
+        ? `${districts.features.length} ${TT('行政區','districts')}`
+        : `${totalShown.toLocaleString()} ${TT('件 A1 事故','A1 events')}${state.mode==='all' && state.year==='all' ? '' : TT('（篩選後）',' (filtered)')}`;
   }
 
   // Wire filter pills
@@ -911,6 +984,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   document.getElementById('kPed').innerHTML =
     `${Math.round(allPed/total*100)}<small>%</small>`;
 
+  window.__rerender = () => { recompute(); recomputeCounty(); };
   recompute();
   recomputeCounty();
   // County map needs a size invalidation once laid out

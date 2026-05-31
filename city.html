@@ -1001,9 +1001,36 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   font-size: 8px; letter-spacing: 0.18em; color: var(--grey-3);
   display: block; margin-top: -2px;
 }
+
+/* ── i18n + logo ── */
+.t-en { display: none; }
+body.lang-en .t-zh { display: none; }
+body.lang-en .t-en { display: inline; }
+.t-en-b { display: none; }
+body.lang-en .t-zh-b { display: none; }
+body.lang-en .t-en-b { display: block; }
+body.lang-en #hdrTitleZh { display: none; }
+.lang-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 2000;
+  display: flex; border: 1.5px solid var(--black); background: var(--white);
+  font-family: var(--font-en); font-size: 11px; font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.lang-toggle .lt-opt { padding: 6px 12px; cursor: pointer; letter-spacing: 0.08em; color: var(--grey-2); }
+.lang-toggle .lt-opt.active { background: var(--black); color: var(--white); }
+.partner-logos {
+  background: var(--white); padding: 36px 24px; text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-top: 56px;
+}
+.partner-logos .pl-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 18px;
+}
+.partner-logos img { max-width: 560px; width: 100%; height: auto; }
 </style>
 </head>
 <body>
+<div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
 <div class="shell">
 
 <!-- Header -->
@@ -1023,7 +1050,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- ══ 01 — Overview ══ -->
 <div class="section">
-  <div class="section-label">01 — Decade Overview 十年總覽</div>
+  <div class="section-label"><span class="t-zh">01 — Decade Overview 十年總覽</span><span class="t-en">01 — Decade Overview</span></div>
   <div class="cover">
     <svg class="donut" viewBox="0 0 200 200" aria-hidden="true">
       <circle cx="100" cy="100" r="80" fill="none" stroke="#C8D400" stroke-width="32"/>
@@ -1031,31 +1058,31 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
               stroke-dasharray="220 280" opacity="0.55"/>
     </svg>
     <div>
-      <div class="big-num" id="bigDeaths">419<sup>人</sup></div>
-      <div class="big-label-zh">十年內因交通事故失去的生命</div>
+      <div class="big-num" id="bigDeaths">419<sup><span class="t-zh">人</span><span class="t-en">deaths</span></sup></div>
+      <div class="big-label-zh"><span class="t-zh">十年內因交通事故失去的生命</span><span class="t-en">Lives lost to road crashes over 10 years</span></div>
       <div class="big-label-en" id="bigLabelEn">Lives lost on these roads · 24 h fatalities · 2016 — 2025</div>
-      <div class="span-meta">平均每年 <strong id="avgDeaths">42</strong> 人；最高為 <strong id="peakYear">2023</strong> 年 <strong id="peakDeaths">52</strong> 人</div>
+      <div class="span-meta"><span class="t-zh">平均每年 <strong id="avgDeaths">42</strong> 人；最高為 <strong id="peakYear">2023</strong> 年 <strong id="peakDeaths">52</strong> 人</span><span class="t-en" style="display:none">avg <strong>42</strong>/yr · peak <strong>2023</strong> at <strong>52</strong></span></div>
     </div>
     <div class="kpis">
       <div class="kpi">
         <div class="kpi-label">Events</div>
-        <div class="kpi-zh">A1 死亡事故件數</div>
+        <div class="kpi-zh"><span class="t-zh">A1 死亡事故件數</span><span class="t-en">A1 fatal crash events</span></div>
         <div class="kpi-num" id="kEvents">402</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Motorcycle</div>
-        <div class="kpi-zh">機車為主要事故方</div>
-        <div class="kpi-num" id="kMoto">226<small>件</small></div>
+        <div class="kpi-zh"><span class="t-zh">機車為主要事故方</span><span class="t-en">Motorcyclist victims</span></div>
+        <div class="kpi-num" id="kMoto">226<small><span class="t-zh">件</span><span class="t-en">ev</span></small></div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Pedestrians</div>
-        <div class="kpi-zh">行人事故</div>
-        <div class="kpi-num" id="kPed">—<small>件</small></div>
+        <div class="kpi-zh"><span class="t-zh">行人事故</span><span class="t-en">Pedestrian victims</span></div>
+        <div class="kpi-num" id="kPed">—<small><span class="t-zh">件</span><span class="t-en">ev</span></small></div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Latest Year</div>
-        <div class="kpi-zh">2025 年死亡人數</div>
-        <div class="kpi-num" id="kLatest">32<small>人</small></div>
+        <div class="kpi-zh"><span class="t-zh">2025 年死亡人數</span><span class="t-en">2025 deaths</span></div>
+        <div class="kpi-num" id="kLatest">32<small><span class="t-zh">人</span><span class="t-en">d</span></small></div>
       </div>
     </div>
   </div>
@@ -1063,17 +1090,17 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- ══ 02 — Year-over-Year ══ -->
 <div class="section">
-  <div class="section-label">02 — Year-over-Year 逐年趨勢</div>
+  <div class="section-label"><span class="t-zh">02 — Year-over-Year 逐年趨勢</span><span class="t-en">02 — Year-over-Year</span></div>
 
   <div class="trend-card" style="margin-bottom:24px">
     <h4>Annual Trend — Events &amp; Deaths</h4>
-    <div class="card-zh">2016 – 2025 死亡事故件數與死亡人數年度變化</div>
+    <div class="card-zh"><span class="t-zh">2016 – 2025 死亡事故件數與死亡人數年度變化</span><span class="t-en">Annual crash events & deaths, 2016 – 2025</span></div>
     <div class="trend-svg-wrap">
       <svg class="trend-svg" id="trendSvg" viewBox="0 0 900 280" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
     <div class="trend-legend">
-      <div class="item"><span class="swatch" style="background:#C8D400;height:6px"></span>事故件數 Events</div>
-      <div class="item dashed"><span class="swatch"></span>死亡人數 Deaths</div>
+      <div class="item"><span class="swatch" style="background:#C8D400;height:6px"></span><span class="t-zh">事故件數 Events</span><span class="t-en">Events</span></div>
+      <div class="item dashed"><span class="swatch"></span><span class="t-zh">死亡人數 Deaths</span><span class="t-en">Deaths</span></div>
       <div class="item" style="margin-left:auto;color:var(--grey-2);font-family:var(--font-en);font-size:10px;letter-spacing:0.1em">N · National Police Agency A1 Open Dataset</div>
     </div>
   </div>
@@ -1081,46 +1108,46 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   <div class="trend-grid">
     <div class="trend-card">
       <h4>Victim-Mode Composition by Year</h4>
-      <div class="card-zh">年度受害者運具組成（最弱勢用路人）</div>
+      <div class="card-zh"><span class="t-zh">年度受害者運具組成（最弱勢用路人）</span><span class="t-en">Annual victim-mode composition (most-vulnerable user)</span></div>
       <div class="year-stacks" id="yearStacks"></div>
       <div class="trend-legend">
-        <div class="item"><span class="swatch" style="background:#1A1A1A;height:10px"></span>機車</div>
-        <div class="item"><span class="swatch" style="background:#3A7CC3;height:10px"></span>汽/貨車</div>
-        <div class="item"><span class="swatch" style="background:#D94F3D;height:10px"></span>行人</div>
-        <div class="item"><span class="swatch" style="background:#E8A825;height:10px"></span>慢車</div>
-        <div class="item"><span class="swatch" style="background:#888888;height:10px"></span>其他</div>
+        <div class="item"><span class="swatch" style="background:#1A1A1A;height:10px"></span><span class="t-zh"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span><span class="t-en">Motorcycle</span></div>
+        <div class="item"><span class="swatch" style="background:#3A7CC3;height:10px"></span><span class="t-zh"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span><span class="t-en">Car/Truck</span></div>
+        <div class="item"><span class="swatch" style="background:#D94F3D;height:10px"></span><span class="t-zh"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span><span class="t-en">Pedestrian</span></div>
+        <div class="item"><span class="swatch" style="background:#E8A825;height:10px"></span><span class="t-zh">慢車</span><span class="t-en">Bicycle</span></div>
+        <div class="item"><span class="swatch" style="background:#888888;height:10px"></span><span class="t-zh">其他</span><span class="t-en">Other</span></div>
       </div>
     </div>
 
     <div class="trend-card">
       <h4>Yearly Snapshot — 2025</h4>
-      <div class="card-zh">最新年度數字（與十年平均比較）</div>
+      <div class="card-zh"><span class="t-zh">最新年度數字（與十年平均比較）</span><span class="t-en">Latest year vs the 10-year average</span></div>
       <div id="snapshot"></div>
     </div>
   </div>
 
   <div class="trend-card" style="margin-top:24px">
     <h4>District × Year — Deaths Heatmap</h4>
-    <div class="card-zh">十年內各鄉鎮市死亡人數熱力圖（深色＝該年死亡人數較高）</div>
+    <div class="card-zh"><span class="t-zh">十年內各鄉鎮市死亡人數熱力圖（深色＝該年死亡人數較高）</span><span class="t-en">District × year death heatmap (darker = more deaths that year)</span></div>
     <div class="heatmap-wrap">
       <div class="heatmap" id="heatmap"></div>
     </div>
     <div style="margin-top:14px;font-family:var(--font-en);font-size:9px;letter-spacing:0.15em;color:var(--grey-2);text-transform:uppercase">
-      Scale · 顏色由淺至深表示該年死亡人數 0 → 10+
+      <span class="t-zh">Scale · 顏色由淺至深表示該年死亡人數 0 → 10+</span><span class="t-en">Scale · light → dark = 0 → 10+ deaths that year</span>
     </div>
   </div>
 </div>
 
 <!-- ══ 03 — Map ══ -->
 <div class="section">
-  <div class="section-label">03 — Spatial Distribution 空間分布</div>
+  <div class="section-label"><span class="t-zh">03 — Spatial Distribution 空間分布</span><span class="t-en">03 — Spatial Distribution</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
       <span class="filter-group-label">Year</span>
       <span class="cat-pill en active" data-year="all">All</span>
-      <span class="cat-pill en disabled" data-year="2016" title="2016 年無經緯度資料">2016</span>
-      <span class="cat-pill en disabled" data-year="2017" title="2017 年無經緯度資料">2017</span>
+      <span class="cat-pill en disabled" data-year="2016" title="No coordinates for 2016">2016</span>
+      <span class="cat-pill en disabled" data-year="2017" title="No coordinates for 2017">2017</span>
       <span class="cat-pill en" data-year="2018">2018</span>
       <span class="cat-pill en" data-year="2019">2019</span>
       <span class="cat-pill en" data-year="2020">2020</span>
@@ -1132,28 +1159,28 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     </div>
     <div class="filter-group">
       <span class="filter-group-label">Victim</span>
-      <span class="cat-pill active" data-mode="all">全部</span>
+      <span class="cat-pill active" data-mode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
       <span class="cat-pill" data-mode="機車">機車</span>
       <span class="cat-pill" data-mode="汽車">汽/貨車</span>
       <span class="cat-pill" data-mode="人">行人</span>
-      <span class="cat-pill" data-mode="慢車">自行車/慢車</span>
+      <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">View</span>
-      <span class="cat-pill active" data-view="points">點位 Points</span>
-      <span class="cat-pill" data-view="heat">熱力 Heatmap</span>
-      <span class="cat-pill" data-view="both">兩者 Both</span>
+      <span class="cat-pill active" data-view="points"><span class="t-zh">點位 Points</span><span class="t-en">Points</span></span>
+      <span class="cat-pill" data-view="heat"><span class="t-zh">熱力 Heatmap</span><span class="t-en">Heatmap</span></span>
+      <span class="cat-pill" data-view="both"><span class="t-zh">兩者 Both</span><span class="t-en">Both</span></span>
     </div>
         <div class="filter-group">
       <span class="filter-group-label">Base</span>
-      <span class="cat-pill" data-base="minimal">簡潔</span>
-      <span class="cat-pill active" data-base="roads">道路</span>
-      <span class="cat-pill" data-base="satellite">衛星</span>
+      <span class="cat-pill" data-base="minimal"><span class="t-zh">簡潔</span><span class="t-en">Minimal</span></span>
+      <span class="cat-pill active" data-base="roads"><span class="t-zh">道路</span><span class="t-en">Roads</span></span>
+      <span class="cat-pill" data-base="satellite"><span class="t-zh">衛星</span><span class="t-en">Satellite</span></span>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">幹線 Hwys</span>
-      <span class="cat-pill active" data-hwy="on">顯示</span>
-      <span class="cat-pill" data-hwy="off">隱藏</span>
+      <span class="cat-pill active" data-hwy="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
+      <span class="cat-pill" data-hwy="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
     </div>
     <div class="filter-group" style="margin-left:auto">
       <span class="filter-group-label" id="filterCount">Showing — / —</span>
@@ -1164,22 +1191,22 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     <div class="map-wrap">
       <div id="map"></div>
       <div class="map-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:#1A1A1A"></span>機車 Motorcycle</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#3A7CC3"></span>汽/貨車 Car/Truck</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#D94F3D"></span>行人 Pedestrian</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#E8A825"></span>慢車 Bicycle</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#888"></span>其他 Other</div>
-        <div class="legend-item" style="margin-left:14px;padding-left:14px;border-left:1px solid var(--grey-3)"><span style="display:inline-block;width:18px;height:3px;background:#D94F3D;margin-right:2px"></span>國道</div>
-        <div class="legend-item"><span style="display:inline-block;width:18px;height:3px;background:#E8A825;margin-right:2px"></span>快速公路</div>
-        <div class="legend-item"><span style="display:inline-block;width:18px;height:2px;background:#3A7CC3;margin-right:2px"></span>省道</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#1A1A1A"></span><span class="t-zh">機車 Motorcycle</span><span class="t-en">Motorcycle</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background:#3A7CC3"></span><span class="t-zh">汽/貨車 Car/Truck</span><span class="t-en">Car/Truck</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background:#D94F3D"></span><span class="t-zh">行人 Pedestrian</span><span class="t-en">Pedestrian</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background:#E8A825"></span><span class="t-zh">慢車 Bicycle</span><span class="t-en">Bicycle</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background:#888"></span><span class="t-zh">其他 Other</span><span class="t-en">Other</span></div>
+        <div class="legend-item" style="margin-left:14px;padding-left:14px;border-left:1px solid var(--grey-3)"><span style="display:inline-block;width:18px;height:3px;background:#D94F3D;margin-right:2px"></span><span class="t-zh">國道</span><span class="t-en">Freeway</span></div>
+        <div class="legend-item"><span style="display:inline-block;width:18px;height:3px;background:#E8A825;margin-right:2px"></span><span class="t-zh">快速公路</span><span class="t-en">Expressway</span></div>
+        <div class="legend-item"><span style="display:inline-block;width:18px;height:2px;background:#3A7CC3;margin-right:2px"></span><span class="t-zh">省道</span><span class="t-en">Provincial Hwy</span></div>
         <div class="legend-note">Tap a dot →</div>
       </div>
     </div>
 
     <div class="side-panel">
-      <h3>Event Detail — 事件明細</h3>
+      <h3>Event Detail<span class="t-zh"> — 事件明細</span></h3>
       <div class="detail-empty" id="detailEmpty">
-        點選地圖上任一圓點以查看事故細節
+        <span class="t-zh">點選地圖上任一圓點以查看事故細節</span><span class="t-en" style="display:none">Click any dot on the map for crash details</span>
         <span class="en">Click a marker to inspect</span>
       </div>
       <div class="detail-card" id="detailCard" style="display:none"></div>
@@ -1191,10 +1218,10 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
   <div class="hotspot-card" style="margin-top:24px">
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px">
-      <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600">Top Hotspots · 優先治理路段</h4>
+      <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600">Top Hotspots<span class="t-zh"> · 優先治理路段</span></h4>
       <div style="font-family:var(--font-en);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--grey-3)">300m × 300m grid · click to zoom</div>
     </div>
-    <div style="font-size:13px;color:var(--black);margin-bottom:18px;letter-spacing:0.05em">能解析道路名稱與里程者以「~3 公里路段」聚合（標記 ⚑ 路段）；其餘以 ~300 公尺方格聚合。依累計死亡人數排序前 10 名。點選列可在地圖上定位。</div>
+    <div style="font-size:13px;color:var(--black);margin-bottom:18px;letter-spacing:0.05em"><span class="t-zh">能解析道路名稱與里程者以「~3 公里路段」聚合（標記 ⚑ 路段）；其餘以 ~300 公尺方格聚合。依累計死亡人數排序前 10 名。點選列可在地圖上定位。</span><span class="t-en" style="display:none">Locations with a road name + km are clustered into ~3 km segments (marked ⚑); others into ~300 m cells. Top 10 by cumulative deaths. Click a row to locate it.</span></div>
     <div id="hotspots"></div>
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--grey-3);font-family:var(--font-en);font-size:9px;letter-spacing:0.12em;color:var(--grey-2);line-height:1.7">
       Note · A1 records sometimes share identical coordinates that represent road centroids rather than precise crash points. We collapse such events into road-segment clusters (km range shown) to avoid false single-point hotspots.
@@ -1204,14 +1231,14 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- ══ 04 — Insight ══ -->
 <div class="section">
-  <div class="section-label">04 — Headline Finding 關鍵發現</div>
+  <div class="section-label"><span class="t-zh">04 — Headline Finding 關鍵發現</span><span class="t-en">04 — Headline Finding</span></div>
   <div class="insight">
     <div>
       <div class="ilabel-en">Motorcycle Victim Share · Decade</div>
       <div class="ipct" id="motoPct">56<small>%</small></div>
     </div>
     <div>
-      <div class="ilabel-en">Key Insight · 整體觀察</div>
+      <div class="ilabel-en">Key Insight<span class="t-zh"> · 整體觀察</span></div>
       <div class="itext" id="insightText"></div>
       <div class="iref">Data · National Police Agency A1 Open Dataset 2016–2025</div>
     </div>
@@ -1220,15 +1247,15 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- ══ 05 — Breakdown ══ -->
 <div class="section">
-  <div class="section-label">05 — Breakdown 多維拆解</div>
+  <div class="section-label"><span class="t-zh">05 — Breakdown 多維拆解</span><span class="t-en">05 — Breakdown</span></div>
   <div class="breakdown-grid">
 
     <div class="card">
       <h4>By District</h4>
-      <div class="card-zh">各行政區死亡人數（全部，可滾動）</div>
+      <div class="card-zh"><span class="t-zh">各行政區死亡人數（全部，可滾動）</span><span class="t-en">Deaths by district (all, scrollable)</span></div>
       <div class="district-controls">
-        <span class="pill active" data-sort="abs">累計 Total</span>
-        <span class="pill" data-sort="rate">每萬人 Per 10k</span>
+        <span class="pill active" data-sort="abs"><span class="t-zh">累計 Total</span><span class="t-en">Total</span></span>
+        <span class="pill" data-sort="rate"><span class="t-zh">每萬人 Per 10k</span><span class="t-en">Per 10k</span></span>
       </div>
       <div id="byDistrict" class="district-list"></div>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--grey-3);font-family:var(--font-en);font-size:9px;letter-spacing:0.12em;color:var(--grey-2);line-height:1.7">
@@ -1238,32 +1265,32 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
     <div class="card">
       <h4>By Victim Mode</h4>
-      <div class="card-zh">受害者運具類別（取事件中最弱勢用路人）</div>
+      <div class="card-zh"><span class="t-zh">受害者運具類別（取事件中最弱勢用路人）</span><span class="t-en">Victim mode (most-vulnerable user per event)</span></div>
       <div id="byMode"></div>
     </div>
 
     <div class="card">
       <h4>By Road Class</h4>
-      <div class="card-zh">道路類別 · 僅 2018+ 資料</div>
+      <div class="card-zh"><span class="t-zh">道路類別 · 僅 2018+ 資料</span><span class="t-en">Road class · 2018+ only</span></div>
       <div id="byRoad"></div>
     </div>
 
     <div class="card">
       <h4>By Lighting</h4>
-      <div class="card-zh">事故發生時光線狀況 · 僅 2018+</div>
+      <div class="card-zh"><span class="t-zh">事故發生時光線狀況 · 僅 2018+</span><span class="t-en">Lighting at time of crash · 2018+</span></div>
       <div id="byLight"></div>
     </div>
 
     <div class="card" style="grid-column: span 2; min-width:0">
       <h4>By Hour of Day</h4>
-      <div class="card-zh">事故發生時段（24 小時分布）</div>
+      <div class="card-zh"><span class="t-zh">事故發生時段（24 小時分布）</span><span class="t-en">Time of day (24-hour distribution)</span></div>
       <div class="hour-grid" id="byHour"></div>
       <div class="hour-axis" id="byHourAxis"></div>
     </div>
 
     <div class="card" style="grid-column: span 2; min-width:0">
       <h4>By Month</h4>
-      <div class="card-zh">事故發生月份</div>
+      <div class="card-zh"><span class="t-zh">事故發生月份</span><span class="t-en">Month of crash</span></div>
       <div class="month-grid" id="byMonth"></div>
       <div class="month-axis" id="byMonthAxis"></div>
     </div>
@@ -1273,31 +1300,53 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 
 <!-- ══ 06 — Notes ══ -->
 <div class="section">
-  <div class="section-label">06 — Notes 資料說明</div>
+  <div class="section-label"><span class="t-zh">06 — Notes 資料說明</span><span class="t-en">06 — Notes</span></div>
   <div class="card">
-    <div class="card-zh" style="margin-bottom:14px">關於本地圖</div>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
+    <div class="card-zh" style="margin-bottom:14px"><span class="t-zh">關於本地圖</span><span class="t-en">About this map</span></div>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
       本地圖整理自<strong>內政部警政署 A1 級道路交通事故</strong>公開資料，
       篩選發生於<span id="noteCounty">該縣市</span>之事故，年度範圍為民國 105 至 114 年（2016–2025）。
       A1 為「造成人員當場或 24 小時內死亡」之事故等級，每筆事件可能涉及多位當事人。
     </p>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
+      Compiled from the <strong>National Police Agency A1 (fatal) road-crash</strong> open dataset, filtered to crashes in
+      <span id="noteCountyEn">this county</span>, covering 2016–2025. A1 = a crash where someone died on the spot or within 24 hours;
+      each event may involve several parties.
+    </p>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
       不同年度的資料完整度不同：<strong>2016、2017、2021</strong> 為「簡式」欄位
       （僅含時間、地點、傷亡、車種），<strong>2018、2019、2020、2022 — 2025</strong> 為完整欄位
       （含天候、光線、道路類別、肇因等）；<strong>2016 與 2017</strong> 完全無經緯度資訊，
       故地圖僅顯示 2018 年後之事件，但所有年份皆納入趨勢與時間／月份分布之統計。
     </p>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      Field completeness varies by year: <strong>2016, 2017, 2021</strong> use a simplified schema (time, place, casualties, vehicle only);
+      <strong>2018–2020, 2022–2025</strong> are full (weather, lighting, road class, cause, …). <strong>2016 & 2017</strong> have no coordinates,
+      so the map shows 2018+ events only — but all years count in the trend and time/month sections.
+    </p>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
       <strong>「運具類別」採用受害者邏輯</strong>：每筆事件以其中<strong>最弱勢用路人</strong>之運具為類別
       （優先序：行人 &gt; 自行車/慢車 &gt; 機車 &gt; 汽/貨車）。這與 A1 原始資料的「當事者順位 P1」不同 ——
       左轉小客車撞死行人之案件，P1 是駕駛、運具為汽車，但本地圖會把該事件歸類為「行人」。
       此調整反映「誰真正在道路上喪生」之問題，與政策關切的「弱勢用路人保護」一致。
       原始 P1 分類保留於每筆事件的 <code style="font-family:var(--font-en);font-size:11px;background:var(--grey-4);padding:1px 4px">principal_mode</code> 欄位。
     </p>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>Victim-based mode</strong>: each event is classified by its <strong>most-vulnerable road user</strong>
+      (priority: pedestrian &gt; bicycle/slow vehicle &gt; motorcycle &gt; car/truck) — unlike the raw "party-1" field. A left-turning car
+      that kills a pedestrian has the driver (a car) as party-1 in the raw data, but is classified here as "pedestrian." This answers
+      "who actually dies on the road," matching the policy focus on protecting vulnerable users. The original party-1 class is kept in each
+      event's <code style="font-family:var(--font-en);font-size:11px;background:var(--grey-4);padding:1px 4px">principal_mode</code> field.
+    </p>
+    <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
       <strong>幹線道路圖層</strong>：地圖上的紅／橙／藍線為國道、快速公路、省道，
       資料來源為<strong>交通部公路局 ROAD_國省道(含快速公路)_1150409 圖資</strong>
       （TWD97/TM2 經緯度轉換、Douglas-Peucker 15m 簡化）。可在地圖上方「幹線 Hwys」按鈕切換顯示與隱藏。
+    </p>
+<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
+      <strong>Highway overlay</strong>: red/orange/blue lines are national freeways, expressways and provincial highways, from the
+      <strong>MOTC Highway Bureau ROAD_國省道(含快速公路)_1150409</strong> dataset (TWD97/TM2 → WGS84, Douglas-Peucker 15 m). Toggle via the
+      "幹線 Hwys" buttons above the map.
     </p>
 
 
@@ -1307,11 +1356,17 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   </div>
 </div>
 
+<div class="partner-logos">
+  <div class="pl-label t-zh">資料夥伴 · 合作單位</div>
+  <div class="pl-label t-en" style="display:none">In partnership with</div>
+  <img src="assets/tcan_vzt_logo.png" alt="TCAN 台灣氣候行動網路 · Vision Zero Taiwan 還路於民行人路權促進會">
+</div>
+
 <footer>
   <div>Taiwan Mobility Atlas · Traffic Safety · Designed by 吳昀慶</div>
   <div class="tags">
-    <span class="tag lime">交通安全</span>
-    <span class="tag">十年回顧</span>
+    <span class="tag lime"><span class="t-zh">交通安全</span><span class="t-en">Traffic Safety</span></span>
+    <span class="tag"><span class="t-zh">十年回顧</span><span class="t-en">10-Year Review</span></span>
     <span class="tag black">2026</span>
   </div>
 </footer>
@@ -1321,6 +1376,24 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <script src="data/cities.js"></script>
+<script>
+window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
+function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+function setLang(l) {
+  window.__LANG = l;
+  document.body.classList.toggle('lang-en', l === 'en');
+  document.documentElement.lang = l === 'en' ? 'en' : 'zh-TW';
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === l));
+  if (window.__buildSelect) window.__buildSelect();
+  if (window.__rerender) window.__rerender();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o =>
+    o.addEventListener('click', () => setLang(o.dataset.lang)));
+  setLang(window.__LANG);
+});
+</script>
 <script>
 function __main() {
   const DATA = window.CITY_A1 || [];
@@ -1443,9 +1516,9 @@ function __main() {
     const avg = (k) => Math.round(YEARLY.reduce((s,y)=>s+y[k],0)/YEARLY.length);
     const peak = YEARLY.reduce((a,b)=> b.deaths > a.deaths ? b : a);
     const rows = [
-      ['事故件數 Events', latest.events, avg('events')],
-      ['死亡人數 Deaths', latest.deaths, avg('deaths')],
-      ['機車主因 Motorcycle', latest.by_mode['機車']||0, Math.round(YEARLY.reduce((s,y)=>s+(y.by_mode['機車']||0),0)/YEARLY.length)],
+      [TT('事故件數','Events'), latest.events, avg('events')],
+      [TT('死亡人數','Deaths'), latest.deaths, avg('deaths')],
+      [TT('機車主因','Motorcycle'), latest.by_mode['機車']||0, Math.round(YEARLY.reduce((s,y)=>s+(y.by_mode['機車']||0),0)/YEARLY.length)],
     ];
     document.getElementById('snapshot').innerHTML = `
       <div style="display:grid;grid-template-columns:1.4fr 0.6fr 0.6fr;gap:8px;align-items:baseline;font-size:11px">
@@ -1467,8 +1540,8 @@ function __main() {
         }).join('')}
       </div>
       <div style="margin-top:20px;padding-top:14px;border-top:1px solid #D0D0D0;font-size:11px;line-height:1.7;color:#4A4A4A;font-weight:300">
-        十年高峰：<strong style="color:#1A1A1A">${peak.year} 年 · ${peak.deaths} 人</strong><br>
-        最近一年較十年平均<span style="color:${latest.deaths<avg('deaths')?'#A8B200':'#D94F3D'};font-weight:500"> ${latest.deaths<avg('deaths')?'低':'高'} ${Math.abs(latest.deaths-avg('deaths'))} 人</span>。
+        ${TT('十年高峰：','Decade peak: ')}<strong style="color:#1A1A1A">${peak.year}${TT(' 年 · ',' · ')}${peak.deaths}${TT(' 人',' deaths')}</strong><br>
+        ${TT('最近一年較十年平均','Latest year vs 10-yr avg:')}<span style="color:${latest.deaths<avg('deaths')?'#A8B200':'#D94F3D'};font-weight:500"> ${latest.deaths<avg('deaths')?TT('低','−'):TT('高','+')} ${Math.abs(latest.deaths-avg('deaths'))}${TT(' 人',' deaths')}</span>。
       </div>
     `;
   }
@@ -1739,21 +1812,21 @@ const markerLayer = L.layerGroup().addTo(map);
     const tops = computeHotspots(events, 10);
     const el = document.getElementById('hotspots');
     if (!tops.length) {
-      el.innerHTML = '<div style="font-size:11px;color:#888;padding:24px 0;font-weight:300">— 篩選條件下無熱點資料 —</div>';
+      el.innerHTML = `<div style="font-size:11px;color:#888;padding:24px 0;font-weight:300">— ${TT('篩選條件下無熱點資料','No hotspots under this filter')} —</div>`;
       return;
     }
     el.innerHTML = tops.map((h, i) => {
       const rankClass = i === 0 ? 'top1' : (i < 3 ? 'top'+(i+1) : '');
       const segNote = h.isCentroidCluster
-        ? '<span style="margin-left:8px;font-family:var(--font-en);font-size:8.5px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase">⚑ 路段</span>'
+        ? '<span style="margin-left:8px;font-family:var(--font-en);font-size:8.5px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase">⚑ '+TT('路段','segment')+'</span>'
         : '';
       return `<div class="hotspot-row ${rankClass}" data-lat="${h.lat}" data-lon="${h.lon}">
         <div class="rank">${String(i+1).padStart(2,'0')}</div>
         <div class="info">
           <div class="loc">${h.label}${segNote}</div>
-          <div class="meta">${h.sublabel}<span class="sep">·</span>${h.events} 件<span class="sep">·</span>${h.yrRange}</div>
+          <div class="meta">${h.sublabel}<span class="sep">·</span>${h.events} ${TT('件','ev')}<span class="sep">·</span>${h.yrRange}</div>
         </div>
-        <div class="deaths">${h.deaths}<small>死亡</small></div>
+        <div class="deaths">${h.deaths}<small>${TT('死亡','deaths')}</small></div>
       </div>`;
     }).join('');
 
@@ -1794,10 +1867,10 @@ const markerLayer = L.layerGroup().addTo(map);
           <span class="pmeta">${genderStr} ${ageStr}</span>
         </div>`;
       }).join('');
-      partiesBlock = `<div class="parties-list"><h3 style="margin-bottom:4px">Parties — 當事人</h3>${parties}</div>`;
+      partiesBlock = `<div class="parties-list"><h3 style="margin-bottom:4px">Parties${TT(' — 當事人','')}</h3>${parties}</div>`;
     } else {
       partiesBlock = `<div class="parties-list">
-        <h3 style="margin-bottom:4px">Vehicles — 車種</h3>
+        <h3 style="margin-bottom:4px">Vehicles${TT(' — 車種','')}</h3>
         <div style="font-size:11px;color:#4A4A4A;font-weight:300;padding:8px 0">
           ${(ev.vehicles_raw || '').split(';').map(v => `<div>· ${v}</div>`).join('')}
         </div>
@@ -1807,7 +1880,7 @@ const markerLayer = L.layerGroup().addTo(map);
     const optionalRows = ev.schema === 'full' ? `
       <div class="detail-row">
         <span class="dlabel">Road</span>
-        <span class="dval"><strong>${ev.road_type || '—'}</strong> · 速限 ${ev.speed_limit || '—'} · ${ev.road_shape_sub || ev.road_shape_main || '—'}</span>
+        <span class="dval"><strong>${ev.road_type || '—'}</strong> · ${TT('速限','limit')} ${ev.speed_limit || '—'} · ${ev.road_shape_sub || ev.road_shape_main || '—'}</span>
       </div>
       <div class="detail-row">
         <span class="dlabel">Setting</span>
@@ -1819,12 +1892,12 @@ const markerLayer = L.layerGroup().addTo(map);
       </div>
       <div class="detail-row">
         <span class="dlabel">Cause</span>
-        <span class="dval"><strong>${ev.cause_main || '尚未發現肇事因素'}</strong></span>
+        <span class="dval"><strong>${ev.cause_main || TT('尚未發現肇事因素','Cause not yet determined')}</strong></span>
       </div>
     ` : `
       <div class="detail-row">
         <span class="dlabel">Schema</span>
-        <span class="dval" style="font-family:'Space Grotesk';font-size:10px;letter-spacing:0.1em;color:#888">SIMPLIFIED RECORD · 簡式資料，僅含時間／地點／傷亡／車種</span>
+        <span class="dval" style="font-family:'Space Grotesk';font-size:10px;letter-spacing:0.1em;color:#888">SIMPLIFIED RECORD${TT(' · 簡式資料，僅含時間／地點／傷亡／車種',' · time/place/casualties/vehicle only')}</span>
       </div>
     `;
 
@@ -1833,7 +1906,7 @@ const markerLayer = L.layerGroup().addTo(map);
       <div class="detail-loc">${ev.location}</div>
       <div class="detail-row">
         <span class="dlabel">Outcome</span>
-        <span class="dval"><strong>${ev.deaths}</strong> 死 / ${ev.injuries} 傷</span>
+        <span class="dval"><strong>${ev.deaths}</strong> ${TT('死','dead')} / ${ev.injuries} ${TT('傷','injured')}</span>
       </div>
       ${optionalRows}
       ${partiesBlock}
@@ -1892,12 +1965,12 @@ const markerLayer = L.layerGroup().addTo(map);
         ? ((r.rate ?? 0) / maxRate * 100)
         : (r.deaths / maxAbs * 100);
       const rateTxt = r.rate != null ? r.rate.toFixed(1) : '—';
-      const popTxt  = r.pop  != null ? (r.pop >= 10000 ? (r.pop/10000).toFixed(1)+'萬' : String(r.pop)) : '—';
+      const popTxt  = r.pop  != null ? (r.pop >= 10000 ? (r.pop/10000).toFixed(1)+TT('萬','0k') : String(r.pop)) : '—';
       return `<div class="district-row ${rankCls}">
         <div class="d-name">${r.name}</div>
         <div class="d-track"><div class="d-fill" style="width:${fillPct.toFixed(1)}%"></div></div>
         <div class="d-abs">${r.deaths}<small style="font-family:var(--font-en);font-size:8px;color:var(--grey-2);letter-spacing:0.1em;display:block">DEATHS</small></div>
-        <div class="d-rate">${rateTxt}<small>/萬 · ${popTxt}</small></div>
+        <div class="d-rate">${rateTxt}<small>${TT('/萬','/10k')} · ${popTxt}</small></div>
       </div>`;
     }).join('');
   }
@@ -1913,7 +1986,7 @@ const markerLayer = L.layerGroup().addTo(map);
   }
   function renderBars(elId, rows, opts={}) {
     const el = document.getElementById(elId);
-    if (!rows.length) { el.innerHTML = '<div style="font-size:11px;color:#888;font-weight:300">— 篩選條件下無資料 —</div>'; return; }
+    if (!rows.length) { el.innerHTML = `<div style="font-size:11px;color:#888;font-weight:300">— ${TT('篩選條件下無資料','No data under this filter')} —</div>`; return; }
     const max = Math.max(1, ...rows.map(r => r[1]));
     const total = rows.reduce((s,r)=>s+r[1],0) || 1;
     el.innerHTML = rows.map(([k, v]) => {
@@ -1972,12 +2045,12 @@ const markerLayer = L.layerGroup().addTo(map);
     const ped = arr.filter(e => e.mode === '人').length;
     const onMap = filteredOnMap().length;
 
-    document.getElementById('bigDeaths').innerHTML = `${totalDeaths}<sup>人</sup>`;
+    document.getElementById('bigDeaths').innerHTML = `${totalDeaths}<sup>${TT('人','deaths')}</sup>`;
     document.getElementById('kEvents').textContent = events;
-    document.getElementById('kMoto').innerHTML = `${moto}<small>件</small>`;
-    document.getElementById('kPed').innerHTML = `${ped}<small>件</small>`;
+    document.getElementById('kMoto').innerHTML = `${moto}<small>${TT('件','ev')}</small>`;
+    document.getElementById('kPed').innerHTML = `${ped}<small>${TT('件','ev')}</small>`;
     const latest = YEARLY[YEARLY.length-1];
-    document.getElementById('kLatest').innerHTML = `${latest.deaths}<small>人</small>`;
+    document.getElementById('kLatest').innerHTML = `${latest.deaths}<small>${TT('人','d')}</small>`;
     const peak = YEARLY.reduce((a,b)=> b.deaths > a.deaths ? b : a);
     document.getElementById('peakYear').textContent = peak.year;
     document.getElementById('peakDeaths').textContent = peak.deaths;
@@ -2074,6 +2147,10 @@ const markerLayer = L.layerGroup().addTo(map);
   renderHotspots();
   renderBreakdowns();
 
+  window.__rerender = () => {
+    renderTrend(); renderYearStacks(); renderSnapshot(); renderHeatmap();
+    renderMap(); renderBreakdowns(); renderHotspots(); genInsight();
+  };
   genInsight();
   const bounds = L.latLngBounds(filteredOnMap().map(e => [e.lat, e.lon]));
   if (bounds.isValid()) map.fitBounds(bounds, { padding: [24, 24] });
@@ -2093,14 +2170,26 @@ const markerLayer = L.layerGroup().addTo(map);
     const zh = (window.__META && window.__META.zh) || '該縣市';
     const unitWord = zh.endsWith('市') ? '行政區' : '鄉鎮市區';
     const pe = document.getElementById('motoPct'); if (pe) pe.innerHTML = pct(moto) + '<small>%</small>';
+    const enName = (window.__META && window.__META.en) || zh;
     const el = document.getElementById('insightText');
-    if (el) el.innerHTML =
-      '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
-      '以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
-      '行人 ' + ped + ' 件（' + pct(ped) + '%）、自行車/慢車 ' + slow + ' 件（' + pct(slow) + '%）— ' +
-      '合計<strong>弱勢用路人 ' + pct(vuln) + '%</strong>。<br>' +
-      '十年高峰為 <strong>' + peak.year + '</strong> 年（' + peak.deaths + ' 人）；最近一年 ' + latest.year + ' 為 ' + latest.deaths + ' 人。' +
-      '<strong>' + topD[0] + '</strong>累計 ' + topD[1] + ' 人，為' + zh + unitWord + '之最，是優先治理區域。';
+    if (!el) return;
+    if (window.__LANG === 'en') {
+      el.innerHTML =
+        'Over the past decade, about <strong>' + avg + '</strong> people died on ' + enName + "'s roads each year. " +
+        'Classified by the most-vulnerable user in each event: <strong>motorcyclists</strong> in <strong>' + moto + '</strong> events (' + pct(moto) + '%), ' +
+        'pedestrians ' + ped + ' (' + pct(ped) + '%), bicycle/slow ' + slow + ' (' + pct(slow) + '%) — ' +
+        '<strong>vulnerable users total ' + pct(vuln) + '%</strong>.<br>' +
+        'The decade peak was <strong>' + peak.year + '</strong> (' + peak.deaths + ' deaths); the latest year ' + latest.year + ' had ' + latest.deaths + '. ' +
+        '<strong>' + topD[0] + '</strong> has the most cumulative deaths (' + topD[1] + '), a priority area.';
+    } else {
+      el.innerHTML =
+        '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
+        '以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
+        '行人 ' + ped + ' 件（' + pct(ped) + '%）、自行車/慢車 ' + slow + ' 件（' + pct(slow) + '%）— ' +
+        '合計<strong>弱勢用路人 ' + pct(vuln) + '%</strong>。<br>' +
+        '十年高峰為 <strong>' + peak.year + '</strong> 年（' + peak.deaths + ' 人）；最近一年 ' + latest.year + ' 為 ' + latest.deaths + ' 人。' +
+        '<strong>' + topD[0] + '</strong>累計 ' + topD[1] + ' 人，為' + zh + unitWord + '之最，是優先治理區域。';
+    }
   }
 }
 
@@ -2129,21 +2218,27 @@ const markerLayer = L.layerGroup().addTo(map);
   // County switcher (sorted by deaths desc, as CITIES already is)
   const sel = document.getElementById('citySelect');
   if (sel) {
-    CITIES.forEach(c => {
-      const o = document.createElement('option');
-      o.value = c.slug; o.textContent = c.zh + ' (' + c.deaths + ')';
-      if (c.slug === slug) o.selected = true;
-      sel.appendChild(o);
-    });
+    window.__buildSelect = function () {
+      sel.innerHTML = '';
+      CITIES.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c.slug;
+        o.textContent = (window.__LANG === 'en' ? c.en : c.zh) + ' (' + c.deaths + ')';
+        if (c.slug === slug) o.selected = true;
+        sel.appendChild(o);
+      });
+    };
+    window.__buildSelect();
     sel.addEventListener('change', () => { location.search = '?c=' + sel.value; });
   }
+  if (m) { const nce = document.getElementById('noteCountyEn'); if (nce) nce.textContent = m.en; }
   // Load the county data file, then run the app
   const sc = document.createElement('script');
   sc.src = 'data/' + slug + '.js';
   sc.onload = () => { window.DISTRICT_POP = window.CITY_POP; __main(); };
   sc.onerror = () => {
     document.body.insertAdjacentHTML('afterbegin',
-      '<p style="padding:40px;font-family:sans-serif">找不到資料檔：data/' + slug + '.js</p>');
+      '<p style="padding:40px;font-family:sans-serif">' + TT('找不到資料檔：','Data file not found: ') + 'data/' + slug + '.js</p>');
   };
   document.head.appendChild(sc);
 })();
