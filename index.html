@@ -253,6 +253,47 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 }
 .district-feature.selected { stroke: var(--black) !important; stroke-width: 2 !important; }
 
+/* County navigator grid */
+.nav-card { background: var(--white); padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.nav-card h4 {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600; margin-bottom: 4px;
+}
+.nav-card .card-zh { font-size: 13px; color: var(--black); margin-bottom: 20px; letter-spacing: 0.05em; }
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.nav-chip {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 12px 14px; border: 1px solid var(--grey-3);
+  text-decoration: none; color: var(--black);
+  transition: background .12s, border-color .12s, transform .08s;
+  background: var(--white);
+}
+.nav-chip:hover { border-color: var(--black); background: var(--grey-4); transform: translateY(-1px); }
+.nav-chip .nc-zh { font-size: 15px; font-weight: 400; letter-spacing: 0.04em; }
+.nav-chip .nc-en {
+  font-family: var(--font-en); font-size: 8.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--grey-2);
+}
+.nav-chip .nc-deaths {
+  font-family: var(--font-en); font-size: 11px; font-weight: 600;
+  color: var(--grey-1); margin-top: 4px;
+}
+.nav-chip .nc-bar { height: 4px; background: var(--grey-4); overflow: hidden; margin-top: 2px; }
+.nav-chip .nc-fill { height: 100%; background: var(--lime-dk); }
+.county-row.clickable { cursor: pointer; }
+.county-row.clickable:hover { background: var(--grey-4); }
+.detail-link {
+  display: inline-block; margin-top: 14px; padding: 8px 14px;
+  background: var(--lime); border: 1px solid var(--lime);
+  font-family: var(--font-zh); font-size: 12px; font-weight: 700;
+  color: var(--black); text-decoration: none; letter-spacing: 0.04em;
+}
+.detail-link:hover { background: var(--lime-dk); border-color: var(--lime-dk); }
+
 @media (max-width: 1024px) {
   .map-grid, .cover { grid-template-columns: 1fr; }
   #map { height: 540px; }
@@ -310,9 +351,19 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   </div>
 </div>
 
-<!-- 02 — Choropleth -->
+<!-- 01b — County navigator -->
 <div class="section">
-  <div class="section-label">02 — District-Level Choropleth 行政區面量圖</div>
+  <div class="section-label">02 — 22 Counties 縣市深度地圖</div>
+  <div class="nav-card">
+    <h4>Explore by County</h4>
+    <div class="card-zh">點選任一縣市，進入該地的完整互動地圖（事故點位、熱力圖、優先治理路段、幹線疊圖、逐年趨勢、行政區面量）</div>
+    <div class="nav-grid" id="navGrid"></div>
+  </div>
+</div>
+
+<!-- 03 — Choropleth -->
+<div class="section">
+  <div class="section-label">03 — District-Level Choropleth 行政區面量圖</div>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -366,9 +417,9 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   </div>
 </div>
 
-<!-- 03 — Counties roll-up -->
+<!-- 04 — Counties roll-up -->
 <div class="section">
-  <div class="section-label">03 — Counties 縣市彙整</div>
+  <div class="section-label">04 — Counties 縣市彙整</div>
   <div class="county-card">
     <h4>By County</h4>
     <div class="card-zh">十年累計死亡（依當前篩選條件動態更新）</div>
@@ -376,9 +427,9 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   </div>
 </div>
 
-<!-- 04 — Notes -->
+<!-- 05 — Notes -->
 <div class="section">
-  <div class="section-label">04 — Notes 資料說明</div>
+  <div class="section-label">05 — Notes 資料說明</div>
   <div class="county-card">
     <div class="card-zh">關於本面量圖</div>
     <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
@@ -418,6 +469,26 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="data/cities.js"></script>
+<script>
+// County navigator (independent of the choropleth app)
+(function () {
+  const CITIES = window.CITIES || [];
+  window.__COUNTY2SLUG = {};
+  CITIES.forEach(c => { window.__COUNTY2SLUG[c.zh] = c.slug; });
+  const grid = document.getElementById('navGrid');
+  if (!grid || !CITIES.length) return;
+  const maxD = Math.max(...CITIES.map(c => c.deaths), 1);
+  grid.innerHTML = CITIES.map(c =>
+    `<a class="nav-chip" href="city.html?c=${c.slug}">
+       <span class="nc-zh">${c.zh}</span>
+       <span class="nc-en">${c.en}</span>
+       <span class="nc-deaths">${c.deaths.toLocaleString()} 死 · ${c.events.toLocaleString()} 件</span>
+       <span class="nc-bar"><span class="nc-fill" style="width:${c.deaths/maxD*100}%"></span></span>
+     </a>`
+  ).join('');
+})();
+</script>
 <script>
 (async () => {
   // Load assets in parallel
@@ -559,11 +630,16 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     const card = document.getElementById('detailCard');
     empty.style.display = 'none';
     card.style.display = 'block';
+    const slug = (window.__COUNTY2SLUG || {})[county];
+    const countyLink = slug
+      ? `<a class="detail-link" href="city.html?c=${slug}">前往 ${county} 完整地圖 →</a>`
+      : '';
     if (!rec) {
       card.innerHTML = `
         <div class="detail-name">${district}</div>
         <div class="detail-county">${county} · No A1 fatalities recorded</div>
         ${pop ? `<div style="font-size:11px;color:var(--grey-2);">人口 ${pop.toLocaleString()}</div>` : ''}
+        ${countyLink}
       `;
       return;
     }
@@ -621,6 +697,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
         <h4>By Year</h4>
         <div style="display:flex;gap:3px;align-items:flex-end;height:90px;padding:4px 0">${yearHTML}</div>
       </div>
+      ${countyLink}
     `;
   }
 
@@ -665,13 +742,17 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
     rows.sort((a, b) => b.value - a.value);
     const maxV = Math.max(1, ...rows.map(r => r.value));
     const el = document.getElementById('byCounty');
+    const C2S = window.__COUNTY2SLUG || {};
     el.innerHTML = rows.map((r, i) => {
-      return `<div class="county-row">
-        <div class="c-name">${r.name}</div>
+      const slug = C2S[r.name];
+      const tag = slug ? 'a' : 'div';
+      const href = slug ? ` href="city.html?c=${slug}"` : '';
+      return `<${tag}${href} class="county-row${slug ? ' clickable' : ''}" style="text-decoration:none;color:inherit">
+        <div class="c-name">${r.name}${slug ? ' ›' : ''}</div>
         <div class="c-track"><div class="c-fill" style="width:${r.value/maxV*100}%"></div></div>
         <div class="c-abs">${state.metric === 'rate' ? r.value.toFixed(1) : r.value.toLocaleString()}</div>
         <div class="c-rate">${r.rate.toFixed(1)}<small>/萬 · ${(r.pop/10000).toFixed(0)}萬</small></div>
-      </div>`;
+      </${tag}>`;
     }).join('');
   }
 
