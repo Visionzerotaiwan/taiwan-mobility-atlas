@@ -74,7 +74,7 @@ rep('<div class="span-meta">364 個鄉鎮市區 · 22 個縣市 · 平均每年 
     '<div class="span-meta">' + dual('364 個鄉鎮市區 · 22 個縣市 · 平均每年 1,718 人', '364 districts · 22 counties · ~1,718 deaths per year') + '</div>')
 for zh, en in [
     ('A1 死亡事故件數', 'A1 fatal crash events'),
-    ('機車為最弱勢用路人', 'Motorcyclist = most-vulnerable party'),
+    ('機車為最脆弱用路人', 'Motorcyclist = most-vulnerable party'),
     ('行人受害', 'Pedestrian victims'),
     ('十年累計第一', 'Highest 10-yr total'),
 ]:
@@ -134,7 +134,7 @@ NOTES = [
       covering 2016–2025 — 16,713 events, 17,175 deaths, across 364 districts (22 counties).
     </p>'''),
     ('''<p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
-      <strong>受害者運具邏輯</strong>：每筆事件以其中<strong>最弱勢用路人</strong>之運具為類別
+      <strong>受害者運具邏輯</strong>：每筆事件以其中<strong>最脆弱用路人</strong>之運具為類別
       （優先序：行人 &gt; 自行車/慢車 &gt; 機車 &gt; 汽/貨車）。例如左轉小客車撞死行人，
       在原資料 P1 為駕駛、運具為汽車，本地圖會歸類為「行人」。
     </p>''',

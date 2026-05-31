@@ -88,8 +88,8 @@ rep('<div class="item"><span class="swatch" style="background:#C8D400;height:6px
     '<div class="item"><span class="swatch" style="background:#C8D400;height:6px"></span>' + dual('事故件數 Events','Events') + '</div>')
 rep('<div class="item dashed"><span class="swatch"></span>死亡人數 Deaths</div>',
     '<div class="item dashed"><span class="swatch"></span>' + dual('死亡人數 Deaths','Deaths') + '</div>')
-rep('<div class="card-zh">年度受害者運具組成（最弱勢用路人）</div>',
-    '<div class="card-zh">' + dual('年度受害者運具組成（最弱勢用路人）','Annual victim-mode composition (most-vulnerable user)') + '</div>')
+rep('<div class="card-zh">年度受害者運具組成（最脆弱用路人）</div>',
+    '<div class="card-zh">' + dual('年度受害者運具組成（最脆弱用路人）','Annual victim-mode composition (most-vulnerable user)') + '</div>')
 for zh, en in [('機車','Motorcycle'),('汽/貨車','Car/Truck'),('行人','Pedestrian'),('慢車','Bicycle'),('其他','Other')]:
     rep(f'height:10px"></span>{zh}</div>', f'height:10px"></span>{dual(zh, en)}</div>')
 rep('<div class="card-zh">最新年度數字（與十年平均比較）</div>',
@@ -150,8 +150,8 @@ rep('<span class="pill active" data-sort="abs">累計 Total</span>',
     '<span class="pill active" data-sort="abs">' + dual('累計 Total','Total') + '</span>')
 rep('<span class="pill" data-sort="rate">每萬人 Per 10k</span>',
     '<span class="pill" data-sort="rate">' + dual('每萬人 Per 10k','Per 10k') + '</span>')
-rep('<div class="card-zh">受害者運具類別（取事件中最弱勢用路人）</div>',
-    '<div class="card-zh">' + dual('受害者運具類別（取事件中最弱勢用路人）','Victim mode (most-vulnerable user per event)') + '</div>')
+rep('<div class="card-zh">受害者運具類別（取事件中最脆弱用路人）</div>',
+    '<div class="card-zh">' + dual('受害者運具類別（取事件中最脆弱用路人）','Victim mode (most-vulnerable user per event)') + '</div>')
 rep('<div class="card-zh">道路類別 · 僅 2018+ 資料</div>',
     '<div class="card-zh">' + dual('道路類別 · 僅 2018+ 資料','Road class · 2018+ only') + '</div>')
 rep('<div class="card-zh">事故發生時光線狀況 · 僅 2018+</div>',
@@ -190,10 +190,10 @@ NOTE2_EN = '''<p class="t-en-b" style="font-size:13px;font-weight:300;line-heigh
 rep(NOTE2_ZH, NOTE2_ZH.replace('<p style=', '<p class="t-zh-b" style=', 1) + '\n' + NOTE2_EN)
 
 NOTE3_ZH = '''<p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
-      <strong>「運具類別」採用受害者邏輯</strong>：每筆事件以其中<strong>最弱勢用路人</strong>之運具為類別
+      <strong>「運具類別」採用受害者邏輯</strong>：每筆事件以其中<strong>最脆弱用路人</strong>之運具為類別
       （優先序：行人 &gt; 自行車/慢車 &gt; 機車 &gt; 汽/貨車）。這與 A1 原始資料的「當事者順位 P1」不同 ——
       左轉小客車撞死行人之案件，P1 是駕駛、運具為汽車，但本地圖會把該事件歸類為「行人」。
-      此調整反映「誰真正在道路上喪生」之問題，與政策關切的「弱勢用路人保護」一致。
+      此調整反映「誰真正在道路上喪生」之問題，與政策關切的「脆弱用路人保護」一致。
       原始 P1 分類保留於每筆事件的 <code style="font-family:var(--font-en);font-size:11px;background:var(--grey-4);padding:1px 4px">principal_mode</code> 欄位。
     </p>'''
 NOTE3_EN = '''<p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
@@ -319,9 +319,9 @@ rep("document.getElementById('kLatest').innerHTML = `${latest.deaths}<small>人<
 rep("""    const el = document.getElementById('insightText');
     if (el) el.innerHTML =
       '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
-      '以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
+      '以「事件中最脆弱用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
       '行人 ' + ped + ' 件（' + pct(ped) + '%）、自行車/慢車 ' + slow + ' 件（' + pct(slow) + '%）— ' +
-      '合計<strong>弱勢用路人 ' + pct(vuln) + '%</strong>。<br>' +
+      '合計<strong>脆弱用路人 ' + pct(vuln) + '%</strong>。<br>' +
       '十年高峰為 <strong>' + peak.year + '</strong> 年（' + peak.deaths + ' 人）；最近一年 ' + latest.year + ' 為 ' + latest.deaths + ' 人。' +
       '<strong>' + topD[0] + '</strong>累計 ' + topD[1] + ' 人，為' + zh + unitWord + '之最，是優先治理區域。';""",
 """    const enName = (window.__META && window.__META.en) || zh;
@@ -338,9 +338,9 @@ rep("""    const el = document.getElementById('insightText');
     } else {
       el.innerHTML =
         '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
-        '以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
+        '以「事件中最脆弱用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
         '行人 ' + ped + ' 件（' + pct(ped) + '%）、自行車/慢車 ' + slow + ' 件（' + pct(slow) + '%）— ' +
-        '合計<strong>弱勢用路人 ' + pct(vuln) + '%</strong>。<br>' +
+        '合計<strong>脆弱用路人 ' + pct(vuln) + '%</strong>。<br>' +
         '十年高峰為 <strong>' + peak.year + '</strong> 年（' + peak.deaths + ' 人）；最近一年 ' + latest.year + ' 為 ' + latest.deaths + ' 人。' +
         '<strong>' + topD[0] + '</strong>累計 ' + topD[1] + ' 人，為' + zh + unitWord + '之最，是優先治理區域。';
     }""")

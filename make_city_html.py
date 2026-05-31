@@ -72,8 +72,8 @@ rep('<div class="big-label-en">Lives lost on Taitung roads · 24 h fatalities ·
 # 8. insight prose → computed
 rep('''      <div class="itext">
         過去十年間，每年約有 <strong id="avgDeaths2">42</strong> 人在台東縣道路上喪生。
-        以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害者佔 <strong id="motoCount">226</strong> 件（56%）、
-        行人 53 件（13%）、自行車/慢車 15 件（4%）— 合計<strong>弱勢用路人達 73%</strong>。<br>
+        以「事件中最脆弱用路人」為基準：<strong>機車</strong>受害者佔 <strong id="motoCount">226</strong> 件（56%）、
+        行人 53 件（13%）、自行車/慢車 15 件（4%）— 合計<strong>脆弱用路人達 73%</strong>。<br>
         2023 年為十年高峰（52 人），2025 年降至 32 人，是否為趨勢翻轉仍需持續觀察。
         <strong>台東市</strong>累計 148 人，遠高於其他鄉鎮，是優先治理區域。
       </div>''',
@@ -133,9 +133,9 @@ rep('''  const bounds = L.latLngBounds(filteredOnMap().map(e => [e.lat, e.lon]))
     const el = document.getElementById('insightText');
     if (el) el.innerHTML =
       '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
-      '以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
+      '以「事件中最脆弱用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
       '行人 ' + ped + ' 件（' + pct(ped) + '%）、自行車/慢車 ' + slow + ' 件（' + pct(slow) + '%）— ' +
-      '合計<strong>弱勢用路人 ' + pct(vuln) + '%</strong>。<br>' +
+      '合計<strong>脆弱用路人 ' + pct(vuln) + '%</strong>。<br>' +
       '十年高峰為 <strong>' + peak.year + '</strong> 年（' + peak.deaths + ' 人）；最近一年 ' + latest.year + ' 為 ' + latest.deaths + ' 人。' +
       '<strong>' + topD[0] + '</strong>累計 ' + topD[1] + ' 人，為' + zh + unitWord + '之最，是優先治理區域。';
   }

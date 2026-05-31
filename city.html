@@ -1127,7 +1127,7 @@ body.lang-en #hdrTitleZh { display: none; }
   <div class="trend-grid">
     <div class="trend-card">
       <h4>Victim-Mode Composition by Year</h4>
-      <div class="card-zh"><span class="t-zh">年度受害者運具組成（最弱勢用路人）</span><span class="t-en">Annual victim-mode composition (most-vulnerable user)</span></div>
+      <div class="card-zh"><span class="t-zh">年度受害者運具組成（最脆弱用路人）</span><span class="t-en">Annual victim-mode composition (most-vulnerable user)</span></div>
       <div class="year-stacks" id="yearStacks"></div>
       <div class="trend-legend">
         <div class="item"><span class="swatch" style="background:#1A1A1A;height:10px"></span><span class="t-zh"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span><span class="t-en">Motorcycle</span></div>
@@ -1284,7 +1284,7 @@ body.lang-en #hdrTitleZh { display: none; }
 
     <div class="card">
       <h4>By Victim Mode</h4>
-      <div class="card-zh"><span class="t-zh">受害者運具類別（取事件中最弱勢用路人）</span><span class="t-en">Victim mode (most-vulnerable user per event)</span></div>
+      <div class="card-zh"><span class="t-zh">受害者運具類別（取事件中最脆弱用路人）</span><span class="t-en">Victim mode (most-vulnerable user per event)</span></div>
       <div id="byMode"></div>
     </div>
 
@@ -1344,10 +1344,10 @@ body.lang-en #hdrTitleZh { display: none; }
       so the map shows 2018+ events only — but all years count in the trend and time/month sections.
     </p>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
-      <strong>「運具類別」採用受害者邏輯</strong>：每筆事件以其中<strong>最弱勢用路人</strong>之運具為類別
+      <strong>「運具類別」採用受害者邏輯</strong>：每筆事件以其中<strong>最脆弱用路人</strong>之運具為類別
       （優先序：行人 &gt; 自行車/慢車 &gt; 機車 &gt; 汽/貨車）。這與 A1 原始資料的「當事者順位 P1」不同 ——
       左轉小客車撞死行人之案件，P1 是駕駛、運具為汽車，但本地圖會把該事件歸類為「行人」。
-      此調整反映「誰真正在道路上喪生」之問題，與政策關切的「弱勢用路人保護」一致。
+      此調整反映「誰真正在道路上喪生」之問題，與政策關切的「脆弱用路人保護」一致。
       原始 P1 分類保留於每筆事件的 <code style="font-family:var(--font-en);font-size:11px;background:var(--grey-4);padding:1px 4px">principal_mode</code> 欄位。
     </p>
 <p class="t-en-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px;margin-top:10px">
@@ -2205,9 +2205,9 @@ const markerLayer = L.layerGroup().addTo(map);
     } else {
       el.innerHTML =
         '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
-        '以「事件中最弱勢用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
+        '以「事件中最脆弱用路人」為基準：<strong>機車</strong>受害 <strong>' + moto + '</strong> 件（' + pct(moto) + '%）、' +
         '行人 ' + ped + ' 件（' + pct(ped) + '%）、自行車/慢車 ' + slow + ' 件（' + pct(slow) + '%）— ' +
-        '合計<strong>弱勢用路人 ' + pct(vuln) + '%</strong>。<br>' +
+        '合計<strong>脆弱用路人 ' + pct(vuln) + '%</strong>。<br>' +
         '十年高峰為 <strong>' + peak.year + '</strong> 年（' + peak.deaths + ' 人）；最近一年 ' + latest.year + ' 為 ' + latest.deaths + ' 人。' +
         '<strong>' + topD[0] + '</strong>累計 ' + topD[1] + ' 人，為' + zh + unitWord + '之最，是優先治理區域。';
     }
