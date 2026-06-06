@@ -147,20 +147,21 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 }
 .age-hero {
   display: grid;
-  grid-template-columns: 220px 1.4fr 1fr;
-  gap: 36px;
+  grid-template-columns: auto 1.4fr 1fr;
+  gap: 32px;
   align-items: center;
   padding-bottom: 28px;
   border-bottom: 1px solid var(--grey-3);
   margin-bottom: 28px;
 }
 .age-hero .ah-num {
-  font-family: var(--font-en); font-weight: 300; font-size: 92px;
+  font-family: var(--font-en); font-weight: 300; font-size: 72px;
   line-height: 0.9; color: var(--red); letter-spacing: -0.02em;
+  white-space: nowrap; min-width: 0;
 }
 .age-hero .ah-bigtext {
   font-family: var(--font-zh); font-weight: 700;
-  font-size: 22px; line-height: 1.4; letter-spacing: 0.02em;
+  font-size: 21px; line-height: 1.45; letter-spacing: 0.02em;
   color: var(--black);
 }
 .age-hero .ah-meta {
@@ -252,8 +253,9 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 .age-note strong { color: var(--black); font-weight: 700; }
 
 @media (max-width: 900px) {
-  .age-hero { grid-template-columns: 1fr; gap: 18px; text-align: left; }
-  .age-hero .ah-num { font-size: 72px; }
+  .age-hero { grid-template-columns: 1fr; gap: 16px; text-align: left; }
+  .age-hero .ah-num { font-size: 56px; }
+  .age-hero .ah-bigtext { font-size: 18px; }
   .age-grid { grid-template-columns: 1fr; }
   .age-combos { padding: 24px 20px; }
 }
@@ -937,29 +939,20 @@ body.lang-en .t-en-b { display: block; }
     <div class="age-grid">
       <div class="age-block">
         <h4>BY AGE</h4>
-        <div class="card-zh">
-          <span class="t-zh">各年齡層死亡人數分布</span>
-          <span class="t-en">Deaths by age bracket</span>
-        </div>
+        <div class="card-zh" id="ageDistCap"></div>
         <div id="ageDist"></div>
       </div>
 
       <div class="age-block">
-        <h4>BY AGE × VICTIM MODE</h4>
-        <div class="card-zh">
-          <span class="t-zh">年齡層 × 受害者運具（堆疊條）</span>
-          <span class="t-en">Age × victim mode (stacked)</span>
-        </div>
+        <h4>BY AGE × MODE</h4>
+        <div class="card-zh" id="ageModeCap"></div>
         <div id="ageMode"></div>
         <div class="legend-row" id="ageModeLegend"></div>
       </div>
 
       <div class="age-block">
         <h4>BY AGE × ACCIDENT TYPE</h4>
-        <div class="card-zh">
-          <span class="t-zh">年齡層 × 事故態樣（堆疊條）</span>
-          <span class="t-en">Age × accident type (stacked)</span>
-        </div>
+        <div class="card-zh" id="ageTypeCap"></div>
         <div id="ageType"></div>
         <div class="legend-row" id="ageTypeLegend"></div>
       </div>
@@ -1418,6 +1411,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderStacked('ageMode', 'by_age_mode', MODE_COLOR_AGE, 'ageModeLegend', MODE_LABEL_EN);
     renderStacked('ageType', 'by_age_type', TYPE_COLOR_AGE, 'ageTypeLegend', TYPE_LABEL_EN);
     renderCombos();
+
+    // Update card subtitles to match source (A1 → 死亡, A2 → 受傷)
+    const noun = ageState.source === 'a2'
+      ? { zh:'受傷', en:'Injuries', modeZh:'受傷者運具', modeEn:'mode (injury party)' }
+      : { zh:'死亡', en:'Deaths',  modeZh:'受害者運具', modeEn:'victim mode' };
+    document.getElementById('ageDistCap').innerHTML =
+      `<span class="t-zh">各年齡層${noun.zh}人數分布</span><span class="t-en">${noun.en} by age bracket</span>`;
+    document.getElementById('ageModeCap').innerHTML =
+      `<span class="t-zh">年齡層 × ${noun.modeZh}（堆疊條）</span><span class="t-en">Age × ${noun.modeEn} (stacked)</span>`;
+    document.getElementById('ageTypeCap').innerHTML =
+      `<span class="t-zh">年齡層 × 事故態樣（堆疊條）</span><span class="t-en">Age × accident type (stacked)</span>`;
 
     // Headline + sub-meta depends on source
     const bigEl  = document.getElementById('ahBigText');
