@@ -2,14 +2,20 @@
 
 台灣全國交通安全面量圖｜十年回顧（民 105–114 / 2016–2025）
 
+> **🎀 合作發布**：本專案由 **TCAN 台灣氣候行動網絡** × **還路於民行人路權促進會（Vision Zero Taiwan）** 共同推動。
+> Official VZT-org copy: **[github.com/visionzerotaiwan/taiwan-mobility-atlas](https://github.com/visionzerotaiwan/taiwan-mobility-atlas)**
+
 互動式行政區面量圖，呈現全台 364 個鄉鎮市區十年 A1 死亡事故的空間分布。
 可依**受害者運具**（行人 / 機車 / 汽車 / 慢車）、**年度**、**絕對／每萬人率**動態切換。
 
 ## 線上預覽
 
-GitHub Pages：`https://yunching0513.github.io/taiwan-mobility-atlas/`
+| Source | URL |
+|---|---|
+| **VZT 官方版本** | `https://visionzerotaiwan.github.io/taiwan-mobility-atlas/` |
+| 開發者鏡像 | `https://yunching0513.github.io/taiwan-mobility-atlas/` |
 
-姊妹專案（單縣市深度版）：
+姊妹專案（單縣市深度版，舊架構，已被本 repo 的 `city.html?c=<slug>` 整併取代）：
 - [Taipei](https://github.com/yunching0513/taipei-mobility-atlas) · [Taichung](https://github.com/yunching0513/taichung-mobility-atlas) · [Tainan](https://github.com/yunching0513/tainan-mobility-atlas) · [Taitung](https://github.com/yunching0513/taitung-mobility-atlas) · [Yilan](https://github.com/yunching0513/yilan-mobility-atlas)
 
 ## 全國總覽
