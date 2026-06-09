@@ -296,22 +296,24 @@ body {
   color: var(--grey-2); font-weight: 400;
 }
 
-/* "two-up" — when only 2 ranking panels share the page (death-only or
-   event-only split), each panel has ~2× vertical room. Bump typography
-   and bar height so the rows breathe and use the space. */
-.rk-grid.two-up .rk { padding: 5mm 5mm 4mm; }
-.rk-grid.two-up .rk .rk-head h3 { font-size: 9pt; }
-.rk-grid.two-up .rk .rk-zh { font-size: 14pt; margin-bottom: 1mm; }
-.rk-grid.two-up .rk .rk-tag { font-size: 8.5pt; margin-bottom: 4mm; line-height: 1.55; }
-.rk-grid.two-up .rk td { padding: 1.9mm 1.2mm; font-size: 9pt; line-height: 1.25; }
-.rk-grid.two-up .rk td.rk-num { width: 8mm; padding-right: 2mm; font-size: 9pt; }
-.rk-grid.two-up .rk td.rk-name { width: 19mm; font-size: 9.5pt; letter-spacing: 0.02em; }
-.rk-grid.two-up .rk td.rk-val { width: 19mm; font-size: 9.5pt; }
-.rk-grid.two-up .rk td.rk-val small { font-size: 6.5pt; margin-top: 0.5mm; }
-.rk-grid.two-up .rk td.rk-bar .bar-track { height: 2.4mm; }
-.rk-grid.two-up .rk tr.top1 td.rk-num { font-size: 11pt; }
-.rk-grid.two-up .rk tr.top1 td.rk-name { font-size: 10.5pt; }
-.rk-grid.two-up .rk tr.top1 td.rk-val { font-size: 10.5pt; }
+/* "two-up" — 2 ranking panels share the page (death-only or event-only
+   split). Calibrated so all 22 rows + header fit inside one A4. Each
+   row is ~6mm tall (3.2mm content + 1.3mm top/bottom padding), so
+   22 rows = ~132mm + header ~22mm = ~154mm, well under the ~205mm
+   available per panel. */
+.rk-grid.two-up .rk { padding: 4mm 4.5mm 3mm; }
+.rk-grid.two-up .rk .rk-head h3 { font-size: 8.5pt; }
+.rk-grid.two-up .rk .rk-zh { font-size: 13pt; margin-bottom: 0.5mm; }
+.rk-grid.two-up .rk .rk-tag { font-size: 8pt; margin-bottom: 2.5mm; line-height: 1.5; }
+.rk-grid.two-up .rk td { padding: 1.3mm 1.2mm; font-size: 8.5pt; line-height: 1.2; }
+.rk-grid.two-up .rk td.rk-num { width: 7mm; padding-right: 1.5mm; font-size: 8.5pt; }
+.rk-grid.two-up .rk td.rk-name { width: 17mm; font-size: 9pt; letter-spacing: 0.02em; }
+.rk-grid.two-up .rk td.rk-val { width: 18mm; font-size: 9pt; }
+.rk-grid.two-up .rk td.rk-val small { font-size: 6pt; margin-top: 0.3mm; }
+.rk-grid.two-up .rk td.rk-bar .bar-track { height: 2mm; }
+.rk-grid.two-up .rk tr.top1 td.rk-num { font-size: 10pt; }
+.rk-grid.two-up .rk tr.top1 td.rk-name { font-size: 9.8pt; }
+.rk-grid.two-up .rk tr.top1 td.rk-val { font-size: 9.8pt; }
 
 /* ── P07 Age × Mode heatmap ─────────────────────────────────── */
 .heatmap-wrap { flex: 1; display: flex; flex-direction: column; }
