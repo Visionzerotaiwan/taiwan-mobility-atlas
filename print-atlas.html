@@ -1048,7 +1048,7 @@ function renderMap(svgId, lookup, palette, legendId) {
   const breaks = quantiles(values, 5);
   const parts = geo.features.map((f, i) => {
     const idx = bin(values[i], breaks);
-    return `<path d="${pathFor(f, w, h)}" fill="${palette[idx] || palette[0]}" stroke="#FFFFFF" stroke-width="0.3"/>`;
+    return `<path d="${pathFor(f, w, h)}" fill="${palette[idx] || palette[0]}" stroke="#4A4A4A" stroke-width="0.35"/>`;
   });
   svg.innerHTML = parts.join('');
 
