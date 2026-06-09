@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>Taiwan Mobility Atlas · 2016–2025 · A4 Booklet</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@page { size: A4 portrait; margin: 0; }
+
+:root {
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
+  --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
+  --red:#D94F3D; --red-dk:#A33A2D; --red-lt:#F4A08F;
+  --gold:#E8A825; --gold-lt:#F7EAB8;
+  --blue:#3A7CC3; --blue-lt:#BEDAF0;
+  --font-zh:'Noto Sans TC',sans-serif;
+  --font-en:'Space Grotesk',sans-serif;
+}
+body {
+  font-family: var(--font-zh);
+  background: #ccc;
+  color: var(--black);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+
+/* ── A4 page chassis ─────────────────────────────────────────── */
+.page {
+  width: 210mm;
+  height: 297mm;
+  background: var(--white);
+  position: relative;
+  margin: 10mm auto;
+  padding: 14mm 14mm 11mm;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.18);
+  page-break-after: always;
+  break-after: page;
+}
+.page:last-of-type { page-break-after: auto; break-after: auto; }
+@media print {
+  body { background: white; }
+  .page { margin: 0; box-shadow: none; }
+  .no-print { display: none !important; }
+}
+
+.toolbar {
+  position: fixed; top: 16px; right: 16px; z-index: 99;
+  background: var(--black); color: var(--white);
+  padding: 10px 16px; font-family: var(--font-en);
+  font-size: 12px; letter-spacing: 0.12em; cursor: pointer; border: none;
+}
+.toolbar:hover { background: var(--lime-dk); color: var(--black); }
+
+/* ── Page header / footer ────────────────────────────────────── */
+.ph {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 3mm; margin-bottom: 5mm;
+  border-bottom: 0.3mm solid var(--black);
+}
+.ph .ph-no {
+  font-family: var(--font-en); font-size: 9pt; font-weight: 700;
+  letter-spacing: 0.16em; color: var(--black);
+}
+.ph .ph-no::after {
+  content: ''; display: inline-block; width: 4mm; height: 2.5mm;
+  background: var(--lime); margin-left: 2mm; transform: translateY(-0.3mm);
+}
+.ph .ph-cat {
+  font-family: var(--font-en); font-size: 7.5pt; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey-2);
+}
+.ph .ph-mark {
+  font-family: var(--font-en); font-size: 6.8pt; font-weight: 600;
+  letter-spacing: 0.16em; color: var(--grey-1);
+}
+
+.pf {
+  margin-top: auto; padding-top: 4mm;
+  border-top: 0.2mm solid var(--grey-3);
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--font-en); font-size: 6.5pt;
+  letter-spacing: 0.18em; color: var(--grey-2); text-transform: uppercase;
+}
+.pf .pf-tag {
+  background: var(--lime); color: var(--black);
+  padding: 0.5mm 2mm; font-weight: 700;
+}
+
+/* ── Page titles ─────────────────────────────────────────────── */
+.title-en {
+  font-family: var(--font-en); font-size: 8pt; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 500;
+  margin-bottom: 1.5mm;
+}
+.title-zh {
+  font-weight: 700; font-size: 20pt; line-height: 1.1; letter-spacing: 0.03em;
+  color: var(--black); margin-bottom: 2.5mm;
+}
+.deck {
+  font-size: 9.5pt; font-weight: 300; color: var(--grey-1);
+  line-height: 1.65; letter-spacing: 0.02em; max-width: 165mm;
+}
+.deck strong { color: var(--black); font-weight: 700; }
+
+/* ── P01 Cover ───────────────────────────────────────────────── */
+.page-cover { padding: 0; }
+.cv-top {
+  background: var(--black); color: var(--white);
+  padding: 18mm 14mm 14mm;
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 150mm;
+  position: relative;
+}
+.cv-tag {
+  display: inline-block;
+  font-family: var(--font-en); font-size: 7pt;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  border: 0.4mm solid var(--lime); color: var(--lime);
+  padding: 1mm 2.5mm; font-weight: 600; align-self: flex-start;
+}
+.cv-marks { font-family: var(--font-en); font-size: 6.5pt; letter-spacing: 0.2em; color: var(--grey-3); }
+.cv-marks .b { color: var(--lime); font-weight: 700; }
+.cv-title-zh {
+  font-size: 38pt; font-weight: 900; line-height: 1.05;
+  letter-spacing: 0.03em; margin-bottom: 4mm;
+}
+.cv-title-en {
+  font-family: var(--font-en); font-size: 13pt; font-weight: 400;
+  letter-spacing: 0.18em; color: var(--lime); text-transform: uppercase;
+}
+.cv-sub {
+  font-size: 10pt; font-weight: 300; color: var(--grey-3);
+  margin-top: 4mm; max-width: 160mm; line-height: 1.6;
+}
+.cv-bottom { padding: 12mm 14mm; flex: 1; display: flex; flex-direction: column; }
+.cv-stats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8mm; padding-bottom: 8mm; border-bottom: 0.4mm solid var(--black);
+}
+.cv-stat .l {
+  font-family: var(--font-en); font-size: 7pt; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 1mm;
+}
+.cv-stat .n {
+  font-family: var(--font-en); font-size: 36pt; font-weight: 300;
+  line-height: 1; color: var(--black); letter-spacing: -0.02em;
+}
+.cv-stat .n.red { color: var(--red); }
+.cv-stat .u {
+  font-size: 8.5pt; color: var(--grey-1); margin-top: 1.5mm; font-weight: 400;
+}
+.cv-toc { margin-top: 7mm; flex: 1; }
+.cv-toc h4 {
+  font-family: var(--font-en); font-size: 8pt; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 500;
+  margin-bottom: 3.5mm;
+}
+.cv-toc ol {
+  list-style: none; column-count: 2; column-gap: 14mm;
+}
+.cv-toc li {
+  font-size: 9pt; padding: 1.4mm 0;
+  border-bottom: 0.15mm dotted var(--grey-3);
+  display: flex; justify-content: space-between; align-items: baseline;
+  break-inside: avoid;
+}
+.cv-toc li .lbl { color: var(--black); font-weight: 400; }
+.cv-toc li .lbl b { font-family: var(--font-en); color: var(--grey-2); font-weight: 600; margin-right: 2mm; font-size: 7.5pt; letter-spacing: 0.1em; }
+.cv-toc li .pg { font-family: var(--font-en); font-size: 8pt; color: var(--grey-2); font-weight: 600; letter-spacing: 0.06em; }
+
+.cv-footer {
+  margin-top: auto; padding-top: 6mm; border-top: 0.2mm solid var(--grey-3);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-en); font-size: 6.5pt; letter-spacing: 0.18em; color: var(--grey-2);
+  text-transform: uppercase;
+}
+
+/* ── P02 Iceberg ─────────────────────────────────────────────── */
+.iceberg-wrap { flex: 1; display: grid; grid-template-columns: 1fr 100mm; gap: 8mm; }
+.iceberg-body { display: flex; flex-direction: column; }
+.ib-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 4mm; }
+.ib-stat { padding: 4mm; background: var(--grey-4); }
+.ib-stat .l {
+  font-family: var(--font-en); font-size: 7pt; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--grey-2);
+}
+.ib-stat .n {
+  font-family: var(--font-en); font-size: 22pt; font-weight: 300;
+  line-height: 1.05; margin-top: 1.5mm; letter-spacing: -0.01em;
+}
+.ib-stat .n small { font-size: 9pt; font-weight: 600; color: var(--grey-1); margin-left: 1mm; }
+.ib-stat .u { font-size: 8pt; color: var(--grey-1); margin-top: 1.5mm; }
+.ib-stat.red .n { color: var(--red); }
+.ib-stat.gold .n { color: var(--gold); }
+.ib-stat.blue .n { color: var(--blue); }
+.ib-stat.black .n { color: var(--black); }
+.iceberg-svg { width: 100%; flex: 1; }
+
+/* ── P03 Trend ───────────────────────────────────────────────── */
+.trend-wrap { flex: 1; display: flex; flex-direction: column; }
+.trend-svg { width: 100%; flex: 1; }
+.trend-leg { display: flex; gap: 8mm; margin-bottom: 3mm; font-size: 8pt; }
+.trend-leg .sw { display: inline-block; width: 4mm; height: 1.5mm; vertical-align: middle; margin-right: 1.5mm; }
+
+/* ── P04/P05 Maps ────────────────────────────────────────────── */
+.maps-wrap { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.map-card { display: flex; flex-direction: column; }
+.map-card h3 {
+  font-family: var(--font-en); font-size: 8pt; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+  margin-bottom: 1mm;
+}
+.map-card .map-zh {
+  font-weight: 700; font-size: 13pt; letter-spacing: 0.04em;
+  color: var(--black); margin-bottom: 1mm;
+}
+.map-card .map-tag {
+  font-size: 8pt; color: var(--grey-1); font-weight: 300;
+  margin-bottom: 2mm; letter-spacing: 0.02em;
+}
+.map-card .map-tag b { color: var(--black); font-weight: 700; }
+.map-card .map-stat {
+  font-family: var(--font-en); font-size: 16pt; font-weight: 600;
+  line-height: 1; margin-bottom: 2mm;
+}
+.map-card .map-stat small {
+  font-size: 7pt; font-weight: 400; color: var(--grey-2);
+  letter-spacing: 0.15em; text-transform: uppercase; margin-left: 1.5mm;
+}
+.map-svg-wrap { flex: 1; background: var(--grey-4); padding: 2mm; }
+.map-svg { width: 100%; height: 100%; }
+.legend { display: flex; margin-top: 2mm; }
+.legend .l-row { display: flex; flex: 1; }
+.legend .l-cell { flex: 1; padding: 0.8mm 0; text-align: center; }
+.legend .l-bin {
+  height: 2mm;
+}
+.legend .l-val {
+  font-family: var(--font-en); font-size: 5.5pt; letter-spacing: 0.05em;
+  color: var(--grey-2); margin-top: 0.5mm;
+}
+.legend .l-lab {
+  font-family: var(--font-en); font-size: 6pt; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 1mm;
+}
+
+/* ── P06 Rankings ────────────────────────────────────────────── */
+.rk-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.rk {
+  background: var(--grey-4); padding: 3.5mm 3.5mm 3mm;
+  display: flex; flex-direction: column;
+}
+.rk .rk-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1mm; }
+.rk .rk-head h3 {
+  font-family: var(--font-en); font-size: 7.5pt; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-2);
+}
+.rk .rk-zh {
+  font-weight: 700; font-size: 11pt; letter-spacing: 0.04em;
+  color: var(--black); margin-bottom: 0.5mm;
+}
+.rk .rk-tag {
+  font-size: 7pt; color: var(--grey-1); font-weight: 300;
+  margin-bottom: 2mm; letter-spacing: 0.02em; line-height: 1.5;
+}
+.rk.cA1 { border-top: 1.2mm solid var(--red); }
+.rk.cRate { border-top: 1.2mm solid var(--red-dk); }
+.rk.cA2 { border-top: 1.2mm solid var(--grey-1); }
+.rk.cLeth { border-top: 1.2mm solid var(--gold); }
+.rk table { width: 100%; border-collapse: collapse; }
+.rk td { font-size: 7pt; padding: 0.4mm 1mm; vertical-align: middle; line-height: 1.2; }
+.rk td.rk-num {
+  font-family: var(--font-en); font-weight: 600; font-size: 7pt;
+  color: var(--grey-2); text-align: right; width: 5mm; padding-right: 1.5mm;
+}
+.rk tr.top1 td.rk-num { color: var(--red); }
+.rk tr.top2 td.rk-num, .rk tr.top3 td.rk-num { color: var(--red-dk); }
+.rk td.rk-name { width: 13mm; letter-spacing: 0.02em; }
+.rk tr.top1 td.rk-name { font-weight: 700; }
+.rk td.rk-bar { padding: 0 1mm; }
+.rk td.rk-bar .bar-track { background: var(--white); height: 1.6mm; }
+.rk td.rk-bar .bar-fill { height: 100%; }
+.rk.cA1 .bar-fill { background: var(--red); }
+.rk.cRate .bar-fill { background: var(--red-dk); }
+.rk.cA2 .bar-fill { background: var(--grey-1); }
+.rk.cLeth .bar-fill { background: var(--gold); }
+.rk td.rk-val {
+  font-family: var(--font-en); font-weight: 600; font-size: 7pt;
+  text-align: right; color: var(--black); width: 14mm;
+}
+.rk td.rk-val small {
+  display: block; font-size: 5.5pt; letter-spacing: 0.12em;
+  color: var(--grey-2); font-weight: 400;
+}
+
+/* ── P07 Age × Mode heatmap ─────────────────────────────────── */
+.heatmap-wrap { flex: 1; display: flex; flex-direction: column; }
+.heat-svg { width: 100%; flex: 1; }
+.heat-notes {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm;
+  margin-top: 4mm; padding-top: 4mm; border-top: 0.2mm solid var(--grey-3);
+}
+.heat-note h5 {
+  font-family: var(--font-en); font-size: 6.5pt; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+  margin-bottom: 1mm;
+}
+.heat-note p {
+  font-size: 8.5pt; color: var(--grey-1); line-height: 1.55; font-weight: 300;
+}
+.heat-note p b { color: var(--black); font-weight: 700; }
+
+/* ── P08 Mode share stacked ─────────────────────────────────── */
+.stack-wrap { flex: 1; display: flex; flex-direction: column; }
+.stack-svg { width: 100%; flex: 1; }
+.stack-leg { display: flex; gap: 8mm; margin-bottom: 3mm; font-size: 8pt; }
+.stack-leg .sw { display: inline-block; width: 4mm; height: 3mm; vertical-align: middle; margin-right: 1.5mm; }
+
+/* ── P09 Lethality maps ─────────────────────────────────────── */
+.leth-wrap { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.leth-card { display: flex; flex-direction: column; }
+.leth-card h3 {
+  font-family: var(--font-en); font-size: 8pt; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600;
+}
+.leth-card .leth-zh {
+  font-weight: 700; font-size: 12pt; letter-spacing: 0.04em;
+  color: var(--black); margin-bottom: 1mm;
+}
+.leth-card .leth-tag {
+  font-size: 7.5pt; color: var(--grey-1); font-weight: 300;
+  margin-bottom: 2mm; letter-spacing: 0.02em; line-height: 1.5;
+}
+.leth-card .leth-tag b { color: var(--black); font-weight: 700; }
+
+/* ── P10 Demands ────────────────────────────────────────────── */
+.demands-wrap { flex: 1; display: flex; flex-direction: column; }
+.dm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; flex: 1; }
+.dm {
+  background: var(--grey-4); padding: 5mm; border-left: 1mm solid var(--lime);
+  display: flex; flex-direction: column;
+}
+.dm .dm-no {
+  font-family: var(--font-en); font-size: 8pt; font-weight: 700;
+  letter-spacing: 0.2em; color: var(--grey-2);
+}
+.dm .dm-title {
+  font-weight: 700; font-size: 12pt; margin: 1.5mm 0 2mm;
+  letter-spacing: 0.03em; line-height: 1.25;
+}
+.dm .dm-body {
+  font-size: 8.5pt; line-height: 1.6; color: var(--grey-1); font-weight: 300;
+}
+.dm .dm-body b { color: var(--black); font-weight: 700; }
+
+.cta-banner {
+  margin-top: 4mm; padding: 5mm 6mm; background: var(--lime);
+  border: 0.5mm solid var(--black); box-shadow: 1.5mm 1.5mm 0 var(--black);
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6mm;
+}
+.cta-banner .cta-text-zh { font-weight: 700; font-size: 15pt; letter-spacing: 0.03em; }
+.cta-banner .cta-text-en { font-family: var(--font-en); font-size: 8pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey-1); font-weight: 600; margin-top: 0.5mm; }
+.cta-banner .cta-url {
+  font-family: var(--font-en); font-size: 11pt; font-weight: 700;
+  letter-spacing: 0.05em; text-align: right;
+}
+.cta-banner .cta-url small { display: block; font-size: 6.5pt; font-weight: 500; color: var(--grey-1); margin-bottom: 0.5mm; letter-spacing: 0.18em; text-transform: uppercase; }
+
+.sources-block {
+  margin-top: 3mm; padding: 4mm; background: var(--black); color: var(--white);
+  font-size: 7.5pt; line-height: 1.7; font-weight: 300;
+}
+.sources-block strong { color: var(--lime); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<button class="toolbar no-print" onclick="window.print()">PRINT / SAVE AS PDF</button>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P01 · COVER                                                  -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page page-cover">
+  <div class="cv-top">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div class="cv-tag">Vision Zero Taiwan · TCAN</div>
+      <div class="cv-marks">VOLUME <span class="b">01</span> · 2026 EDITION</div>
+    </div>
+    <div>
+      <div class="cv-title-en">Taiwan Mobility Atlas</div>
+      <div class="cv-title-zh">台灣交通安全<br>資料圖表本</div>
+      <div class="cv-sub">十年回顧 · 2016–2025 · 22 縣市 · 364 鄉鎮市區<br>
+      A 10-page A4 data atlas of road traffic casualties in Taiwan, 2016–2025.</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div class="cv-marks">DATA · NPA A1 + A2 / MOI POPULATIONS / g0v BOUNDARIES</div>
+      <div class="cv-marks">10 PAGES · A4 PORTRAIT</div>
+    </div>
+  </div>
+
+  <div class="cv-bottom">
+    <div class="cv-stats">
+      <div class="cv-stat">
+        <div class="l">A1 Deaths · 24 h</div>
+        <div class="n red">17,175</div>
+        <div class="u">當場或 24 小時內死亡（十年累計）</div>
+      </div>
+      <div class="cv-stat">
+        <div class="l">A2 Events</div>
+        <div class="n">3,543,840</div>
+        <div class="u">事後死亡或受傷之事故件數</div>
+      </div>
+      <div class="cv-stat">
+        <div class="l">Injured</div>
+        <div class="n">4,738,069</div>
+        <div class="u">A2 事故中受傷人數</div>
+      </div>
+    </div>
+
+    <div class="cv-toc">
+      <h4>Contents · 目錄</h4>
+      <ol>
+        <li><span class="lbl"><b>01</b> 封面 · Cover</span><span class="pg">P.01</span></li>
+        <li><span class="lbl"><b>02</b> 冰山 · The Iceberg</span><span class="pg">P.02</span></li>
+        <li><span class="lbl"><b>03</b> 十年走勢 · 10-Year Trend</span><span class="pg">P.03</span></li>
+        <li><span class="lbl"><b>04</b> 密度地圖 · Density Maps</span><span class="pg">P.04</span></li>
+        <li><span class="lbl"><b>05</b> 總量地圖 · Volume Maps</span><span class="pg">P.05</span></li>
+        <li><span class="lbl"><b>06</b> 縣市排名 · Rankings</span><span class="pg">P.06</span></li>
+        <li><span class="lbl"><b>07</b> 受害者圖譜 · Victim Profile</span><span class="pg">P.07</span></li>
+        <li><span class="lbl"><b>08</b> 運具與年度 · Mode × Year</span><span class="pg">P.08</span></li>
+        <li><span class="lbl"><b>09</b> 致死率 · Lethality</span><span class="pg">P.09</span></li>
+        <li><span class="lbl"><b>10</b> 五大訴求 · Five Demands</span><span class="pg">P.10</span></li>
+      </ol>
+    </div>
+
+    <div class="cv-footer">
+      <span>TCAN × VISION ZERO TAIWAN</span>
+      <span>VISIONZEROTAIWAN.GITHUB.IO / TAIWAN-MOBILITY-ATLAS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P02 · THE ICEBERG                                            -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">02 / 10</div>
+    <div class="ph-cat">The Iceberg · A1 vs A2</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Visibility · Scale Comparison</div>
+  <div class="title-zh">看不見的 A2 — 死亡只是冰山一角</div>
+  <div class="deck">
+    新聞看見的是 A1 — 當場或 24 小時內死亡。<strong>水面下的 A2 是 206 倍：</strong>
+    事後死亡與受傷加總超過 354 萬件，4 個台灣人就有 1 人在這十年成為傷者。<br>
+    這本圖表本同時呈現兩層，避免只用死亡數定義安全。
+  </div>
+
+  <div class="iceberg-wrap" style="margin-top:6mm">
+    <div class="iceberg-body">
+      <svg class="iceberg-svg" viewBox="0 0 200 240" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BEDAF0"/>
+            <stop offset="100%" stop-color="#3A7CC3"/>
+          </linearGradient>
+        </defs>
+        <!-- sky -->
+        <rect x="0" y="0" width="200" height="58" fill="#F2F2F2"/>
+        <!-- sea -->
+        <rect x="0" y="58" width="200" height="182" fill="url(#seaG)" opacity="0.55"/>
+        <!-- waterline -->
+        <line x1="0" y1="58" x2="200" y2="58" stroke="#1A1A1A" stroke-width="0.6"/>
+        <text x="3" y="56" font-family="Space Grotesk" font-size="4.5" font-weight="600" fill="#1A1A1A" letter-spacing="0.5">WATERLINE · VISIBLE TO NEWS</text>
+        <!-- iceberg above -->
+        <polygon points="80,58 100,8 120,58" fill="#D94F3D" stroke="#1A1A1A" stroke-width="0.5"/>
+        <text x="100" y="20" font-family="Space Grotesk" font-size="6" font-weight="700" fill="#FFF" text-anchor="middle">A1</text>
+        <text x="100" y="28" font-family="Noto Sans TC" font-size="4.5" font-weight="400" fill="#FFF" text-anchor="middle">死亡 24h</text>
+        <text x="100" y="36" font-family="Space Grotesk" font-size="9" font-weight="700" fill="#1A1A1A" text-anchor="middle">17,175</text>
+        <!-- iceberg below — much larger -->
+        <polygon points="35,58 100,232 165,58 145,82 130,108 110,140 95,170 78,140 60,108 50,82" fill="#3A7CC3" stroke="#1A1A1A" stroke-width="0.5" opacity="0.92"/>
+        <text x="100" y="120" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#FFF" text-anchor="middle">A2</text>
+        <text x="100" y="132" font-family="Noto Sans TC" font-size="5" font-weight="400" fill="#FFF" text-anchor="middle">事後死亡 / 受傷</text>
+        <text x="100" y="148" font-family="Space Grotesk" font-size="14" font-weight="700" fill="#FFF" text-anchor="middle">3,543,840</text>
+        <text x="100" y="158" font-family="Noto Sans TC" font-size="4.5" fill="#FFF" text-anchor="middle">事故件</text>
+        <text x="100" y="178" font-family="Space Grotesk" font-size="11" font-weight="500" fill="#FFF" text-anchor="middle">4.74 M</text>
+        <text x="100" y="186" font-family="Noto Sans TC" font-size="4.5" fill="#FFF" text-anchor="middle">受傷人次</text>
+        <!-- ratio label -->
+        <text x="100" y="225" font-family="Space Grotesk" font-size="6" font-weight="600" fill="#FFF" letter-spacing="1" text-anchor="middle">A2 : A1  =  206 : 1</text>
+      </svg>
+    </div>
+
+    <div class="iceberg-body">
+      <div class="ib-stats" style="grid-template-columns:1fr;gap:3mm">
+        <div class="ib-stat red">
+          <div class="l">A1 · Deaths</div>
+          <div class="n">17,175 <small>人</small></div>
+          <div class="u">當場 / 24 小時內死亡（NPA A1）</div>
+        </div>
+        <div class="ib-stat blue">
+          <div class="l">A2 · Events</div>
+          <div class="n">3.54 <small>M 件</small></div>
+          <div class="u">事後死亡或受傷之事故（NPA A2）</div>
+        </div>
+        <div class="ib-stat gold">
+          <div class="l">A2 · Injured</div>
+          <div class="n">4.74 <small>M 人</small></div>
+          <div class="u">A2 事故中受傷人次</div>
+        </div>
+        <div class="ib-stat black">
+          <div class="l">RATIO</div>
+          <div class="n">1<small> : </small>206</div>
+          <div class="u">每 1 件 A1 死亡，對應 206 件 A2 事故</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>Data · NPA A1 + A2 (2016–2025)</span>
+    <span class="pf-tag">P.02</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P03 · 10-YEAR TREND                                          -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">03 / 10</div>
+    <div class="ph-cat">10-Year Trend · 2016–2025</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Trend · Deaths and Events</div>
+  <div class="title-zh">十年走勢 — 死亡微降，事件持續成長</div>
+  <div class="deck">
+    A1 死亡從 2017 年峰值 1,837 緩降至 2025 年的 1,508；
+    <strong>但 A2 事故件數從 2016 年的 30.4 萬攀升至 2025 年的 40.2 萬，十年成長 32%。</strong><br>
+    死亡曲線改善 ≠ 道路安全改善 — 兩條線分裂揭露隱藏的事故膨脹。
+  </div>
+
+  <div class="trend-wrap" style="margin-top:6mm">
+    <div class="trend-leg">
+      <div><span class="sw" style="background:var(--red)"></span>A1 死亡（左軸）</div>
+      <div><span class="sw" style="background:var(--blue)"></span>A2 事件（右軸·萬件）</div>
+    </div>
+    <svg class="trend-svg" id="svgTrend" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="pf">
+    <span>Data · NPA A1 + A2 / Annual</span>
+    <span class="pf-tag">P.03</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P04 · DENSITY MAPS                                           -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">04 / 10</div>
+    <div class="ph-cat">Density Maps · Per Capita</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Density · Per 100k Population</div>
+  <div class="title-zh">每十萬人死亡 × 事件密度</div>
+  <div class="deck">
+    以居民人口為分母 — <strong>翻轉「都市最危險」的直覺</strong>。
+    台北市每十萬人死亡 27.8，台東縣 186 — 後者 6.7 倍於前者。
+    密度視角揭露：人口越稀、車流越自由的縣市，個人風險越高。
+  </div>
+
+  <div class="maps-wrap" style="margin-top:6mm">
+    <div class="map-card">
+      <h3>01 · A1 PER CAPITA</h3>
+      <div class="map-zh">每十萬人死亡率</div>
+      <div class="map-tag">十年累計 A1 死亡 / 102 年戶籍人口 × 100,000</div>
+      <div class="map-stat" id="m1Stat" style="color:var(--red-dk)">—</div>
+      <div class="map-svg-wrap"><svg class="map-svg" id="m1" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div>
+        <div class="legend"><div class="l-row" id="m1Legend"></div></div>
+      </div>
+    </div>
+    <div class="map-card">
+      <h3>02 · A2 PER CAPITA</h3>
+      <div class="map-zh">每千人事件率</div>
+      <div class="map-tag">十年累計 A2 事件 / 102 年戶籍人口 × 1,000</div>
+      <div class="map-stat" id="m2Stat" style="color:var(--blue)">—</div>
+      <div class="map-svg-wrap"><svg class="map-svg" id="m2" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div>
+        <div class="legend"><div class="l-row" id="m2Legend"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>Method · 5-quantile binning · linear lon/lat projection</span>
+    <span class="pf-tag">P.04</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P05 · VOLUME MAPS                                            -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">05 / 10</div>
+    <div class="ph-cat">Volume Maps · Absolute</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Volume · Absolute Counts</div>
+  <div class="title-zh">死亡總數 × 事件總數</div>
+  <div class="deck">
+    以絕對數呈現「實際發生在哪裡」。
+    <strong>新北市 1,786 死亡、530 萬件事件雙料領先</strong>，
+    都市車流密度推升絕對量；對照下一頁的密度地圖，可看出兩種視角的反差。
+  </div>
+
+  <div class="maps-wrap" style="margin-top:6mm">
+    <div class="map-card">
+      <h3>01 · A1 TOTAL</h3>
+      <div class="map-zh">死亡人數（絕對）</div>
+      <div class="map-tag">十年累計 A1 死亡人數 · 364 行政區</div>
+      <div class="map-stat" id="m3Stat" style="color:var(--red)">17,175<small>合計</small></div>
+      <div class="map-svg-wrap"><svg class="map-svg" id="m3" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div>
+        <div class="legend"><div class="l-row" id="m3Legend"></div></div>
+      </div>
+    </div>
+    <div class="map-card">
+      <h3>02 · A2 TOTAL</h3>
+      <div class="map-zh">事件總數（絕對）</div>
+      <div class="map-tag">十年累計 A2 事件件數 · 372 行政區</div>
+      <div class="map-stat" id="m4Stat" style="color:var(--grey-1)">3,543,840<small>合計</small></div>
+      <div class="map-svg-wrap"><svg class="map-svg" id="m4" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div>
+        <div class="legend"><div class="l-row" id="m4Legend"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>Method · 5-quantile binning · 6.4 / 1.2k coverage gap</span>
+    <span class="pf-tag">P.05</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P06 · COUNTY RANKINGS                                        -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">06 / 10</div>
+    <div class="ph-cat">22 Counties · Rankings</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Rankings · Four Metrics</div>
+  <div class="title-zh">22 縣市排名 — 四個視角</div>
+  <div class="deck">
+    絕對死亡、每十萬人死亡、事件量、致死率 — <strong>同一份資料、四個答案</strong>。
+    人口大縣領先絕對量；東部與農業縣翻上每十萬人前段；致死率揭露每件事故有多致命的鄉村劣勢。
+  </div>
+
+  <div class="rk-grid" style="margin-top:5mm">
+    <div class="rk cA1">
+      <div class="rk-head"><h3>01 · ABSOLUTE</h3></div>
+      <div class="rk-zh">A1 死亡人數</div>
+      <div class="rk-tag">十年累計死亡絕對數 · 人口大縣領先</div>
+      <table id="t-a1"></table>
+    </div>
+    <div class="rk cRate">
+      <div class="rk-head"><h3>02 · PER CAPITA</h3></div>
+      <div class="rk-zh">每十萬人死亡率</div>
+      <div class="rk-tag">以居民人口為分母 · <b>東部與農業縣翻上前段班</b></div>
+      <table id="t-rate"></table>
+    </div>
+    <div class="rk cA2">
+      <div class="rk-head"><h3>03 · VOLUME</h3></div>
+      <div class="rk-zh">A2 事件總量</div>
+      <div class="rk-tag">十年累計 A2 事件件數</div>
+      <table id="t-a2"></table>
+    </div>
+    <div class="rk cLeth">
+      <div class="rk-head"><h3>04 · LETHALITY</h3></div>
+      <div class="rk-zh">致死率（每千件 A2 死亡）</div>
+      <div class="rk-tag">A1 ÷ A2 × 1000 · <b>每件事故有多致命</b></div>
+      <table id="t-leth"></table>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>Source · NPA A1 + A2 / MOI 8410 (2013 population)</span>
+    <span class="pf-tag">P.06</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P07 · VICTIM PROFILE                                         -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">07 / 10</div>
+    <div class="ph-cat">Victim Profile · Age × Mode</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Victim · Age × Travel Mode</div>
+  <div class="title-zh">受害者圖譜 — 年齡 × 運具</div>
+  <div class="deck">
+    A1 死亡受害者依「最脆弱用路人」分類（行人 &gt; 慢車 &gt; 機車 &gt; 汽車）。
+    <strong>75 歲以上行人是最大紅區</strong>，
+    其次為 25–44 歲機車騎士 — 高齡步行 + 青壯機車構成台灣兩大死亡集群。
+  </div>
+
+  <div class="heatmap-wrap" style="margin-top:6mm">
+    <svg class="heat-svg" id="svgHeat" viewBox="0 0 600 280" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="heat-notes">
+      <div class="heat-note">
+        <h5>★ TOP 1</h5>
+        <p><b>75+ × 行人</b><br>高齡行人是 A1 死亡最大集群 — 反映人行道空間與穿越設施缺失。</p>
+      </div>
+      <div class="heat-note">
+        <h5>★ TOP 2</h5>
+        <p><b>25–44 × 機車</b><br>青壯機車死亡集中於通勤時段 — 共用路權的結構性問題。</p>
+      </div>
+      <div class="heat-note">
+        <h5>★ COVERAGE</h5>
+        <p><b>11,891 死亡事件</b>納入分析（民 107–109、111–114）；105、106、110 為簡式欄位，無年齡細部資料。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>Data · NPA A1 (full-schema years) · victim-mode classification</span>
+    <span class="pf-tag">P.07</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P08 · MODE × YEAR                                            -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">08 / 10</div>
+    <div class="ph-cat">Mode × Year · Stacked</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Mode Share Over Time</div>
+  <div class="title-zh">運具別死亡 × 年度</div>
+  <div class="deck">
+    A1 死亡按受害者運具堆疊，逐年觀察結構變化。
+    <strong>機車 + 行人 構成八成以上的死亡</strong>，
+    其中機車死亡量級遠高於汽車 — 不對等的暴露下，最少保護的承擔最大代價。
+  </div>
+
+  <div class="stack-wrap" style="margin-top:5mm">
+    <div class="stack-leg">
+      <div><span class="sw" style="background:#D94F3D"></span>機車</div>
+      <div><span class="sw" style="background:#E8A825"></span>人（行人）</div>
+      <div><span class="sw" style="background:#3A7CC3"></span>汽車</div>
+      <div><span class="sw" style="background:#C8D400"></span>慢車</div>
+    </div>
+    <svg class="stack-svg" id="svgStack" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="pf">
+    <span>Data · NPA A1 (2016–2025) · victim-mode classification</span>
+    <span class="pf-tag">P.08</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P09 · LETHALITY MAP                                          -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">09 / 10</div>
+    <div class="ph-cat">Lethality · A1 ÷ A2</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Lethality · Per 1,000 A2 Events</div>
+  <div class="title-zh">致死率地圖 — 每千件事故有多致命</div>
+  <div class="deck">
+    A1 ÷ A2 × 1000 — 揭露的不是「事故多少」，而是<strong>「一旦發生，有多致命」</strong>。
+    台東 11.2‰ vs 新竹市 3.0‰，鄉村致命度約為都市的 3.7 倍 — 醫療可近性、車速、道路設計共同決定生與死。
+  </div>
+
+  <div class="leth-wrap" style="margin-top:6mm">
+    <div class="leth-card">
+      <h3>01 · BY COUNTY</h3>
+      <div class="leth-zh">縣市致死率</div>
+      <div class="leth-tag">每千件 A2 事件對應的 A1 死亡數 · <b>鄉村高於都市</b></div>
+      <div class="map-svg-wrap"><svg class="map-svg" id="m5" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div><div class="legend"><div class="l-row" id="m5Legend"></div></div></div>
+    </div>
+    <div class="leth-card">
+      <h3>02 · COUNTY TABLE</h3>
+      <div class="leth-zh">致死率 Top–Bottom</div>
+      <div class="leth-tag">同數據之雙向排序，呈現地理結構差異</div>
+      <table id="lethTable" style="width:100%;border-collapse:collapse;font-size:7.8pt;margin-top:1mm"></table>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>Method · Lethality = A1 / A2 × 1000 per county</span>
+    <span class="pf-tag">P.09</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- P10 · FIVE DEMANDS                                           -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-no">10 / 10</div>
+    <div class="ph-cat">Five Demands · Action</div>
+    <div class="ph-mark">TAIWAN MOBILITY ATLAS</div>
+  </div>
+
+  <div class="title-en">Vision Zero Taiwan · Five Demands</div>
+  <div class="title-zh">五大訴求 — 從資料到行動</div>
+  <div class="deck">
+    每年逾 1,700 人因交通事故喪命、近 50 萬人受傷，<strong>不是命運、是政策的累積結果</strong>。
+    Vision Zero Taiwan 聯盟主張以下五項系統性改革，邀請你支持。
+  </div>
+
+  <div class="demands-wrap" style="margin-top:5mm">
+    <div class="dm-grid">
+      <div class="dm">
+        <div class="dm-no">DEMAND 01</div>
+        <div class="dm-title">道路設計以人為本</div>
+        <div class="dm-body">
+          重新設計都市道路與路口，<b>降低車速、保護行人與自行車</b>，
+          以實體分隔、退縮停止線、行穿線照明取代僅靠駕駛人自律的傳統思維。
+        </div>
+      </div>
+      <div class="dm">
+        <div class="dm-no">DEMAND 02</div>
+        <div class="dm-title">建立完整人行系統</div>
+        <div class="dm-body">
+          <b>全國 364 鄉鎮市區皆應有連續、無障礙、淨寬足夠的人行道</b>。
+          現行政策仍允許鄉鎮以「無人行需求」為由迴避設置。
+        </div>
+      </div>
+      <div class="dm">
+        <div class="dm-no">DEMAND 03</div>
+        <div class="dm-title">強化大型車安全標準</div>
+        <div class="dm-body">
+          砂石車、聯結車、公車安裝<b>側邊防護裝置與盲點偵測</b>，
+          並全面公開肇責資料 — 同時檢討內輪差防護工程標準。
+        </div>
+      </div>
+      <div class="dm">
+        <div class="dm-no">DEMAND 04</div>
+        <div class="dm-title">高齡與兒童優先保護</div>
+        <div class="dm-body">
+          學區與安養機構周邊設置 <b>30 km/h 慢速區、智慧型號誌、無障礙穿越設施</b>，
+          並補助縣市政府落實。
+        </div>
+      </div>
+      <div class="dm">
+        <div class="dm-no">DEMAND 05</div>
+        <div class="dm-title">資料透明與獨立調查</div>
+        <div class="dm-body">
+          建立<b>獨立的道路安全事故調查機制</b>（仿 NTSB），
+          公開原始資料以利公民研究、政策檢討、追究結構性責任。
+        </div>
+      </div>
+      <div class="dm" style="background:var(--black);color:var(--white);border-left-color:var(--lime)">
+        <div class="dm-no" style="color:var(--lime)">VISION ZERO</div>
+        <div class="dm-title" style="color:var(--white)">2050 年道路死亡歸零</div>
+        <div class="dm-body" style="color:var(--grey-3)">
+          參考瑞典模式 — <b style="color:var(--lime)">不只追求降低，而是承諾消滅</b>。
+          政府應宣示 Vision Zero 目標、訂定中長期路徑圖、每年公布進度。
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-banner">
+      <div>
+        <div class="cta-text-zh">支持五大訴求 · 為更安全的台灣連署</div>
+        <div class="cta-text-en">Sign the Petition · Vision Zero Taiwan</div>
+      </div>
+      <div class="cta-url">
+        <small>SIGN AT</small>
+        forms.gle/wqWe1f8peB4Qn5c66
+      </div>
+    </div>
+
+    <div class="sources-block">
+      <strong>資料來源</strong>　內政部警政署 A1 + A2 級道路交通事故公開資料（透過 data.gov.tw）；內政部戶政司 dataset 8410（民國 102 年人口）；g0v/twTown1982 行政區界（整併至 2014 年後地理）。<br>
+      <strong>方法論</strong>　A1 = 24 h 內死亡；A2 = 事後死亡或受傷（多當事人列已去重至事件層級）；受害者運具採「最脆弱用路人」分類；致死率 = A1 / A2 × 1000；每十萬人率 = A1 / 戶籍人口 × 100,000。<br>
+      <strong>發起單位</strong>　TCAN 台灣氣候行動網絡 × 還路於民行人路權促進會（Vision Zero Taiwan）。
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>VISIONZEROTAIWAN.GITHUB.IO / TAIWAN-MOBILITY-ATLAS</span>
+    <span class="pf-tag">P.10</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- DATA SCRIPT                                                  -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<script>
+(async () => {
+
+// ── load all data ─────────────────────────────────────────────
+const [agg, populations, a2, ageType, geo] = await Promise.all([
+  fetch('agg.json').then(r => r.json()),
+  fetch('populations.json').then(r => r.json()),
+  fetch('data/a2_aggregates.json').then(r => r.json()),
+  fetch('data/age_type.json').then(r => r.json()),
+  fetch('districts.geojson').then(r => r.json()),
+]);
+
+// ── derived district lookups ─────────────────────────────────
+const a1ByDistrict = {};       // "縣|區" → deaths
+const a1ByCounty   = {};
+const popByDistrict = {};
+const popByCounty   = {};
+const a2EvByDistrict = {};
+const a2EvByCounty   = {};
+
+agg.forEach(r => {
+  const k = `${r.county}|${r.district}`;
+  a1ByDistrict[k] = r.deaths;
+  a1ByCounty[r.county] = (a1ByCounty[r.county] || 0) + r.deaths;
+});
+
+Object.entries(populations).forEach(([cy, districts]) => {
+  let total = 0;
+  Object.entries(districts).forEach(([d, p]) => {
+    popByDistrict[`${cy}|${d}`] = p; total += p;
+  });
+  popByCounty[cy] = total;
+});
+
+Object.entries(a2.by_district_cumulative).forEach(([k, v]) => {
+  a2EvByDistrict[k] = v.events;
+});
+Object.entries(a2.by_county_year).forEach(([cy, d]) => {
+  a2EvByCounty[cy] = Object.values(d.events || {}).reduce((s, v) => s + v, 0);
+});
+
+// ── projection ───────────────────────────────────────────────
+const lonMin = 119.25, lonMax = 122.05;
+const latMin = 21.85,  latMax = 25.35;
+function proj(lon, lat, w, h) {
+  return [
+    (lon - lonMin) / (lonMax - lonMin) * w,
+    h - (lat - latMin) / (latMax - latMin) * h,
+  ];
+}
+
+// ── quintile binning ─────────────────────────────────────────
+function quantiles(values, n) {
+  const sorted = values.filter(v => v != null && !isNaN(v) && v > 0).sort((a, b) => a - b);
+  const out = [];
+  for (let i = 1; i < n; i++) {
+    out.push(sorted[Math.floor(sorted.length * i / n)]);
+  }
+  return out;
+}
+
+function bin(v, breaks) {
+  if (v == null || !isFinite(v) || v <= 0) return 0;
+  for (let i = 0; i < breaks.length; i++) {
+    if (v < breaks[i]) return i + 1;
+  }
+  return breaks.length + 1;
+}
+
+// ── render choropleth ────────────────────────────────────────
+function pathFor(feature, w, h) {
+  const g = feature.geometry;
+  const polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+  return polys.map(poly => poly.map(ring =>
+    'M' + ring.map(([lon, lat]) => proj(lon, lat, w, h).map(x => x.toFixed(1)).join(',')).join('L') + 'Z'
+  ).join('')).join('');
+}
+
+function renderMap(svgId, lookup, palette, legendId) {
+  const svg = document.getElementById(svgId);
+  const w = 400, h = 500;
+  const values = geo.features.map(f => {
+    const p = f.properties;
+    const cy = (p.COUNTYNAME || p.COUNTY || p.county || '').replace('臺', '台');
+    const ds = p.TOWNNAME || p.TOWN || p.town || p.district || '';
+    return lookup[`${cy}|${ds}`];
+  });
+  const breaks = quantiles(values, 5);
+  const parts = geo.features.map((f, i) => {
+    const idx = bin(values[i], breaks);
+    return `<path d="${pathFor(f, w, h)}" fill="${palette[idx] || palette[0]}" stroke="#FFF" stroke-width="0.25"/>`;
+  });
+  svg.innerHTML = parts.join('');
+
+  if (legendId) {
+    const breaks0 = [0, ...breaks, Math.max(...values.filter(v => v && isFinite(v)))];
+    document.getElementById(legendId).innerHTML = palette.map((c, i) =>
+      `<div class="l-cell">
+         <div class="l-bin" style="background:${c}"></div>
+         <div class="l-val">${formatLeg(breaks0[i])}</div>
+       </div>`
+    ).join('');
+  }
+}
+
+function formatLeg(v) {
+  if (v == null || !isFinite(v)) return '—';
+  if (v === 0) return '0';
+  if (v >= 1000) return (v / 1000).toFixed(1) + 'k';
+  if (v >= 10) return Math.round(v).toString();
+  return v.toFixed(1);
+}
+
+// ── Palettes ─────────────────────────────────────────────────
+const PAL = {
+  red:  ['#F2F2F2', '#FFE0D4', '#F4A08F', '#D94F3D', '#A33A2D'],
+  blue: ['#F2F2F2', '#D6E5F3', '#9DC0E0', '#5A92C8', '#2E5A87'],
+  gold: ['#F2F2F2', '#FAEDC6', '#EFD183', '#E8A825', '#A85F00'],
+  vzt:  ['#F2F2F2', '#E8F000', '#C8D400', '#E8A825', '#D94F3D'],
+};
+
+// ── P04 · Density Maps ───────────────────────────────────────
+// A1 per 100k
+const a1PerCap = {};
+Object.keys(a1ByDistrict).forEach(k => {
+  const p = popByDistrict[k];
+  if (p && p > 1000) a1PerCap[k] = a1ByDistrict[k] / p * 100000;
+});
+renderMap('m1', a1PerCap, PAL.red, 'm1Legend');
+// stat: national rate
+const natRate = 17175 / Object.values(popByDistrict).reduce((s, v) => s + v, 0) * 100000;
+document.getElementById('m1Stat').innerHTML = natRate.toFixed(1) + '<small>全國均值 · 每十萬人</small>';
+
+// A2 per 1k
+const a2PerCap = {};
+Object.keys(a2EvByDistrict).forEach(k => {
+  const p = popByDistrict[k];
+  if (p && p > 1000) a2PerCap[k] = a2EvByDistrict[k] / p * 1000;
+});
+renderMap('m2', a2PerCap, PAL.blue, 'm2Legend');
+const natA2Rate = 3543840 / Object.values(popByDistrict).reduce((s, v) => s + v, 0) * 1000;
+document.getElementById('m2Stat').innerHTML = natA2Rate.toFixed(0) + '<small>全國均值 · 每千人</small>';
+
+// ── P05 · Volume Maps ────────────────────────────────────────
+renderMap('m3', a1ByDistrict, PAL.red, 'm3Legend');
+renderMap('m4', a2EvByDistrict, PAL.gold, 'm4Legend');
+
+// ── P06 · Rankings ───────────────────────────────────────────
+const counties = Object.keys(a1ByCounty).sort();
+function rankRender(tableId, sortFn, valueFn, fmtFn, subFn, flagFn) {
+  const rows = counties.map(cy => ({
+    name: cy,
+    a1: a1ByCounty[cy] || 0,
+    pop: popByCounty[cy] || 0,
+    a2: a2EvByCounty[cy] || 0,
+    rate: popByCounty[cy] ? (a1ByCounty[cy] || 0) / popByCounty[cy] * 100000 : 0,
+    leth: a2EvByCounty[cy] ? (a1ByCounty[cy] || 0) / a2EvByCounty[cy] * 1000 : 0,
+  }));
+  rows.sort(sortFn);
+  const maxV = Math.max(1, ...rows.map(valueFn));
+  document.getElementById(tableId).innerHTML = rows.map((r, i) => {
+    const v = valueFn(r);
+    const cls = i === 0 ? 'top1' : (i === 1 ? 'top2' : (i === 2 ? 'top3' : ''));
+    const flag = flagFn && flagFn(r) ? ' <span style="font-family:var(--font-en);font-size:5pt;color:var(--gold);font-weight:600;letter-spacing:0.05em">N&lt;30</span>' : '';
+    return `<tr class="${cls}">
+      <td class="rk-num">${String(i+1).padStart(2,'0')}</td>
+      <td class="rk-name">${r.name}${flag}</td>
+      <td class="rk-bar"><div class="bar-track"><div class="bar-fill" style="width:${(v/maxV*100).toFixed(1)}%"></div></div></td>
+      <td class="rk-val">${fmtFn(v)}<small>${subFn(r)}</small></td>
+    </tr>`;
+  }).join('');
+}
+rankRender('t-a1',   (a,b)=>b.a1-a.a1,   r=>r.a1,   v=>v.toLocaleString(),                  r=>'死亡');
+rankRender('t-rate', (a,b)=>b.rate-a.rate, r=>r.rate, v=>v.toFixed(1),                       r=>'/十萬', r=>r.a1<30);
+rankRender('t-a2',   (a,b)=>b.a2-a.a2,   r=>r.a2,   v=>v>=100000?(v/1000).toFixed(0)+'k':v.toLocaleString(), r=>'件');
+rankRender('t-leth', (a,b)=>b.leth-a.leth, r=>r.leth, v=>v.toFixed(1),                       r=>'/千件', r=>r.a1<30);
+
+// ── P03 · Trend ──────────────────────────────────────────────
+renderTrend();
+function renderTrend() {
+  const svg = document.getElementById('svgTrend');
+  const W = 600, H = 320, pad = { t: 20, r: 60, b: 40, l: 60 };
+  const years = [];
+  for (let y = 2016; y <= 2025; y++) years.push(y);
+
+  // A1 deaths per year from agg
+  const a1Year = {};
+  agg.forEach(r => {
+    Object.entries(r.by_year || {}).forEach(([y, d]) => {
+      a1Year[y] = (a1Year[y] || 0) + d;
+    });
+  });
+  const a1Data = years.map(y => a1Year[y] || 0);
+  const a2Data = years.map(y => a2.by_year_events[y] || 0);
+
+  const xS = y => pad.l + (y - 2016) / 9 * (W - pad.l - pad.r);
+  const a1Max = 2200, a1Min = 1400;
+  const a2Max = 420000, a2Min = 280000;
+  const yLeft  = v => pad.t + (1 - (v - a1Min) / (a1Max - a1Min)) * (H - pad.t - pad.b);
+  const yRight = v => pad.t + (1 - (v - a2Min) / (a2Max - a2Min)) * (H - pad.t - pad.b);
+
+  let svgInner = '';
+  // grid
+  [1500, 1700, 1900, 2100].forEach(v => {
+    svgInner += `<line x1="${pad.l}" y1="${yLeft(v)}" x2="${W-pad.r}" y2="${yLeft(v)}" stroke="#E0E0E0" stroke-width="0.5"/>`;
+    svgInner += `<text x="${pad.l-4}" y="${yLeft(v)+3}" font-family="Space Grotesk" font-size="8" fill="#888" text-anchor="end">${v}</text>`;
+  });
+  // right axis labels
+  [300000, 340000, 380000].forEach(v => {
+    svgInner += `<text x="${W-pad.r+4}" y="${yRight(v)+3}" font-family="Space Grotesk" font-size="8" fill="#3A7CC3" text-anchor="start">${(v/10000).toFixed(0)}萬</text>`;
+  });
+  // x labels
+  years.forEach(y => {
+    svgInner += `<text x="${xS(y)}" y="${H-pad.b+14}" font-family="Space Grotesk" font-size="8" fill="#888" text-anchor="middle">${y}</text>`;
+  });
+  // A2 line (blue) — draw first so red sits above
+  const a2Path = a2Data.map((v, i) => `${i===0?'M':'L'}${xS(years[i])},${yRight(v)}`).join('');
+  svgInner += `<path d="${a2Path}" fill="none" stroke="#3A7CC3" stroke-width="2.4"/>`;
+  a2Data.forEach((v, i) => {
+    svgInner += `<circle cx="${xS(years[i])}" cy="${yRight(v)}" r="2.6" fill="#3A7CC3"/>`;
+    svgInner += `<text x="${xS(years[i])}" y="${yRight(v)-7}" font-family="Space Grotesk" font-size="7" font-weight="600" fill="#3A7CC3" text-anchor="middle">${(v/10000).toFixed(1)}</text>`;
+  });
+  // A1 line (red)
+  const a1Path = a1Data.map((v, i) => `${i===0?'M':'L'}${xS(years[i])},${yLeft(v)}`).join('');
+  svgInner += `<path d="${a1Path}" fill="none" stroke="#D94F3D" stroke-width="2.4"/>`;
+  a1Data.forEach((v, i) => {
+    svgInner += `<circle cx="${xS(years[i])}" cy="${yLeft(v)}" r="2.6" fill="#D94F3D"/>`;
+    svgInner += `<text x="${xS(years[i])}" y="${yLeft(v)-7}" font-family="Space Grotesk" font-size="7" font-weight="600" fill="#D94F3D" text-anchor="middle">${v}</text>`;
+  });
+
+  svg.innerHTML = svgInner;
+}
+
+// ── P07 · Heatmap ────────────────────────────────────────────
+renderHeat();
+function renderHeat() {
+  const svg = document.getElementById('svgHeat');
+  const brackets = ageType.brackets;       // ['0-14', '15-24', ...]
+  const modes = ['行人/人', '慢車', '機車', '汽車'];
+  const modeKeys = ['人', '慢車', '機車', '汽車'];
+
+  // build matrix
+  const m = {};
+  brackets.forEach(b => modeKeys.forEach(mo => { m[`${b}|${mo}`] = 0; }));
+  // age_type.by_age_mode is { bracket: { mode: count, ... } }
+  Object.entries(ageType.by_age_mode || {}).forEach(([b, modeMap]) => {
+    Object.entries(modeMap).forEach(([mo, c]) => {
+      if (m[`${b}|${mo}`] != null) m[`${b}|${mo}`] = c;
+    });
+  });
+
+  const W = 600, H = 280, pad = { t: 30, r: 20, b: 30, l: 70 };
+  const cellW = (W - pad.l - pad.r) / brackets.length;
+  const cellH = (H - pad.t - pad.b) / modes.length;
+  const values = Object.values(m);
+  const maxV = Math.max(...values);
+
+  let s = '';
+  // axis labels
+  brackets.forEach((b, i) => {
+    s += `<text x="${pad.l + (i+0.5)*cellW}" y="${pad.t-8}" font-family="Space Grotesk" font-size="9" font-weight="600" fill="#1A1A1A" text-anchor="middle">${b}</text>`;
+  });
+  modes.forEach((mo, j) => {
+    s += `<text x="${pad.l-6}" y="${pad.t + (j+0.5)*cellH + 3}" font-family="Noto Sans TC" font-size="9" font-weight="700" fill="#1A1A1A" text-anchor="end">${mo}</text>`;
+  });
+  // cells
+  brackets.forEach((b, i) => {
+    modeKeys.forEach((mo, j) => {
+      const v = m[`${b}|${mo}`];
+      const t = v / maxV;
+      const col = lerpRed(t);
+      s += `<rect x="${pad.l + i*cellW}" y="${pad.t + j*cellH}" width="${cellW-1}" height="${cellH-1}" fill="${col}" stroke="#FFF" stroke-width="0.5"/>`;
+      if (v > 0) {
+        const txtCol = t > 0.55 ? '#FFF' : '#1A1A1A';
+        s += `<text x="${pad.l + (i+0.5)*cellW}" y="${pad.t + (j+0.5)*cellH + 4}" font-family="Space Grotesk" font-size="10" font-weight="700" fill="${txtCol}" text-anchor="middle">${v.toLocaleString()}</text>`;
+      }
+    });
+  });
+  // axis titles
+  s += `<text x="${pad.l - 64}" y="${pad.t - 18}" font-family="Space Grotesk" font-size="7" letter-spacing="2" font-weight="600" fill="#888">VICTIM MODE ↓ · AGE BRACKET →</text>`;
+
+  svg.innerHTML = s;
+}
+function lerpRed(t) {
+  const a = [242, 242, 242];      // grey-4
+  const b = [217, 79, 61];        // red
+  const c = [163, 58, 45];        // red-dk
+  let r, g, bl;
+  if (t < 0.5) {
+    const u = t / 0.5;
+    r = a[0] + (b[0]-a[0])*u; g = a[1] + (b[1]-a[1])*u; bl = a[2] + (b[2]-a[2])*u;
+  } else {
+    const u = (t-0.5) / 0.5;
+    r = b[0] + (c[0]-b[0])*u; g = b[1] + (c[1]-b[1])*u; bl = b[2] + (c[2]-b[2])*u;
+  }
+  return `rgb(${r|0},${g|0},${bl|0})`;
+}
+
+// ── P08 · Stacked area · mode share by year ─────────────────
+renderStack();
+function renderStack() {
+  const svg = document.getElementById('svgStack');
+  const W = 600, H = 320, pad = { t: 20, r: 70, b: 40, l: 60 };
+  const years = [];
+  for (let y = 2016; y <= 2025; y++) years.push(y);
+  const modeOrder = ['機車', '人', '汽車', '慢車'];
+  const modeColors = { '機車':'#D94F3D', '人':'#E8A825', '汽車':'#3A7CC3', '慢車':'#C8D400' };
+
+  // sum by_mode_year across districts
+  const byMY = {};
+  modeOrder.forEach(mo => { byMY[mo] = {}; years.forEach(y => byMY[mo][y] = 0); });
+  agg.forEach(r => {
+    Object.entries(r.by_mode_year || {}).forEach(([mo, yrs]) => {
+      if (!byMY[mo]) return;
+      Object.entries(yrs).forEach(([y, v]) => {
+        byMY[mo][y] = (byMY[mo][y] || 0) + v;
+      });
+    });
+  });
+
+  // compute yearly totals + stack offsets
+  const xS = y => pad.l + (y - 2016) / 9 * (W - pad.l - pad.r);
+  const yearTotals = years.map(y => modeOrder.reduce((s, mo) => s + byMY[mo][y], 0));
+  const yMax = Math.max(...yearTotals);
+  const yMin = 0;
+  const yS = v => pad.t + (1 - (v - yMin) / (yMax - yMin)) * (H - pad.t - pad.b);
+
+  // build stacked polygons
+  let s = '';
+  // grid
+  [500, 1000, 1500, 2000].forEach(v => {
+    s += `<line x1="${pad.l}" y1="${yS(v)}" x2="${W-pad.r}" y2="${yS(v)}" stroke="#E0E0E0" stroke-width="0.5"/>`;
+    s += `<text x="${pad.l-4}" y="${yS(v)+3}" font-family="Space Grotesk" font-size="8" fill="#888" text-anchor="end">${v}</text>`;
+  });
+  years.forEach(y => {
+    s += `<text x="${xS(y)}" y="${H-pad.b+14}" font-family="Space Grotesk" font-size="8" fill="#888" text-anchor="middle">${y}</text>`;
+  });
+
+  // cumulative offsets per year
+  const offsets = {};
+  years.forEach(y => offsets[y] = 0);
+
+  modeOrder.forEach(mo => {
+    const topPts = years.map(y => {
+      const base = offsets[y];
+      const top = base + byMY[mo][y];
+      return [xS(y), yS(top)];
+    });
+    const botPts = years.map(y => [xS(y), yS(offsets[y])]).reverse();
+    const path = 'M' + [...topPts, ...botPts].map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join('L') + 'Z';
+    s += `<path d="${path}" fill="${modeColors[mo]}" opacity="0.92" stroke="#FFF" stroke-width="0.5"/>`;
+    // value labels at the right edge
+    const lastY = years[years.length-1];
+    const labelY = (yS(offsets[lastY]) + yS(offsets[lastY] + byMY[mo][lastY])) / 2;
+    s += `<text x="${W-pad.r+4}" y="${labelY+3}" font-family="Space Grotesk" font-size="8" font-weight="600" fill="${modeColors[mo]}" text-anchor="start">${mo} ${byMY[mo][lastY]}</text>`;
+    years.forEach(y => offsets[y] += byMY[mo][y]);
+  });
+
+  // total label per year on top
+  years.forEach(y => {
+    s += `<text x="${xS(y)}" y="${yS(yearTotals[years.indexOf(y)]) - 4}" font-family="Space Grotesk" font-size="7" font-weight="700" fill="#1A1A1A" text-anchor="middle">${yearTotals[years.indexOf(y)]}</text>`;
+  });
+
+  svg.innerHTML = s;
+}
+
+// ── P09 · Lethality map + table ──────────────────────────────
+renderLethMap();
+function renderLethMap() {
+  const lethByCounty = {};
+  counties.forEach(cy => {
+    if (a2EvByCounty[cy]) lethByCounty[cy] = (a1ByCounty[cy] || 0) / a2EvByCounty[cy] * 1000;
+  });
+
+  // expand to district lookup: every district in county shares county value
+  const lethByDistrict = {};
+  geo.features.forEach(f => {
+    const p = f.properties;
+    const cy = (p.COUNTYNAME || p.COUNTY || p.county || '').replace('臺', '台');
+    const ds = p.TOWNNAME || p.TOWN || p.town || p.district || '';
+    const v = lethByCounty[cy];
+    if (v != null) lethByDistrict[`${cy}|${ds}`] = v;
+  });
+  renderMap('m5', lethByDistrict, PAL.gold, 'm5Legend');
+
+  // table
+  const rows = counties.map(cy => ({
+    name: cy,
+    leth: lethByCounty[cy] || 0,
+    a1: a1ByCounty[cy] || 0,
+  })).filter(r => r.a1 > 0).sort((a, b) => b.leth - a.leth);
+  const n = rows.length;
+  const top = rows.slice(0, Math.ceil(n / 2));
+  const bot = rows.slice(Math.ceil(n / 2));
+  const maxV = Math.max(...rows.map(r => r.leth));
+  function rowHtml(r, i, side) {
+    const flag = r.a1 < 30 ? ' <span style="font-family:var(--font-en);font-size:5pt;color:var(--gold);font-weight:600;letter-spacing:0.05em">N&lt;30</span>' : '';
+    const cls = side === 'top' && i === 0 ? 'top1' : '';
+    return `<tr class="${cls}" style="border-bottom:0.1mm dotted #D0D0D0">
+      <td style="font-family:var(--font-en);width:5mm;text-align:right;color:#888;font-weight:600;padding:0.7mm 1mm">${String(side==='top'?i+1:i+1+Math.ceil(n/2)).padStart(2,'0')}</td>
+      <td style="padding:0.7mm 1mm">${r.name}${flag}</td>
+      <td style="padding:0.7mm 1mm"><div style="background:#F2F2F2;height:1.5mm"><div style="background:${side==='top'?'#A33A2D':'#888'};height:100%;width:${(r.leth/maxV*100).toFixed(1)}%"></div></div></td>
+      <td style="font-family:var(--font-en);font-weight:600;width:13mm;text-align:right;padding:0.7mm 1mm">${r.leth.toFixed(1)}<br><small style="font-size:5.5pt;color:#888;letter-spacing:0.1em">/千件</small></td>
+    </tr>`;
+  }
+  const tbl = document.getElementById('lethTable');
+  tbl.innerHTML = [...top, ...bot].map((r, i) => {
+    const side = i < top.length ? 'top' : 'bot';
+    const localI = side === 'top' ? i : i - top.length;
+    return rowHtml(r, localI, side);
+  }).join('');
+}
+
+console.log('Atlas rendered.');
+})();
+</script>
+</body>
+</html>
