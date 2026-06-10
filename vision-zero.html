@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>Vision Zero 軌跡 · 22 縣市 · 2024 → 2050</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@page { size: A4 portrait; margin: 0; }
+
+:root {
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
+  --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
+  --red:#D94F3D; --red-dk:#A33A2D;
+  --blue:#3A7CC3; --blue-dk:#1F4B7A;
+  --gold:#E8A825;
+  --font-zh:'Noto Sans TC',sans-serif;
+  --font-en:'Space Grotesk',sans-serif;
+}
+body {
+  font-family: var(--font-zh); background:#ccc; color:var(--black);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page {
+  width:210mm; height:297mm; background:var(--white);
+  margin:10mm auto; padding:13mm 13mm 10mm;
+  box-shadow:0 2px 14px rgba(0,0,0,0.18);
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+  page-break-after: always; break-after: page;
+}
+.page:last-of-type { page-break-after:auto; break-after:auto; }
+@media print {
+  body { background:white; }
+  .page { margin:0; box-shadow:none; }
+  .no-print { display:none !important; }
+}
+
+.toolbar {
+  position:fixed; top:16px; right:16px; z-index:99;
+  background:var(--black); color:var(--white);
+  padding:10px 16px; font-family:var(--font-en);
+  font-size:12px; letter-spacing:0.12em; cursor:pointer; border:none;
+}
+.toolbar:hover { background:var(--lime-dk); color:var(--black); }
+
+/* ── Header ── */
+.ph {
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: flex-end; gap: 8mm;
+  padding-bottom: 3.5mm; margin-bottom: 4mm;
+  border-bottom: 0.5mm solid var(--black);
+}
+.ph .ph-tag {
+  display:inline-block; font-family:var(--font-en); font-size:7pt;
+  letter-spacing:0.22em; text-transform:uppercase; color:var(--grey-2);
+  font-weight:500; margin-bottom:1.2mm;
+}
+.ph h1 {
+  font-weight:700; font-size:18pt; line-height:1.15; letter-spacing:0.03em;
+  margin-bottom: 1.5mm;
+}
+.ph h1 b { color: var(--red); }
+.ph h1.a2-h b { color: var(--blue); }
+.ph .deck {
+  font-size:8.5pt; font-weight:300; color:var(--grey-1);
+  line-height:1.55; max-width:140mm; letter-spacing:0.02em;
+}
+.ph .deck strong { color: var(--black); font-weight: 700; }
+.ph .ph-stat {
+  text-align:right; min-width: 38mm;
+}
+.ph .ph-stat .l {
+  font-family:var(--font-en); font-size:6.5pt; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--grey-2); margin-bottom:0.5mm;
+}
+.ph .ph-stat .n {
+  font-family:var(--font-en); font-size:14pt; font-weight:700;
+  color:var(--black); line-height:1; letter-spacing:-0.01em;
+}
+.ph .ph-stat .n.red { color:var(--red); }
+.ph .ph-stat .n.blue { color:var(--blue); }
+.ph .ph-stat .u {
+  font-size:7pt; color:var(--grey-1); margin-top:0.5mm;
+}
+
+/* ── Grid ── */
+.grid {
+  flex: 1; display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 2mm;
+}
+
+.cell {
+  background: var(--white);
+  border: 0.2mm solid var(--grey-3);
+  padding: 1.8mm 2mm 1.5mm;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.cell.is-meta { background: var(--black); color: var(--white); border:none; padding:3mm; }
+.cell.is-legend { background: var(--grey-4); border:none; padding:3mm; }
+.cell.is-national { border-top: 0.8mm solid var(--lime); }
+.cell.is-onTrack { border-left: 0.8mm solid var(--lime); }
+.cell.is-behind { border-left: 0.8mm solid var(--red); }
+
+.cell-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 1mm;
+}
+.cell-name {
+  font-weight:700; font-size:9pt; letter-spacing:0.02em; color: var(--black);
+}
+.cell.is-meta .cell-name, .cell.is-national .cell-name { font-size: 10pt; }
+.cell-stat {
+  font-family: var(--font-en); font-weight: 700; font-size: 9.5pt;
+  color: var(--black); letter-spacing: -0.01em;
+}
+.cell.is-meta .cell-stat { color: var(--lime); }
+.cell.a1 .cell-stat { color: var(--red); }
+.cell.a2 .cell-stat { color: var(--blue); }
+
+.cell-status {
+  font-family: var(--font-en); font-size: 5.8pt; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  margin-bottom: 1mm;
+}
+.cell.is-onTrack .cell-status { color: var(--lime-dk); }
+.cell.is-behind .cell-status { color: var(--red-dk); }
+
+.cell-svg {
+  flex: 1; min-height: 0;
+  margin: 0.5mm 0;
+}
+
+.cell-foot {
+  display:grid; grid-template-columns:1fr 1fr; gap:1mm;
+  margin-top: 0.7mm;
+  font-family: var(--font-en); font-size: 5.5pt; letter-spacing:0.05em;
+  color: var(--grey-2);
+}
+.cell-foot div { line-height: 1.3; }
+.cell-foot b {
+  font-weight: 700; color: var(--black);
+  font-size: 6.5pt;
+}
+
+/* legend cell */
+.legend-body { font-size: 7pt; line-height: 1.55; color: var(--grey-1); font-weight:300; }
+.legend-body h5 {
+  font-family:var(--font-en); font-size:6.5pt; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--grey-1); font-weight:700;
+  margin-bottom: 1.2mm;
+}
+.legend-row {
+  display: flex; align-items: center; gap: 2mm; margin: 0.7mm 0;
+  font-size:6.5pt;
+}
+.legend-line { display:inline-block; width: 6mm; height: 1mm; }
+.legend-line.dashed { background: linear-gradient(to right, var(--lime) 60%, transparent 60%) 0 0/1.5mm 100% repeat-x; height:0.7mm; }
+
+.pf {
+  margin-top: 3.5mm; padding-top: 3mm;
+  border-top: 0.2mm solid var(--grey-3);
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--font-en); font-size: 6.5pt;
+  letter-spacing: 0.18em; color: var(--grey-2); text-transform: uppercase;
+}
+.pf .pf-tag {
+  background: var(--lime); color: var(--black);
+  padding: 0.5mm 2mm; font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<button class="toolbar no-print" onclick="window.print()">PRINT / SAVE AS PDF</button>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- PAGE 1 · A1 死亡軌跡                                          -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div>
+      <div class="ph-tag">Vision Zero Trajectory · A1 Fatal Deaths</div>
+      <h1>22 縣市 <b>A1 死亡</b>軌跡 — 2024 → 2050</h1>
+      <div class="deck">
+        每縣市以 <strong>2024 年實績為基準</strong>，計算達成「2035 年減半、2050 年歸零」目標所需的線性軌跡。
+        紅實線 = 2016–2025 歷史；亮綠虛線 = 目標軌跡。
+        左側色條：<strong style="color:var(--lime-dk)">綠＝2025 領先目標</strong>、<strong style="color:var(--red-dk)">紅＝2025 落後目標</strong>。
+      </div>
+    </div>
+    <div class="ph-stat">
+      <div class="l">2024 全國 A1</div>
+      <div class="n red" id="a1Nat">—</div>
+      <div class="u">2035 目標 <span id="a1T35">—</span> · 2050 目標 0</div>
+    </div>
+  </div>
+
+  <div class="grid" id="gridA1"></div>
+
+  <div class="pf">
+    <span>Method · Linear interpolation from 2024 baseline</span>
+    <span class="pf-tag">P.01 · A1</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- PAGE 2 · A2 事件軌跡                                          -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div>
+      <div class="ph-tag">Vision Zero Trajectory · A2 Casualty Events</div>
+      <h1 class="a2-h">22 縣市 <b>A2 事件</b>軌跡 — 2024 → 2050</h1>
+      <div class="deck">
+        每縣市以 <strong>2024 年實績為基準</strong>，計算達成「2035 減半、2050 降至 10%」目標所需的線性軌跡。
+        藍實線 = 2016–2025 歷史；亮綠虛線 = 目標軌跡。
+        左側色條 <strong style="color:var(--lime-dk)">綠＝領先</strong>、<strong style="color:var(--red-dk)">紅＝落後</strong> 視 2025 vs. 目標軌跡而定。
+      </div>
+    </div>
+    <div class="ph-stat">
+      <div class="l">2024 全國 A2</div>
+      <div class="n blue" id="a2Nat">—</div>
+      <div class="u">2035 目標 <span id="a2T35">—</span> · 2050 目標 <span id="a2T50">—</span></div>
+    </div>
+  </div>
+
+  <div class="grid" id="gridA2"></div>
+
+  <div class="pf">
+    <span>Method · Linear from baseline → 2035 → 2050 (kinked)</span>
+    <span class="pf-tag">P.02 · A2</span>
+  </div>
+</div>
+
+<script>
+(async () => {
+
+const [agg, a2agg] = await Promise.all([
+  fetch('agg.json').then(r => r.json()),
+  fetch('data/a2_aggregates.json').then(r => r.json()),
+]);
+
+// ── derive yearly series per county ────────────────────────
+const a1ByCY = {};
+agg.forEach(r => {
+  if (!a1ByCY[r.county]) a1ByCY[r.county] = {};
+  Object.entries(r.by_year || {}).forEach(([y, v]) => {
+    a1ByCY[r.county][y] = (a1ByCY[r.county][y] || 0) + v;
+  });
+});
+const a2ByCY = {};
+Object.entries(a2agg.by_county_year).forEach(([cy, d]) => {
+  a2ByCY[cy] = d.events;
+});
+
+const counties = Object.keys(a1ByCY);
+const HIST = []; for (let y = 2016; y <= 2025; y++) HIST.push(y);
+const BASELINE_YEAR = 2024;
+
+// ── trajectory math ────────────────────────────────────────
+// kinked-linear from baseline (2024) → 2035 (50%) → 2050 (a1: 0; a2: 10%)
+function trajectory(baseline, target2050Frac) {
+  const target2035 = baseline * 0.5;
+  const target2050 = baseline * target2050Frac;
+  const out = {};
+  for (let y = 2024; y <= 2035; y++) {
+    const t = (y - 2024) / 11;
+    out[y] = baseline + (target2035 - baseline) * t;
+  }
+  for (let y = 2035; y <= 2050; y++) {
+    const t = (y - 2035) / 15;
+    out[y] = target2035 + (target2050 - target2035) * t;
+  }
+  return { traj: out, target2035, target2050 };
+}
+
+// required value AT 2025 (one year past baseline) — used to flag on/off track
+function requiredAt(traj, year) { return traj[year]; }
+
+// ── render one mini chart ─────────────────────────────────
+function renderChart(actuals, traj, color) {
+  const W = 220, H = 110, pad = { t: 4, r: 4, b: 12, l: 18 };
+  const allVals = [...Object.values(actuals), ...Object.values(traj)];
+  const yMax = Math.max(1, ...allVals) * 1.08;
+  const yMin = 0;
+  const X0 = 2016, X1 = 2050;
+  const xS = y => pad.l + (y - X0) / (X1 - X0) * (W - pad.l - pad.r);
+  const yS = v => pad.t + (1 - (v - yMin) / (yMax - yMin)) * (H - pad.t - pad.b);
+
+  let svg = '';
+  // grid + axis labels
+  svg += `<rect x="${pad.l}" y="${pad.t}" width="${W-pad.l-pad.r}" height="${H-pad.t-pad.b}" fill="${'#FAFAFA'}" stroke="#D0D0D0" stroke-width="0.3"/>`;
+  // target year vertical guides
+  [2035, 2050].forEach(y => {
+    svg += `<line x1="${xS(y)}" y1="${pad.t}" x2="${xS(y)}" y2="${H-pad.b}" stroke="#E8A825" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>`;
+  });
+  // 2025 (today reference)
+  svg += `<line x1="${xS(2025)}" y1="${pad.t}" x2="${xS(2025)}" y2="${H-pad.b}" stroke="#888" stroke-width="0.3" stroke-dasharray="1,1"/>`;
+  // x-axis labels
+  ['16','25','35','50'].forEach((lab, i) => {
+    const yr = [2016, 2025, 2035, 2050][i];
+    svg += `<text x="${xS(yr)}" y="${H-2}" font-family="Space Grotesk" font-size="7" fill="#888" text-anchor="middle">'${lab}</text>`;
+  });
+  // y-axis labels (min + max)
+  svg += `<text x="${pad.l-2}" y="${yS(yMax)+3}" font-family="Space Grotesk" font-size="7" fill="#888" text-anchor="end">${formatY(yMax)}</text>`;
+  svg += `<text x="${pad.l-2}" y="${yS(0)}" font-family="Space Grotesk" font-size="7" fill="#888" text-anchor="end">0</text>`;
+
+  // trajectory dashed (lime)
+  const trajPath = Object.entries(traj).map(([y, v], i) =>
+    `${i===0?'M':'L'}${xS(+y).toFixed(1)},${yS(v).toFixed(1)}`).join('');
+  svg += `<path d="${trajPath}" fill="none" stroke="#A8B200" stroke-width="1.3" stroke-dasharray="3,1.5"/>`;
+  // target endpoints
+  svg += `<circle cx="${xS(2035)}" cy="${yS(traj[2035])}" r="1.8" fill="#A8B200"/>`;
+  svg += `<circle cx="${xS(2050)}" cy="${yS(traj[2050])}" r="1.8" fill="#A8B200"/>`;
+
+  // historical solid
+  const histPath = HIST.map((y, i) =>
+    `${i===0?'M':'L'}${xS(y).toFixed(1)},${yS(actuals[y]||0).toFixed(1)}`).join('');
+  svg += `<path d="${histPath}" fill="none" stroke="${color}" stroke-width="1.6"/>`;
+  // points
+  HIST.forEach(y => {
+    svg += `<circle cx="${xS(y).toFixed(1)}" cy="${yS(actuals[y]||0).toFixed(1)}" r="1" fill="${color}"/>`;
+  });
+
+  return `<svg class="cell-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${svg}</svg>`;
+}
+
+function formatY(v) {
+  if (v >= 1000) return (v/1000).toFixed(v >= 10000 ? 0 : 1) + 'k';
+  return Math.round(v).toString();
+}
+function formatN(v) {
+  if (v >= 10000) return (v/1000).toFixed(0) + 'k';
+  if (v >= 1000) return (v/1000).toFixed(1) + 'k';
+  return Math.round(v).toLocaleString();
+}
+
+// ── render a grid (one of A1 or A2) ───────────────────────
+function renderGrid(gridId, series, target2050Frac, color, metricClass) {
+  // Sort counties by 2024 baseline descending
+  const sorted = counties
+    .map(cy => ({ cy, baseline: series[cy]?.[BASELINE_YEAR] || 0 }))
+    .filter(r => r.baseline > 0)
+    .sort((a, b) => b.baseline - a.baseline);
+
+  const grid = document.getElementById(gridId);
+  let html = '';
+
+  sorted.forEach(({ cy, baseline }) => {
+    const { traj, target2035, target2050 } = trajectory(baseline, target2050Frac);
+    const actual2025 = series[cy]?.['2025'] || 0;
+    const required2025 = requiredAt(traj, 2025);
+    const onTrack = actual2025 <= required2025;
+    const gap = actual2025 - required2025;
+    const gapPct = required2025 > 0 ? (gap / required2025 * 100) : 0;
+    html += `<div class="cell ${metricClass} ${onTrack ? 'is-onTrack' : 'is-behind'}">
+      <div class="cell-status">${onTrack
+        ? '✓ ON TRACK · 領先 ' + Math.abs(gapPct).toFixed(0) + '%'
+        : '! BEHIND · 落後 ' + gapPct.toFixed(0) + '%'}</div>
+      <div class="cell-head">
+        <span class="cell-name">${cy}</span>
+        <span class="cell-stat">${formatN(baseline)}</span>
+      </div>
+      ${renderChart(series[cy] || {}, traj, color)}
+      <div class="cell-foot">
+        <div><b>${formatN(target2035)}</b><br>2035 目標</div>
+        <div><b>${target2050 === 0 ? '0' : formatN(target2050)}</b><br>2050 目標</div>
+      </div>
+    </div>`;
+  });
+
+  // 23rd cell: national summary
+  const natSeries = {};
+  HIST.forEach(y => {
+    natSeries[y] = Object.values(series).reduce((s, d) => s + (d[y] || 0), 0);
+  });
+  const natBaseline = natSeries[BASELINE_YEAR];
+  const { traj: natTraj, target2035: natT35, target2050: natT50 } = trajectory(natBaseline, target2050Frac);
+  const natActual25 = natSeries['2025'];
+  const natReq25 = requiredAt(natTraj, 2025);
+  const natOnTrack = natActual25 <= natReq25;
+  const natGapPct = natReq25 > 0 ? ((natActual25 - natReq25) / natReq25 * 100) : 0;
+  html += `<div class="cell is-national ${metricClass}">
+    <div class="cell-status" style="color:${natOnTrack?'var(--lime-dk)':'var(--red-dk)'}">★ 全國 NATIONAL</div>
+    <div class="cell-head">
+      <span class="cell-name">全國總計</span>
+      <span class="cell-stat">${formatN(natBaseline)}</span>
+    </div>
+    ${renderChart(natSeries, natTraj, color)}
+    <div class="cell-foot">
+      <div><b>${formatN(natT35)}</b><br>2035 目標</div>
+      <div><b>${natT50 === 0 ? '0' : formatN(natT50)}</b><br>2050 目標</div>
+    </div>
+  </div>`;
+
+  // 24th cell: legend / methodology
+  html += `<div class="cell is-legend">
+    <div class="legend-body">
+      <h5>★ How to read</h5>
+      <div class="legend-row"><span class="legend-line" style="background:${color};height:0.8mm"></span><span><b>實線</b> · 2016–2025 歷史實績</span></div>
+      <div class="legend-row"><span class="legend-line dashed"></span><span><b>虛線</b> · 達成目標所需軌跡</span></div>
+      <div class="legend-row"><span class="legend-line" style="background:#E8A825;height:0.6mm"></span><span>2035 / 2050 目標年</span></div>
+      <h5 style="margin-top:2mm">★ Method</h5>
+      <p style="font-size:6.3pt;line-height:1.5;font-weight:300;color:var(--grey-1)">
+        基準 2024 · 2035 = 50% · 2050 = ${(target2050Frac*100).toFixed(0)}% · 雙段線性插值</p>
+    </div>
+  </div>`;
+
+  grid.innerHTML = html;
+}
+
+// SVG presentation attributes don't always resolve CSS var() — use hex.
+const C_RED  = '#D94F3D';
+const C_BLUE = '#3A7CC3';
+
+// ── render A1 ──
+const a1Series = a1ByCY;
+const a1Baseline = Object.values(a1Series).reduce((s, d) => s + (d[BASELINE_YEAR] || 0), 0);
+document.getElementById('a1Nat').textContent = a1Baseline.toLocaleString();
+document.getElementById('a1T35').textContent = (a1Baseline * 0.5).toFixed(0);
+renderGrid('gridA1', a1Series, 0, C_RED, 'a1');
+
+// ── render A2 ──
+const a2Series = a2ByCY;
+const a2Baseline = Object.values(a2Series).reduce((s, d) => s + (d[BASELINE_YEAR] || 0), 0);
+document.getElementById('a2Nat').textContent = formatN(a2Baseline);
+document.getElementById('a2T35').textContent = formatN(a2Baseline * 0.5);
+document.getElementById('a2T50').textContent = formatN(a2Baseline * 0.1);
+renderGrid('gridA2', a2Series, 0.1, C_BLUE, 'a2');
+
+console.log('Vision Zero trajectories rendered.');
+
+})();
+</script>
+</body>
+</html>
