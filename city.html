@@ -1059,6 +1059,42 @@ body.lang-en #hdrTitleZh { display: none; }
   text-transform: uppercase; color: var(--grey-2); margin-bottom: 18px;
 }
 .partner-logos img { max-width: 560px; width: 100%; height: auto; }
+
+/* ── Vision Zero Trajectory section ── */
+.vz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 760px) { .vz-grid { grid-template-columns: 1fr; } }
+.vz-card { padding: 32px; background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.vz-status {
+  display: inline-block; font-family: var(--font-en);
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 700; padding: 4px 10px; margin-bottom: 14px;
+  background: var(--grey-4); color: var(--grey-2);
+}
+.vz-status.on-track { background: var(--lime); color: var(--black); }
+.vz-status.behind { background: var(--red); color: var(--white); }
+.vz-chart-wrap {
+  width: 100%; aspect-ratio: 700 / 280;
+  background: #FAFAFA; margin: 8px 0 18px;
+}
+.vz-chart-wrap svg { width: 100%; height: 100%; display: block; }
+.vz-targets {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  border-top: 1px solid var(--grey-3); padding-top: 14px;
+}
+.vz-targets .lbl {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 4px;
+  display: block;
+}
+.vz-targets .val {
+  font-family: var(--font-en); font-size: 26px; font-weight: 700;
+  color: var(--black); letter-spacing: -0.02em; line-height: 1;
+  display: block;
+}
+.vz-foot {
+  margin-top: 14px; font-family: var(--font-en); font-size: 9px;
+  letter-spacing: 0.18em; color: var(--grey-2); text-transform: uppercase;
+}
 </style>
 </head>
 <body>
@@ -1178,9 +1214,47 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
 </div>
 
-<!-- ══ 03 — Map ══ -->
+<!-- ══ 03 — Vision Zero Trajectory ══ -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">03 — Spatial Distribution 空間分布</span><span class="t-en">03 — Spatial Distribution</span></div>
+  <div class="section-label"><span class="t-zh">03 — Vision Zero · 達標軌跡</span><span class="t-en">03 — Vision Zero Trajectory</span></div>
+
+  <div class="trend-card" style="margin-bottom:18px">
+    <h4>2024 → 2035 → 2050 · Required Trajectory</h4>
+    <div class="card-zh"><span class="t-zh">以 2024 年實績為基準，計算達成「2035 年減半、2050 年 A1 歸零、A2 降至 10%」目標所需的軌跡。紅／藍實線為歷史實績；亮綠虛線為達標軌跡。狀態徽章以 2025 實績對比軌跡，判斷縣市是「領先」或「落後」進度。</span><span class="t-en">From the 2024 baseline, compute the trajectory required to meet 2035 (−50%) and 2050 (A1 = 0, A2 = −90%) targets. Solid lines = history; lime dashed = required path. The status badge compares 2025 actual to the required path.</span></div>
+  </div>
+
+  <div class="vz-grid">
+    <div class="vz-card">
+      <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:4px">A1 · Fatal Deaths Trajectory</h4>
+      <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">A1 死亡軌跡 · 紅實線歷史 · 亮綠虛線目標</span><span class="t-en">A1 fatal deaths · red = history · lime = required</span></div>
+      <div class="vz-status" id="vzA1Status">—</div>
+      <div class="vz-chart-wrap"><svg id="vzA1Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="vz-targets">
+        <div><span class="lbl">2024 baseline</span><span class="val" id="vzA1Base">—</span></div>
+        <div><span class="lbl">2035 target</span><span class="val" id="vzA1T35">—</span></div>
+        <div><span class="lbl">2050 target</span><span class="val" id="vzA1T50">0</span></div>
+      </div>
+    </div>
+
+    <div class="vz-card">
+      <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:4px">A2 · Casualty Events Trajectory</h4>
+      <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">A2 事件軌跡 · 藍實線歷史 · 亮綠虛線目標</span><span class="t-en">A2 events · blue = history · lime = required</span></div>
+      <div class="vz-status" id="vzA2Status">—</div>
+      <div class="vz-chart-wrap"><svg id="vzA2Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="vz-targets">
+        <div><span class="lbl">2024 baseline</span><span class="val" id="vzA2Base">—</span></div>
+        <div><span class="lbl">2035 target</span><span class="val" id="vzA2T35">—</span></div>
+        <div><span class="lbl">2050 target</span><span class="val" id="vzA2T50">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vz-foot">Method · Linear interpolation · Baseline 2024 · A1 + A2 NPA Open Data 2016–2025</div>
+</div>
+
+<!-- ══ 04 — Map ══ -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">04 — Spatial Distribution 空間分布</span><span class="t-en">04 — Spatial Distribution</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -1269,9 +1343,9 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
 </div>
 
-<!-- ══ 04 — Insight ══ -->
+<!-- ══ 05 — Insight ══ -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">04 — Headline Finding 關鍵發現</span><span class="t-en">04 — Headline Finding</span></div>
+  <div class="section-label"><span class="t-zh">05 — Headline Finding 關鍵發現</span><span class="t-en">05 — Headline Finding</span></div>
   <div class="insight">
     <div>
       <div class="ilabel-en">Motorcycle Victim Share · Decade</div>
@@ -1285,9 +1359,9 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
 </div>
 
-<!-- ══ 05 — Breakdown ══ -->
+<!-- ══ 06 — Breakdown ══ -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">05 — Breakdown 多維拆解</span><span class="t-en">05 — Breakdown</span></div>
+  <div class="section-label"><span class="t-zh">06 — Breakdown 多維拆解</span><span class="t-en">06 — Breakdown</span></div>
   <div class="breakdown-grid">
 
     <div class="card">
@@ -1338,9 +1412,9 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
 </div>
 
-<!-- ══ 06 — Notes ══ -->
+<!-- ══ 07 — Notes ══ -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">06 — Notes 資料說明</span><span class="t-en">06 — Notes</span></div>
+  <div class="section-label"><span class="t-zh">07 — Notes 資料說明</span><span class="t-en">07 — Notes</span></div>
   <div class="card">
     <div class="card-zh" style="margin-bottom:14px"><span class="t-zh">關於本地圖</span><span class="t-en">About this map</span></div>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
@@ -2191,6 +2265,117 @@ const markerLayer = L.layerGroup().addTo(map);
   }
 
   // ====================================================================
+  //  VISION ZERO TRAJECTORY (Section 03)
+  // ====================================================================
+  // Two-segment linear trajectory: baseline (2024) -> 2035 (-50%) -> 2050.
+  // A1 ends at zero. A2 ends at 10% of baseline.
+  function _vzTraj(baseline, target2050Frac) {
+    const t35 = baseline * 0.5;
+    const t50 = baseline * target2050Frac;
+    const out = {};
+    for (let y = 2024; y <= 2035; y++) out[y] = baseline + (t35 - baseline) * (y - 2024) / 11;
+    for (let y = 2035; y <= 2050; y++) out[y] = t35 + (t50 - t35) * (y - 2035) / 15;
+    return { traj: out, t35, t50 };
+  }
+  function _vzFmt(v) {
+    if (v >= 10000) return (v / 1000).toFixed(0) + 'k';
+    if (v >= 1000)  return (v / 1000).toFixed(1) + 'k';
+    return Math.round(v).toLocaleString();
+  }
+  function _vzDraw(svgId, hist, traj, color) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    const W = 700, H = 280;
+    const pad = { t: 18, r: 24, b: 38, l: 54 };
+    const HIST_YEARS = [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+    const allVals = [...HIST_YEARS.map(y => hist[y] || hist[String(y)] || 0), ...Object.values(traj)];
+    const yMax = Math.max(1, ...allVals) * 1.08;
+    const xS = y => pad.l + (y - 2016) / (2050 - 2016) * (W - pad.l - pad.r);
+    const yS = v => pad.t + (1 - v / yMax) * (H - pad.t - pad.b);
+
+    let s = '';
+    s += `<rect x="${pad.l}" y="${pad.t}" width="${W-pad.l-pad.r}" height="${H-pad.t-pad.b}" fill="white" stroke="#D0D0D0" stroke-width="0.6"/>`;
+    [2025, 2035, 2050].forEach(y => {
+      const isToday = y === 2025;
+      s += `<line x1="${xS(y)}" y1="${pad.t}" x2="${xS(y)}" y2="${H-pad.b}" stroke="${isToday?'#888':'#E8A825'}" stroke-width="${isToday?0.6:0.9}" stroke-dasharray="${isToday?'2,2':'3,2'}"/>`;
+    });
+    [2016, 2025, 2035, 2050].forEach(y => {
+      s += `<text x="${xS(y)}" y="${H-pad.b+18}" font-family="Space Grotesk" font-size="11" fill="#888" text-anchor="middle">${y}</text>`;
+    });
+    [0, yMax / 2, yMax].forEach(v => {
+      s += `<line x1="${pad.l-3}" y1="${yS(v)}" x2="${pad.l}" y2="${yS(v)}" stroke="#888" stroke-width="0.5"/>`;
+      s += `<text x="${pad.l-6}" y="${yS(v)+4}" font-family="Space Grotesk" font-size="10" fill="#888" text-anchor="end">${_vzFmt(v)}</text>`;
+    });
+    // required trajectory (lime dashed)
+    const tEntries = Object.entries(traj).sort((a,b) => +a[0] - +b[0]);
+    const tPath = tEntries.map(([y, v], i) => `${i===0?'M':'L'}${xS(+y).toFixed(1)},${yS(v).toFixed(1)}`).join('');
+    s += `<path d="${tPath}" fill="none" stroke="#A8B200" stroke-width="2.5" stroke-dasharray="5,3"/>`;
+    s += `<circle cx="${xS(2035)}" cy="${yS(traj[2035])}" r="4.5" fill="#A8B200"/>`;
+    s += `<circle cx="${xS(2050)}" cy="${yS(traj[2050])}" r="4.5" fill="#A8B200"/>`;
+    s += `<text x="${xS(2035)}" y="${yS(traj[2035])-10}" font-family="Space Grotesk" font-size="10" fill="#A8B200" font-weight="700" text-anchor="middle">−50%</text>`;
+    s += `<text x="${xS(2050)}" y="${yS(traj[2050])-10}" font-family="Space Grotesk" font-size="10" fill="#A8B200" font-weight="700" text-anchor="middle">${traj[2050]===0 ? 'ZERO' : '−90%'}</text>`;
+    // historical (solid)
+    const hPath = HIST_YEARS.map((y, i) => `${i===0?'M':'L'}${xS(y).toFixed(1)},${yS(hist[y] || hist[String(y)] || 0).toFixed(1)}`).join('');
+    s += `<path d="${hPath}" fill="none" stroke="${color}" stroke-width="2.8"/>`;
+    HIST_YEARS.forEach(y => {
+      s += `<circle cx="${xS(y).toFixed(1)}" cy="${yS(hist[y] || hist[String(y)] || 0).toFixed(1)}" r="2.6" fill="${color}"/>`;
+    });
+    svg.innerHTML = s;
+  }
+  function _vzStatus(elId, actual2025, required2025) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    if (!required2025 || required2025 <= 0) {
+      el.className = 'vz-status';
+      el.textContent = TT('資料不足', 'Insufficient data');
+      return;
+    }
+    const onTrack = actual2025 <= required2025;
+    const gapPct = (actual2025 - required2025) / required2025 * 100;
+    el.classList.remove('on-track', 'behind');
+    el.classList.add(onTrack ? 'on-track' : 'behind');
+    el.textContent = onTrack
+      ? TT('✓ 領先目標 ' + Math.abs(gapPct).toFixed(0) + '%', '✓ On track · −' + Math.abs(gapPct).toFixed(0) + '%')
+      : TT('! 落後目標 ' + gapPct.toFixed(0) + '%',          '! Behind · +' + gapPct.toFixed(0) + '%');
+  }
+
+  async function renderVisionZero() {
+    const cyZh = (window.__META && window.__META.zh) || '';
+    if (!cyZh) return;
+
+    // A1 yearly deaths from CITY_YEARLY (already loaded for this county)
+    const a1Hist = {};
+    YEARLY.forEach(y => { a1Hist[y.year] = y.deaths; });
+
+    // A2 yearly events: fetch + cache once
+    if (!window.__A2_AGG) {
+      try {
+        window.__A2_AGG = await fetch('data/a2_aggregates.json').then(r => r.json());
+      } catch (e) { window.__A2_AGG = null; }
+    }
+    const a2Hist = (window.__A2_AGG && window.__A2_AGG.by_county_year[cyZh] && window.__A2_AGG.by_county_year[cyZh].events) || {};
+
+    const BASE = 2024;
+    const a1Base = a1Hist[BASE] || 0;
+    const a2Base = a2Hist[BASE] || a2Hist[String(BASE)] || 0;
+
+    const a1T = _vzTraj(a1Base, 0);    // A1 → zero by 2050
+    const a2T = _vzTraj(a2Base, 0.1);  // A2 → 10% by 2050
+
+    _vzDraw('vzA1Svg', a1Hist, a1T.traj, '#D94F3D');
+    _vzDraw('vzA2Svg', a2Hist, a2T.traj, '#3A7CC3');
+
+    document.getElementById('vzA1Base').textContent = a1Base;
+    document.getElementById('vzA1T35').textContent = Math.round(a1Base * 0.5);
+    document.getElementById('vzA2Base').textContent = _vzFmt(a2Base);
+    document.getElementById('vzA2T35').textContent = _vzFmt(a2Base * 0.5);
+    document.getElementById('vzA2T50').textContent = _vzFmt(a2Base * 0.1);
+
+    _vzStatus('vzA1Status', a1Hist[2025] || 0, a1T.traj[2025]);
+    _vzStatus('vzA2Status', a2Hist[2025] || a2Hist['2025'] || 0, a2T.traj[2025]);
+  }
+
+  // ====================================================================
   //  INITIAL RENDER
   // ====================================================================
   renderTrend();
@@ -2200,10 +2385,12 @@ const markerLayer = L.layerGroup().addTo(map);
   renderMap();
   renderHotspots();
   renderBreakdowns();
+  renderVisionZero();
 
   window.__rerender = () => {
     renderTrend(); renderYearStacks(); renderSnapshot(); renderHeatmap();
     renderMap(); renderBreakdowns(); renderHotspots(); genInsight();
+    renderVisionZero();
   };
   genInsight();
   const bounds = L.latLngBounds(filteredOnMap().map(e => [e.lat, e.lon]));
