@@ -1095,6 +1095,36 @@ body.lang-en #hdrTitleZh { display: none; }
   margin-top: 14px; font-family: var(--font-en); font-size: 9px;
   letter-spacing: 0.18em; color: var(--grey-2); text-transform: uppercase;
 }
+
+/* Annual reduction "action" callout */
+.vz-action {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin: 16px 0 18px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(232,240,0,0.18), rgba(200,212,0,0.10));
+  border-left: 4px solid var(--lime);
+}
+.va-block .va-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--grey-1);
+  margin-bottom: 4px; font-weight: 600;
+}
+.va-block .va-val {
+  font-family: var(--font-en); font-size: 32px; font-weight: 700;
+  color: var(--black); line-height: 1.0; letter-spacing: -0.02em;
+  margin-bottom: 5px;
+}
+.va-block .va-val .va-minus {
+  color: var(--lime-dk); margin-right: 4px;
+}
+.va-block .va-val .va-unit {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.05em;
+  color: var(--grey-1); margin-left: 3px;
+}
+.va-block .va-sub {
+  font-size: 11px; color: var(--grey-2); letter-spacing: 0.04em;
+  font-weight: 400;
+}
 </style>
 </head>
 <body>
@@ -1229,6 +1259,18 @@ body.lang-en #hdrTitleZh { display: none; }
       <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">紅實線歷史 · 亮綠虛線達標 · 灰色帶 BAU 高低</span><span class="t-en">Red = history · lime = required · grey band = BAU range</span></div>
       <div class="vz-status" id="vzA1Status">—</div>
       <div class="vz-chart-wrap"><svg id="vzA1Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="vz-action">
+        <div class="va-block">
+          <div class="va-label"><span class="t-zh">2025–2035 每年須減少</span><span class="t-en">2025–2035 cut per year</span></div>
+          <div class="va-val"><span class="va-minus">−</span><span id="vzA1Rate1">—</span><span class="va-unit"><span class="t-zh">死/年</span><span class="t-en">/yr</span></span></div>
+          <div class="va-sub"><span class="t-zh">為達 2035 減半</span><span class="t-en">to halve by 2035</span></div>
+        </div>
+        <div class="va-block">
+          <div class="va-label"><span class="t-zh">2035–2050 每年須減少</span><span class="t-en">2035–2050 cut per year</span></div>
+          <div class="va-val"><span class="va-minus">−</span><span id="vzA1Rate2">—</span><span class="va-unit"><span class="t-zh">死/年</span><span class="t-en">/yr</span></span></div>
+          <div class="va-sub"><span class="t-zh">為達 2050 歸零</span><span class="t-en">to reach zero by 2050</span></div>
+        </div>
+      </div>
       <div class="vz-targets">
         <div><span class="lbl">2024 baseline</span><span class="val" id="vzA1Base">—</span></div>
         <div><span class="lbl">2035 target</span><span class="val" id="vzA1T35">—</span></div>
@@ -1241,6 +1283,18 @@ body.lang-en #hdrTitleZh { display: none; }
       <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">藍實線歷史 · 亮綠虛線達標 · 灰色帶 BAU 高低</span><span class="t-en">Blue = history · lime = required · grey band = BAU range</span></div>
       <div class="vz-status" id="vzA2Status">—</div>
       <div class="vz-chart-wrap"><svg id="vzA2Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="vz-action">
+        <div class="va-block">
+          <div class="va-label"><span class="t-zh">2025–2035 每年須減少</span><span class="t-en">2025–2035 cut per year</span></div>
+          <div class="va-val"><span class="va-minus">−</span><span id="vzA2Rate1">—</span><span class="va-unit"><span class="t-zh">件/年</span><span class="t-en">/yr</span></span></div>
+          <div class="va-sub"><span class="t-zh">為達 2035 減半</span><span class="t-en">to halve by 2035</span></div>
+        </div>
+        <div class="va-block">
+          <div class="va-label"><span class="t-zh">2035–2050 每年須減少</span><span class="t-en">2035–2050 cut per year</span></div>
+          <div class="va-val"><span class="va-minus">−</span><span id="vzA2Rate2">—</span><span class="va-unit"><span class="t-zh">件/年</span><span class="t-en">/yr</span></span></div>
+          <div class="va-sub"><span class="t-zh">為達 2050 降至 10%</span><span class="t-en">to reach 10% by 2050</span></div>
+        </div>
+      </div>
       <div class="vz-targets">
         <div><span class="lbl">2024 baseline</span><span class="val" id="vzA2Base">—</span></div>
         <div><span class="lbl">2035 target</span><span class="val" id="vzA2T35">—</span></div>
@@ -2282,6 +2336,18 @@ const markerLayer = L.layerGroup().addTo(map);
     if (v >= 1000)  return (v / 1000).toFixed(1) + 'k';
     return Math.round(v).toLocaleString();
   }
+  // Format an annual-reduction rate. Keep one decimal in the 0.1–10
+  // range so small-county targets like "0.7 死/年" survive precisely,
+  // switch to integer for clearer middle quantities, and k-notation for
+  // large A2 numbers.
+  function _vzRate(v) {
+    if (v >= 10000) return (v / 1000).toFixed(0) + 'k';
+    if (v >= 1000)  return (v / 1000).toFixed(1) + 'k';
+    if (v >= 10)    return Math.round(v).toString();
+    if (v >= 0.1)   return v.toFixed(1);
+    if (v > 0)      return '<0.1';
+    return '0';
+  }
   // Catmull-Rom-to-Bezier smoothed path. pts: array of [x, y].
   function _vzSmooth(pts) {
     if (pts.length < 2) return '';
@@ -2450,6 +2516,16 @@ const markerLayer = L.layerGroup().addTo(map);
     document.getElementById('vzA2Base').textContent = _vzFmt(a2Base);
     document.getElementById('vzA2T35').textContent = _vzFmt(a2Base * 0.5);
     document.getElementById('vzA2T50').textContent = _vzFmt(a2Base * 0.1);
+
+    // Annual required reductions (linear trajectory slopes)
+    //   A1 phase 1 (2024-2035): baseline * 0.5 / 11  =  baseline / 22
+    //   A1 phase 2 (2035-2050): baseline * 0.5 / 15  =  baseline / 30
+    //   A2 phase 1: baseline / 22
+    //   A2 phase 2: baseline * 0.4 / 15
+    document.getElementById('vzA1Rate1').textContent = _vzRate(a1Base / 22);
+    document.getElementById('vzA1Rate2').textContent = _vzRate(a1Base / 30);
+    document.getElementById('vzA2Rate1').textContent = _vzRate(a2Base / 22);
+    document.getElementById('vzA2Rate2').textContent = _vzRate(a2Base * 0.4 / 15);
 
     _vzStatus('vzA1Status', a1Hist[2025] || 0, a1T.traj[2025]);
     _vzStatus('vzA2Status', a2Hist[2025] || a2Hist['2025'] || 0, a2T.traj[2025]);
