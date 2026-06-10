@@ -1075,8 +1075,35 @@ body.lang-en #hdrTitleZh { display: none; }
 .vz-chart-wrap {
   width: 100%; aspect-ratio: 700 / 280;
   background: #FAFAFA; margin: 8px 0 18px;
+  position: relative;
 }
 .vz-chart-wrap svg { width: 100%; height: 100%; display: block; }
+
+/* Hover tooltip */
+.vz-tooltip {
+  position: absolute; pointer-events: none;
+  background: rgba(26, 26, 26, 0.96); color: white;
+  padding: 9px 13px; font-family: var(--font-en);
+  font-size: 11px; line-height: 1.5;
+  border-radius: 2px; z-index: 10;
+  display: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.30);
+  min-width: 168px; white-space: nowrap;
+}
+.vt-year {
+  font-weight: 700; font-size: 13px; letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255,255,255,0.22);
+  padding-bottom: 4px; margin-bottom: 5px;
+}
+.vt-row {
+  display: flex; justify-content: space-between; gap: 16px;
+  margin: 1px 0;
+}
+.vt-lbl { color: #B0B0B0; letter-spacing: 0.04em; }
+.vt-val { font-weight: 600; letter-spacing: -0.01em; }
+.vt-val.lime { color: var(--lime); }
+.vt-val small { color: #888; font-weight: 400; margin-left: 3px; }
+.vt-row.muted .vt-lbl, .vt-row.muted .vt-val { color: #777; }
 .vz-targets {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
   border-top: 1px solid var(--grey-3); padding-top: 14px;
@@ -1258,7 +1285,7 @@ body.lang-en #hdrTitleZh { display: none; }
       <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:4px">A1 · Fatal Deaths Trajectory</h4>
       <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">紅實線歷史 · 亮綠虛線達標 · 淡紅色帶 BAU 高低</span><span class="t-en">Red = history · lime = required · red band = BAU range</span></div>
       <div class="vz-status" id="vzA1Status">—</div>
-      <div class="vz-chart-wrap"><svg id="vzA1Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="vz-chart-wrap"><svg id="vzA1Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg><div class="vz-tooltip" id="vzA1Tip"></div></div>
       <div class="vz-action">
         <div class="va-block">
           <div class="va-label"><span class="t-zh">2025–2035 每年須減少</span><span class="t-en">2025–2035 cut per year</span></div>
@@ -1282,7 +1309,7 @@ body.lang-en #hdrTitleZh { display: none; }
       <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:4px">A2 · Casualty Events Trajectory</h4>
       <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">藍實線歷史 · 亮綠虛線達標 · 淡藍色帶 BAU 高低</span><span class="t-en">Blue = history · lime = required · blue band = BAU range</span></div>
       <div class="vz-status" id="vzA2Status">—</div>
-      <div class="vz-chart-wrap"><svg id="vzA2Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="vz-chart-wrap"><svg id="vzA2Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg><div class="vz-tooltip" id="vzA2Tip"></div></div>
       <div class="vz-action">
         <div class="va-block">
           <div class="va-label"><span class="t-zh">2025–2035 每年須減少</span><span class="t-en">2025–2035 cut per year</span></div>
@@ -2479,7 +2506,120 @@ const markerLayer = L.layerGroup().addTo(map);
     HIST_YEARS.forEach(y => {
       s += `<circle cx="${xS(y).toFixed(1)}" cy="${yS(hist[y] || hist[String(y)] || 0).toFixed(1)}" r="2.6" fill="${color}"/>`;
     });
+
+    // ── hover layer: vertical guide + 3 marker dots + capture rect ──
+    s += `<line id="${svgId}Guide" x1="0" y1="${pad.t}" x2="0" y2="${H-pad.b}" stroke="#1A1A1A" stroke-width="0.7" stroke-dasharray="3,2" style="display:none" pointer-events="none"/>`;
+    s += `<circle id="${svgId}DotH" r="4.5" fill="${color}" stroke="white" stroke-width="1.5" style="display:none" pointer-events="none"/>`;
+    s += `<circle id="${svgId}DotT" r="4.5" fill="#A8B200" stroke="white" stroke-width="1.5" style="display:none" pointer-events="none"/>`;
+    s += `<circle id="${svgId}DotB" r="4.2" fill="${color}" fill-opacity="0.55" stroke="white" stroke-width="1.5" style="display:none" pointer-events="none"/>`;
+    s += `<rect id="${svgId}Capture" x="${pad.l}" y="${pad.t}" width="${W-pad.l-pad.r}" height="${H-pad.t-pad.b}" fill="transparent" pointer-events="all" style="cursor:crosshair"/>`;
+
     svg.innerHTML = s;
+
+    // Cache for hover handler + attach
+    window.__vzCharts = window.__vzCharts || {};
+    window.__vzCharts[svgId] = { hist, traj, bau, color, W, H, pad };
+    _vzAttachHover(svgId);
+  }
+
+  // ── attach mouse/touch hover behavior to one chart SVG ──
+  function _vzAttachHover(svgId) {
+    const svg = document.getElementById(svgId);
+    const tip = document.getElementById(svgId + 'Tip');
+    if (!svg || !tip) return;
+    const capture = document.getElementById(svgId + 'Capture');
+    const guide = document.getElementById(svgId + 'Guide');
+    const dotH = document.getElementById(svgId + 'DotH');
+    const dotT = document.getElementById(svgId + 'DotT');
+    const dotB = document.getElementById(svgId + 'DotB');
+    if (!capture) return;
+
+    function hide() {
+      tip.style.display = 'none';
+      guide.style.display = 'none';
+      dotH.style.display = 'none';
+      dotT.style.display = 'none';
+      dotB.style.display = 'none';
+    }
+
+    function move(e) {
+      const cfg = window.__vzCharts[svgId];
+      if (!cfg) return;
+      const rect = svg.getBoundingClientRect();
+      const ratio = cfg.W / rect.width;
+      const svgX = (e.clientX - rect.left) * ratio;
+      if (svgX < cfg.pad.l - 4 || svgX > cfg.W - cfg.pad.r + 4) { hide(); return; }
+
+      const yearF = (svgX - cfg.pad.l) / (cfg.W - cfg.pad.l - cfg.pad.r);
+      const year = Math.max(2016, Math.min(2050, Math.round(2016 + yearF * 34)));
+
+      const xS = y => cfg.pad.l + (y - 2016) / 34 * (cfg.W - cfg.pad.l - cfg.pad.r);
+      const allVals = [...Object.values(cfg.hist), ...Object.values(cfg.traj)];
+      if (cfg.bau) allVals.push(...Object.values(cfg.bau.high));
+      const yMax = Math.max(1, ...allVals) * 1.08;
+      const yS = v => cfg.pad.t + (1 - v / yMax) * (cfg.H - cfg.pad.t - cfg.pad.b);
+
+      const gx = xS(year);
+      guide.setAttribute('x1', gx);
+      guide.setAttribute('x2', gx);
+      guide.style.display = 'block';
+
+      const histV = cfg.hist[year] != null ? cfg.hist[year] : cfg.hist[String(year)];
+      const trajV = cfg.traj[year];
+      const bauC = cfg.bau ? cfg.bau.center[year] : null;
+      const bauH = cfg.bau ? cfg.bau.high[year] : null;
+      const bauL = cfg.bau ? cfg.bau.low[year] : null;
+
+      // marker dots
+      if (histV != null && year <= 2025) {
+        dotH.setAttribute('cx', gx);
+        dotH.setAttribute('cy', yS(histV));
+        dotH.style.display = 'block';
+      } else { dotH.style.display = 'none'; }
+      if (trajV != null && year >= 2024) {
+        dotT.setAttribute('cx', gx);
+        dotT.setAttribute('cy', yS(trajV));
+        dotT.style.display = 'block';
+      } else { dotT.style.display = 'none'; }
+      if (bauC != null && year >= 2025) {
+        dotB.setAttribute('cx', gx);
+        dotB.setAttribute('cy', yS(bauC));
+        dotB.style.display = 'block';
+      } else { dotB.style.display = 'none'; }
+
+      // tooltip content
+      const rows = [];
+      if (histV != null && year <= 2025) {
+        rows.push(`<div class="vt-row"><span class="vt-lbl">${TT('歷史', 'Actual')}</span><span class="vt-val">${_vzFmt(histV)}</span></div>`);
+      }
+      if (trajV != null && year >= 2024) {
+        rows.push(`<div class="vt-row"><span class="vt-lbl">${TT('目標軌跡', 'Required')}</span><span class="vt-val lime">${_vzFmt(trajV)}</span></div>`);
+      }
+      if (bauC != null && year >= 2025) {
+        rows.push(`<div class="vt-row"><span class="vt-lbl">BAU</span><span class="vt-val">${_vzFmt(bauC)}<small>(${_vzFmt(bauL)}–${_vzFmt(bauH)})</small></span></div>`);
+      }
+      if (rows.length === 0) {
+        rows.push(`<div class="vt-row muted"><span class="vt-lbl">${TT('無資料', 'No data')}</span><span class="vt-val">—</span></div>`);
+      }
+      tip.innerHTML = `<div class="vt-year">${year}</div>${rows.join('')}`;
+      tip.style.display = 'block';
+
+      // position tooltip near cursor, clamped to wrap
+      const wrap = svg.parentElement;
+      const wrapRect = wrap.getBoundingClientRect();
+      const tipW = tip.offsetWidth || 170;
+      const tipH = tip.offsetHeight || 80;
+      const margin = 12;
+      let tipX = (e.clientX - wrapRect.left) + 14;
+      let tipY = (e.clientY - wrapRect.top) - tipH - 8;
+      if (tipX + tipW + margin > wrapRect.width) tipX = (e.clientX - wrapRect.left) - tipW - 14;
+      if (tipY < margin) tipY = (e.clientY - wrapRect.top) + 14;
+      tip.style.left = Math.max(margin, tipX) + 'px';
+      tip.style.top = tipY + 'px';
+    }
+
+    capture.addEventListener('pointermove', move);
+    capture.addEventListener('pointerleave', hide);
   }
   function _vzStatus(elId, actual2025, required2025) {
     const el = document.getElementById(elId);
