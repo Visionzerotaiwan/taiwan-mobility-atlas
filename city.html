@@ -1152,6 +1152,48 @@ body.lang-en #hdrTitleZh { display: none; }
   font-size: 11px; color: var(--grey-2); letter-spacing: 0.04em;
   font-weight: 400;
 }
+
+/* ── Share-card generator ── */
+.share-btn {
+  margin-top: 10px; background: var(--black); color: var(--lime);
+  border: none; padding: 8px 14px; cursor: pointer;
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.share-btn:hover { background: var(--lime); color: var(--black); }
+.sc-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(26,26,26,0.72);
+  display: none; align-items: center; justify-content: center; padding: 18px;
+}
+.sc-overlay.open { display: flex; }
+.sc-modal {
+  background: var(--white); width: 100%; max-width: 860px;
+  max-height: 94vh; overflow: auto; padding: 26px 28px;
+}
+.sc-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.sc-title { font-family: var(--font-en); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.sc-sub { font-size: 12px; color: var(--grey-2); margin-top: 4px; letter-spacing: 0.03em; }
+.sc-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--grey-2); line-height: 1; padding: 4px; }
+.sc-close:hover { color: var(--black); }
+.sc-ratios { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.sc-ratio {
+  border: 1px solid var(--grey-3); background: var(--white); cursor: pointer;
+  padding: 9px 16px; font-family: var(--font-en); font-size: 13px; font-weight: 700;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+}
+.sc-ratio small { font-size: 10px; font-weight: 400; color: var(--grey-2); font-family: var(--font-zh); letter-spacing: 0.05em; }
+.sc-ratio.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.sc-ratio.active small { color: var(--grey-3); }
+.sc-preview { background: var(--grey-4); padding: 18px; display: flex; justify-content: center; }
+.sc-preview canvas { max-width: 100%; max-height: 58vh; box-shadow: 0 3px 18px rgba(0,0,0,0.25); }
+.sc-actions { display: flex; justify-content: flex-end; margin-top: 14px; }
+.sc-dl {
+  background: var(--lime); border: 1px solid var(--black); cursor: pointer;
+  padding: 11px 22px; font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+  box-shadow: 2px 2px 0 var(--black); font-family: var(--font-zh);
+}
+.sc-dl:hover { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--black); }
 </style>
 </head>
 <body>
@@ -1177,7 +1219,8 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
   <div class="meta">
     <select id="citySelect" aria-label="選擇縣市"></select><br>
-    <span style="font-family:var(--font-en);font-size:9px;letter-spacing:0.18em">A1 · 2016 — 2025</span>
+    <span style="font-family:var(--font-en);font-size:9px;letter-spacing:0.18em">A1 · 2016 — 2025</span><br>
+    <button id="shareBtn" class="share-btn"><span class="t-zh">⬇ 分享圖卡</span><span class="t-en">⬇ Share card</span></button>
   </div>
 </div>
 
@@ -1566,6 +1609,28 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
 </footer>
 
+</div>
+
+<!-- Share-card modal -->
+<div class="sc-overlay" id="scOverlay">
+  <div class="sc-modal">
+    <div class="sc-head">
+      <div>
+        <div class="sc-title">Share Card · <span id="scCityName"></span></div>
+        <div class="sc-sub"><span class="t-zh">選擇尺寸,下載 PNG 後可直接貼到社群或簡報</span><span class="t-en">Pick a size, download the PNG, post it anywhere</span></div>
+      </div>
+      <button class="sc-close" id="scClose" aria-label="close">✕</button>
+    </div>
+    <div class="sc-ratios">
+      <button class="sc-ratio active" data-ratio="square">1:1<small><span class="t-zh">正方形 · IG 貼文</span><span class="t-en">Square · IG post</span></small></button>
+      <button class="sc-ratio" data-ratio="portrait">4:3 直式<small><span class="t-zh">直式 · IG/FB</span><span class="t-en">Portrait · IG/FB</span></small></button>
+      <button class="sc-ratio" data-ratio="wide">16:9<small><span class="t-zh">橫式 · 簡報/X</span><span class="t-en">Wide · slides/X</span></small></button>
+    </div>
+    <div class="sc-preview"><canvas id="scCanvas" width="1080" height="1080"></canvas></div>
+    <div class="sc-actions">
+      <button class="sc-dl" id="scDownload"><span class="t-zh">⬇ 下載 PNG</span><span class="t-en">⬇ Download PNG</span></button>
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -2791,6 +2856,217 @@ const markerLayer = L.layerGroup().addTo(map);
   }
 
   // ====================================================================
+  //  SHARE CARD GENERATOR (社群分享圖卡)
+  // ====================================================================
+  // Dark VZT poster style drawn on <canvas>, three export sizes:
+  //   square   1080×1080  (IG post)
+  //   portrait 1080×1440  (IG/FB 直式 4:3 — adds the trend chart)
+  //   wide     1920×1080  (slides / X — chart + mode bar on the right)
+  const SC_SIZES = { square: [1080, 1080], portrait: [1080, 1440], wide: [1920, 1080] };
+  let scRatio = 'square';
+
+  function scCounty() {
+    const m = window.__META || {};
+    const totalDeaths = YEARLY.reduce((s, r) => s + r.deaths, 0);
+    const totalEvents = YEARLY.reduce((s, r) => s + r.events, 0);
+    const base24 = (YEARLY.find(r => String(r.year) === '2024') || {}).deaths || 0;
+    const pop = Object.values(window.DISTRICT_POP || {}).reduce((s, v) => s + (+v || 0), 0);
+    let a2Total = null;
+    if (window.__A2_AGG && window.__A2_AGG.by_county_year[m.zh]) {
+      a2Total = Object.values(window.__A2_AGG.by_county_year[m.zh].events || {}).reduce((s, v) => s + v, 0);
+    }
+    const modes = {};
+    YEARLY.forEach(r => Object.entries(r.by_mode || {}).forEach(([k, v]) => { modes[k] = (modes[k] || 0) + v; }));
+    return { m, totalDeaths, totalEvents, base24, pop, a2Total, modes,
+             years: YEARLY.map(r => +r.year), deaths: YEARLY.map(r => r.deaths),
+             per100k: pop ? totalDeaths / pop * 100000 : null };
+  }
+
+  // fillText with optional manual letter-spacing (canvas has none native)
+  function scText(ctx, text, x, y, font, color, align, ls) {
+    align = align || 'left'; ls = ls || 0;
+    ctx.font = font; ctx.fillStyle = color; ctx.textBaseline = 'alphabetic';
+    if (!ls) {
+      ctx.textAlign = align; ctx.fillText(text, x, y);
+      const w = ctx.measureText(text).width; ctx.textAlign = 'left'; return w;
+    }
+    ctx.textAlign = 'left';
+    const chars = Array.from(String(text));
+    const total = chars.reduce((s, c) => s + ctx.measureText(c).width + ls, 0) - ls;
+    let cx = align === 'center' ? x - total / 2 : (align === 'right' ? x - total : x);
+    chars.forEach(c => { ctx.fillText(c, cx, y); cx += ctx.measureText(c).width + ls; });
+    return total;
+  }
+
+  // mini trend chart: history (red) + dashed lime target to the 2035 halving
+  function scChart(ctx, x, y, w, h, d) {
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.fillRect(x, y, w, h);
+    const X0 = 2015.5, X1 = 2036;
+    const t35 = d.base24 / 2;
+    const yMax = Math.max.apply(null, d.deaths.concat([d.base24, 1])) * 1.18;
+    const px = yr => x + (yr - X0) / (X1 - X0) * w;
+    const py = v => y + 34 + (1 - v / yMax) * (h - 84);
+    [2016, 2025, 2035].forEach(yr =>
+      scText(ctx, String(yr), px(yr), y + h - 18, '500 22px "Space Grotesk"', '#777', 'center'));
+    // target dashed (lime)
+    ctx.strokeStyle = '#C8D400'; ctx.lineWidth = 4; ctx.setLineDash([12, 8]);
+    ctx.beginPath(); ctx.moveTo(px(2024), py(d.base24)); ctx.lineTo(px(2035), py(t35)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#C8D400';
+    ctx.beginPath(); ctx.arc(px(2035), py(t35), 8, 0, Math.PI * 2); ctx.fill();
+    scText(ctx, '−50%', px(2035), py(t35) - 18, '700 24px "Space Grotesk"', '#C8D400', 'center');
+    // history (red)
+    ctx.strokeStyle = '#D94F3D'; ctx.lineWidth = 5; ctx.beginPath();
+    d.years.forEach((yr, i) => { const X = px(yr), Y = py(d.deaths[i]); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); });
+    ctx.stroke();
+    ctx.fillStyle = '#D94F3D';
+    d.years.forEach((yr, i) => { ctx.beginPath(); ctx.arc(px(yr), py(d.deaths[i]), 6, 0, Math.PI * 2); ctx.fill(); });
+    const li = d.deaths.length - 1;
+    scText(ctx, String(d.deaths[li]), px(d.years[li]), py(d.deaths[li]) - 16, '700 26px "Space Grotesk"', '#FFF', 'center');
+  }
+
+  // single stacked bar of victim-mode share + legend
+  function scModeBar(ctx, x, y, w, d) {
+    const COLORS = { '機車': '#D94F3D', '人': '#E8A825', '汽車': '#3A7CC3', '慢車': '#C8D400', '其他': '#888' };
+    const LBL = { '人': TT('行人', 'Ped') , '機車': TT('機車', 'Moto'), '汽車': TT('汽車', 'Car'), '慢車': TT('慢車', 'Bike'), '其他': TT('其他', 'Other') };
+    const order = ['機車', '人', '汽車', '慢車', '其他'].filter(k => d.modes[k]);
+    const total = order.reduce((s, k) => s + d.modes[k], 0) || 1;
+    scText(ctx, TT('受害者運具(最脆弱用路人)', 'VICTIM MODE'), x, y - 14, '600 22px "Space Grotesk"', '#888', 'left', 3);
+    let cx = x;
+    order.forEach(k => {
+      const bw = d.modes[k] / total * w;
+      ctx.fillStyle = COLORS[k]; ctx.fillRect(cx, y, Math.max(bw - 3, 2), 42);
+      cx += bw;
+    });
+    let lx = x;
+    order.forEach(k => {
+      const pctv = Math.round(d.modes[k] / total * 100);
+      if (pctv < 4) return;
+      ctx.fillStyle = COLORS[k]; ctx.fillRect(lx, y + 64, 20, 20);
+      lx += 30;
+      lx += scText(ctx, LBL[k] + ' ' + pctv + '%', lx, y + 81, '400 25px "Noto Sans TC"', '#CCC') + 34;
+    });
+  }
+
+  function scDraw() {
+    const canvas = document.getElementById('scCanvas');
+    if (!canvas) return;
+    const dims = SC_SIZES[scRatio];
+    const W = dims[0], H = dims[1];
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    const d = scCounty();
+    const zh = d.m.zh || '';
+    const en = (d.m.en || '').toUpperCase();
+
+    ctx.fillStyle = '#1A1A1A'; ctx.fillRect(0, 0, W, H);
+    const P = scRatio === 'wide' ? 90 : 80;
+    const CW = scRatio === 'wide' ? 820 : W - P * 2;
+
+    // tag + year range
+    const tagText = 'VISION ZERO TAIWAN × TCAN';
+    ctx.font = '600 24px "Space Grotesk"';
+    const tagW = Array.from(tagText).reduce((s, c) => s + ctx.measureText(c).width + 5, 0) - 5;
+    ctx.strokeStyle = '#C8D400'; ctx.lineWidth = 3;
+    ctx.strokeRect(P, P - 26, tagW + 44, 56);
+    scText(ctx, tagText, P + 22, P + 12, '600 24px "Space Grotesk"', '#C8D400', 'left', 5);
+    scText(ctx, '2016 – 2025', W - P, P + 12, '500 26px "Space Grotesk"', '#888', 'right', 4);
+
+    // county name
+    scText(ctx, zh, P, P + 175, '900 110px "Noto Sans TC"', '#FFF');
+    scText(ctx, en + ' · 10-YEAR REVIEW', P, P + 228, '500 28px "Space Grotesk"', '#888', 'left', 4);
+
+    // big number
+    const numY = P + 470;
+    scText(ctx, d.totalDeaths.toLocaleString(), P - 6, numY,
+           scRatio === 'wide' ? '300 220px "Space Grotesk"' : '300 195px "Space Grotesk"', '#D94F3D');
+    scText(ctx, TT('人因交通事故死亡(A1 · 十年)', 'ROAD DEATHS IN 10 YEARS (A1)'), P, numY + 56, '400 34px "Noto Sans TC"', '#FFF');
+
+    // stats trio
+    const stats = [
+      [TT('A2 事故事件', 'A2 EVENTS'), d.a2Total ? _vzFmt(d.a2Total) : _vzFmt(d.totalEvents)],
+      [TT('每十萬人死亡', 'PER 100K POP.'), d.per100k != null ? d.per100k.toFixed(1) : '—'],
+      [TT('2024 年死亡', '2024 BASELINE'), String(d.base24)],
+    ];
+    const statY = numY + 160;
+    stats.forEach((s, i) => {
+      const sx = P + i * (CW / 3);
+      scText(ctx, s[0], sx, statY, '600 22px "Space Grotesk"', '#888', 'left', 3);
+      scText(ctx, s[1], sx, statY + 58, '600 52px "Space Grotesk"', '#FFF');
+    });
+
+    function kpiBand(x, y, w, h) {
+      ctx.fillStyle = '#C8D400'; ctx.fillRect(x, y, w, h);
+      const r1 = _vzRate(d.base24 / 22);
+      scText(ctx, TT('達成 2035 減半目標', 'TO HALVE BY 2035'), x + 30, y + 36, '600 22px "Space Grotesk"', 'rgba(26,26,26,0.62)', 'left', 3);
+      scText(ctx, TT('每年至少減 ' + r1 + ' 死', 'CUT ≥ ' + r1 + ' DEATHS / YEAR'), x + 30, y + 76, '700 40px "Noto Sans TC"', '#1A1A1A');
+      scText(ctx, '2050 → 0', x + w - 30, y + 64, '700 44px "Space Grotesk"', '#1A1A1A', 'right');
+    }
+    function footer(x, y, w) {
+      scText(ctx, 'TCAN × 還路於民 VISION ZERO TAIWAN', x, y, '400 24px "Noto Sans TC"', '#777');
+      scText(ctx, 'visionzerotaiwan.github.io', x + w, y, '400 22px "Space Grotesk"', '#666', 'right');
+      scText(ctx, TT('支持五大訴求連署', 'SIGN THE PETITION') + ' → forms.gle/wqWe1f8peB4Qn5c66', x, y + 40, '600 26px "Space Grotesk"', '#C8D400');
+    }
+
+    if (scRatio === 'square') {
+      kpiBand(P, 820, CW, 96);
+      footer(P, 960, CW);
+    } else if (scRatio === 'portrait') {
+      scText(ctx, TT('死亡趨勢與 2035 目標', 'DEATHS VS 2035 TARGET'), P, 846, '600 22px "Space Grotesk"', '#888', 'left', 3);
+      scChart(ctx, P, 862, CW, 280, d);
+      kpiBand(P, 1180, CW, 96);
+      footer(P, 1315, CW);
+    } else { // wide
+      const RX = W - P - 830;
+      scText(ctx, TT('死亡趨勢與 2035 目標', 'DEATHS VS 2035 TARGET'), RX, 132, '600 22px "Space Grotesk"', '#888', 'left', 3);
+      scChart(ctx, RX, 150, 830, 540, d);
+      scModeBar(ctx, RX, 760, 830, d);
+      kpiBand(P, 840, 820, 96);
+      scText(ctx, 'TCAN × 還路於民 VZT · visionzerotaiwan.github.io/taiwan-mobility-atlas', P, 1012, '400 24px "Noto Sans TC"', '#777');
+      scText(ctx, TT('支持五大訴求連署', 'SIGN THE PETITION') + ' → forms.gle/wqWe1f8peB4Qn5c66', W - P, 1012, '600 26px "Space Grotesk"', '#C8D400', 'right');
+    }
+  }
+  window.__scRedraw = () => {
+    if (document.getElementById('scOverlay').classList.contains('open')) scDraw();
+  };
+
+  (function scWire() {
+    const btn = document.getElementById('shareBtn');
+    if (!btn) return;
+    const overlay = document.getElementById('scOverlay');
+    btn.addEventListener('click', async () => {
+      overlay.classList.add('open');
+      document.getElementById('scCityName').textContent = (window.__META || {}).zh || '';
+      const faces = ['900 110px "Noto Sans TC"', '700 40px "Noto Sans TC"', '400 34px "Noto Sans TC"',
+                     '300 195px "Space Grotesk"', '600 24px "Space Grotesk"', '500 28px "Space Grotesk"'];
+      try { await Promise.all(faces.map(f => document.fonts.load(f))); } catch (e) {}
+      if (!window.__A2_AGG) {
+        try { window.__A2_AGG = await fetch('data/a2_aggregates.json').then(r => r.json()); } catch (e) {}
+      }
+      scDraw();
+    });
+    document.getElementById('scClose').addEventListener('click', () => overlay.classList.remove('open'));
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+    document.querySelectorAll('.sc-ratio').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.sc-ratio').forEach(x => x.classList.toggle('active', x === b));
+      scRatio = b.dataset.ratio;
+      scDraw();
+    }));
+    document.getElementById('scDownload').addEventListener('click', () => {
+      const canvas = document.getElementById('scCanvas');
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'vzt-' + (window.__SLUG || 'card') + '-' + scRatio + '.png';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      }, 'image/png');
+    });
+  })();
+
+  // ====================================================================
   //  INITIAL RENDER
   // ====================================================================
   renderTrend();
@@ -2806,6 +3082,7 @@ const markerLayer = L.layerGroup().addTo(map);
     renderTrend(); renderYearStacks(); renderSnapshot(); renderHeatmap();
     renderMap(); renderBreakdowns(); renderHotspots(); genInsight();
     renderVisionZero();
+    if (window.__scRedraw) window.__scRedraw();
   };
   genInsight();
   const bounds = L.latLngBounds(filteredOnMap().map(e => [e.lat, e.lon]));
