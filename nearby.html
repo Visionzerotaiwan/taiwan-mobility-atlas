@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我家附近安全嗎?· Taiwan Mobility Atlas</title>
+<meta property="og:title" content="我家附近安全嗎?查你住的鄉鎮十年交通事故死亡">
+<meta property="og:description" content="輸入你住的鄉鎮市區,看十年死亡人數、全國排名與最危險路段。Taiwan Mobility Atlas × Vision Zero Taiwan">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
+  --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
+  --red:#D94F3D; --red-dk:#A33A2D; --gold:#E8A825; --blue:#3A7CC3;
+  --font-zh:'Noto Sans TC',sans-serif;
+  --font-en:'Space Grotesk',sans-serif;
+}
+body { font-family: var(--font-zh); background: var(--grey-4); color: var(--black); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+
+/* ── hero ── */
+.hero {
+  background: var(--black); color: var(--white);
+  padding: 56px 24px 72px; text-align: center;
+}
+.hero .tag {
+  display: inline-block; font-family: var(--font-en); font-size: 10px;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  border: 1.5px solid var(--lime); color: var(--lime);
+  padding: 5px 12px; font-weight: 600; margin-bottom: 28px;
+}
+.hero h1 { font-size: clamp(30px, 6vw, 46px); font-weight: 900; letter-spacing: 0.04em; line-height: 1.25; }
+.hero h1 em { font-style: normal; color: var(--lime); }
+.hero .sub {
+  font-size: 14px; font-weight: 300; color: var(--grey-3);
+  margin-top: 14px; line-height: 1.7; letter-spacing: 0.03em;
+}
+.hero .en {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey-2); margin-top: 6px;
+}
+
+/* ── search ── */
+.search-wrap { max-width: 660px; margin: -34px auto 0; padding: 0 20px; position: relative; z-index: 5; }
+.search-box {
+  background: var(--white); display: flex; gap: 0;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.18);
+}
+.search-box input {
+  flex: 1; border: none; outline: none; padding: 20px 22px;
+  font-family: var(--font-zh); font-size: 17px; letter-spacing: 0.04em;
+  min-width: 0;
+}
+.search-box .geo-btn {
+  border: none; background: var(--lime); cursor: pointer;
+  padding: 0 22px; font-family: var(--font-zh); font-size: 14px; font-weight: 700;
+  letter-spacing: 0.06em; white-space: nowrap;
+}
+.search-box .geo-btn:hover { background: var(--lime-lt); }
+.suggest {
+  position: absolute; left: 20px; right: 20px; top: 100%;
+  background: var(--white); box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+  max-height: 320px; overflow-y: auto; display: none;
+}
+.suggest.open { display: block; }
+.suggest .sg-row {
+  padding: 13px 22px; cursor: pointer; display: flex; justify-content: space-between;
+  align-items: baseline; border-bottom: 1px solid var(--grey-4);
+}
+.suggest .sg-row:hover, .suggest .sg-row.hl { background: var(--lime-lt); }
+.suggest .sg-d { font-weight: 700; font-size: 15px; letter-spacing: 0.04em; }
+.suggest .sg-c { font-size: 12px; color: var(--grey-2); letter-spacing: 0.06em; }
+.geo-status {
+  text-align: center; font-size: 12px; color: var(--grey-2);
+  margin-top: 12px; letter-spacing: 0.05em; min-height: 18px;
+}
+
+/* ── result card ── */
+.result { max-width: 720px; margin: 36px auto 0; padding: 0 20px; display: none; }
+.result.show { display: block; animation: rise .45s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.card {
+  background: var(--white); padding: 36px 32px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 18px;
+}
+.card h3 {
+  font-family: var(--font-en); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--grey-2); font-weight: 600; margin-bottom: 14px;
+}
+.r-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+.r-name { font-size: 38px; font-weight: 900; letter-spacing: 0.04em; line-height: 1.1; }
+.r-county { font-size: 14px; color: var(--grey-2); letter-spacing: 0.1em; margin-top: 6px; }
+.r-deaths { text-align: right; }
+.r-deaths .n { font-family: var(--font-en); font-size: 56px; font-weight: 300; color: var(--red); line-height: 0.95; }
+.r-deaths .l { font-size: 12px; color: var(--grey-1); margin-top: 4px; letter-spacing: 0.05em; }
+@media (max-width: 560px) {
+  .r-head { flex-direction: column; }
+  .r-deaths { text-align: left; }
+  .r-deaths .n { font-size: 64px; }
+}
+
+.rank-row { margin-top: 26px; }
+.rank-item { margin-bottom: 18px; }
+.rank-item .ri-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.rank-item .ri-label { font-size: 13px; letter-spacing: 0.05em; color: var(--grey-1); }
+.rank-item .ri-rank { font-family: var(--font-en); font-size: 20px; font-weight: 700; white-space: nowrap; }
+.rank-item .ri-rank small { font-size: 12px; color: var(--grey-2); font-weight: 400; }
+.rank-item .ri-top { flex-wrap: wrap; gap: 4px; }
+.rank-item .ri-bar { background: var(--grey-4); height: 8px; position: relative; }
+.rank-item .ri-fill { height: 100%; background: var(--red); }
+.rank-item.rate .ri-fill { background: var(--gold); }
+.rank-item .ri-note { font-size: 11px; color: var(--grey-2); margin-top: 5px; letter-spacing: 0.04em; }
+
+.danger-tag {
+  display: inline-block; margin-top: 16px;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 7px 14px;
+}
+.danger-tag.hi { background: var(--red); color: var(--white); }
+.danger-tag.mid { background: var(--gold); color: var(--black); }
+.danger-tag.lo { background: var(--lime); color: var(--black); }
+
+/* mode bars */
+.mode-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.mode-row .m-name { width: 52px; font-size: 13px; letter-spacing: 0.08em; }
+.mode-row .m-track { flex: 1; background: var(--grey-4); height: 16px; }
+.mode-row .m-fill { height: 100%; }
+.mode-row .m-val { width: 70px; font-family: var(--font-en); font-size: 13px; font-weight: 600; text-align: right; }
+.mode-row .m-val small { color: var(--grey-2); font-weight: 400; }
+
+/* sparkline */
+.spark-wrap { margin-top: 6px; }
+.spark-wrap svg { width: 100%; height: 110px; display: block; }
+.spark-cap { display: flex; justify-content: space-between; font-family: var(--font-en); font-size: 10px; color: var(--grey-2); letter-spacing: 0.1em; margin-top: 4px; }
+
+/* hotspots */
+.hs-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 0; border-bottom: 1px solid var(--grey-4);
+}
+.hs-row:last-child { border-bottom: none; }
+.hs-rank { font-family: var(--font-en); font-size: 17px; font-weight: 700; color: var(--grey-3); width: 30px; }
+.hs-row.top1 .hs-rank { color: var(--red); }
+.hs-info { flex: 1; min-width: 0; }
+.hs-loc { font-size: 14px; font-weight: 500; letter-spacing: 0.03em; line-height: 1.45; word-break: break-all; }
+.hs-meta { font-family: var(--font-en); font-size: 10.5px; color: var(--grey-2); letter-spacing: 0.08em; margin-top: 3px; }
+.hs-deaths { font-family: var(--font-en); font-size: 22px; font-weight: 700; color: var(--red); white-space: nowrap; flex-shrink: 0; }
+.hs-deaths small { font-size: 10px; color: var(--grey-2); font-weight: 400; display: block; text-align: right; }
+.hs-seg {
+  font-family: var(--font-en); font-size: 8.5px; letter-spacing: 0.12em;
+  color: var(--gold); text-transform: uppercase; margin-left: 8px;
+}
+
+/* CTA */
+.cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .cta-grid { grid-template-columns: 1fr; } }
+.cta-a {
+  display: block; text-align: center; text-decoration: none;
+  padding: 18px 16px; font-weight: 700; font-size: 15px; letter-spacing: 0.05em;
+}
+.cta-a.map { background: var(--black); color: var(--white); }
+.cta-a.map:hover { background: var(--grey-1); }
+.cta-a.sign { background: var(--lime); color: var(--black); border: 1.5px solid var(--black); box-shadow: 3px 3px 0 var(--black); }
+.cta-a.sign:hover { transform: translate(1px,1px); box-shadow: 2px 2px 0 var(--black); }
+.cta-a small { display: block; font-family: var(--font-en); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; margin-top: 4px; opacity: 0.75; }
+
+/* footer */
+.foot {
+  max-width: 720px; margin: 30px auto 0; padding: 26px 20px 60px;
+  font-size: 11px; color: var(--grey-2); line-height: 1.8; letter-spacing: 0.04em;
+}
+.foot a { color: var(--grey-1); }
+.back-link {
+  display: inline-block; margin-bottom: 14px;
+  font-family: var(--font-en); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--grey-2); text-decoration: none;
+}
+.back-link:hover { color: var(--black); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">Taiwan Mobility Atlas · How Safe Is My Area?</div>
+  <h1>我家附近<em>安全</em>嗎?</h1>
+  <div class="sub">輸入你住的鄉鎮市區,看十年交通事故死亡、全國排名與最危險路段。</div>
+  <div class="en">364 Districts · NPA A1 Open Data 2016 – 2025</div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <input id="q" type="text" placeholder="輸入鄉鎮市區,例:中壢、斗六、恆春…" autocomplete="off" aria-label="搜尋鄉鎮市區">
+    <button class="geo-btn" id="geoBtn">📍 用我的位置</button>
+  </div>
+  <div class="suggest" id="suggest"></div>
+  <div class="geo-status" id="geoStatus"></div>
+</div>
+
+<div class="result" id="result">
+  <div class="card">
+    <div class="r-head">
+      <div>
+        <div class="r-name" id="rName">—</div>
+        <div class="r-county" id="rCounty">—</div>
+      </div>
+      <div class="r-deaths">
+        <div class="n" id="rDeaths">—</div>
+        <div class="l">人於 2016–2025 因交通事故死亡</div>
+      </div>
+    </div>
+    <div class="rank-row">
+      <div class="rank-item">
+        <div class="ri-top">
+          <span class="ri-label">死亡人數 · 全國排名</span>
+          <span class="ri-rank" id="rRankAbs">—</span>
+        </div>
+        <div class="ri-bar"><div class="ri-fill" id="rBarAbs" style="width:0%"></div></div>
+        <div class="ri-note" id="rNoteAbs"></div>
+      </div>
+      <div class="rank-item rate">
+        <div class="ri-top">
+          <span class="ri-label">每萬人死亡率 · 全國排名</span>
+          <span class="ri-rank" id="rRankRate">—</span>
+        </div>
+        <div class="ri-bar"><div class="ri-fill" id="rBarRate" style="width:0%"></div></div>
+        <div class="ri-note" id="rNoteRate"></div>
+      </div>
+    </div>
+    <div id="rTag"></div>
+  </div>
+
+  <div class="card">
+    <h3>Who Died · 誰是受害者</h3>
+    <div id="rModes"></div>
+  </div>
+
+  <div class="card">
+    <h3>10-Year Trend · 年度死亡</h3>
+    <div class="spark-wrap"><svg id="rSpark" viewBox="0 0 600 110" preserveAspectRatio="none"></svg></div>
+    <div class="spark-cap"><span>2016</span><span>2025</span></div>
+  </div>
+
+  <div class="card">
+    <h3>Most Dangerous · 最危險路段</h3>
+    <div id="rHots"></div>
+  </div>
+
+  <div class="cta-grid">
+    <a class="cta-a map" id="rMapLink" href="#">看完整縣市地圖 →<small>Full county map</small></a>
+    <a class="cta-a sign" href="https://forms.gle/wqWe1f8peB4Qn5c66" target="_blank" rel="noopener">支持五大訴求連署<small>Sign the petition</small></a>
+  </div>
+</div>
+
+<div class="foot">
+  <a class="back-link" href="index.html">← Taiwan Mobility Atlas</a><br>
+  資料:內政部警政署 A1 級道路交通事故開放資料(2016–2025);每萬人率以民國 102 年戶籍人口為分母。
+  排名為 364 鄉鎮市區之競賽排名(同分同名次);熱點聚類與縣市頁一致(~3 km 路段 / ~300 m 方格)。
+  定位功能僅在你的瀏覽器內運算,不會上傳或儲存你的位置。<br>
+  TCAN 台灣氣候行動網絡 × 還路於民行人路權促進會(Vision Zero Taiwan)
+</div>
+
+<script>
+(async () => {
+
+const profiles = await fetch('data/district_profiles.json').then(r => r.json());
+const D = profiles.districts;
+const N = profiles.meta.n_districts;
+const NR = profiles.meta.n_rate_ranked;
+
+// flat index for search
+const INDEX = Object.keys(D).map(k => {
+  const [county, district] = k.split('|');
+  return { key: k, county, district };
+});
+
+const $ = id => document.getElementById(id);
+
+// ── search / autocomplete ──────────────────────────────────
+const q = $('q'), sg = $('suggest');
+let hlIdx = -1, current = [];
+
+function norm(s) { return (s || '').replace(/臺/g, '台').trim(); }
+
+q.addEventListener('input', () => {
+  const v = norm(q.value);
+  hlIdx = -1;
+  if (v.length < 1) { sg.classList.remove('open'); return; }
+  current = INDEX.filter(r =>
+    r.district.includes(v) || r.county.includes(v) || (r.county + r.district).includes(v)
+  ).slice(0, 12);
+  if (!current.length) { sg.classList.remove('open'); return; }
+  sg.innerHTML = current.map((r, i) =>
+    `<div class="sg-row" data-key="${r.key}"><span class="sg-d">${r.district}</span><span class="sg-c">${r.county} · ${D[r.key].d} 死</span></div>`
+  ).join('');
+  sg.classList.add('open');
+  sg.querySelectorAll('.sg-row').forEach(row =>
+    row.addEventListener('click', () => select(row.dataset.key)));
+});
+q.addEventListener('keydown', e => {
+  if (!sg.classList.contains('open')) return;
+  const rows = sg.querySelectorAll('.sg-row');
+  if (e.key === 'ArrowDown') { e.preventDefault(); hlIdx = Math.min(hlIdx + 1, rows.length - 1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); hlIdx = Math.max(hlIdx - 1, 0); }
+  else if (e.key === 'Enter') { e.preventDefault(); select((rows[Math.max(hlIdx,0)] || rows[0]).dataset.key); return; }
+  else return;
+  rows.forEach((r, i) => r.classList.toggle('hl', i === hlIdx));
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) sg.classList.remove('open');
+});
+
+// ── geolocation → point-in-polygon ─────────────────────────
+let GEO = null;
+function pointInRing(pt, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+    if (((yi > pt[1]) !== (yj > pt[1])) &&
+        (pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+function locateDistrict(lon, lat) {
+  for (const f of GEO.features) {
+    const g = f.geometry;
+    const polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+    for (const poly of polys) {
+      if (pointInRing([lon, lat], poly[0]) &&
+          !poly.slice(1).some(r => pointInRing([lon, lat], r))) {
+        return {
+          county: norm(f.properties.COUNTYNAME),
+          district: norm(f.properties.TOWNNAME),
+        };
+      }
+    }
+  }
+  return null;
+}
+$('geoBtn').addEventListener('click', async () => {
+  const st = $('geoStatus');
+  if (!navigator.geolocation) { st.textContent = '此瀏覽器不支援定位'; return; }
+  st.textContent = '取得位置中…';
+  navigator.geolocation.getCurrentPosition(async pos => {
+    try {
+      if (!GEO) {
+        st.textContent = '載入行政區界…';
+        GEO = await fetch('districts.geojson').then(r => r.json());
+      }
+      const hit = locateDistrict(pos.coords.longitude, pos.coords.latitude);
+      if (hit && D[`${hit.county}|${hit.district}`]) {
+        st.textContent = '';
+        select(`${hit.county}|${hit.district}`);
+      } else {
+        st.textContent = '你的位置不在台灣行政區界內,請改用搜尋';
+      }
+    } catch (e) {
+      st.textContent = '定位失敗,請改用搜尋';
+    }
+  }, () => { st.textContent = '無法取得位置(可能未授權),請改用搜尋'; },
+  { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+});
+
+// ── render ─────────────────────────────────────────────────
+const MODE_META = [
+  ['機車', '#1A1A1A', '機車'],
+  ['人',   '#D94F3D', '行人'],
+  ['汽車', '#3A7CC3', '汽車'],
+  ['慢車', '#E8A825', '慢車'],
+  ['其他', '#888888', '其他'],
+];
+
+function select(key) {
+  const p = D[key];
+  if (!p) return;
+  const [county, district] = key.split('|');
+  sg.classList.remove('open');
+  q.value = district;
+
+  $('rName').textContent = district;
+  $('rCounty').textContent = county + ' · ' + (p.pop ? p.pop.toLocaleString() + ' 人口(2013)' : '—');
+  $('rDeaths').textContent = p.d;
+
+  // absolute rank
+  $('rRankAbs').innerHTML = `第 ${p.ra} <small>/ ${N}</small>`;
+  const pctAbs = (N - p.ra + 1) / N * 100;
+  $('rBarAbs').style.width = pctAbs.toFixed(1) + '%';
+  $('rNoteAbs').textContent = p.ra <= 36
+    ? `你住的區死亡人數高於全國 ${(100 - p.ra / N * 100).toFixed(0)}% 的鄉鎮市區`
+    : `死亡人數高於全國 ${(100 - p.ra / N * 100).toFixed(0)}% 的鄉鎮市區`;
+
+  // rate rank
+  if (p.rr != null && p.p10k != null) {
+    $('rRankRate').innerHTML = `第 ${p.rr} <small>/ ${NR}</small>`;
+    $('rBarRate').style.width = ((NR - p.rr + 1) / NR * 100).toFixed(1) + '%';
+    $('rNoteRate').textContent = `每萬居民 ${p.p10k} 人死亡 — 考慮人口後的相對風險`;
+  } else {
+    $('rRankRate').textContent = '—';
+    $('rBarRate').style.width = '0%';
+    $('rNoteRate').textContent = '無人口資料';
+  }
+
+  // danger tag by rate percentile (fall back to abs)
+  const r = p.rr != null ? p.rr / NR : p.ra / N;
+  const tag = $('rTag');
+  if (r <= 0.25) tag.innerHTML = '<span class="danger-tag hi">⚠ 高風險區 — 前 25%</span>';
+  else if (r <= 0.5) tag.innerHTML = '<span class="danger-tag mid">注意 — 風險高於中位數</span>';
+  else tag.innerHTML = '<span class="danger-tag lo">相對安全 — 後 50%,但任何死亡都不可接受</span>';
+
+  // modes
+  const totalM = Object.values(p.mode || {}).reduce((s, v) => s + v, 0) || 1;
+  $('rModes').innerHTML = MODE_META
+    .filter(([k]) => p.mode && p.mode[k])
+    .map(([k, color, label]) => {
+      const v = p.mode[k], pct = v / totalM * 100;
+      return `<div class="mode-row">
+        <span class="m-name">${label}</span>
+        <div class="m-track"><div class="m-fill" style="width:${pct.toFixed(1)}%;background:${color}"></div></div>
+        <span class="m-val">${v}<small> 件 · ${pct.toFixed(0)}%</small></span>
+      </div>`;
+    }).join('') || '<div style="color:var(--grey-2);font-size:13px">無資料</div>';
+
+  // sparkline
+  const yr = p.yr || [];
+  const maxY = Math.max(...yr, 1);
+  const W = 600, H = 110, padX = 8, padY = 14;
+  const px = i => padX + i / (yr.length - 1) * (W - padX * 2);
+  const py = v => padY + (1 - v / maxY) * (H - padY * 2 - 14);
+  let s = '';
+  s += `<polyline fill="none" stroke="#D94F3D" stroke-width="3" points="${yr.map((v, i) => px(i).toFixed(1) + ',' + py(v).toFixed(1)).join(' ')}"/>`;
+  yr.forEach((v, i) => {
+    s += `<circle cx="${px(i).toFixed(1)}" cy="${py(v).toFixed(1)}" r="3.4" fill="#D94F3D"/>`;
+    s += `<text x="${px(i).toFixed(1)}" y="${(py(v) - 9).toFixed(1)}" font-family="Space Grotesk" font-size="12" fill="#888" text-anchor="middle">${v}</text>`;
+  });
+  $('rSpark').innerHTML = s;
+
+  // hotspots
+  $('rHots').innerHTML = (p.hot && p.hot.length)
+    ? p.hot.map((h, i) => `<div class="hs-row ${i === 0 ? 'top1' : ''}">
+        <div class="hs-rank">${String(i + 1).padStart(2, '0')}</div>
+        <div class="hs-info">
+          <div class="hs-loc">${h[0]}${h[4] ? '<span class="hs-seg">⚑ 路段</span>' : ''}</div>
+          <div class="hs-meta">${h[2]} EV · ${h[3]}</div>
+        </div>
+        <div class="hs-deaths">${h[1]}<small>死亡</small></div>
+      </div>`).join('')
+    : '<div style="color:var(--grey-2);font-size:13px">2018 年後無含座標之死亡事故(無法定位熱點)</div>';
+
+  $('rMapLink').href = p.slug ? `city.html?c=${p.slug}` : 'index.html';
+
+  $('result').classList.add('show');
+  history.replaceState(null, '', '?d=' + encodeURIComponent(key));
+  $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// deep link ?d=縣|區
+const dl = new URLSearchParams(location.search).get('d');
+if (dl && D[norm(dl)]) select(norm(dl));
+
+})();
+</script>
+</body>
+</html>
