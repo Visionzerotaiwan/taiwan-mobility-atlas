@@ -1320,13 +1320,13 @@ body.lang-en #hdrTitleZh { display: none; }
 
   <div class="trend-card" style="margin-bottom:18px">
     <h4>2024 → 2035 → 2050 · Required Trajectory + BAU Projection</h4>
-    <div class="card-zh"><span class="t-zh">以 2024 年實績為基準。<strong>亮綠虛線</strong>為達成「2035 減半、2050 A1 歸零 / A2 −90%」目標所需軌跡；<strong>同色淡色帶</strong>為「不採取積極措施」的 BAU（business-as-usual）推估 — 採<strong>穩健回歸（Theil-Sen 中位數斜率）</strong>對近 7 年（2019–2025）建模，避免 COVID 等單一異常年扭曲趨勢方向；下降趨勢用<strong>等比衰減</strong>避免「誤判為自然歸零」，上升趨勢用<strong>線性</strong>避免指數爆炸，並錨定於 2024 基準。<strong>A2 另設「層級位移偵測」</strong>：若整體趨勢顯示大幅成長、但近 3 年實際持平／下降（多為通報口徑變動造成的階梯，非真實激增），則改以近期實況外推。<strong>A1 死亡之 HIGH 上界加入「政策停滯」情境</strong>：假設政府不積極作為、僅靠車輛安全與醫療進步等被動因素，每年至多自然下降 1%，避免低估政策缺口。BAU 與目標軌跡之間的差距，即為政策必須補足的努力量。</span><span class="t-en">From 2024 baseline. <strong>Lime dashed</strong> = trajectory required to meet 2035 (−50%) and 2050 (A1 = 0 / A2 = −90%) targets. <strong>Tinted band</strong> (same hue as the metric) = business-as-usual projection — <strong>robust Theil-Sen regression</strong> (median pairwise slope) on the last 7 years (2019–2025), so a single anomalous year like COVID-2020 can't flip the projected direction; log-linear for declining series (asymptotes, never spuriously hits zero), linear for growing series (no exponential blow-up), anchored at the 2024 baseline. <strong>A2 also gets a level-shift guard</strong>: if the full window shows strong growth but the last 3 years are flat/declining (usually a reporting-coverage step, not a real surge), the current regime is projected instead. <strong>For A1 the HIGH bound is widened to a policy-stagnation floor</strong> of at most 1%/year passive decline (vehicle safety, trauma medicine) absent active intervention, so the band doesn't understate the policy gap. The gap between BAU and the required path is the policy effort needed.</span></div>
+    <div class="card-zh"><span class="t-zh">以 2024 年實績為基準。<strong>亮綠虛線</strong>為達成「2035 減半、2050 A1 歸零 / A2 −90%」目標所需軌跡；<strong>同色淡色帶</strong>為「不積極作為情境」（BAU, business-as-usual）推估 — 採<strong>穩健回歸（Theil-Sen 中位數斜率）</strong>對近 7 年（2019–2025）建模，避免 COVID 等單一異常年扭曲趨勢方向；下降趨勢用<strong>等比衰減</strong>避免「誤判為自然歸零」，上升趨勢用<strong>線性</strong>避免指數爆炸，並錨定於 2024 基準。<strong>A2 另設「層級位移偵測」</strong>：若整體趨勢顯示大幅成長、但近 3 年實際持平／下降（多為通報口徑變動造成的階梯，非真實激增），則改以近期實況外推。<strong>A1 死亡之 HIGH 上界加入「政策停滯」情境</strong>：假設政府不積極作為、僅靠車輛安全與醫療進步等被動因素，每年至多自然下降 1%，避免低估政策缺口。不積極作為情境與目標軌跡之間的差距，即為政策必須補足的努力量。</span><span class="t-en">From 2024 baseline. <strong>Lime dashed</strong> = trajectory required to meet 2035 (−50%) and 2050 (A1 = 0 / A2 = −90%) targets. <strong>Tinted band</strong> (same hue as the metric) = business-as-usual projection — <strong>robust Theil-Sen regression</strong> (median pairwise slope) on the last 7 years (2019–2025), so a single anomalous year like COVID-2020 can't flip the projected direction; log-linear for declining series (asymptotes, never spuriously hits zero), linear for growing series (no exponential blow-up), anchored at the 2024 baseline. <strong>A2 also gets a level-shift guard</strong>: if the full window shows strong growth but the last 3 years are flat/declining (usually a reporting-coverage step, not a real surge), the current regime is projected instead. <strong>For A1 the HIGH bound is widened to a policy-stagnation floor</strong> of at most 1%/year passive decline (vehicle safety, trauma medicine) absent active intervention, so the band doesn't understate the policy gap. The gap between BAU and the required path is the policy effort needed.</span></div>
   </div>
 
   <div class="vz-grid">
     <div class="vz-card">
       <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:4px">A1 · Fatal Deaths Trajectory</h4>
-      <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">紅實線歷史 · 亮綠虛線達標 · 淡紅色帶 BAU 高低</span><span class="t-en">Red = history · lime = required · red band = BAU range</span></div>
+      <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">紅實線歷史 · 亮綠虛線達標 · 淡紅色帶為不積極作為情境</span><span class="t-en">Red = history · lime = required · red band = BAU range</span></div>
       <div class="vz-status" id="vzA1Status">—</div>
       <div class="vz-chart-wrap"><svg id="vzA1Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg><div class="vz-tooltip" id="vzA1Tip"></div></div>
       <div class="vz-action">
@@ -1350,7 +1350,7 @@ body.lang-en #hdrTitleZh { display: none; }
 
     <div class="vz-card">
       <h4 style="font-family:var(--font-en);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:4px">A2 · Casualty Events Trajectory</h4>
-      <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">藍實線歷史 · 亮綠虛線達標 · 淡藍色帶 BAU 高低</span><span class="t-en">Blue = history · lime = required · blue band = BAU range</span></div>
+      <div class="card-zh" style="font-size:13px;color:var(--black);margin-bottom:14px;letter-spacing:0.05em"><span class="t-zh">藍實線歷史 · 亮綠虛線達標 · 淡藍色帶為不積極作為情境</span><span class="t-en">Blue = history · lime = required · blue band = BAU range</span></div>
       <div class="vz-status" id="vzA2Status">—</div>
       <div class="vz-chart-wrap"><svg id="vzA2Svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet"></svg><div class="vz-tooltip" id="vzA2Tip"></div></div>
       <div class="vz-action">
@@ -2662,7 +2662,7 @@ const markerLayer = L.layerGroup().addTo(map);
       // doesn't collide with the lime trajectory's −50% / ZERO label.
       const bau50h = bau.high[2050], bau50l = bau.low[2050];
       const labelY = (yS(bau50h) + yS(bau50l)) / 2;
-      s += `<text x="${xS(2050)-6}" y="${labelY-2}" font-family="Space Grotesk" font-size="9" font-weight="700" fill="#666" text-anchor="end">BAU</text>`;
+      s += `<text x="${xS(2050)-6}" y="${labelY-2}" font-family="Noto Sans TC, Space Grotesk, sans-serif" font-size="9" font-weight="700" fill="#666" text-anchor="end">${TT('不積極作為情境', 'BAU')}</text>`;
       s += `<text x="${xS(2050)-6}" y="${labelY+10}" font-family="Space Grotesk" font-size="8.5" fill="#999" text-anchor="end">${_vzFmt(bau50l)}–${_vzFmt(bau50h)}</text>`;
     }
 
@@ -2771,7 +2771,7 @@ const markerLayer = L.layerGroup().addTo(map);
         rows.push(`<div class="vt-row"><span class="vt-lbl">${TT('目標軌跡', 'Required')}</span><span class="vt-val lime">${_vzFmt(trajV)}</span></div>`);
       }
       if (bauC != null && year >= 2025) {
-        rows.push(`<div class="vt-row"><span class="vt-lbl">BAU</span><span class="vt-val">${_vzFmt(bauC)}<small>(${_vzFmt(bauL)}–${_vzFmt(bauH)})</small></span></div>`);
+        rows.push(`<div class="vt-row"><span class="vt-lbl">${TT('不積極作為情境', 'BAU')}</span><span class="vt-val">${_vzFmt(bauC)}<small>(${_vzFmt(bauL)}–${_vzFmt(bauH)})</small></span></div>`);
       }
       if (rows.length === 0) {
         rows.push(`<div class="vt-row muted"><span class="vt-lbl">${TT('無資料', 'No data')}</span><span class="vt-val">—</span></div>`);
@@ -2945,7 +2945,7 @@ const markerLayer = L.layerGroup().addTo(map);
       ctx.beginPath();
       projYears.forEach((yy, i) => { const X = px(yy), Y = py(bau.center[yy]); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); });
       ctx.stroke(); ctx.setLineDash([]);
-      scText(ctx, TT('BAU 目前趨勢', 'BAU · CURRENT TREND'), px(2030), py(bau.center[2030]) - 16, '700 21px "Noto Sans TC"', TH.bauText, 'center');
+      scText(ctx, TT('不積極作為情境', 'BAU · CURRENT TREND'), px(2030), py(bau.center[2030]) - 16, '700 21px "Noto Sans TC"', TH.bauText, 'center');
     }
 
     // target dashed (lime)
@@ -3057,13 +3057,13 @@ const markerLayer = L.layerGroup().addTo(map);
       kpiBand(P, 820, CW, 116);
       footer(P, 980, CW);
     } else if (scRatio === 'portrait') {
-      scText(ctx, TT('死亡趨勢、BAU 與 2035 目標', 'TREND · BAU · 2035 TARGET'), P, 846, '600 22px "Space Grotesk"', TH.sub, 'left', 3);
+      scText(ctx, TT('死亡趨勢、不積極作為情境與 2035 目標', 'TREND · BAU · 2035 TARGET'), P, 846, '600 22px "Space Grotesk"', TH.sub, 'left', 3);
       scChart(ctx, P, 862, CW, 280, d, TH, bau);
       kpiBand(P, 1178, CW, 116);
       footer(P, 1330, CW);
     } else { // wide
       const RX = W - P - 830;
-      scText(ctx, TT('死亡趨勢、BAU 與 2035 目標', 'TREND · BAU · 2035 TARGET'), RX, 132, '600 22px "Space Grotesk"', TH.sub, 'left', 3);
+      scText(ctx, TT('死亡趨勢、不積極作為情境與 2035 目標', 'TREND · BAU · 2035 TARGET'), RX, 132, '600 22px "Space Grotesk"', TH.sub, 'left', 3);
       scChart(ctx, RX, 150, 830, 540, d, TH, bau);
       scModeBar(ctx, RX, 760, 830, d, TH);
       kpiBand(P, 830, 820, 116);
