@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>結構的代價 — 街道願景白皮書數據 · Taiwan Mobility Atlas</title>
+<meta property="og:title" content="結構的代價:公共運輸服務愈是不足的地方,承擔愈高的車禍死傷率">
+<meta property="og:description" content="22 縣市散佈、17 年死亡率賽跑、2050 三情境推估 — 街道願景白皮書互動數據。Vision Zero Taiwan × TCAN">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
+  --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
+  --red:#D94F3D; --red-dk:#A33A2D; --gold:#E8A825; --blue:#3A7CC3;
+  --font-zh:'Noto Sans TC',sans-serif;
+  --font-en:'Space Grotesk',sans-serif;
+}
+body { font-family: var(--font-zh); background: var(--grey-4); color: var(--black); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+.t-en { display: none; }
+body.lang-en .t-zh { display: none; }
+body.lang-en .t-en { display: inline; }
+.lang-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 1600;
+  display: flex; background: var(--white); border: 1px solid var(--grey-3);
+  font-family: var(--font-en); font-size: 12px; font-weight: 600;
+}
+.lang-toggle .lt-opt { padding: 6px 12px; cursor: pointer; letter-spacing: 0.08em; color: var(--grey-2); }
+.lang-toggle .lt-opt.active { background: var(--black); color: var(--white); }
+
+.hero { background: var(--black); color: var(--white); padding: 68px 24px 72px; text-align: center; }
+.hero .tag {
+  display: inline-block; font-family: var(--font-en); font-size: 10px;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  border: 1.5px solid var(--lime); color: var(--lime);
+  padding: 5px 14px; font-weight: 600; margin-bottom: 30px;
+}
+.hero h1 { font-size: clamp(24px, 4.2vw, 42px); font-weight: 900; letter-spacing: 0.04em; line-height: 1.5; max-width: 980px; margin: 0 auto; }
+.hero h1 em { font-style: normal; color: var(--lime); }
+.hero .stats { display: flex; justify-content: center; gap: clamp(24px, 6vw, 80px); margin-top: 44px; flex-wrap: wrap; }
+.hero .st { text-align: center; }
+.hero .st .n { font-family: var(--font-en); font-size: clamp(40px, 6.4vw, 68px); font-weight: 300; line-height: 1; }
+.hero .st.a .n { color: var(--lime); }
+.hero .st.b .n { color: var(--gold); }
+.hero .st.c .n { color: var(--red); }
+.hero .st .l { margin-top: 9px; font-size: 13px; letter-spacing: 0.08em; color: var(--grey-3); }
+.hero .st .e { font-family: var(--font-en); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-2); margin-top: 3px; }
+
+.shell { max-width: 1180px; margin: 0 auto; padding: 56px 20px 40px; }
+.section { margin-bottom: 56px; }
+.section-label {
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--font-en); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.26em; text-transform: uppercase; color: var(--grey-2);
+  margin-bottom: 24px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--grey-3); }
+.card { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 32px; }
+.card h3 { font-weight: 700; font-size: 20px; letter-spacing: 0.03em; margin-bottom: 6px; }
+.card .sub { font-size: 13.5px; font-weight: 300; color: var(--grey-1); line-height: 1.75; letter-spacing: 0.02em; max-width: 860px; }
+.card .sub b { color: var(--black); font-weight: 700; }
+.chart-wrap { margin-top: 22px; position: relative; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.tip {
+  position: absolute; pointer-events: none; display: none; z-index: 5;
+  background: rgba(26,26,26,0.95); color: #fff; padding: 8px 12px;
+  font-size: 12px; line-height: 1.55; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.tip b { font-family: var(--font-en); }
+.legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 12px; color: var(--grey-1); align-items: center; }
+.legend-row .sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+.legend-row .ln { display: inline-block; width: 20px; height: 3px; margin-right: 5px; vertical-align: 3px; }
+.foot-note { margin-top: 14px; font-size: 11px; color: var(--grey-2); letter-spacing: 0.04em; line-height: 1.7; }
+
+/* chips (race) */
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+.chip {
+  border: 1px solid var(--grey-3); background: var(--grey-4); cursor: pointer;
+  padding: 5px 11px; font-size: 12px; letter-spacing: 0.04em; transition: all .1s;
+}
+.chip:hover { border-color: var(--black); background: var(--white); }
+.chip.active { background: var(--red); color: #fff; border-color: var(--red); font-weight: 700; }
+.play-btn {
+  border: 1.5px solid var(--black); background: var(--lime); cursor: pointer;
+  padding: 8px 18px; font-family: var(--font-zh); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; box-shadow: 2px 2px 0 var(--black);
+}
+.play-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--black); }
+
+/* scenario controls */
+.sc-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.sc-tab {
+  border: 1px solid var(--grey-3); background: var(--grey-4); cursor: pointer;
+  padding: 8px 16px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; transition: all .1s;
+}
+.sc-tab.active { background: var(--black); color: #fff; border-color: var(--black); }
+.sc-tab.pess.active { background: var(--red-dk); border-color: var(--red-dk); }
+.sc-tab.opt.active { background: var(--lime-dk); border-color: var(--lime-dk); }
+.sc-stat {
+  margin-top: 14px; padding: 14px 18px; background: var(--grey-4);
+  border-left: 4px solid var(--lime); font-size: 13.5px; line-height: 1.7;
+}
+.sc-stat b { font-family: var(--font-en); font-size: 18px; }
+
+.partner-logos {
+  background: var(--white); padding: 30px; text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-top: 56px;
+}
+.partner-logos .pl-label {
+  font-family: var(--font-en); font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--grey-2); margin-bottom: 18px;
+}
+.partner-logos img { max-width: 560px; width: 100%; height: auto; }
+.back-link {
+  display: inline-block; margin: 18px 0 0;
+  font-family: var(--font-en); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--grey-2); text-decoration: none;
+}
+.back-link:hover { color: var(--black); }
+@media (max-width: 600px) { .card { padding: 24px 18px; } }
+</style>
+</head>
+<body>
+<div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
+
+<div class="hero">
+  <div class="tag">Taiwan Mobility Atlas · Street Vision Whitepaper Data</div>
+  <h1><span class="t-zh">「公共運輸服務愈是不足的地方,<br><em>承擔愈高的車禍死傷率</em>。」</span><span class="t-en">"Where public transport falls short,<br><em>people pay in casualties</em>."</span></h1>
+  <div class="stats">
+    <div class="st a"><div class="n">0.66</div><div class="l"><span class="t-zh">市佔 × 死傷率相關係數</span><span class="t-en">share-casualty correlation</span></div><div class="e">Pearson r · 22 counties</div></div>
+    <div class="st b"><div class="n">89<small style="font-size:55%">%</small></div><div class="l"><span class="t-zh">最高私人運具市佔(彰化)</span><span class="t-en">Highest private-mode share</span></div><div class="e">vs Taipei 37%</div></div>
+    <div class="st c"><div class="n">27.0</div><div class="l"><span class="t-zh">最高每千人死傷率(屏東)</span><span class="t-en">Highest casualties / 1k</span></div><div class="e">vs Taipei 4.75</div></div>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- 01 · A scatter -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">01 — Structure 結構決定死傷</span><span class="t-en">01 — Structure Predicts Casualties</span></div>
+  <div class="card">
+    <h3><span class="t-zh">私人運具市佔 × 每千人死傷率(2025)</span><span class="t-en">Private-mode share × casualties per 1k (2025)</span></h3>
+    <div class="sub">
+      <span class="t-zh">22 個縣市排成一條向上的斜線:<b>居民愈依賴汽機車,死傷率愈高(r = 0.66)</b>。這不是駕駛習慣的差異,是「有沒有得選」的差異。滑鼠移過任一點看縣市,點擊前往該縣市完整地圖。</span>
+      <span class="t-en">22 counties form an upward slope: <b>the more residents depend on cars and scooters, the higher the casualty rate (r = 0.66)</b>. It isn't a difference in driving habits — it's a difference in having a choice. Hover for counties; click through to each county map.</span>
+    </div>
+    <div class="chart-wrap" id="scWrap">
+      <svg id="scSvg" viewBox="0 0 900 560"></svg>
+      <div class="tip" id="scTip"></div>
+    </div>
+    <div class="legend-row" id="scLegend"></div>
+    <div class="foot-note"><span class="t-zh">x:私人運具(汽機車)市佔率 · y:每千人交通事故死傷率(死亡+受傷,2025)· 虛線為最小平方迴歸線</span><span class="t-en">x: private motorized mode share · y: road casualties per 1k population (2025) · dashed line: OLS regression</span></div>
+  </div>
+</div>
+
+<!-- 02 · C race -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">02 — 17 Years 十七年死亡率賽跑</span><span class="t-en">02 — A 17-Year Race</span></div>
+  <div class="card">
+    <h3><span class="t-zh">縣市每十萬人死亡率 2009–2025</span><span class="t-en">County deaths per 100k, 2009–2025</span></h3>
+    <div class="sub">
+      <span class="t-zh">十七年了,誰真的進步、誰原地踏步?點下方縣市晶片高亮單一縣市;黑線為<b>人口加權全國平均</b>(13.4 → 12.0,十七年僅降一成)。按「播放」看時間軸掃過。</span>
+      <span class="t-en">Seventeen years on — who actually improved? Tap a county chip to highlight it; the black line is the <b>population-weighted national average</b> (13.4 → 12.0, down barely 10% in 17 years). Press play to sweep the timeline.</span>
+    </div>
+    <div class="chart-wrap" id="raceWrap">
+      <svg id="raceSvg" viewBox="0 0 900 460"></svg>
+      <div class="tip" id="raceTip"></div>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center;margin-top:16px;flex-wrap:wrap">
+      <button class="play-btn" id="racePlay"><span class="t-zh">▶ 播放 17 年</span><span class="t-en">▶ Play 17 years</span></button>
+      <span style="font-family:var(--font-en);font-size:22px;font-weight:700;min-width:64px" id="raceYear"></span>
+    </div>
+    <div class="chips" id="raceChips"></div>
+  </div>
+</div>
+
+<!-- 03 · B scenarios -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">03 — Scenarios 2050 三情境推估</span><span class="t-en">03 — Three Scenarios to 2050</span></div>
+  <div class="card">
+    <h3><span class="t-zh">不同力道,不同未來:2008–2050</span><span class="t-en">Different effort, different futures: 2008–2050</span></h3>
+    <div class="sub">
+      <span class="t-zh">黑線是歷史(30 日定義);<b style="color:var(--lime-dk)">亮綠線是「積極改善」路徑</b> — 2035 死傷減半、2050 死亡歸零;另外三個端點是悲觀/基準/樂觀情境的 2050 結果。切換「死亡/受傷」與情境,看選擇的代價。</span>
+      <span class="t-en">Black = history (30-day definition); <b style="color:var(--lime-dk)">lime = the active-improvement path</b> — halve by 2035, zero deaths by 2050. The three endpoints are the pessimistic / baseline / optimistic 2050 outcomes. Toggle metric and scenario to see what choices cost.</span>
+    </div>
+    <div class="sc-tabs">
+      <button class="sc-tab metric active" data-metric="death"><span class="t-zh">死亡</span><span class="t-en">Deaths</span></button>
+      <button class="sc-tab metric" data-metric="injury"><span class="t-zh">受傷</span><span class="t-en">Injuries</span></button>
+      <span style="width:14px"></span>
+      <button class="sc-tab scen pess" data-scen="pess"><span class="t-zh">悲觀</span><span class="t-en">Pessimistic</span></button>
+      <button class="sc-tab scen active" data-scen="base"><span class="t-zh">基準</span><span class="t-en">Baseline</span></button>
+      <button class="sc-tab scen opt" data-scen="opt"><span class="t-zh">樂觀</span><span class="t-en">Optimistic</span></button>
+    </div>
+    <div class="chart-wrap" id="snWrap">
+      <svg id="snSvg" viewBox="0 0 900 480"></svg>
+      <div class="tip" id="snTip"></div>
+    </div>
+    <div class="sc-stat" id="snStat"></div>
+    <div class="foot-note"><span class="t-zh">死亡採 30 日定義(與 Atlas A1 24 小時不可互比);積極改善路徑與里程碑出自街道願景白皮書;三情境為 5 年間隔推估點之線性連接。</span><span class="t-en">Deaths use the 30-day definition (not comparable to the Atlas's 24-hour A1). The active path and milestones come from the Street Vision whitepaper; scenarios connect 5-year estimate points.</span></div>
+  </div>
+</div>
+
+<div class="partner-logos">
+  <div class="pl-label t-zh">資料夥伴 · 合作單位</div>
+  <div class="pl-label t-en">In partnership with</div>
+  <img src="assets/tcan_vzt_logo.png" alt="TCAN 台灣氣候行動網路 · Vision Zero Taiwan 還路於民行人路權促進會">
+</div>
+
+<a class="back-link" href="index.html">← Taiwan Mobility Atlas</a>
+
+</div>
+
+<script>
+window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
+function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+function setLang(l) {
+  window.__LANG = l;
+  document.body.classList.toggle('lang-en', l === 'en');
+  document.documentElement.lang = l === 'en' ? 'en' : 'zh-TW';
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === l));
+  if (window.__rerender) window.__rerender();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o =>
+    o.addEventListener('click', () => setLang(o.dataset.lang)));
+  setLang(window.__LANG);
+});
+</script>
+<script>
+(async () => {
+const DB = await fetch('data/whitepaper.json').then(r => r.json());
+const $ = id => document.getElementById(id);
+
+const REGION_COLOR = { '北部': '#A8B200', '中部': '#E8A825', '南部': '#D94F3D', '東部': '#3A7CC3', '離島': '#888888' };
+
+function placeTip(tip, wrap, evt, html) {
+  tip.innerHTML = html;
+  tip.style.display = 'block';
+  const r = wrap.getBoundingClientRect();
+  let x = evt.clientX - r.left + 14, y = evt.clientY - r.top - 38;
+  if (x + tip.offsetWidth > r.width - 8) x = evt.clientX - r.left - tip.offsetWidth - 14;
+  if (y < 4) y = evt.clientY - r.top + 16;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+
+/* ════ 01 · A scatter ════ */
+function drawScatter() {
+  const svg = $('scSvg'), W = 900, H = 560;
+  const pad = { t: 26, r: 30, b: 52, l: 58 };
+  const data = DB.scatter;
+  const x = v => pad.l + (v - 30) / 65 * (W - pad.l - pad.r);
+  const y = v => pad.t + (1 - v / 30) * (H - pad.t - pad.b);
+  let s = '';
+  for (let g = 0; g <= 30; g += 5) {
+    s += `<line x1="${pad.l}" y1="${y(g)}" x2="${W-pad.r}" y2="${y(g)}" stroke="#F2F2F2"/>`;
+    s += `<text x="${pad.l-8}" y="${y(g)+4}" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">${g}</text>`;
+  }
+  for (let g = 30; g <= 95; g += 10) {
+    s += `<text x="${x(g)}" y="${H-26}" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#888">${g}%</text>`;
+  }
+  s += `<text x="${(pad.l+W-pad.r)/2}" y="${H-4}" text-anchor="middle" font-family="Noto Sans TC" font-size="12" fill="#4A4A4A">${TT('私人運具市佔率 →','Private-mode share →')}</text>`;
+  s += `<text x="14" y="${pad.t-8}" font-family="Noto Sans TC" font-size="12" fill="#4A4A4A">${TT('每千人死傷率','Casualties /1k')}</text>`;
+  // OLS regression
+  const n = data.length;
+  const mx = data.reduce((a,d)=>a+d.share,0)/n, my = data.reduce((a,d)=>a+d.rate,0)/n;
+  const b1 = data.reduce((a,d)=>a+(d.share-mx)*(d.rate-my),0) / data.reduce((a,d)=>a+(d.share-mx)**2,0);
+  const b0 = my - b1*mx;
+  s += `<line x1="${x(34)}" y1="${y(b0+b1*34)}" x2="${x(92)}" y2="${y(b0+b1*92)}" stroke="#1A1A1A" stroke-width="1.6" stroke-dasharray="7,5" opacity="0.55"/>`;
+  s += `<rect x="${pad.l+14}" y="${pad.t+4}" width="150" height="34" fill="#1A1A1A"/>`;
+  s += `<text x="${pad.l+89}" y="${pad.t+26}" text-anchor="middle" font-family="Space Grotesk" font-size="15" font-weight="700" fill="#C8D400">r = 0.66 · r² = 0.43</text>`;
+  // points
+  data.forEach((d, i) => {
+    const c = REGION_COLOR[d.region] || '#888';
+    s += `<circle data-i="${i}" cx="${x(d.share)}" cy="${y(d.rate)}" r="9" fill="${c}" stroke="#1A1A1A" stroke-width="1.4" style="cursor:pointer" opacity="0.92"/>`;
+  });
+  // permanent annotations
+  const tp = data.find(d => d.n === '台北市'), pt = data.find(d => d.n === '屏東縣');
+  s += `<text x="${x(tp.share)}" y="${y(tp.rate)-16}" text-anchor="middle" font-family="Noto Sans TC" font-size="13" font-weight="700" fill="#1A1A1A">台北市</text>`;
+  s += `<text x="${x(pt.share)-4}" y="${y(pt.rate)-16}" text-anchor="middle" font-family="Noto Sans TC" font-size="13" font-weight="700" fill="#A33A2D">屏東縣</text>`;
+  svg.innerHTML = s;
+  // legend
+  $('scLegend').innerHTML = Object.entries(REGION_COLOR).map(([k, c]) =>
+    `<span><span class="sw" style="background:${c}"></span>${k}</span>`).join('') ;
+  // interactions
+  const tip = $('scTip'), wrap = $('scWrap');
+  svg.querySelectorAll('circle[data-i]').forEach(el => {
+    const d = data[+el.dataset.i];
+    el.addEventListener('mousemove', e => placeTip(tip, wrap, e,
+      `<b>${d.n}</b><br>${TT('私人運具','private')} <b>${d.share}%</b> · ${TT('死傷率','casualties')} <b>${d.rate}</b>/1k`));
+    el.addEventListener('mouseleave', () => tip.style.display = 'none');
+    el.addEventListener('click', () => { if (d.slug) location.href = 'city.html?c=' + d.slug; });
+  });
+}
+
+/* ════ 02 · C race ════ */
+let raceSel = null;
+function drawRace(revealFrac) {
+  const svg = $('raceSvg'), W = 900, H = 460;
+  const pad = { t: 20, r: 56, b: 36, l: 50 };
+  const { years, counties, national } = DB.race;
+  const x = i => pad.l + i / (years.length - 1) * (W - pad.l - pad.r);
+  const y = v => pad.t + (1 - v / 35) * (H - pad.t - pad.b);
+  let s = '';
+  for (let g = 0; g <= 35; g += 5) {
+    s += `<line x1="${pad.l}" y1="${y(g)}" x2="${W-pad.r}" y2="${y(g)}" stroke="#F2F2F2"/>`;
+    s += `<text x="${pad.l-8}" y="${y(g)+4}" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">${g}</text>`;
+  }
+  years.forEach((yr, i) => {
+    if (yr % 2 === 1) s += `<text x="${x(i)}" y="${H-14}" text-anchor="middle" font-family="Space Grotesk" font-size="10.5" fill="#888">${yr}</text>`;
+  });
+  const path = series => series.map((v, i) => (v == null ? '' : `${i === 0 || series[i-1] == null ? 'M' : 'L'}${x(i).toFixed(1)},${y(v).toFixed(1)}`)).join('');
+  const clipW = pad.l + (revealFrac == null ? 1 : revealFrac) * (W - pad.l - pad.r);
+  s += `<defs><clipPath id="raceClip"><rect x="0" y="0" width="${clipW}" height="${H}"/></clipPath></defs>`;
+  s += `<g clip-path="url(#raceClip)">`;
+  Object.entries(counties).forEach(([cy, series]) => {
+    if (cy === raceSel) return;
+    s += `<path d="${path(series)}" fill="none" stroke="#D0D0D0" stroke-width="1.2"/>`;
+  });
+  s += `<path d="${path(national)}" fill="none" stroke="#1A1A1A" stroke-width="3"/>`;
+  if (raceSel && counties[raceSel]) {
+    s += `<path d="${path(counties[raceSel])}" fill="none" stroke="#D94F3D" stroke-width="3.2"/>`;
+  }
+  s += `</g>`;
+  // end labels
+  const lastIdx = years.length - 1;
+  s += `<text x="${x(lastIdx)+6}" y="${y(national[lastIdx])+4}" font-family="Noto Sans TC" font-size="11.5" font-weight="700" fill="#1A1A1A">${TT('全國','TW')} ${national[lastIdx]}</text>`;
+  if (raceSel && counties[raceSel]) {
+    const v = counties[raceSel][lastIdx];
+    s += `<text x="${x(lastIdx)+6}" y="${y(v)+4}" font-family="Noto Sans TC" font-size="11.5" font-weight="700" fill="#D94F3D">${raceSel} ${v}</text>`;
+  }
+  svg.innerHTML = s;
+}
+function initRace() {
+  const { years, counties } = DB.race;
+  const order = Object.keys(counties).sort((a, b) => counties[b][years.length-1] - counties[a][years.length-1]);
+  $('raceChips').innerHTML = order.map(cy =>
+    `<span class="chip" data-cy="${cy}">${cy}</span>`).join('');
+  document.querySelectorAll('#raceChips .chip').forEach(ch => ch.addEventListener('click', () => {
+    raceSel = (raceSel === ch.dataset.cy) ? null : ch.dataset.cy;
+    document.querySelectorAll('#raceChips .chip').forEach(c => c.classList.toggle('active', c.dataset.cy === raceSel));
+    drawRace();
+  }));
+  $('raceYear').textContent = '2009–2025';
+  let playing = false;
+  $('racePlay').addEventListener('click', () => {
+    if (playing) return;
+    playing = true;
+    const t0 = performance.now(), DUR = 3000;
+    function tick(t) {
+      const f = Math.min((t - t0) / DUR, 1);
+      drawRace(f);
+      $('raceYear').textContent = years[Math.min(Math.floor(f * (years.length - 1) + 0.0001), years.length - 1)];
+      if (f < 1) requestAnimationFrame(tick);
+      else { playing = false; $('raceYear').textContent = '2009–2025'; drawRace(); }
+    }
+    requestAnimationFrame(tick);
+  });
+  drawRace();
+}
+
+/* ════ 03 · B scenarios ════ */
+let snMetric = 'death', snScen = 'base';
+const SCEN_COLOR = { pess: '#A33A2D', base: '#4A4A4A', opt: '#3A7CC3' };
+const SCEN_ZH = { pess: '悲觀', base: '基準', opt: '樂觀' };
+const SCEN_EN = { pess: 'Pessimistic', base: 'Baseline', opt: 'Optimistic' };
+function drawScen() {
+  const svg = $('snSvg'), W = 900, H = 480;
+  const pad = { t: 24, r: 96, b: 40, l: 64 };
+  const S = DB.scenario;
+  const isD = snMetric === 'death';
+  const yMax = isD ? 3600 : 1250000;
+  const x = yr => pad.l + (yr - 2008) / 42 * (W - pad.l - pad.r);
+  const y = v => pad.t + (1 - v / yMax) * (H - pad.t - pad.b);
+  const fmt = v => isD ? Math.round(v).toLocaleString() : (v >= 10000 ? Math.round(v/1000) + 'k' : Math.round(v).toLocaleString());
+  let s = '';
+  const steps = isD ? [0, 900, 1800, 2700, 3600] : [0, 300000, 600000, 900000, 1200000];
+  steps.forEach(g => {
+    s += `<line x1="${pad.l}" y1="${y(g)}" x2="${W-pad.r}" y2="${y(g)}" stroke="#F2F2F2"/>`;
+    s += `<text x="${pad.l-8}" y="${y(g)+4}" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">${fmt(g)}</text>`;
+  });
+  [2010, 2020, 2025, 2030, 2040, 2050].forEach(yr => {
+    s += `<text x="${x(yr)}" y="${H-18}" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#888">${yr}</text>`;
+  });
+  // milestone flags
+  S.milestones.forEach(m => {
+    if (m.y === 2025) return;
+    s += `<line x1="${x(m.y)}" y1="${pad.t}" x2="${x(m.y)}" y2="${H-pad.b}" stroke="#E8A825" stroke-width="0.8" stroke-dasharray="3,3"/>`;
+  });
+  s += `<line x1="${x(2025)}" y1="${pad.t}" x2="${x(2025)}" y2="${H-pad.b}" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2"/>`;
+
+  const yearsAll = S.years;
+  const histSeries = yearsAll.map((yr, i) => yr <= 2025 ? (isD ? S.hist_death[i] : S.injury[i]) : null);
+  const activeSeries = yearsAll.map((yr, i) => yr >= 2025 ? (isD ? S.active_death[i] : S.injury[i]) : null);
+  const path = (series) => series.map((v, i) => v == null ? '' : `${(i === 0 || series[i-1] == null) ? 'M' : 'L'}${x(yearsAll[i]).toFixed(1)},${y(v).toFixed(1)}`).join('');
+
+  // selected scenario line (s11, 5-year points from 2025)
+  const sc = S.s11;
+  const scSeries = sc.years.map((yr, i) => [x(yr), y((isD ? sc.death : sc.injury)[snScen][i])]);
+  s += `<path d="${scSeries.map((p, i) => `${i===0?'M':'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join('')}" fill="none" stroke="${SCEN_COLOR[snScen]}" stroke-width="2.6" stroke-dasharray="6,4"/>`;
+  scSeries.forEach((p, i) => { if (i > 0) s += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${SCEN_COLOR[snScen]}"/>`; });
+  const scEnd = (isD ? sc.death : sc.injury)[snScen][sc.years.length-1];
+  s += `<text x="${x(2050)+8}" y="${y(scEnd)+4}" font-family="Noto Sans TC" font-size="12" font-weight="700" fill="${SCEN_COLOR[snScen]}">${TT(SCEN_ZH[snScen], SCEN_EN[snScen])} ${fmt(scEnd)}</text>`;
+
+  // active path (lime)
+  s += `<path d="${path(activeSeries)}" fill="none" stroke="#A8B200" stroke-width="3"/>`;
+  const actEnd = isD ? S.active_death[yearsAll.length-1] : S.injury[yearsAll.length-1];
+  s += `<text x="${x(2050)+8}" y="${y(actEnd)+4}" font-family="Noto Sans TC" font-size="12" font-weight="700" fill="#A8B200">${TT('積極','Active')} ${fmt(actEnd)}</text>`;
+  // history (black, on top)
+  s += `<path d="${path(histSeries)}" fill="none" stroke="#1A1A1A" stroke-width="3"/>`;
+  // milestone labels at top
+  S.milestones.forEach(m => {
+    if (m.y === 2025) return;
+    s += `<text x="${x(m.y)}" y="${pad.t-8}" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="#A85F00">${m.label.replace('受傷人數','傷')}</text>`;
+  });
+  svg.innerHTML = s;
+
+  // stat line
+  const diff = scEnd - actEnd;
+  $('snStat').innerHTML = TT(
+    `2050 年,「${SCEN_ZH[snScen]}」情境的${isD ? '死亡' : '受傷'}為 <b>${fmt(scEnd)}</b> 人;積極改善路徑為 <b>${fmt(actEnd)}</b> 人 — 差距 <b style="color:var(--red-dk)">${fmt(Math.abs(diff))}</b> 人/年。${isD ? '這個差距,就是政策力道的價格。' : '受傷的差距更驚人 — 不作為的未來是以十萬人為單位計價的。'}`,
+    `By 2050 the ${SCEN_EN[snScen].toLowerCase()} scenario means <b>${fmt(scEnd)}</b> ${isD ? 'deaths' : 'injuries'}/yr vs <b>${fmt(actEnd)}</b> on the active path — a gap of <b style="color:var(--red-dk)">${fmt(Math.abs(diff))}</b> per year.`
+  );
+}
+function initScen() {
+  document.querySelectorAll('.sc-tab.metric').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.sc-tab.metric').forEach(x => x.classList.toggle('active', x === b));
+    snMetric = b.dataset.metric;
+    drawScen();
+  }));
+  document.querySelectorAll('.sc-tab.scen').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.sc-tab.scen').forEach(x => x.classList.toggle('active', x === b));
+    snScen = b.dataset.scen;
+    drawScen();
+  }));
+  drawScen();
+}
+
+drawScatter();
+initRace();
+initScen();
+window.__rerender = () => { drawScatter(); drawRace(); drawScen(); };
+})();
+</script>
+</body>
+</html>
