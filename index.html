@@ -717,7 +717,7 @@ body.lang-en .t-en-b { display: block; }
 .cf-card .eq { font-size: 12px; color: var(--grey-1); margin-top: 9px; line-height: 1.55; letter-spacing: 0.02em; }
 .cf-card .eq b { color: var(--black); }
 .cf-chart-wrap { margin-top: 8px; }
-.cf-chart-wrap svg { width: 100%; height: 240px; display: block; }
+.cf-chart-wrap svg { width: 100%; height: auto; display: block; }
 .cf-note {
   margin-top: 26px; padding: 18px 22px; background: var(--grey-4);
   font-size: 12px; line-height: 1.8; color: var(--grey-1); letter-spacing: 0.02em;
@@ -1060,13 +1060,13 @@ body.lang-en .t-en-b { display: block; }
       </div>
       <div class="cf-card lives">
         <div class="l">Road Deaths</div>
-        <div class="zh"><span class="t-zh">道路死亡(vs 不作為)</span><span class="t-en">Road deaths vs BAU</span></div>
+        <div class="zh"><span class="t-zh">道路死亡(vs 不作為情境)</span><span class="t-en">Road deaths vs no-action</span></div>
         <div class="n" id="cfDeaths">—</div>
         <div class="eq" id="cfDeathsEq"></div>
       </div>
     </div>
 
-    <div class="cf-chart-wrap"><svg id="cfChart" viewBox="0 0 900 240" preserveAspectRatio="none"></svg></div>
+    <div class="cf-chart-wrap"><svg id="cfChart" viewBox="0 0 900 240"></svg></div>
 
     <details class="cf-note">
       <summary><span class="t-zh">⚙ 模型假設(情境推估,非預測——所有參數公開供檢驗)</span><span class="t-en">⚙ Model assumptions (a scenario, not a forecast — all parameters open for review)</span></summary>
@@ -1076,7 +1076,7 @@ body.lang-en .t-en-b { display: block; }
           <b>綠運輸基準</b>:2025 年佔比 30%(步行+自行車+公共運輸,交通部綠運輸定義),情境僅轉移其餘 70% 私人運具日。
           <b>減碳</b>:私人汽機車客運年排碳以 22 MtCO₂e 計(運輸部門 ~37 Mt × 公路客運私人占比),每轉移日淨減排 80%(綠運輸仍有少量排放);樹木換算 12 kg CO₂/棵·年。
           <b>空間</b>:汽車 850 萬輛 × 18.75 m²(1.5 格停車位)、機車 1,450 萬輛 × 4 m²;使用減少傳導至持有的彈性 0.6;大安森林公園 = 0.259 km²。
-          <b>死亡</b>:死亡與私人機動運具暴露成正比,傳導係數 0.7(部分風險移轉至行人/自行車,並考慮 safety-in-numbers 效應);BAU 以年 1,600 死保守持平計。
+          <b>死亡</b>:死亡與私人機動運具暴露成正比,傳導係數 0.7(部分風險移轉至行人/自行車,並考慮 safety-in-numbers 效應);不作為情境以年 1,600 死保守持平計。
           所有參數見原始碼,歡迎以不同假設重算。
         </span>
         <span class="t-en">
@@ -2127,7 +2127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // baseline 30% dashed
     s += '<line x1="' + padL + '" y1="' + y(0.30) + '" x2="' + (W - padR) + '" y2="' + y(0.30) + '" stroke="#888" stroke-width="1.2" stroke-dasharray="5,4"/>';
-    s += '<text x="' + (W - padR - 4) + '" y="' + (y(0.30) - 6) + '" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">BAU 30%</text>';
+    s += '<text x="' + (W - padR - 4) + '" y="' + (y(0.30) - 6) + '" text-anchor="end" font-family="Noto Sans TC, Space Grotesk, sans-serif" font-size="11" fill="#888">' + (isEn() ? 'No-action baseline 30%' : '不作為情境 30%') + '</text>';
     // scenario area + line
     let area = 'M' + x(2025) + ',' + y(0.30), line = 'M' + x(2025) + ',' + y(0.30);
     for (let yr = 2026; yr <= 2050; yr++) {
