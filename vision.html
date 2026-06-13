@@ -109,6 +109,28 @@ body.lang-en .t-en { display: inline; }
 .cf-note b { color: var(--black); }
 .cf-note summary { cursor: pointer; font-weight: 700; color: var(--black); font-size: 13px; letter-spacing: 0.05em; }
 
+/* How-it-works: causal one-liner + 3-step explainer */
+.hiw { margin: 28px 0 6px; }
+.hiw-why {
+  background: var(--black); color: var(--white); padding: 22px 26px;
+  font-size: clamp(17px, 2.4vw, 22px); font-weight: 700; line-height: 1.6; letter-spacing: 0.03em;
+}
+.hiw-why em { font-style: normal; color: var(--lime); }
+.hiw-why small { display: block; margin-top: 8px; font-size: 12.5px; font-weight: 300; color: var(--grey-3); letter-spacing: 0.02em; line-height: 1.7; }
+.hiw-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+@media (max-width: 760px) { .hiw-steps { grid-template-columns: 1fr; } }
+.hiw-step { background: var(--grey-4); padding: 22px 20px; border-top: 4px solid var(--lime); position: relative; }
+.hiw-step .hs-n { font-family: var(--font-en); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--lime-dk); }
+.hiw-step .hs-t { font-weight: 700; font-size: 16px; margin: 6px 0 8px; letter-spacing: 0.03em; }
+.hiw-step .hs-b { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--grey-1); letter-spacing: 0.02em; }
+.hiw-step .hs-b b { color: var(--black); font-weight: 700; }
+.hiw-step .hs-eq {
+  margin-top: 12px; font-family: var(--font-en); font-size: 15px; font-weight: 700;
+  background: var(--white); padding: 9px 12px; letter-spacing: 0.01em; color: var(--black);
+}
+.hiw-step .hs-eq b { color: var(--lime-dk); }
+.hiw-arrow { text-align: center; color: var(--grey-3); font-family: var(--font-en); font-weight: 700; }
+
 /* ── Five Demands (ported from index) ── */
 .petition-card { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 40px; }
 .petition-hero {
@@ -230,6 +252,35 @@ body.lang-en .t-en { display: inline; }
     <div class="cf-lead">
       <span class="t-zh">想像一個最小的承諾:<strong>從 2026 年起,每人每月選一天</strong>,把私人汽機車留在家,改用步行、自行車、大眾運輸或共享運具。<em>第二年,每月兩天;第三年,三天</em>——每年只增加一天。聽起來微不足道,但習慣的複利會在 25 年內改寫台灣的街道:這不是科技問題,是 2,300 萬人的選擇問題。以下是這個情境的推估。</span>
       <span class="t-en">Imagine the smallest possible commitment: <strong>starting 2026, every person picks one day a month</strong> to leave the car or scooter at home — walk, cycle, ride transit or shared mobility. <em>Year two: two days. Year three: three</em> — just one more day each year. It sounds negligible, but compounding habits rewrite Taiwan's streets within 25 years. A scenario estimate:</span>
+    </div>
+
+    <div class="hiw">
+      <div class="hiw-why">
+        <span class="t-zh">為什麼換綠運輸能<em>救命</em>?交通死傷來自「暴露」——<em>少一個人開車騎車上路,就少一次碰撞的機會</em>。
+          <small>大眾運輸每人每公里的死亡率,是私人汽機車的數十分之一;而走路、騎單車的人愈多,駕駛愈會禮讓、城市愈願意建人行道(safety in numbers),整體再降。把「私人運具的一天」換成「綠運輸的一天」,就是直接抽掉高風險的暴露。</small></span>
+        <span class="t-en">Why does shifting modes <em>save lives</em>? Casualties come from exposure — <em>one fewer car or scooter on the road is one fewer chance of a crash</em>.
+          <small>Public transport's death rate per passenger-km is a small fraction of private cars and scooters; and the more people walk and cycle, the more drivers yield and the more cities build for them (safety in numbers). Swapping a private-vehicle day for a green day removes high-risk exposure directly.</small></span>
+      </div>
+      <div class="hiw-steps">
+        <div class="hiw-step">
+          <div class="hs-n">STEP 1</div>
+          <div class="hs-t"><span class="t-zh">換掉多少比例?</span><span class="t-en">How much is shifted?</span></div>
+          <div class="hs-b"><span class="t-zh">第 N 年 = 每人每月 N 天綠運輸。一個月約 <b>30.4 天</b>,所以被換掉的私人運具旅次比例 = <b>N ÷ 30.4</b>。</span><span class="t-en">Year N = N green days/month. A month is ≈ <b>30.4 days</b>, so the share of private-vehicle trips shifted = <b>N ÷ 30.4</b>.</span></div>
+          <div class="hs-eq"><span class="t-zh">2035 年:10 ÷ 30.4 = <b>33%</b></span><span class="t-en">2035: 10 ÷ 30.4 = <b>33%</b></span></div>
+        </div>
+        <div class="hiw-step">
+          <div class="hs-n">STEP 2</div>
+          <div class="hs-t"><span class="t-zh">換算成少多少死傷?</span><span class="t-en">Turned into fewer casualties</span></div>
+          <div class="hs-b"><span class="t-zh">換掉 33% ≠ 死傷降 33%。部分風險會移轉、效果非線性,所以<b>保守乘 0.7(打七折)</b>——寧可少算、不誇大。</span><span class="t-en">A 33% shift ≠ 33% fewer casualties. Some risk transfers and effects are non-linear, so we apply a conservative <b>0.7 pass-through</b> — under-count rather than over-claim.</span></div>
+          <div class="hs-eq"><span class="t-zh">33% × 0.7 = 死傷降 <b>23%</b></span><span class="t-en">33% × 0.7 = <b>23%</b> fewer</span></div>
+        </div>
+        <div class="hiw-step">
+          <div class="hs-n">STEP 3</div>
+          <div class="hs-t"><span class="t-zh">乘現況,逐年累積</span><span class="t-en">Compound, year by year</span></div>
+          <div class="hs-b"><span class="t-zh">拯救生命 = 現況死亡 × 下降比例。不是某年省一千條,而是<b>每年都省一點、且逐年增加</b>,25 年加總成大數字。</span><span class="t-en">Lives saved = current deaths × the reduction. Not one big year — a little saved <b>every year, growing</b>, summing over 25 years.</span></div>
+          <div class="hs-eq"><span class="t-zh">彰化每年少 32 死 → 2050 累計 <b>1,033 命</b></span><span class="t-en">Changhua −32/yr → <b>1,033</b> by 2050</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="cf-slider-row">
