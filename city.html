@@ -1154,7 +1154,7 @@ body.lang-en #hdrTitleZh { display: none; }
 }
 
 /* ── Local Compound Effect (section 08) ── */
-.cf-wrap { background: var(--white); padding: 36px 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.cf-wrap { background: var(--white); padding: 36px 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); position: relative; }
 .cf-lead { font-size: 15px; font-weight: 300; line-height: 1.85; color: var(--grey-1); max-width: 860px; letter-spacing: 0.03em; }
 .cf-lead strong { color: var(--black); font-weight: 700; }
 .cf-lead em { font-style: normal; background: linear-gradient(transparent 62%, var(--lime-lt) 62%); font-weight: 500; }
@@ -1184,6 +1184,30 @@ body.lang-en #hdrTitleZh { display: none; }
 .cf-note { margin-top: 22px; padding: 16px 20px; background: var(--grey-4); font-size: 12px; line-height: 1.8; color: var(--grey-1); letter-spacing: 0.02em; }
 .cf-note b { color: var(--black); }
 .cf-note a { color: var(--lime-dk); font-weight: 700; }
+
+/* 2050 saved-lives calendar heatmap */
+.lcf-heat-wrap { margin-top: 30px; position: relative; }
+.lcf-heat-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.lcf-heat-head .hh-t { font-weight: 700; font-size: 15px; letter-spacing: 0.04em; }
+.lcf-heat-head .hh-big { font-family: var(--font-en); font-size: 13px; color: var(--grey-1); }
+.lcf-heat-head .hh-big b { font-size: 28px; font-weight: 700; color: var(--lime-dk); letter-spacing: -0.01em; }
+.lcf-heat {
+  display: grid; grid-template-columns: repeat(13, 1fr); gap: 5px;
+}
+@media (max-width: 820px) { .lcf-heat { grid-template-columns: repeat(7, 1fr); } }
+@media (max-width: 460px) { .lcf-heat { grid-template-columns: repeat(5, 1fr); } }
+.lcf-hcell {
+  aspect-ratio: 1 / 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; cursor: default;
+  border: 1.5px solid transparent; transition: transform .1s;
+  min-height: 44px;
+}
+.lcf-hcell:hover { transform: scale(1.08); border-color: var(--black); }
+.lcf-hcell.cur { border-color: var(--black); border-width: 2.5px; }
+.lcf-hcell .hc-y { font-family: var(--font-en); font-size: 9px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.7; }
+.lcf-hcell .hc-n { font-family: var(--font-en); font-size: 13px; font-weight: 700; line-height: 1; margin-top: 2px; }
+.lcf-heat-legend { display: flex; align-items: center; gap: 3px; margin-top: 14px; font-size: 10.5px; color: var(--grey-2); letter-spacing: 0.04em; }
+.lcf-heat-legend .lg-sw { width: 22px; height: 11px; }
 
 /* ── Share-card generator ── */
 .share-btn {
@@ -1671,6 +1695,16 @@ body.lang-en #hdrTitleZh { display: none; }
     </div>
 
     <div class="cf-chart-wrap"><svg id="lcfChart" viewBox="0 0 900 240"></svg></div>
+
+    <div class="lcf-heat-wrap">
+      <div class="lcf-heat-head">
+        <div class="hh-t"><span class="t-zh">每一年,累計拯救的生命</span><span class="t-en">Lives saved, accumulating year by year</span></div>
+        <div class="hh-big"><span class="t-zh">到 2050 累計 <b id="lcfHeatTotal">—</b> 條生命</span><span class="t-en"><b id="lcfHeatTotalEn">—</b> lives by 2050</span></div>
+      </div>
+      <div class="lcf-heat" id="lcfHeat"></div>
+      <div class="lcf-heat-legend" id="lcfHeatLegend"></div>
+    </div>
+    <div class="tip" id="lcfHeatTip" style="position:absolute;pointer-events:none;display:none;z-index:6;background:rgba(26,26,26,0.95);color:#fff;padding:8px 12px;font-size:12px;line-height:1.55;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,0.3)"></div>
 
     <div class="cf-note">
       <span class="t-zh">⚙ <b>模型</b>:與<a href="vision.html">雙齊零願景的全國版</a>同一套方法 — 第 N 年 = 每月 N 天綠運輸,轉移率 = N ÷ 30.4;本頁以<b>本縣市 2025 年實際私人運具市佔與每千人死傷率</b>(街道願景白皮書資料庫)為起點;綠運輸基準以「1 − 私人運具市佔」近似;死傷與死亡傳導係數 0.7;A1 死亡以 2024 年為基準。情境推估,非預測。</span>
@@ -3313,6 +3347,73 @@ const markerLayer = L.layerGroup().addTo(map);
       '<b>' + _vzRate(m.livesYr) + ' lives/yr</b> (2024 baseline ' + lcfData.base24 + ')');
 
     lcfChart(year);
+    lcfHeat(year);
+  }
+
+  // pale-lime → deep-lime lerp for the cumulative-lives heatmap
+  function lcfHeatColor(t) {
+    const stops = [[244,249,210], [232,240,0], [200,212,0], [168,178,0]];
+    t = Math.max(0, Math.min(1, t));
+    const seg = t * (stops.length - 1);
+    const i = Math.min(Math.floor(seg), stops.length - 2);
+    const f = seg - i, a = stops[i], b = stops[i + 1];
+    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' +
+                    Math.round(a[1] + (b[1] - a[1]) * f) + ',' +
+                    Math.round(a[2] + (b[2] - a[2]) * f) + ')';
+  }
+
+  let lcfCumCache = null;
+  function lcfHeat(markYear) {
+    const host = document.getElementById('lcfHeat');
+    if (!host || !lcfData) return;
+    // cumulative lives (A1 deaths) saved through each year
+    if (!lcfCumCache) {
+      lcfCumCache = [];
+      let cum = 0;
+      for (let y = 2026; y <= 2050; y++) {
+        cum += lcfData.base24 * Math.min((y - 2025) / LCF.DAYS, 1) * LCF.PASS;
+        lcfCumCache.push({ y, annual: lcfData.base24 * Math.min((y - 2025) / LCF.DAYS, 1) * LCF.PASS, cum });
+      }
+    }
+    const maxCum = lcfCumCache[lcfCumCache.length - 1].cum || 1;
+    host.innerHTML = lcfCumCache.map(d =>
+      `<div class="lcf-hcell${d.y === markYear ? ' cur' : ''}" data-y="${d.y}" data-cum="${d.cum.toFixed(1)}" data-an="${d.annual.toFixed(1)}"
+            style="background:${lcfHeatColor(d.cum / maxCum)}">
+         <span class="hc-y">'${String(d.y).slice(2)}</span>
+         <span class="hc-n">${Math.round(d.cum)}</span>
+       </div>`).join('');
+
+    const total = Math.round(maxCum);
+    const te = document.getElementById('lcfHeatTotal'); if (te) te.textContent = total.toLocaleString();
+    const ten = document.getElementById('lcfHeatTotalEn'); if (ten) ten.textContent = total.toLocaleString();
+
+    // legend
+    const lg = document.getElementById('lcfHeatLegend');
+    if (lg) {
+      let s = '<span style="margin-right:6px">' + TT('累計拯救生命', 'Cumulative lives') + '</span>';
+      [0, 0.33, 0.66, 1].forEach(t => { s += '<span class="lg-sw" style="background:' + lcfHeatColor(t) + '"></span>'; });
+      s += '<span style="margin-left:6px">' + TT('少 → 多', 'few → many') + '</span>';
+      lg.innerHTML = s;
+    }
+
+    // tooltip
+    const tip = document.getElementById('lcfHeatTip');
+    const wrap = document.querySelector('.cf-wrap');
+    host.querySelectorAll('.lcf-hcell').forEach(cell => {
+      cell.addEventListener('mousemove', e => {
+        if (!tip) return;
+        tip.innerHTML = "<b style='font-family:var(--font-en)'>" + cell.dataset.y + "</b><br>" +
+          TT('累計拯救 ', 'Saved by then ') + "<b style='font-family:var(--font-en)'>" + Math.round(cell.dataset.cum) + "</b> " + TT('條生命', 'lives') + "<br>" +
+          TT('當年 ', 'that year ') + "<b style='font-family:var(--font-en)'>+" + (+cell.dataset.an).toFixed(1) + "</b>";
+        tip.style.display = 'block';
+        const r = wrap.getBoundingClientRect();
+        let x = e.clientX - r.left + 14, y = e.clientY - r.top - 40;
+        if (x + 150 > r.width) x = e.clientX - r.left - 150;
+        if (y < 4) y = e.clientY - r.top + 18;
+        tip.style.left = x + 'px'; tip.style.top = y + 'px';
+      });
+      cell.addEventListener('mouseleave', () => { if (tip) tip.style.display = 'none'; });
+    });
   }
 
   function lcfChart(markYear) {
