@@ -89,11 +89,12 @@ body.lang-en .t-en { display: inline; }
 .cf-slider { flex: 1; min-width: 220px; -webkit-appearance: none; appearance: none; height: 6px; background: var(--grey-3); outline: none; }
 .cf-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; background: var(--lime); border: 3px solid var(--black); cursor: pointer; border-radius: 0; }
 .cf-slider::-moz-range-thumb { width: 26px; height: 26px; background: var(--lime); border: 3px solid var(--black); cursor: pointer; border-radius: 0; }
-.cf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 26px 0; }
-@media (max-width: 900px) { .cf-grid { grid-template-columns: repeat(2, 1fr); } }
+.cf-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 26px 0; }
+@media (max-width: 900px) { .cf-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 540px) { .cf-grid { grid-template-columns: 1fr; } }
 .cf-card { background: var(--grey-4); padding: 22px 20px 18px; border-top: 4px solid var(--grey-3); }
 .cf-card.green { border-top-color: var(--lime); }
+.cf-card.transit { border-top-color: var(--lime-dk); }
 .cf-card.co2 { border-top-color: var(--blue); }
 .cf-card.space { border-top-color: var(--gold); }
 .cf-card.lives { border-top-color: var(--red); }
@@ -312,6 +313,12 @@ body.lang-en .t-en { display: inline; }
 
     <div class="cf-grid">
       <div class="cf-card green">
+        <div class="l">Green-Transport Share</div>
+        <div class="zh"><span class="t-zh">綠運輸使用率</span><span class="t-en">Green-transport share</span></div>
+        <div class="n" id="cfGreen">—</div>
+        <div class="eq" id="cfGreenEq"></div>
+      </div>
+      <div class="cf-card transit">
         <div class="l">Public-Transport Share</div>
         <div class="zh"><span class="t-zh">公共運輸使用率</span><span class="t-en">Public-transport share</span></div>
         <div class="n" id="cfShare">—</div>
@@ -354,7 +361,7 @@ body.lang-en .t-en { display: inline; }
       <div style="margin-top:12px">
         <span class="t-zh">
           <b>轉移率</b>:第 N 年 = 每月 N 天 ÷ 30.4 天,即私人運具人日的轉移比例(2035 年 32.9%、2050 年 82.2%)。
-          <b>公共運輸基準</b>:2024 年公共運輸使用率約 16%(交通部「民眾日常使用運具狀況調查」);情境下隨轉移率由 16% 升向 2050 願景上限 40%(步行/自行車的綠運輸效益另計,不納入此比率)。
+          <b>運輸比率基準</b>(交通部 111 年「民眾日常使用運具狀況調查」):公共運輸 14.3%、綠運輸(公共運輸+步行+自行車)27.7%。情境下兩者隨轉移率上升 — 公共運輸升向 40%、綠運輸升向 70% 的 2050 願景上限。
           <b>減碳</b>:私人汽機車客運年排碳以 22 MtCO₂e 計(運輸部門 ~37 Mt × 公路客運私人占比),每轉移日淨減排 80%(綠運輸仍有少量排放);樹木換算 12 kg CO₂/棵·年。
           <b>空間</b>:汽車 850 萬輛 × 18.75 m²(1.5 格停車位)、機車 1,450 萬輛 × 4 m²;使用減少傳導至持有的彈性 0.6;大安森林公園 = 0.259 km²。
           <b>死亡</b>:死亡與私人機動運具暴露成正比,傳導係數 0.7(部分風險移轉至行人/自行車,並考慮 safety-in-numbers 效應);不積極作為情境以年 1,600 死保守持平計。
@@ -362,7 +369,7 @@ body.lang-en .t-en { display: inline; }
         </span>
         <span class="t-en">
           <b>Shift rate</b>: year N = N days/month ÷ 30.4 = fraction of private-vehicle person-days shifted (32.9% by 2035, 82.2% by 2050).
-          <b>Baseline</b>: public-transport mode share ≈ 16% in 2024 (MOTC National Travel Survey); in the scenario it rises with the shift rate from 16% toward an aspirational 2050 ceiling of 40% (walking &amp; cycling gains counted separately).
+          <b>Mode-share baselines</b> (MOTC 2022 National Travel Survey): public transport 14.3%, green transport (public + walking + cycling) 27.7%. In the scenario both rise with the shift — public transport toward a 40% ceiling, green transport toward a 70% aspirational 2050 ceiling.
           <b>CO₂</b>: private cars + motorcycles ≈ 22 MtCO₂e/yr; each shifted day nets −80%; tree equivalence 12 kg CO₂/tree·yr.
           <b>Space</b>: 8.5M cars × 18.75 m² (1.5 parking stalls) + 14.5M motorcycles × 4 m²; usage→ownership elasticity 0.6; Daan Forest Park = 0.259 km².
           <b>Deaths</b>: proportional to private motorized exposure, pass-through 0.7 (some risk shifts to active modes; safety-in-numbers applies); BAU held flat at 1,600 deaths/yr, conservatively.
@@ -499,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ── Compound Effect model (ported from index.html) ── */
 (function () {
   const CF = {
-    S0: 0.16, SHARE_CEIL: 0.40, DAYS: 30.4,
+    S0: 0.14, SHARE_CEIL: 0.40, GREEN_S0: 0.28, GREEN_CEIL: 0.70, DAYS: 30.4,
     CO2_PRIVATE: 22, CO2_CUT: 0.8,
     CARS: 8.5e6, MOTOS: 14.5e6,
     CAR_M2: 18.75, MOTO_M2: 4,
@@ -513,6 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const N = Math.min(year - 2025, 30);
     const shift = Math.min(N / CF.DAYS, 1);
     const share = CF.S0 + (CF.SHARE_CEIL - CF.S0) * shift;
+    const green = CF.GREEN_S0 + (CF.GREEN_CEIL - CF.GREEN_S0) * shift;
     const co2 = CF.CO2_PRIVATE * shift * CF.CO2_CUT;
     const trees = co2 * 1e9 / CF.TREE_KG;
     const space = (CF.CARS * CF.CAR_M2 + CF.MOTOS * CF.MOTO_M2) * shift * CF.ELASTICITY / 1e6;
@@ -520,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const livesYr = CF.BAU_DEATHS * deathsPct;
     let cum = 0;
     for (let y = 2026; y <= year; y++) cum += CF.BAU_DEATHS * Math.min((y - 2025) / CF.DAYS, 1) * CF.DEATH_PASS;
-    return { N, shift, share, co2, trees, space, deathsPct, livesYr, cum };
+    return { N, shift, share, green, co2, trees, space, deathsPct, livesYr, cum };
   }
   function fmt(v, d) { return v.toLocaleString(undefined, { maximumFractionDigits: d == null ? 0 : d, minimumFractionDigits: d == null ? 0 : d }); }
 
@@ -529,10 +537,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cfYear').textContent = year;
     document.getElementById('cfDays').textContent = m.N;
     const dEn = document.getElementById('cfDaysEn'); if (dEn) dEn.textContent = m.N;
+    document.getElementById('cfGreen').innerHTML = Math.round(m.green * 100) + '<small>%</small>';
+    document.getElementById('cfGreenEq').innerHTML = isEn()
+      ? 'up from <b>28%</b> today — <b>+' + Math.round((m.green - CF.GREEN_S0) * 100) + ' pp</b>'
+      : '自現況 <b>28%</b> 提升 <b>+' + Math.round((m.green - CF.GREEN_S0) * 100) + ' 個百分點</b>';
     document.getElementById('cfShare').innerHTML = Math.round(m.share * 100) + '<small>%</small>';
     document.getElementById('cfShareEq').innerHTML = isEn()
-      ? 'up from <b>16%</b> today — <b>+' + Math.round((m.share - CF.S0) * 100) + ' pp</b>'
-      : '自現況 <b>16%</b> 提升 <b>+' + Math.round((m.share - CF.S0) * 100) + ' 個百分點</b>';
+      ? 'up from <b>14%</b> today — <b>+' + Math.round((m.share - CF.S0) * 100) + ' pp</b>'
+      : '自現況 <b>14%</b> 提升 <b>+' + Math.round((m.share - CF.S0) * 100) + ' 個百分點</b>';
     document.getElementById('cfCo2').innerHTML = fmt(m.co2, 1) + '<small>Mt</small>';
     document.getElementById('cfCo2Eq').innerHTML = isEn()
       ? '≈ the annual uptake of <b>' + fmt(m.trees / 1e6, 0) + 'M trees</b>'
@@ -604,32 +616,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function drawChart(markYear) {
     const svg = document.getElementById('cfChart');
-    const W = 900, H = 240, padL = 52, padR = 24, padT = 18, padB = 30, YMAX = 0.5;
+    const W = 900, H = 240, padL = 52, padR = 24, padT = 22, padB = 30, YMAX = 0.7;
     const x = yr => padL + (yr - 2025) / 25 * (W - padL - padR);
     const y = v => padT + (1 - v / YMAX) * (H - padT - padB);
     let s = '';
-    [0, 0.1, 0.2, 0.3, 0.4, 0.5].forEach(v => {
+    [0, 0.2, 0.4, 0.6].forEach(v => {
       s += '<line x1="' + padL + '" y1="' + y(v) + '" x2="' + (W - padR) + '" y2="' + y(v) + '" stroke="#F2F2F2" stroke-width="1"/>';
       s += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">' + Math.round(v * 100) + '%</text>';
     });
     [2025, 2030, 2035, 2040, 2045, 2050].forEach(yr => {
       s += '<text x="' + x(yr) + '" y="' + (H - 8) + '" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#888">' + yr + '</text>';
     });
-    s += '<line x1="' + padL + '" y1="' + y(0.16) + '" x2="' + (W - padR) + '" y2="' + y(0.16) + '" stroke="#888" stroke-width="1.2" stroke-dasharray="5,4"/>';
-    s += '<text x="' + (W - padR - 4) + '" y="' + (y(0.16) - 6) + '" text-anchor="end" font-family="Noto Sans TC, Space Grotesk, sans-serif" font-size="11" fill="#888">' + (isEn() ? 'No-action baseline 16%' : '不積極作為情境 16%') + '</text>';
-    let area = 'M' + x(2025) + ',' + y(0.16), line = 'M' + x(2025) + ',' + y(0.16);
+    // green-transport (area + solid line) and public-transport (dashed line)
+    let area = 'M' + x(2025) + ',' + y(CF.GREEN_S0), gl = 'M' + x(2025) + ',' + y(CF.GREEN_S0), pl = 'M' + x(2025) + ',' + y(CF.S0);
     for (let yr = 2026; yr <= 2050; yr++) {
-      const sh = model(yr).share;
-      area += 'L' + x(yr) + ',' + y(sh);
-      line += 'L' + x(yr) + ',' + y(sh);
+      const mm = model(yr);
+      area += 'L' + x(yr) + ',' + y(mm.green);
+      gl += 'L' + x(yr) + ',' + y(mm.green);
+      pl += 'L' + x(yr) + ',' + y(mm.share);
     }
-    area += 'L' + x(2050) + ',' + y(0.16) + 'Z';
-    s += '<path d="' + area + '" fill="#C8D400" fill-opacity="0.22"/>';
-    s += '<path d="' + line + '" fill="none" stroke="#A8B200" stroke-width="3"/>';
-    const mv = model(markYear).share;
+    area += 'L' + x(2050) + ',' + y(CF.GREEN_S0) + 'Z';
+    s += '<path d="' + area + '" fill="#C8D400" fill-opacity="0.16"/>';
+    s += '<path d="' + gl + '" fill="none" stroke="#A8B200" stroke-width="3"/>';
+    s += '<path d="' + pl + '" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>';
+    const mY = model(markYear);
     s += '<line x1="' + x(markYear) + '" y1="' + padT + '" x2="' + x(markYear) + '" y2="' + (H - padB) + '" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="3,3"/>';
-    s += '<circle cx="' + x(markYear) + '" cy="' + y(mv) + '" r="7" fill="#C8D400" stroke="#1A1A1A" stroke-width="2.5"/>';
-    s += '<text x="' + x(markYear) + '" y="' + (y(mv) - 14) + '" text-anchor="middle" font-family="Space Grotesk" font-size="14" font-weight="700" fill="#1A1A1A">' + Math.round(mv * 100) + '%</text>';
+    s += '<circle cx="' + x(markYear) + '" cy="' + y(mY.green) + '" r="7" fill="#C8D400" stroke="#1A1A1A" stroke-width="2.5"/>';
+    s += '<text x="' + x(markYear) + '" y="' + (y(mY.green) - 13) + '" text-anchor="middle" font-family="Space Grotesk" font-size="14" font-weight="700" fill="#1A1A1A">' + Math.round(mY.green * 100) + '%</text>';
+    s += '<circle cx="' + x(markYear) + '" cy="' + y(mY.share) + '" r="5.5" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2"/>';
+    s += '<text x="' + x(markYear) + '" y="' + (y(mY.share) + 22) + '" text-anchor="middle" font-family="Space Grotesk" font-size="12" font-weight="600" fill="#555">' + Math.round(mY.share * 100) + '%</text>';
+    // legend
+    s += '<g font-family="Noto Sans TC, Space Grotesk, sans-serif" font-size="11.5" fill="#555">';
+    s += '<line x1="' + (padL + 4) + '" y1="' + (padT - 8) + '" x2="' + (padL + 30) + '" y2="' + (padT - 8) + '" stroke="#A8B200" stroke-width="3"/>';
+    s += '<text x="' + (padL + 36) + '" y="' + (padT - 4) + '">' + (isEn() ? 'Green transport' : '綠運輸') + '</text>';
+    s += '<line x1="' + (padL + 158) + '" y1="' + (padT - 8) + '" x2="' + (padL + 184) + '" y2="' + (padT - 8) + '" stroke="#1A1A1A" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>';
+    s += '<text x="' + (padL + 190) + '" y="' + (padT - 4) + '">' + (isEn() ? 'Public transport' : '公共運輸') + '</text>';
+    s += '</g>';
     svg.innerHTML = s;
   }
 
