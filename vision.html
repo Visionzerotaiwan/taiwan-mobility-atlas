@@ -8,6 +8,8 @@
 <meta property="og:description" content="一個習慣的複利,兩個歸零的未來。交通習慣移轉的複利效應 × 五大訴求。Vision Zero Taiwan × TCAN">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+body { animation: pageFadeIn 0.45s ease-out; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
@@ -89,6 +91,11 @@ body.lang-en .t-en { display: inline; }
 .cf-slider { flex: 1; min-width: 220px; -webkit-appearance: none; appearance: none; height: 6px; background: var(--grey-3); outline: none; }
 .cf-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; background: var(--lime); border: 3px solid var(--black); cursor: pointer; border-radius: 0; }
 .cf-slider::-moz-range-thumb { width: 26px; height: 26px; background: var(--lime); border: 3px solid var(--black); cursor: pointer; border-radius: 0; }
+.cf-play { -webkit-appearance: none; appearance: none; flex: none; width: 48px; height: 48px; border-radius: 50%; border: 3px solid var(--black); background: var(--lime); color: var(--black); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background .15s, transform .1s; }
+.cf-play:hover { background: var(--lime-dk); }
+.cf-play:active { transform: scale(0.94); }
+.cf-play.playing { background: var(--black); color: var(--lime); }
+.cf-play svg { width: 20px; height: 20px; display: block; }
 .cf-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 26px 0; }
 @media (max-width: 900px) { .cf-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 540px) { .cf-grid { grid-template-columns: 1fr; } }
@@ -309,6 +316,7 @@ body.lang-en .t-en { display: inline; }
       <div class="cf-year" id="cfYear">2026</div>
       <div class="cf-days"><span class="t-zh">每人每月 <b id="cfDays">1</b> 天綠運輸</span><span class="t-en"><b id="cfDaysEn">1</b> green days / person / month</span></div>
       <input type="range" class="cf-slider" id="cfSlider" min="2026" max="2050" step="1" value="2026" aria-label="年份">
+      <button type="button" class="cf-play" id="cfPlay" aria-label="播放每年成長 / Play"></button>
     </div>
 
     <div class="cf-grid">
@@ -659,6 +667,26 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!sl) return;
   sl.addEventListener('input', () => render(+sl.value));
   render(+sl.value);
+
+  const cfPlay = document.getElementById('cfPlay');
+  const CF_ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+  const CF_ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" fill="currentColor"/><rect x="14" y="5" width="4" height="14" fill="currentColor"/></svg>';
+  let cfTimer = null;
+  function cfStop() { if (cfTimer) { clearInterval(cfTimer); cfTimer = null; } if (cfPlay) { cfPlay.classList.remove('playing'); cfPlay.innerHTML = CF_ICON_PLAY; } }
+  if (cfPlay) {
+    cfPlay.innerHTML = CF_ICON_PLAY;
+    cfPlay.addEventListener('click', () => {
+      if (cfTimer) { cfStop(); return; }
+      if (+sl.value >= 2050) { sl.value = 2026; render(2026); }
+      cfPlay.classList.add('playing'); cfPlay.innerHTML = CF_ICON_PAUSE;
+      cfTimer = setInterval(() => {
+        const v = +sl.value + 1;
+        sl.value = v; render(v);
+        if (v >= 2050) cfStop();
+      }, 240);
+    });
+    sl.addEventListener('input', cfStop);
+  }
 
   const prev = window.__rerender;
   window.__rerender = function () { if (prev) prev(); render(+sl.value); };
