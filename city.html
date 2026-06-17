@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
+@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+body { animation: pageFadeIn 0.45s ease-out; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -1165,6 +1167,11 @@ body.lang-en #hdrTitleZh { display: none; }
 .cf-slider { flex: 1; min-width: 200px; -webkit-appearance: none; appearance: none; height: 6px; background: var(--grey-3); outline: none; }
 .cf-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; background: var(--lime); border: 3px solid var(--black); cursor: pointer; border-radius: 0; }
 .cf-slider::-moz-range-thumb { width: 26px; height: 26px; background: var(--lime); border: 3px solid var(--black); cursor: pointer; border-radius: 0; }
+.cf-play { -webkit-appearance: none; appearance: none; flex: none; width: 48px; height: 48px; border-radius: 50%; border: 3px solid var(--black); background: var(--lime); color: var(--black); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background .15s, transform .1s; }
+.cf-play:hover { background: var(--lime-dk); }
+.cf-play:active { transform: scale(0.94); }
+.cf-play.playing { background: var(--black); color: var(--lime); }
+.cf-play svg { width: 20px; height: 20px; display: block; }
 .cf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0; }
 @media (max-width: 900px) { .cf-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 540px) { .cf-grid { grid-template-columns: 1fr; } }
@@ -1670,6 +1677,7 @@ body.lang-en #hdrTitleZh { display: none; }
       <div class="cf-year" id="lcfYear">2026</div>
       <div class="cf-days"><span class="t-zh">每人每月 <b id="lcfDays">1</b> 天綠運輸</span><span class="t-en"><b id="lcfDaysEn">1</b> green days / person / month</span></div>
       <input type="range" class="cf-slider" id="lcfSlider" min="2026" max="2050" step="1" value="2026" aria-label="年份">
+      <button type="button" class="cf-play" id="lcfPlay" aria-label="播放每年成長 / Play"></button>
     </div>
 
     <div class="cf-grid">
@@ -1712,8 +1720,8 @@ body.lang-en #hdrTitleZh { display: none; }
     <div class="tip" id="lcfHeatTip" style="position:absolute;pointer-events:none;display:none;z-index:6;background:rgba(26,26,26,0.95);color:#fff;padding:8px 12px;font-size:12px;line-height:1.55;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,0.3)"></div>
 
     <div class="cf-note">
-      <span class="t-zh">⚙ <b>模型</b>:與<a href="vision.html">雙齊零願景的全國版</a>同一套方法 — 第 N 年 = 每月 N 天綠運輸,轉移率 = N ÷ 30.4;本頁以<b>本縣市 2025 年實際私人運具市佔與每千人死傷率</b>(街道願景白皮書資料庫)為起點;綠運輸基準以「1 − 私人運具市佔」近似;死傷與死亡傳導係數 0.7;A1 死亡以 2024 年為基準。情境推估,非預測。</span>
-      <span class="t-en">⚙ <b>Model</b>: same method as the <a href="vision.html">national Dual-Zero version</a> — year N = N green days/month, shift = N ÷ 30.4; seeded with <b>this county's actual 2025 private-mode share and casualty rate</b> (Street Vision whitepaper database); green baseline ≈ 1 − private share; casualty/death pass-through 0.7; A1 deaths anchored at 2024. A scenario, not a forecast.</span>
+      <span class="t-zh">⚙ <b>模型</b>:與<a href="vision.html">雙齊零願景的全國版</a>同一套方法 — 第 N 年 = 每月 N 天綠運輸,轉移率 = N ÷ 30.4;本頁以<b>本縣市 2025 年實際私人運具市佔與每千人死傷率</b>(街道願景白皮書資料庫)為起點;綠運輸基準以「1 − 私人運具市佔」近似;死傷與死亡傳導係數 0.7;A1 死亡以 2024 年為基準。(本指標「綠運輸」= 步行+單車+大眾運輸,非僅公共運輸,情境比率上限 75%;全國版另以「公共運輸使用率」≈14% 與「綠運輸」≈28% 為指標,定義不同,數字不可直接互比。)情境推估,非預測。</span>
+      <span class="t-en">⚙ <b>Model</b>: same method as the <a href="vision.html">national Dual-Zero version</a> — year N = N green days/month, shift = N ÷ 30.4; seeded with <b>this county's actual 2025 private-mode share and casualty rate</b> (Street Vision whitepaper database); green baseline ≈ 1 − private share; casualty/death pass-through 0.7; A1 deaths anchored at 2024. (Here "green modes" = walking + cycling + transit, not transit alone; scenario share capped at 75%. The national version tracks public-transport share ≈ 14% and green-transport ≈ 28%, different metrics — not directly comparable.) A scenario, not a forecast.</span>
     </div>
   </div>
 </div>
@@ -3298,7 +3306,7 @@ const markerLayer = L.layerGroup().addTo(map);
   //  county's actual 2025 private-mode share + casualty rate
   //  (whitepaper.json, sheet 7). Green baseline ≈ 1 − private share.
   // ====================================================================
-  const LCF = { DAYS: 30.4, PASS: 0.7 };
+  const LCF = { DAYS: 30.4, PASS: 0.7, SHARE_CEIL: 0.75 };
   let lcfData = null;
 
   function lcfModel(year) {
@@ -3306,7 +3314,8 @@ const markerLayer = L.layerGroup().addTo(map);
     const shift = Math.min(N / LCF.DAYS, 1);
     const P0 = lcfData.share / 100;
     const g0 = 1 - P0;
-    const g = 1 - P0 * (1 - shift);
+    const ceil = Math.max(LCF.SHARE_CEIL, g0);
+    const g = g0 + (ceil - g0) * shift;
     const rate = lcfData.rate * (1 - shift * LCF.PASS);
     const saved = lcfData.pop * lcfData.rate / 1000 * shift * LCF.PASS;
     const deathsPct = shift * LCF.PASS;
@@ -3324,10 +3333,10 @@ const markerLayer = L.layerGroup().addTo(map);
     const dEn = document.getElementById('lcfDaysEn'); if (dEn) dEn.textContent = m.N;
 
     document.getElementById('lcfLead').innerHTML = TT(
-      zh + '目前 <strong>' + lcfData.share.toFixed(0) + '%</strong> 的旅次依賴私人汽機車(綠運輸僅 <strong>' +
+      zh + '目前 <strong>' + lcfData.share.toFixed(0) + '%</strong> 的旅次依賴私人汽機車(綠運輸 — 步行+單車+大眾運輸 — 僅 <strong>' +
       (100 - lcfData.share).toFixed(0) + '%</strong>),每千人死傷率 <strong>' + lcfData.rate + '</strong>。' +
       '套用<em>每年每月多一天綠運輸</em>的最小承諾(2026 年 1 天、2027 年 2 天⋯⋯),以下是' + zh + '的在地推估:',
-      en + ' currently runs <strong>' + lcfData.share.toFixed(0) + '%</strong> of trips on private cars and scooters (green modes: <strong>' +
+      en + ' currently runs <strong>' + lcfData.share.toFixed(0) + '%</strong> of trips on private cars and scooters (green modes — walking, cycling &amp; transit: <strong>' +
       (100 - lcfData.share).toFixed(0) + '%</strong>), with <strong>' + lcfData.rate + '</strong> casualties per 1k. ' +
       'Apply the <em>one-more-green-day-per-month-each-year</em> commitment and this is the local estimate:');
 
@@ -3429,14 +3438,14 @@ const markerLayer = L.layerGroup().addTo(map);
   function lcfChart(markYear) {
     const svg = document.getElementById('lcfChart');
     if (!svg) return;
-    const W = 900, H = 240, padL = 52, padR = 24, padT = 18, padB = 30;
+    const W = 900, H = 240, padL = 52, padR = 24, padT = 18, padB = 30, YMAX = 0.8;
     const x = yr => padL + (yr - 2025) / 25 * (W - padL - padR);
-    const y = v => padT + (1 - v) * (H - padT - padB);
+    const y = v => padT + (1 - v / YMAX) * (H - padT - padB);
     const g0 = 1 - lcfData.share / 100;
     let s = '';
-    [0, 0.25, 0.5, 0.75, 1].forEach(v => {
+    [0, 0.2, 0.4, 0.6, 0.8].forEach(v => {
       s += '<line x1="' + padL + '" y1="' + y(v) + '" x2="' + (W - padR) + '" y2="' + y(v) + '" stroke="#F2F2F2" stroke-width="1"/>';
-      s += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">' + (v * 100) + '%</text>';
+      s += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">' + Math.round(v * 100) + '%</text>';
     });
     [2025, 2030, 2035, 2040, 2045, 2050].forEach(yr => {
       s += '<text x="' + x(yr) + '" y="' + (H - 8) + '" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#888">' + yr + '</text>';
@@ -3478,6 +3487,25 @@ const markerLayer = L.layerGroup().addTo(map);
         document.getElementById('lcfSection').style.display = '';
         sl.addEventListener('input', () => lcfRender(+sl.value));
         lcfRender(+sl.value);
+        const lcfPlay = document.getElementById('lcfPlay');
+        const LCF_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+        const LCF_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" fill="currentColor"/><rect x="14" y="5" width="4" height="14" fill="currentColor"/></svg>';
+        let lcfTimer = null;
+        function lcfStop() { if (lcfTimer) { clearInterval(lcfTimer); lcfTimer = null; } if (lcfPlay) { lcfPlay.classList.remove('playing'); lcfPlay.innerHTML = LCF_PLAY; } }
+        if (lcfPlay) {
+          lcfPlay.innerHTML = LCF_PLAY;
+          lcfPlay.addEventListener('click', () => {
+            if (lcfTimer) { lcfStop(); return; }
+            if (+sl.value >= 2050) { sl.value = 2026; lcfRender(2026); }
+            lcfPlay.classList.add('playing'); lcfPlay.innerHTML = LCF_PAUSE;
+            lcfTimer = setInterval(() => {
+              const v = +sl.value + 1;
+              sl.value = v; lcfRender(v);
+              if (v >= 2050) lcfStop();
+            }, 240);
+          });
+          sl.addEventListener('input', lcfStop);
+        }
       })
       .catch(e => console.warn('local CF not loaded:', e));
   })();
