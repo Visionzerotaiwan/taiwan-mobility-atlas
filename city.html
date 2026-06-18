@@ -3196,7 +3196,12 @@ const markerLayer = L.layerGroup().addTo(map);
       ctx.beginPath();
       projYears.forEach((yy, i) => { const X = px(yy), Y = py(bau.center[yy]); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); });
       ctx.stroke(); ctx.setLineDash([]);
-      scText(ctx, TT('不積極作為情境', 'BAU · CURRENT TREND'), px(2030), py(bau.center[2030]) - 16, '700 21px "Noto Sans TC"', TH.bauText, 'center');
+      scText(ctx, TT('不積極作為情境', 'BAU · CURRENT TREND'), px(2030), py(bau.center[2030]) - 18, '700 21px "Noto Sans TC"', TH.bauText, 'center');
+      // 2035 endpoint value — this county's projected A1 deaths if no action
+      const _bau35 = Math.round(bau.center[2035]);
+      ctx.fillStyle = '#D94F3D';
+      ctx.beginPath(); ctx.arc(px(2035), py(bau.center[2035]), 7, 0, Math.PI * 2); ctx.fill();
+      scText(ctx, TT('約 ' + _bau35 + ' 人', '≈ ' + _bau35), px(2035) - 4, py(bau.center[2035]) - 14, '700 23px "Noto Sans TC", "Space Grotesk"', '#D94F3D', 'right');
     }
 
     // target dashed (lime)
