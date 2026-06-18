@@ -1,0 +1,414 @@
+{
+ "taipei": {
+  "510": {
+   "url": "https://www.chinatimes.com/realtimenews/20230122001034-260402",
+   "title": "影》趕搭公車回家圍爐 北市翁過馬路遭機車撞死畫面曝",
+   "source": "中時",
+   "date": "2023-01-22",
+   "match": "high",
+   "discrepancy": "官方紀錄載受傷1人，但新聞僅描述行人老翁死亡，未明確提及機車騎士受傷。"
+  },
+  "517": {
+   "url": "https://www.ettoday.net/news/20230210/2438165.htm",
+   "title": "天母男過馬路遭撞死 賓士駕駛嚇壞：我要去泡溫泉...撞擊畫面曝",
+   "source": "ETtoday",
+   "date": "2023-02-10",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "523": {
+   "url": "https://www.ctwant.com/article/242770",
+   "title": "北投死亡車禍！閃清潔車遭後方騎士撞上 男遭砂石車爆頭",
+   "source": "CTWANT",
+   "date": "2023-03-07",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "613": {
+   "url": "https://www.chinatimes.com/realtimenews/20240809004916-260402",
+   "title": "南港驚悚車禍！小貨車撞保時捷 電動車夾成鐵餅騎士慘死",
+   "source": "中時",
+   "date": "2024-08-09",
+   "match": "high",
+   "discrepancy": "官方紀錄受傷1人，但新聞報導僅提及1人死亡、未提及受傷者。"
+  },
+  "622": {
+   "url": "https://www.ettoday.net/news/20241008/2831101.htm",
+   "title": "快訊／萬華凌晨死亡車禍！87歲翁騎單車逆向 遭賓士撞飛破頭亡",
+   "source": "ETtoday",
+   "date": "2024-10-08",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "632": {
+   "url": "https://www.ettoday.net/news/20241115/2855627.htm",
+   "title": "快訊／水源快速道路嚴重事故！水泥車翻覆壓垮護欄 駕駛受困中",
+   "source": "ETtoday",
+   "date": "2024-11-15",
+   "match": "high",
+   "discrepancy": "官方記錄車種為「大貨車-營業用」，新聞具體指為混凝土車（水泥車），兩者一致但描述粒度不同。"
+  },
+  "646": {
+   "url": "https://www.ettoday.net/news/20250215/2909132.htm",
+   "title": "快訊／北市恐怖車禍！單車騎士路口遭砂石車輾過 當場死亡",
+   "source": "ETtoday",
+   "date": "2025-02-15",
+   "match": "high",
+   "discrepancy": "新聞描述肇事大型車為「砂石車」，官方紀錄登記為「半聯結車-營業用」，車種名稱用語略有差異但同屬大型營業貨車，情節一致。"
+  },
+  "648": {
+   "url": "https://www.ctwant.com/article/399373/",
+   "title": "北市萬華嚴重車禍！小貨車越線撞爛機車 騎士噴飛亡",
+   "source": "CTWANT",
+   "date": "2025-02-27",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "653": {
+   "url": "https://www.ettoday.net/news/20250317/2926497.htm",
+   "title": "快訊／北投死亡車禍！聯結車與腳踏車碰撞 騎士捲輪底慘死",
+   "source": "ETtoday",
+   "date": "2025-03-17",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "688": {
+   "url": "https://www.ettoday.net/news/20251022/3054784.htm",
+   "title": "胎紋近乎磨平！北市多元計程車180度打轉 女沒繫安全帶拋飛慘死",
+   "source": "ETtoday",
+   "date": "2025-10-22",
+   "match": "high",
+   "discrepancy": "新聞僅載地點為中山區堤頂大道二段，未明確提及瑞光路路口。"
+  }
+ },
+ "newtaipei": {
+  "1022": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4242439",
+   "title": "金山8旬老翁騎車被撞飛 摔落大排當場死亡",
+   "source": "自由時報",
+   "date": "2023-03-17",
+   "match": "high",
+   "discrepancy": "新聞指出地點為金山區清水路21巷，官方紀錄記為台2線與清水路路口，屬同一路段；新聞僅稱「機車」未明確標註普通重型。"
+  },
+  "1049": {
+   "url": "https://www.nownews.com/news/6155442",
+   "title": "新莊死亡車禍！貨車違規左轉撞直行機車 騎士送醫傷重不治",
+   "source": "NOWnews",
+   "date": "2023-05-30",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1090": {
+   "url": "https://news.tvbs.com.tw/local/2270904",
+   "title": "有片／濱海公路化學槽車翻覆釀1死！駕駛違規跨雙黃線影像曝",
+   "source": "TVBS",
+   "date": "2023-09-12",
+   "match": "high",
+   "discrepancy": "新聞報導為化學槽車翻落邊坡致司機1人死亡，與官方紀錄登載之車種「大客車·營業用」不符，疑為官方車種代碼誤植。"
+  },
+  "1105": {
+   "url": "https://n.yam.com/Article/20231013375266",
+   "title": "新北環快死亡車禍！「汽車無照、機車逆向」相撞 33歲騎士當場死亡",
+   "source": "蕃新聞",
+   "date": "2023-10-13",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1208": {
+   "url": "https://news.ebc.net.tw/news/society/424100",
+   "title": "淡水死亡車禍！ 28歲騎士遭大車當場輾斃",
+   "source": "東森新聞",
+   "date": "2024-06-04",
+   "match": "high",
+   "discrepancy": "官方紀錄涉入車輛為「大客車-自用」，但新聞報導為砂石車（大型貨車），車種類別有出入。"
+  },
+  "1252": {
+   "url": "https://www.ettoday.net/news/20240915/2817638.htm",
+   "title": "快訊／華中橋死亡車禍！男騎電動車「撞護欄」頭部重創 送醫不治",
+   "source": "ETtoday",
+   "date": "2024-09-15",
+   "match": "high",
+   "discrepancy": "新聞報導為電動車騎士自撞護欄、僅1死0傷，與官方紀錄的受傷1人及涉入機車-普通重型不符。"
+  },
+  "1260": {
+   "url": "https://www.knews.com.tw/news/DA6B7C516133C2B4191504B40EE937AB",
+   "title": "輔大音樂系才女遭BMW撞飛斷魂 出門才報備！男友慟：天都要塌了",
+   "source": "知新聞",
+   "date": "2024-10-08",
+   "match": "high",
+   "discrepancy": "新聞報導事故時間約上午10時，官方紀錄為10時57分，略有出入。"
+  },
+  "1295": {
+   "url": "https://udn.com/news/story/7320/8459484",
+   "title": "新北離奇車禍 女子騎電動機車衝撞路邊貨車不治、車頭削掉一半",
+   "source": "UDN",
+   "date": "2024-12-31",
+   "match": "high",
+   "discrepancy": "官方記錄受害者運具為普通重型機車且涉入車輛標為小客車(含客貨兩用)，但新聞報導為電動機車撞擊路邊停放的小貨車。"
+  },
+  "1364": {
+   "url": "https://www.ettoday.net/news/20250629/2986823.htm",
+   "title": "快訊／新北鶯歌重機自撞！51歲男「斷掌失去生命跡象」 送醫搶命中",
+   "source": "ETtoday",
+   "date": "2025-06-29",
+   "match": "high",
+   "discrepancy": "ETtoday於隔日（6/29）報導時騎士為OHCA送醫搶救尚未確認死亡，官方A1紀錄與知新聞報導則確認該名51歲彭姓騎士傷重不治。"
+  },
+  "1387": {
+   "url": "https://www.ettoday.net/news/20250810/3012222.htm",
+   "title": "17歲女遭撞拋飛慘死！中和凌晨奪命車禍影片曝 父認屍痛哭癱坐",
+   "source": "ETtoday",
+   "date": "2025-08-10",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1417": {
+   "url": "https://udn.com/news/story/7320/9062556",
+   "title": "影／新北八里皮卡高速逆向衝撞單車翻覆 騎士送醫不治",
+   "source": "UDN",
+   "date": "2025-10-10",
+   "match": "high",
+   "discrepancy": "官方紀錄主要車種記為「小客車(含客、貨兩用)·自用」，新聞則稱肇事車為「皮卡貨車」，屬同類車種但用語不同。"
+  },
+  "1431": {
+   "url": "https://www.ettoday.net/news/20251115/3068117.htm",
+   "title": "快訊／新店死亡車禍！機車騎士搶救不治、腳踏車翁昏迷",
+   "source": "ETtoday",
+   "date": "2025-11-15",
+   "match": "high",
+   "discrepancy": "ETtoday發稿當下（15:04）僅機車騎士不治、腳踏車翁尚昏迷，當晚20時許單車翁亦不治，合計2死與官方紀錄一致；另各家媒體對機車騎士年齡記載不一（34歲與22歲）。"
+  },
+  "1447": {
+   "url": "https://udn.com/news/story/7320/9212481",
+   "title": "影／五股疏洪道旁嚴重車禍 25歲機車騎士當場無心跳",
+   "source": "聯合報",
+   "date": "2025-12-18",
+   "match": "high",
+   "discrepancy": "報導時25歲吳姓騎士當場無心跳送醫搶救，與官方A1（24小時內死亡1人）紀錄一致，車種、地點、左轉肇事情節均相符；新聞發稿時間約19時，官方記為19時25分，差異甚微。"
+  }
+ },
+ "taoyuan": {
+  "1136": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4412355",
+   "title": "驚悚！桃園老婦穿越車道 慘遭曳引車撞倒輾斃",
+   "source": "自由時報",
+   "date": "2023-08-30",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1283": {
+   "url": "https://www.cna.com.tw/news/asoc/202407140207.aspx",
+   "title": "桃園龜山發生連環撞車禍 釀1死5傷",
+   "source": "中央社",
+   "date": "2024-07-14",
+   "match": "high",
+   "discrepancy": "官方紀錄涉入車輛含1輛計程車，但新聞多描述為自用小客車連環追撞；另ETtoday報導為1死4傷，與其他媒體及官方的1死5傷略有出入。"
+  },
+  "1301": {
+   "url": "https://udn.com/news/story/7320/8548703",
+   "title": "桃園高鐵南路三段「這路口」 半年2起死亡車禍將改善",
+   "source": "UDN",
+   "date": "2024-08-08",
+   "match": "high",
+   "discrepancy": "報導指出該起車禍死者為39歲吳姓楊梅交通中隊員警騎機車上班途中遭未依號誌左轉小客車撞擊不治，與官方紀錄之地點、機車對小客車、死亡1人均相符。"
+  },
+  "1358": {
+   "url": "https://tyenews.com/2024/12/772026/",
+   "title": "桃園死亡車禍！大貨車、微電車碰撞 騎士當場倒地亡",
+   "source": "桃園電子報",
+   "date": "2024-12-06",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1376": {
+   "url": "https://autos.udn.com/autos/story/12168/8513785",
+   "title": "影／桃園長興路死亡車禍！單親媽兼職跑外送遭逆向奧迪高速撞死",
+   "source": "UDN",
+   "date": "2025-01-22",
+   "match": "high",
+   "discrepancy": "新聞僅詳述1名機車外送員死亡，未明確提及官方紀錄中的受傷1人。"
+  }
+ },
+ "taichung": {
+  "1286": {
+   "url": "https://udn.com/news/story/7321/9268946",
+   "title": "大重機乘客摔落慘遭曳引車輾死 司機：只感覺「嗶嗶波波」不知壓到人",
+   "source": "UDN",
+   "date": "2024-01-09",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1365": {
+   "url": "https://www.nownews.com/news/6505168",
+   "title": "台中清水連環車禍！大貨車疑煞車不及追撞4車 男遭夾擊受困身亡",
+   "source": "NOWnews",
+   "date": "2024-08-23",
+   "match": "high",
+   "discrepancy": "新聞僅明確提及1名女乘客骨折及其他輕重傷，未明列受傷4人，與官方紀錄受傷4人略有出入。"
+  },
+  "1375": {
+   "url": "https://www.ettoday.net/news/20240923/2821791.htm",
+   "title": "台中公車轉彎猛撞行人「1死1傷」 2人都是東海女大生",
+   "source": "ETtoday",
+   "date": "2024-09-23",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1398": {
+   "url": "https://www.ettoday.net/news/20241027/2843053.htm",
+   "title": "台中行人「遭輾滾數圈亡」！18歲男開BMW肇逃辯：不知道撞到人",
+   "source": "ETtoday",
+   "date": "2024-10-27",
+   "match": "high",
+   "discrepancy": "新聞報導肇事BMW小客車於撞擊行人後肇事逃逸，官方紀錄未載明肇逃，且新聞未明確指出該車為租賃車。"
+  },
+  "1448": {
+   "url": "https://www.ettoday.net/news/20250302/2917777.htm",
+   "title": "台中死亡車禍！35歲男「閃紅燈沒停」遭撞翻不治 驚悚瞬間曝",
+   "source": "ETtoday",
+   "date": "2025-03-02",
+   "match": "high",
+   "discrepancy": "官方紀錄受傷1人，但新聞僅報導1死、未明確記載受傷人數。"
+  },
+  "1454": {
+   "url": "https://www.chinatimes.com/realtimenews/20250304001473-260402",
+   "title": "台中台灣大道死亡車禍！老婦晨運遭撞飛 頭顱破裂慘死",
+   "source": "中時",
+   "date": "2025-03-04",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1495": {
+   "url": "https://udn.com/news/story/7320/8833105",
+   "title": "台中東勢死亡車禍 過彎車疑夜間昏暗撞6旬婦不治",
+   "source": "UDN",
+   "date": "2025-06-25",
+   "match": "high",
+   "discrepancy": "官方紀錄主要車種為小貨車-自用，但新聞僅稱張男「開車」未指明車型，無法確認是否為小貨車。"
+  },
+  "1505": {
+   "url": "https://news.tvbs.com.tw/local/2956178",
+   "title": "又是酒駕害死人！台中猴車毀玻璃撞出洞 婦等紅燈無辜噴飛亡",
+   "source": "TVBS",
+   "date": "2025-08-10",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1525": {
+   "url": "https://udn.com/news/story/7320/9018440",
+   "title": "台中大安死亡車禍 34歲騎士頭部撞擊轎車後門重創不治",
+   "source": "UDN",
+   "date": "2025-09-20",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1547": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/5234261",
+   "title": "台中神岡車禍！7旬婦騎機車直行大貨車左轉未注意 當場被輾爆頭死亡",
+   "source": "自由時報",
+   "date": "2025-11-04",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "tainan": {
+  "1233": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4171890",
+   "title": "台南北門轎車衝撞橋墩乘客拋飛 又添1人不治釀3死2傷",
+   "source": "自由時報",
+   "date": "2023-01-01",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1275": {
+   "url": "https://www.ettoday.net/news/20230228/2449062.htm",
+   "title": "肇事原因曝！台南賓士C300撞爛翻肚躺大排 駕駛乘客雙亡",
+   "source": "ETtoday",
+   "date": "2023-02-28",
+   "match": "high",
+   "discrepancy": "官方記為「區道南130線」，新聞寫「市道130線」，為道路分類稱呼差異，實為善化平交道附近同一條路。"
+  },
+  "1474": {
+   "url": "https://www.ettoday.net/news/20240607/2754206.htm",
+   "title": "新北夜衝6hrs台南訪友！19歲男騎黃牌載女同學自撞…釀1死1重傷",
+   "source": "ETtoday",
+   "date": "2024-06-07",
+   "match": "high",
+   "discrepancy": "部分媒體報導後座死亡女乘客為17歲，ETtoday與中央社則記為18歲，年齡記載略有出入。"
+  },
+  "1641": {
+   "url": "https://www.ettoday.net/news/20250507/2956004.htm",
+   "title": "快訊／台南永康聯結車與3機車擦撞 男騎士遭輾爆頭慘死！",
+   "source": "ETtoday",
+   "date": "2025-05-07",
+   "match": "high",
+   "discrepancy": "新聞未明確載明受傷人數，官方紀錄為受傷1人。"
+  },
+  "1720": {
+   "url": "https://www.chinatimes.com/realtimenews/20251116001792-260402",
+   "title": "台南善化嚴重車禍！ 機車坐墊解體婦人傷重身亡",
+   "source": "中時",
+   "date": "2025-11-16",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "kaohsiung": {
+  "1536": {
+   "url": "https://www.ettoday.net/news/20241129/2864291.htm",
+   "title": "快訊／高雄岡山死亡車禍！女騎腳踏車捲貨車底 當場喪命",
+   "source": "ETtoday",
+   "date": "2024-11-29",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1555": {
+   "url": "https://www.chinatimes.com/realtimenews/20250108004829-260402",
+   "title": "高雄柴山大道死亡車禍！19歲男疑自摔「猛撞轎車」送醫不治",
+   "source": "中時",
+   "date": "2025-01-08",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1576": {
+   "url": "https://www.ettoday.net/news/20250219/2911787.htm",
+   "title": "高雄機車彎道逆向猛撞大貨車 騎士慘壓車底...送醫不治",
+   "source": "ETtoday",
+   "date": "2025-02-19",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1586": {
+   "url": "https://www.ettoday.net/news/20250318/2927337.htm",
+   "title": "高雄男大生上學遇奪命車禍！斷魂瞬間曝 弟留言感謝CPR護理生",
+   "source": "ETtoday",
+   "date": "2025-03-18",
+   "match": "high",
+   "discrepancy": "新聞另提及現場有一輛轎車疑影響蔡男視角，但實際碰撞為兩輛機車，與官方涉入車輛紀錄一致。"
+  },
+  "1627": {
+   "url": "https://tw.news.yahoo.com/2%E5%A4%A9%E5%85%A7%E5%A5%AA%E7%AC%AC5%E5%91%BD-%E9%AB%98%E5%B8%82%E6%99%9A%E9%96%93%E6%A9%9F%E8%BB%8A%E8%88%87%E5%96%AE%E8%BB%8A%E7%A2%B0%E6%92%9E-%E6%A9%9F%E8%BB%8A%E9%A8%8E%E5%A3%AB%E9%87%8D%E5%82%B7%E4%BA%A1-192514329.html",
+   "title": "2天內奪第5命！高市晚間機車與單車碰撞 機車騎士重傷亡",
+   "source": "中廣",
+   "date": "2025-06-03",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1645": {
+   "url": "https://udn.com/news/story/7320/8892777",
+   "title": "高雄50歲女深夜加工區下班 疑過勞騎機車…在最熟悉回家的路撞車亡",
+   "source": "聯合報",
+   "date": "2025-07-24",
+   "match": "high",
+   "discrepancy": "新聞報導事故時間為凌晨0時30分，官方紀錄為約0時40分，相差約10分鐘。"
+  },
+  "1703": {
+   "url": "https://taidaily.com/2025/12/31/563531/",
+   "title": "高雄大寮鳳林三路連環擦撞釀憾事！機車女騎士遭撞不治",
+   "source": "台日報",
+   "date": "2025-12-31",
+   "match": "high",
+   "discrepancy": ""
+  }
+ }
+}

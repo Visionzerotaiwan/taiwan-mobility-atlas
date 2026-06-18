@@ -584,6 +584,48 @@ body {
 }
 .party-row.role-victim .pname { color: var(--red); font-weight: 500; }
 
+/* News-verification block (sampled accuracy audit) */
+.detail-news {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 11px 13px;
+  text-decoration: none;
+  background: var(--grey-4, #F5F5F2);
+  border-left: 4px solid var(--lime-dk, #A8B200);
+  border-radius: 2px;
+  transition: background .12s;
+}
+.detail-news.medium { border-left-color: var(--gold, #E8A825); }
+.detail-news:hover { background: #ECECE6; }
+.detail-news .news-badge {
+  font-family: var(--font-en);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--lime-dk, #A8B200);
+}
+.detail-news.medium .news-badge { color: var(--gold, #E8A825); }
+.detail-news .news-title {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--black);
+}
+.detail-news .news-meta {
+  font-size: 10px;
+  font-family: var(--font-en);
+  color: var(--grey-2);
+}
+.detail-news .news-disc {
+  font-size: 10.5px;
+  color: var(--red);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
 /* ── Insight callout ── */
 .insight {
   background: var(--black);
@@ -1806,6 +1848,14 @@ function __main() {
 
   DATA.forEach((e, i) => { e._id = i; });
 
+  // ---------- News-verification overlay (sampled accuracy audit) ----------
+  // data/news_overlay.json maps  slug → { recordIndex → {url,title,source,date,match,discrepancy} }
+  window.NEWS_OVERLAY = window.NEWS_OVERLAY || {};
+  fetch('data/news_overlay.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : {})
+    .then(j => { window.NEWS_OVERLAY = j; })
+    .catch(() => {});
+
   // ---------- Filter state ----------
   const state = { year: 'all', mode: 'all', view: 'points', hwy: 'on', sw: 'off', selectedId: null };
 
@@ -2307,6 +2357,21 @@ const markerLayer = L.layerGroup().addTo(map);
     empty.style.display = 'none';
     card.style.display = 'block';
 
+    // News-verification (only present for the audited 10% sample)
+    const ovCity = (window.NEWS_OVERLAY && window.NEWS_OVERLAY[window.__SLUG]) || {};
+    const news = ovCity[ev._id];
+    let newsBlock = '';
+    if (news && news.url) {
+      const conf = news.match === 'high' ? TT('已查證一致', 'Verified') : TT('可能相符', 'Likely match');
+      const meta = [news.source, news.date].filter(Boolean).join(' · ');
+      newsBlock = `<a class="detail-news ${news.match}" href="${news.url}" target="_blank" rel="noopener">
+        <span class="news-badge">✔ ${TT('新聞查證', 'News check')} · ${conf}</span>
+        <span class="news-title">${news.title || news.url}</span>
+        ${meta ? `<span class="news-meta">${meta}</span>` : ''}
+        ${news.discrepancy ? `<span class="news-disc">⚠ ${news.discrepancy}</span>` : ''}
+      </a>`;
+    }
+
     let partiesBlock = '';
     if (ev.parties && ev.parties.length) {
       const parties = ev.parties.map((p, i) => {
@@ -2361,6 +2426,7 @@ const markerLayer = L.layerGroup().addTo(map);
       </div>
       ${optionalRows}
       ${partiesBlock}
+      ${newsBlock}
     `;
   }
 
