@@ -410,5 +410,433 @@
    "match": "high",
    "discrepancy": ""
   }
+ },
+ "changhua": {
+  "896": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4210203",
+   "title": "轟！國1彰化秀水段車禍1死3傷 5歲男童坐前座噴飛送醫不治",
+   "source": "自由時報",
+   "date": "2023-02-13",
+   "match": "high",
+   "discrepancy": "新聞報導為單輛轎車撞護欄翻覆（車上4人、5歲男童噴飛不治），未提及官方紀錄中的小貨車涉入，且死者新聞稱5歲、官方運具註記為租賃小客車。"
+  },
+  "953": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4365384",
+   "title": "139線「死亡彎道」再傳憾事！女騎士噴飛撞路樹傷重不治",
+   "source": "自由時報",
+   "date": "2023-07-15",
+   "match": "high",
+   "discrepancy": "新聞稱事故位於139線20K「死亡彎道」，官方紀錄為9公里100公尺處，公里數標示不一致。"
+  },
+  "1022": {
+   "url": "https://udn.com/news/story/7320/7746418",
+   "title": "台61線一死一傷車禍！疑車子故障「下車查看」 駕駛下一秒遭貨車撞飛亡",
+   "source": "UDN",
+   "date": "2024-01-31",
+   "match": "high",
+   "discrepancy": "新聞報導地點為台61線南下187公里、時間16:13，與官方紀錄186.8公里、16:15略有差異（屬同一地點與事故）。"
+  },
+  "1072": {
+   "url": "https://www.ettoday.net/news/20240715/2777936.htm",
+   "title": "快訊／國3和美段4車追撞2人不治 距昨日1死事故僅400m",
+   "source": "ETtoday",
+   "date": "2024-07-15",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1088": {
+   "url": "https://news.tvbs.com.tw/local/2607967",
+   "title": "彰化婦騎腳踏車慘遭「捲入大貨車底拖行」 倒臥平交道送醫不治",
+   "source": "TVBS",
+   "date": "2024-09-04",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1097": {
+   "url": "https://udn.com/news/story/7320/8257315",
+   "title": "影／4天3件機車死亡車禍 彰化警方加強見警率及交通宣導",
+   "source": "聯合報",
+   "date": "2024-09-27",
+   "match": "high",
+   "discrepancy": "新聞報導事故時間為上午7時23分，與官方紀錄7時21分相差約2分鐘。"
+  },
+  "1212": {
+   "url": "https://udn.com/news/story/7320/8932507",
+   "title": "影／彰化驚傳死亡車禍！6旬婦騎車載孫釀悲劇 遭小貨車撞上1死1傷",
+   "source": "UDN",
+   "date": "2025-08-11",
+   "match": "high",
+   "discrepancy": "官方記錄涉入車輛為小客車（客貨兩用）自用，新聞報導為小貨車，實為同一類客貨兩用車輛。"
+  }
+ },
+ "chiayi": {
+  "677": {
+   "url": "https://www.cna.com.tw/news/asoc/202406180060.aspx",
+   "title": "嘉義東石2車相撞1死3傷 永屯村地標毀損",
+   "source": "中央社",
+   "date": "2024-06-18",
+   "match": "high",
+   "discrepancy": "新聞稱事故路口為台82線東石大橋與台17線交叉口，官方紀錄則記為168縣道與台17線路口（同一永屯村路口的不同路線編號標示）。"
+  },
+  "688": {
+   "url": "https://www.ettoday.net/news/20240907/2812396.htm",
+   "title": "快訊／嘉義東石休旅車撞砂石車 氣囊爆開滿地血跡...1死1重傷",
+   "source": "ETtoday",
+   "date": "2024-09-07",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "746": {
+   "url": "https://www.knews.com.tw/news/B7BBC6A95D28F6775538641D62061A17",
+   "title": "嘉義東石死亡車禍！送便當「衝進魚塭翻車」 女駕駛受困搶救不治",
+   "source": "知新聞",
+   "date": "2025-06-26",
+   "match": "high",
+   "discrepancy": "聯合報報導稱事故點在台61線附近魚塭，與官方紀錄及知新聞所載縣道170線略有出入（兩路於東石網寮一帶交會，應為同一地點）。"
+  },
+  "749": {
+   "url": "https://udn.com/news/story/7320/8855445",
+   "title": "驚！國道三號刮強風吹倒路樹 26歲男子開車自撞當場死亡",
+   "source": "聯合報",
+   "date": "2025-07-07",
+   "match": "high",
+   "discrepancy": "新聞稱事故發生於國道3號「梅山路段」284.2公里處，官方紀錄記為「大林鎮」，但公里數完全一致（梅山與大林為相鄰路段交界）。"
+  }
+ },
+ "hsinchu": {
+  "450": {
+   "url": "https://www.ettoday.net/news/20230825/2568902.htm",
+   "title": "竹北恐怖車禍！騎士被左轉車撞倒又遭「輾過2次」 搶救無效亡",
+   "source": "ETtoday",
+   "date": "2023-08-25",
+   "match": "high",
+   "discrepancy": "官方紀錄分類為24小時內死亡（A1），但新聞報導騎士當下送醫搶救、於8月25日才不治身亡，實際死亡時間恐已逾事故後24小時。"
+  },
+  "513": {
+   "url": "https://www.chinatimes.com/realtimenews/20241204004708-260402",
+   "title": "國一湖口路段6車追撞釀1死！身分竟是刑事局洩密警女友",
+   "source": "中時",
+   "date": "2024-12-04",
+   "match": "high",
+   "discrepancy": "新聞報導為國1北向77.7公里、凌晨3時許、6車連環追撞造成6人受傷且涉入車輛多為營業／租賃小客車，與官方紀錄的76.9公里、02:20、受傷3人及主要車種小貨車有出入。"
+  },
+  "542": {
+   "url": "https://udn.com/news/story/7320/8841290",
+   "title": "綠世界外遊覽車追撞4車...翻覆釀1死1重傷 司機OHCA送醫仍不治",
+   "source": "聯合報UDN",
+   "date": "2025-06-30",
+   "match": "high",
+   "discrepancy": "新聞報導為1死1重傷（陳姓司機OHCA不治、女導遊重傷），官方紀錄為1死5傷，差額應為被追撞4輛小客車駕駛輕傷未送醫。"
+  }
+ },
+ "hsinchucity": {
+  "212": {
+   "url": "https://news.tvbs.com.tw/local/2295334",
+   "title": "竹市議員撞機車騎士！拳擊國手弟弟慘死 家屬控：至今仍未道歉",
+   "source": "TVBS",
+   "date": "2023-11-04",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "264": {
+   "url": "https://news.tvbs.com.tw/local/3064546",
+   "title": "快訊／國3重大車禍！半聯結車疑恍神「追撞4車」釀1死7傷",
+   "source": "TVBS",
+   "date": "2025-12-05",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "hualien": {
+  "324": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4259623",
+   "title": "花蓮台九線富里路段無照駕車逆向對撞 釀1死8傷",
+   "source": "自由時報",
+   "date": "2023-04-03",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "337": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4326650",
+   "title": "縣道193花蓮玉里觀音段「轎車撞路樹卡住」 婦送醫不治",
+   "source": "自由時報",
+   "date": "2023-06-07",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "366": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4578353",
+   "title": "男保全年初四上班 花蓮台9線自撞路邊貨車身亡",
+   "source": "自由時報",
+   "date": "2024-02-13",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "372": {
+   "url": "https://etaiwan.news/2024/04/11/%E7%8E%89%E9%87%8C%E8%BB%8A%E7%A6%8D%EF%BD%9C1%E4%BA%BAohca%E3%80%811%E4%BA%BA%E8%BC%95%E5%82%B7%E3%80%82/",
+   "title": "玉里車禍｜1人OHCA、1人輕傷",
+   "source": "eTaiwan",
+   "date": "2024-04-11",
+   "match": "medium",
+   "discrepancy": "報導發生於玉里鎮春日里神農37-2號旁（與官方「神農社區聯外道路口」相符），時間10:06、傷者為1人OHCA(82歲男性)＋1人輕傷，與官方1死1傷相符；但報導未提及涉入車種（拼裝車、機車），且傷者僅記為到院前心肺停止(OHCA)未明確宣告死亡。"
+  },
+  "407": {
+   "url": "https://www.ettoday.net/news/20250807/3010579.htm",
+   "title": "花蓮自小客暴衝！夫婦看病才下車就被撞1死1傷 現場恐怖畫面曝",
+   "source": "ETtoday",
+   "date": "2025-08-06",
+   "match": "high",
+   "discrepancy": "新聞報導事故地點為秀林鄉（診所位於加灣段），官方紀錄列為新城鄉，因台9線180公里位於兩鄉交界，行政區歸屬略有出入；報導時間約下午（多家為15:40），官方為15:12。"
+  },
+  "417": {
+   "url": "https://www.ettoday.net/news/20251112/3066105.htm",
+   "title": "快訊／台11線花蓮豐濱段3車相撞！貨車側翻卡溝駕駛當場死亡",
+   "source": "ETtoday",
+   "date": "2025-11-12",
+   "match": "high",
+   "discrepancy": "官方記錄受傷0人，但多家媒體報導曳引車與小客車駕駛輕傷（另有報導稱2人無傷）。"
+  }
+ },
+ "keelung": {
+  "125": {
+   "url": "https://news.tvbs.com.tw/local/2217671",
+   "title": "違規貨車撞機車！騎士頭撞阿彌陀佛石柱 當場失生命跡象",
+   "source": "TVBS",
+   "date": "2023-08-23",
+   "match": "high",
+   "discrepancy": "官方紀錄主要車種為大客車-自用，但新聞報導肇事車輛為29歲陳姓駕駛的大貨車。"
+  },
+  "151": {
+   "url": "https://www.ettoday.net/news/20250516/2961604.htm",
+   "title": "基隆女與機車碰撞！倒地後再遭轎車輾送醫不治 事故現場畫面曝",
+   "source": "ETtoday",
+   "date": "2025-05-16",
+   "match": "high",
+   "discrepancy": "官方記錄受傷1人，新聞未明確載明受傷人數（黃姓機車騎士情況未詳述）。"
+  }
+ },
+ "kinmen": {
+  "39": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4570004",
+   "title": "金門后湖路口死亡車禍影片曝 騎士與計程車相撞彈飛1死1重傷",
+   "source": "自由時報",
+   "date": "2024-02-01",
+   "match": "high",
+   "discrepancy": "官方記載受傷2人，新聞僅報導後座4歲女童1人重傷後送（計程車駕駛酒測0、無大礙未列傷者）；新聞稱路口為環島南路與后湖村路口，官方記為環島南路1段與林湖路口（同一路口不同稱法）。"
+  },
+  "45": {
+   "url": "https://udn.com/news/story/7320/8947436",
+   "title": "金門社宅工地旁車禍 83歲翁騎車遭貨車追撞傷重不治",
+   "source": "聯合報 UDN",
+   "date": "2025-08-18",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "miaoli": {
+  "508": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4580119",
+   "title": "國3苗栗西湖段貨車撞緩撞車！1死1傷",
+   "source": "自由時報",
+   "date": "2024-02-16",
+   "match": "high",
+   "discrepancy": "新聞報導事故時間約08:00、被撞車輛描述為內側車道作業的緩撞工程車，官方紀錄時間為07:37並將涉入車輛列為大貨車（即該緩撞工程車）。"
+  },
+  "528": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4728681",
+   "title": "疑閃前方轉彎車 18歲機車騎士撞電桿飛入田傷重不治",
+   "source": "自由時報",
+   "date": "2024-07-06",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "539": {
+   "url": "https://www.ettoday.net/news/20240910/2813973.htm",
+   "title": "快訊／國3通霄段砂石車衝撞大貨車、拖吊車 2駕駛死亡",
+   "source": "ETtoday",
+   "date": "2024-09-10",
+   "match": "high",
+   "discrepancy": "官方紀錄車種編為半聯結車、大貨車、大貨車，新聞則描述為砂石車、故障大貨車與拖吊車，車種用詞略有出入但屬同一起事故。"
+  },
+  "568": {
+   "url": "https://www.cna.com.tw/news/asoc/202412140201.aspx",
+   "title": "苗縣獅潭台3線接連事故奪2命 外籍家庭天倫夢碎",
+   "source": "中央社",
+   "date": "2024-12-14",
+   "match": "high",
+   "discrepancy": "新聞標題稱「奪2命」是合併同日同路段上午118.3公里的重機事故，本筆官方紀錄對應的是下午約114公里租賃車自撞電桿、後座乘客（33歲陳姓婦人）死亡，該起事故死亡1人。"
+  },
+  "597": {
+   "url": "https://www.ctwant.com/article/413700/",
+   "title": "快訊／下車慘摔路中央！砂石車駕駛「遭機車輾爆頭」腦漿流滿地亡",
+   "source": "CTWANT",
+   "date": "2025-05-01",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "nantou": {
+  "533": {
+   "url": "https://tw.news.yahoo.com/%E5%BF%AB%E8%A8%8A-%E5%9C%8B3%E5%9A%B4%E9%87%8D%E8%BB%8A%E7%A6%8D-%E8%BD%8E%E8%BB%8A%E9%AB%98%E9%80%9F%E8%A1%9D%E7%A0%82%E7%9F%B3%E8%BB%8A%E5%BA%95-1%E8%BC%9B%E5%89%A9%E5%8D%8A%E8%BC%9B-%E6%AD%BB%E5%82%B7%E4%B8%8D%E6%98%8E%E6%90%B6%E6%95%91%E4%B8%AD-021400622.html",
+   "title": "國3嚴重車禍！轎車高速衝砂石車底「1輛剩半截」駕駛卡車內慘死",
+   "source": "三立(SETN)",
+   "date": "2025-04-14",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "penghu": {
+  "76": {
+   "url": "https://www.cna.com.tw/news/asoc/202508100087.aspx",
+   "title": "澎湖安宅路段車禍 襁褓中5月男嬰不治",
+   "source": "中央社",
+   "date": "2025-08-10",
+   "match": "high",
+   "discrepancy": ""
+  }
+ },
+ "pingtung": {
+  "848": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4330107",
+   "title": "小琉球今年首起死亡車禍 85歲翁與18歲遊客碰撞雙亡",
+   "source": "自由時報",
+   "date": "2023-06-11",
+   "match": "high",
+   "discrepancy": "官方A1紀錄為死亡1人、受傷2人，新聞則報導2人死亡（85歲李翁於6月10日傷重不治，逾24小時故A1僅計1死，屬A1與A1+A2口徑差異）。"
+  },
+  "873": {
+   "url": "https://www.cna.com.tw/news/asoc/202309070085.aspx",
+   "title": "屏東65歲男騎單車闖平交道 遭列車撞上送醫不治",
+   "source": "中央社",
+   "date": "2023-09-07",
+   "match": "high",
+   "discrepancy": "部分媒體標題稱事故地點為「大埔平交道」，與官方紀錄「社埔路平交道」用字略有差異，但同指南州鄉同一處平交道。"
+  },
+  "1031": {
+   "url": "https://news.ltn.com.tw/news/Pingtung/breakingnews/4879915",
+   "title": "屏東萬丹直行機車與左彎汽車車禍 騎士不治",
+   "source": "自由時報",
+   "date": "2024-11-29",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "1120": {
+   "url": "https://udn.com/news/story/7320/8973434",
+   "title": "屏東新園臥龍路段10天2起死亡車禍 相距僅50公尺地方議論",
+   "source": "聯合報",
+   "date": "2025-08-29",
+   "match": "high",
+   "discrepancy": "官方紀錄涉入大型車為曳引車（營業用），新聞描述為「貨車」，車種描述略有出入。"
+  },
+  "1125": {
+   "url": "https://udn.com/news/story/7320/8986879",
+   "title": "自小客車自撞交流道護欄 一男遭拋飛車外摔落邊坡慘死",
+   "source": "聯合報",
+   "date": "2025-09-05",
+   "match": "high",
+   "discrepancy": "官方紀錄涉入車輛列為兩輛小客車，但新聞報導為單一自小客車自撞護欄的單車事故。"
+  },
+  "1150": {
+   "url": "https://udn.com/news/story/7320/9189032",
+   "title": "屏市台一線兩日連3起死亡車禍 機車、自行車騎士3人身亡",
+   "source": "聯合報",
+   "date": "2025-12-03",
+   "match": "high",
+   "discrepancy": "官方紀錄載受傷2人，新聞僅稱「多名騎士受傷」未列確切人數；新聞亦未標明15:54確切時刻。"
+  }
+ },
+ "taitung": {
+  "383": {
+   "url": "https://news.ipcf.org.tw/169231",
+   "title": "台東市小貨車撞機車 騎士遭拖行搶救不治",
+   "source": "原視新聞 TITV",
+   "date": "2025-06-05",
+   "match": "high",
+   "discrepancy": "官方紀錄受傷1人，但新聞僅報導1死、未提及其他傷者；新聞稱事故時間為下午5點多，與官方17:40相近。"
+  },
+  "392": {
+   "url": "https://www.chinatimes.com/realtimenews/20251022001869-260402",
+   "title": "台東死亡車禍！76歲嬤穿越馬路 遭休旅車撞飛30公尺亡",
+   "source": "中時",
+   "date": "2025-10-22",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "395": {
+   "url": "https://www.ettoday.net/news/20251111/3065413.htm",
+   "title": "快訊／台東台9線1死2傷車禍 休旅車與大貨車碰撞「車頭全毀」",
+   "source": "ETtoday",
+   "date": "2025-11-11",
+   "match": "high",
+   "discrepancy": "官方記載死者運具主要車種為大貨車，但新聞指死者為休旅車（小客車）駕駛、大貨車駕駛及乘客受傷，運具歸屬略有出入。"
+  }
+ },
+ "yilan": {
+  "427": {
+   "url": "https://udn.com/news/story/7320/8194281",
+   "title": "影／宜蘭驚悚車禍畫面曝光...無號誌路口交叉撞 八旬騎士傷重不治",
+   "source": "聯合報 UDN",
+   "date": "2024-08-29",
+   "match": "high",
+   "discrepancy": "新聞描述為機車與一輛轎車於無號誌路口交叉碰撞，官方紀錄則登記涉入兩輛自用小客車，車輛數略有出入。"
+  },
+  "468": {
+   "url": "https://tw.news.yahoo.com/%E5%AE%9C%E8%98%AD%E6%AD%BB%E4%BA%A1%E8%BB%8A%E7%A6%8D-%E6%B1%BD%E8%BB%8A%E6%90%B6%E5%BF%AB%E5%B7%A6%E8%BD%89%E7%9B%B4%E8%A1%8C%E9%A8%8E%E5%A3%AB%E5%96%AA%E5%91%BD-%E9%A9%9A%E6%82%9A%E5%BD%B1%E7%89%87%E6%9B%9D%E5%85%89-044600657.html",
+   "title": "宜蘭死亡車禍！汽車搶快左轉直行騎士喪命 驚悚影片曝光",
+   "source": "三立",
+   "date": "2025-05-11",
+   "match": "high",
+   "discrepancy": "新聞補充地點為三星路三段365巷口（宜蘭監獄前），較官方紀錄的「三星路3段口」更精確，餘日期、時間、車種、死傷數均一致。"
+  },
+  "470": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/5046031",
+   "title": "宜蘭夫妻晚飯後騎車泡湯 途中與小貨車對撞夫死妻傷",
+   "source": "自由時報",
+   "date": "2025-05-17",
+   "match": "high",
+   "discrepancy": "官方紀錄載為大貨車（營業用），但新聞報導均稱涉事貨車為小貨車。"
+  }
+ },
+ "yunlin": {
+  "836": {
+   "url": "https://udn.com/news/story/7320/7911650",
+   "title": "雲林台78線死亡車禍 小客車撞小貨車直衝分隔島釀1死",
+   "source": "聯合報 UDN",
+   "date": "2024-04-19",
+   "match": "high",
+   "discrepancy": "官方紀錄受害者運具標為汽車（小客車），但新聞報導死者為遭追撞、噴飛車外的小貨車49歲蔡姓駕駛，而非小客車駕駛。"
+  },
+  "863": {
+   "url": "https://news.ltn.com.tw/news/society/breakingnews/4762762",
+   "title": "雲林土庫機車、汽車撞擊 29歲女騎士噴飛送醫不治",
+   "source": "自由時報",
+   "date": "2024-08-08",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "870": {
+   "url": "https://news.pts.org.tw/article/710757",
+   "title": "雲林聯結車翻覆釀2死1傷 車禍事故原因待釐清",
+   "source": "公視 PNN",
+   "date": "2024-08-19",
+   "match": "high",
+   "discrepancy": "新聞主述聯結車頭擦撞路旁民宅及電桿後翻覆，未明確提及官方紀錄中涉入的兩輛小客車。"
+  },
+  "881": {
+   "url": "https://www.chinatimes.com/realtimenews/20240923004909-260402",
+   "title": "國1虎尾段重大車禍 2車追撞翻覆人噴飛釀3死！現場曝光",
+   "source": "中時",
+   "date": "2024-09-23",
+   "match": "high",
+   "discrepancy": ""
+  },
+  "931": {
+   "url": "https://www.ettoday.net/news/20250326/2931861.htm",
+   "title": "雲林死亡車禍！機車離奇逆向猛撞轎車 女騎士倒臥血泊不治",
+   "source": "ETtoday",
+   "date": "2025-03-26",
+   "match": "high",
+   "discrepancy": "官方紀錄受傷1人，但新聞報導對向57歲黃姓女轎車駕駛未受傷（死亡數與地點、車種均相符）。"
+  }
  }
 }
