@@ -747,6 +747,27 @@ body {
   font-weight: 400;
   margin-left: 4px;
 }
+
+/* ── Gender split bars ── */
+.gx { display: flex; flex-direction: column; gap: 14px; }
+.gx-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.gx-big { font-family: var(--font-en); font-size: 36px; font-weight: 700; color: var(--blue); line-height: 1; }
+.gx-big small { font-size: 15px; font-weight: 600; }
+.gx-sub { font-size: 12px; color: var(--grey-2); }
+.gx-split { display: flex; height: 30px; border-radius: 3px; overflow: hidden; font-family: var(--font-en); font-size: 12px; font-weight: 700; }
+.gx-split .m { background: var(--blue); color: #fff; display: flex; align-items: center; padding: 0 10px; }
+.gx-split .f { background: var(--gold); color: var(--black); display: flex; align-items: center; justify-content: flex-end; padding: 0 10px; }
+.gx-legend { display: flex; gap: 16px; font-size: 10px; font-family: var(--font-en); color: var(--grey-2); letter-spacing: 0.08em; }
+.gx-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+.gx-rows { display: flex; flex-direction: column; gap: 9px; }
+.gx-row { display: grid; grid-template-columns: 70px 1fr 74px; align-items: center; gap: 10px; font-size: 11.5px; }
+.gx-row .gx-lbl { color: var(--black); font-weight: 500; }
+.gx-row .gx-bar { display: flex; height: 16px; border-radius: 2px; overflow: hidden; background: var(--grey-3); }
+.gx-row .gx-bar .m { background: var(--blue); }
+.gx-row .gx-bar .f { background: var(--gold); }
+.gx-row .gx-n { font-family: var(--font-en); font-size: 10px; color: var(--grey-2); text-align: right; }
+.gx-note { font-size: 12px; line-height: 1.75; color: #4A4A4A; padding-top: 12px; border-top: 1px solid var(--grey-3); }
+.gx-note strong { color: var(--black); font-weight: 600; }
 .hour-grid {
   display: grid;
   grid-template-columns: repeat(24, 1fr);
@@ -1617,6 +1638,12 @@ body.lang-en #hdrTitleZh { display: none; }
       <div id="byMode"></div>
     </div>
 
+    <div class="card" style="grid-column: span 2; min-width:0">
+      <h4>By Gender</h4>
+      <div class="card-zh"><span class="t-zh">死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">Victim gender · overall & by mode (decade · identifiable victims)</span></div>
+      <div id="byGender"></div>
+    </div>
+
     <div class="card">
       <h4>By Road Class</h4>
       <div class="card-zh"><span class="t-zh">道路類別 · 僅 2018+ 資料</span><span class="t-en">Road class · 2018+ only</span></div>
@@ -1855,6 +1882,45 @@ function __main() {
     .then(r => r.ok ? r.json() : {})
     .then(j => { window.NEWS_OVERLAY = j; })
     .catch(() => {});
+
+  // Gender breakdown (decade, identifiable victims) — see build_gender.js / data/gender.json
+  fetch('data/gender.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(j => { if (j && j[window.__SLUG]) renderGender(j[window.__SLUG]); })
+    .catch(() => {});
+
+  function renderGender(g) {
+    const el = document.getElementById('byGender');
+    if (!el || !g) return;
+    const tot = g.m + g.f;
+    if (!tot) { el.innerHTML = '<div style="font-size:11px;color:#888">—</div>'; return; }
+    const mp = Math.round(g.m / tot * 100), fp = 100 - mp;
+    const ML = '<span class="t-zh">男</span><span class="t-en">M</span>';
+    const FL = '<span class="t-zh">女</span><span class="t-en">F</span>';
+    const MODES = [['機車', '機車', 'Motorcycle'], ['汽車', '汽車', 'Car / Truck'], ['人', '行人', 'Pedestrian'], ['慢車', '單車', 'Bicycle']];
+    let rows = '';
+    MODES.forEach(([k, zh, en]) => {
+      const o = g.byMode[k]; if (!o) return; const t = o.m + o.f; if (!t) return;
+      const m = Math.round(o.m / t * 100), f = 100 - m;
+      rows += `<div class="gx-row"><span class="gx-lbl"><span class="t-zh">${zh}</span><span class="t-en">${en}</span></span>`
+        + `<span class="gx-bar"><span class="m" style="width:${m}%"></span><span class="f" style="width:${f}%"></span></span>`
+        + `<span class="gx-n">${m}/${f} · ${t}</span></div>`;
+    });
+    const eld = g.byAge && g.byAge['高齡'];
+    const eldF = eld && (eld.m + eld.f) ? Math.round(eld.f / (eld.m + eld.f) * 100) : null;
+    const ped = g.byMode['人']; const pedF = ped && (ped.m + ped.f) ? Math.round(ped.f / (ped.m + ped.f) * 100) : null;
+    el.innerHTML = `
+      <div class="gx">
+        <div class="gx-head">
+          <div class="gx-big">${mp}<small>% ${ML}</small></div>
+          <div class="gx-sub">${FL} ${fp}% · <span class="t-zh">可辨識死者</span><span class="t-en">identifiable victims</span> ${tot.toLocaleString()}</div>
+        </div>
+        <div class="gx-split"><div class="m" style="width:${mp}%">${ML} ${mp}%</div><div class="f" style="width:${fp}%">${fp}% ${FL}</div></div>
+        <div class="gx-legend"><span><i style="background:var(--blue)"></i><span class="t-zh">男性</span><span class="t-en">Male</span></span><span><i style="background:var(--gold)"></i><span class="t-zh">女性</span><span class="t-en">Female</span></span><span><span class="t-zh">男/女 % · 死者數</span><span class="t-en">M/F % · victims</span></span></div>
+        <div class="gx-rows">${rows}</div>
+        ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">整體死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（接近半數）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''} —— 男性風險集中於機動車駕駛，女性則以高齡行人最脆弱。</span><span class="t-en">~<strong>${mp}%</strong> of victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''} — male risk concentrates in motor-vehicle driving, while older female pedestrians are most exposed.</span></div>` : ''}
+      </div>`;
+  }
 
   // ---------- Filter state ----------
   const state = { year: 'all', mode: 'all', view: 'points', hwy: 'on', sw: 'off', selectedId: null };
