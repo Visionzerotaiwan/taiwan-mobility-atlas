@@ -426,6 +426,7 @@ body {
   text-decoration: line-through;
 }
 .cat-pill.disabled:hover { border-color: var(--grey-3); }
+.mode-hint { align-self: center; margin-left: 4px; font-size: 10px; color: var(--grey-2); letter-spacing: 0.04em; font-style: italic; }
 
 /* ── Map + side panel ── */
 .map-grid {
@@ -584,6 +585,48 @@ body {
 }
 .party-row.role-victim .pname { color: var(--red); font-weight: 500; }
 
+/* News-verification block (sampled accuracy audit) */
+.detail-news {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 11px 13px;
+  text-decoration: none;
+  background: var(--grey-4, #F5F5F2);
+  border-left: 4px solid var(--lime-dk, #A8B200);
+  border-radius: 2px;
+  transition: background .12s;
+}
+.detail-news.medium { border-left-color: var(--gold, #E8A825); }
+.detail-news:hover { background: #ECECE6; }
+.detail-news .news-badge {
+  font-family: var(--font-en);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--lime-dk, #A8B200);
+}
+.detail-news.medium .news-badge { color: var(--gold, #E8A825); }
+.detail-news .news-title {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--black);
+}
+.detail-news .news-meta {
+  font-size: 10px;
+  font-family: var(--font-en);
+  color: var(--grey-2);
+}
+.detail-news .news-disc {
+  font-size: 10.5px;
+  color: var(--red);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
 /* ── Insight callout ── */
 .insight {
   background: var(--black);
@@ -705,6 +748,27 @@ body {
   font-weight: 400;
   margin-left: 4px;
 }
+
+/* ── Gender split bars ── */
+.gx { display: flex; flex-direction: column; gap: 14px; }
+.gx-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.gx-big { font-family: var(--font-en); font-size: 36px; font-weight: 700; color: var(--blue); line-height: 1; }
+.gx-big small { font-size: 15px; font-weight: 600; }
+.gx-sub { font-size: 12px; color: var(--grey-2); }
+.gx-split { display: flex; height: 30px; border-radius: 3px; overflow: hidden; font-family: var(--font-en); font-size: 12px; font-weight: 700; }
+.gx-split .m { background: var(--blue); color: #fff; display: flex; align-items: center; padding: 0 10px; }
+.gx-split .f { background: var(--gold); color: var(--black); display: flex; align-items: center; justify-content: flex-end; padding: 0 10px; }
+.gx-legend { display: flex; gap: 16px; font-size: 10px; font-family: var(--font-en); color: var(--grey-2); letter-spacing: 0.08em; }
+.gx-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+.gx-rows { display: flex; flex-direction: column; gap: 9px; }
+.gx-row { display: grid; grid-template-columns: 70px 1fr 74px; align-items: center; gap: 10px; font-size: 11.5px; }
+.gx-row .gx-lbl { color: var(--black); font-weight: 500; }
+.gx-row .gx-bar { display: flex; height: 16px; border-radius: 2px; overflow: hidden; background: var(--grey-3); }
+.gx-row .gx-bar .m { background: var(--blue); }
+.gx-row .gx-bar .f { background: var(--gold); }
+.gx-row .gx-n { font-family: var(--font-en); font-size: 10px; color: var(--grey-2); text-align: right; }
+.gx-note { font-size: 12px; line-height: 1.75; color: #4A4A4A; padding-top: 12px; border-top: 1px solid var(--grey-3); }
+.gx-note strong { color: var(--black); font-weight: 600; }
 .hour-grid {
   display: grid;
   grid-template-columns: repeat(24, 1fr);
@@ -1465,6 +1529,7 @@ body.lang-en #hdrTitleZh { display: none; }
       <span class="cat-pill" data-mode="汽車">汽/貨車</span>
       <span class="cat-pill" data-mode="人">行人</span>
       <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+      <span class="mode-hint"><span class="t-zh">雙擊可複選</span><span class="t-en">dbl-click = multi</span></span>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">View</span>
@@ -1573,6 +1638,12 @@ body.lang-en #hdrTitleZh { display: none; }
       <h4>By Victim Mode</h4>
       <div class="card-zh"><span class="t-zh">受害者運具類別（取事件中最脆弱用路人）</span><span class="t-en">Victim mode (most-vulnerable user per event)</span></div>
       <div id="byMode"></div>
+    </div>
+
+    <div class="card" style="grid-column: span 2; min-width:0">
+      <h4>By Gender</h4>
+      <div class="card-zh"><span class="t-zh">死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">Victim gender · overall & by mode (decade · identifiable victims)</span></div>
+      <div id="byGender"></div>
     </div>
 
     <div class="card">
@@ -1806,13 +1877,60 @@ function __main() {
 
   DATA.forEach((e, i) => { e._id = i; });
 
+  // ---------- News-verification overlay (sampled accuracy audit) ----------
+  // data/news_overlay.json maps  slug → { recordIndex → {url,title,source,date,match,discrepancy} }
+  window.NEWS_OVERLAY = window.NEWS_OVERLAY || {};
+  fetch('data/news_overlay.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : {})
+    .then(j => { window.NEWS_OVERLAY = j; })
+    .catch(() => {});
+
+  // Gender breakdown (decade, identifiable victims) — see build_gender.js / data/gender.json
+  fetch('data/gender.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(j => { if (j && j[window.__SLUG]) renderGender(j[window.__SLUG]); })
+    .catch(() => {});
+
+  function renderGender(g) {
+    const el = document.getElementById('byGender');
+    if (!el || !g) return;
+    const tot = g.m + g.f;
+    if (!tot) { el.innerHTML = '<div style="font-size:11px;color:#888">—</div>'; return; }
+    const mp = Math.round(g.m / tot * 100), fp = 100 - mp;
+    const ML = '<span class="t-zh">男</span><span class="t-en">M</span>';
+    const FL = '<span class="t-zh">女</span><span class="t-en">F</span>';
+    const MODES = [['機車', '機車', 'Motorcycle'], ['汽車', '汽車', 'Car / Truck'], ['人', '行人', 'Pedestrian'], ['慢車', '單車', 'Bicycle']];
+    let rows = '';
+    MODES.forEach(([k, zh, en]) => {
+      const o = g.byMode[k]; if (!o) return; const t = o.m + o.f; if (!t) return;
+      const m = Math.round(o.m / t * 100), f = 100 - m;
+      rows += `<div class="gx-row"><span class="gx-lbl"><span class="t-zh">${zh}</span><span class="t-en">${en}</span></span>`
+        + `<span class="gx-bar"><span class="m" style="width:${m}%"></span><span class="f" style="width:${f}%"></span></span>`
+        + `<span class="gx-n">${m}/${f} · ${t}</span></div>`;
+    });
+    const eld = g.byAge && g.byAge['高齡'];
+    const eldF = eld && (eld.m + eld.f) ? Math.round(eld.f / (eld.m + eld.f) * 100) : null;
+    const ped = g.byMode['人']; const pedF = ped && (ped.m + ped.f) ? Math.round(ped.f / (ped.m + ped.f) * 100) : null;
+    el.innerHTML = `
+      <div class="gx">
+        <div class="gx-head">
+          <div class="gx-big">${mp}<small>% ${ML}</small></div>
+          <div class="gx-sub">${FL} ${fp}% · <span class="t-zh">可辨識死者</span><span class="t-en">identifiable victims</span> ${tot.toLocaleString()}</div>
+        </div>
+        <div class="gx-split"><div class="m" style="width:${mp}%">${ML} ${mp}%</div><div class="f" style="width:${fp}%">${fp}% ${FL}</div></div>
+        <div class="gx-legend"><span><i style="background:var(--blue)"></i><span class="t-zh">男性</span><span class="t-en">Male</span></span><span><i style="background:var(--gold)"></i><span class="t-zh">女性</span><span class="t-en">Female</span></span><span><span class="t-zh">男/女 % · 死者數</span><span class="t-en">M/F % · victims</span></span></div>
+        <div class="gx-rows">${rows}</div>
+        ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">整體死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（接近半數）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''} —— 男性風險集中於機動車駕駛，女性則以高齡行人最脆弱。</span><span class="t-en">~<strong>${mp}%</strong> of victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''} — male risk concentrates in motor-vehicle driving, while older female pedestrians are most exposed.</span></div>` : ''}
+      </div>`;
+  }
+
   // ---------- Filter state ----------
-  const state = { year: 'all', mode: 'all', view: 'points', hwy: 'on', sw: 'off', selectedId: null };
+  const state = { year: 'all', modes: [], view: 'points', hwy: 'on', sw: 'off', selectedId: null };
 
   function filteredAll() {
     return DATA.filter(e =>
       (state.year === 'all' || String(e.year) === state.year) &&
-      (state.mode === 'all' || e.mode === state.mode)
+      (state.modes.length === 0 || state.modes.includes(e.mode))
     );
   }
   function filteredOnMap() {
@@ -2307,6 +2425,21 @@ const markerLayer = L.layerGroup().addTo(map);
     empty.style.display = 'none';
     card.style.display = 'block';
 
+    // News-verification (only present for the audited 10% sample)
+    const ovCity = (window.NEWS_OVERLAY && window.NEWS_OVERLAY[window.__SLUG]) || {};
+    const news = ovCity[ev._id];
+    let newsBlock = '';
+    if (news && news.url) {
+      const conf = news.match === 'high' ? TT('已查證一致', 'Verified') : TT('可能相符', 'Likely match');
+      const meta = [news.source, news.date].filter(Boolean).join(' · ');
+      newsBlock = `<a class="detail-news ${news.match}" href="${news.url}" target="_blank" rel="noopener">
+        <span class="news-badge">✔ ${TT('新聞查證', 'News check')} · ${conf}</span>
+        <span class="news-title">${news.title || news.url}</span>
+        ${meta ? `<span class="news-meta">${meta}</span>` : ''}
+        ${news.discrepancy ? `<span class="news-disc">⚠ ${news.discrepancy}</span>` : ''}
+      </a>`;
+    }
+
     let partiesBlock = '';
     if (ev.parties && ev.parties.length) {
       const parties = ev.parties.map((p, i) => {
@@ -2361,6 +2494,7 @@ const markerLayer = L.layerGroup().addTo(map);
       </div>
       ${optionalRows}
       ${partiesBlock}
+      ${newsBlock}
     `;
   }
 
@@ -2530,12 +2664,34 @@ const markerLayer = L.layerGroup().addTo(map);
       refresh();
     });
   });
+  function syncModePills() {
+    document.querySelectorAll('[data-mode]').forEach(x => {
+      const m = x.dataset.mode;
+      const on = (m === 'all') ? state.modes.length === 0 : state.modes.includes(m);
+      x.classList.toggle('active', on);
+    });
+  }
+  // Single click = exclusive select · double click = toggle into a multi-select combo
   document.querySelectorAll('[data-mode]').forEach(el => {
+    let timer = null;
     el.addEventListener('click', () => {
-      document.querySelectorAll('[data-mode]').forEach(x => x.classList.remove('active'));
-      el.classList.add('active');
-      state.mode = el.dataset.mode;
-      refresh();
+      if (timer) return;               // 2nd click of a double-click — ignore
+      timer = setTimeout(() => {
+        timer = null;
+        const m = el.dataset.mode;
+        state.modes = (m === 'all') ? [] : [m];   // exclusive
+        syncModePills(); refresh();
+      }, 200);
+    });
+    el.addEventListener('dblclick', () => {
+      if (timer) { clearTimeout(timer); timer = null; }
+      const m = el.dataset.mode;
+      if (m === 'all') { state.modes = []; }       // back to all
+      else {
+        const i = state.modes.indexOf(m);
+        if (i >= 0) state.modes.splice(i, 1); else state.modes.push(m);  // toggle in combo
+      }
+      syncModePills(); refresh();
     });
   });
   document.querySelectorAll('[data-view]').forEach(el => {
@@ -3130,7 +3286,12 @@ const markerLayer = L.layerGroup().addTo(map);
       ctx.beginPath();
       projYears.forEach((yy, i) => { const X = px(yy), Y = py(bau.center[yy]); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); });
       ctx.stroke(); ctx.setLineDash([]);
-      scText(ctx, TT('不積極作為情境', 'BAU · CURRENT TREND'), px(2030), py(bau.center[2030]) - 16, '700 21px "Noto Sans TC"', TH.bauText, 'center');
+      scText(ctx, TT('不積極作為情境', 'BAU · CURRENT TREND'), px(2030), py(bau.center[2030]) - 18, '700 21px "Noto Sans TC"', TH.bauText, 'center');
+      // 2035 endpoint value — this county's projected A1 deaths if no action
+      const _bau35 = Math.round(bau.center[2035]);
+      ctx.fillStyle = '#D94F3D';
+      ctx.beginPath(); ctx.arc(px(2035), py(bau.center[2035]), 7, 0, Math.PI * 2); ctx.fill();
+      scText(ctx, TT('約 ' + _bau35 + ' 人', '≈ ' + _bau35), px(2035) - 4, py(bau.center[2035]) - 14, '700 23px "Noto Sans TC", "Space Grotesk"', '#D94F3D', 'right');
     }
 
     // target dashed (lime)

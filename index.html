@@ -686,6 +686,28 @@ body.lang-en .t-en-b { display: block; }
 }
 .partner-logos img { max-width: 560px; width: 100%; height: auto; }
 
+/* ── Gender split bars ── */
+.gx { display: flex; flex-direction: column; gap: 16px; }
+.gx-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.gx-big { font-family: var(--font-en); font-size: 44px; font-weight: 700; color: var(--blue); line-height: 1; }
+.gx-big small { font-size: 17px; font-weight: 600; }
+.gx-sub { font-size: 13px; color: var(--grey-2); }
+.gx-split { display: flex; height: 34px; border-radius: 3px; overflow: hidden; font-family: var(--font-en); font-size: 13px; font-weight: 700; }
+.gx-split .m { background: var(--blue); color: #fff; display: flex; align-items: center; padding: 0 12px; }
+.gx-split .f { background: var(--gold); color: var(--black); display: flex; align-items: center; justify-content: flex-end; padding: 0 12px; }
+.gx-legend { display: flex; gap: 18px; font-size: 11px; font-family: var(--font-en); color: var(--grey-2); letter-spacing: 0.08em; }
+.gx-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.gx-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; }
+.gx-row { display: grid; grid-template-columns: 76px 1fr 78px; align-items: center; gap: 12px; font-size: 12.5px; }
+.gx-row .gx-lbl { color: var(--black); font-weight: 500; }
+.gx-row .gx-bar { display: flex; height: 18px; border-radius: 2px; overflow: hidden; background: var(--grey-3); }
+.gx-row .gx-bar .m { background: var(--blue); }
+.gx-row .gx-bar .f { background: var(--gold); }
+.gx-row .gx-n { font-family: var(--font-en); font-size: 11px; color: var(--grey-2); text-align: right; }
+.gx-note { font-size: 13px; line-height: 1.8; color: var(--grey-1); padding-top: 14px; border-top: 1px solid var(--grey-3); }
+.gx-note strong { color: var(--black); font-weight: 600; }
+@media (max-width: 640px) { .gx-rows { grid-template-columns: 1fr; } }
+
 </style>
 </head>
 <body>
@@ -999,9 +1021,18 @@ body.lang-en .t-en-b { display: block; }
   </div>
 </div>
 
-<!-- 07 — Structure (whitepaper data) -->
+<!-- 07 — Gender Lens -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">07 — Structure 結構的代價</span><span class="t-en">07 — The Price of Structure</span></div>
+  <div class="section-label"><span class="t-zh">07 — Gender Lens 性別視角</span><span class="t-en">07 — Gender Lens</span></div>
+  <div class="age-card">
+    <div class="card-zh" style="font-size:14px;color:var(--grey-2);margin-bottom:22px"><span class="t-zh">全國 A1 死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">National A1 victim gender · overall &amp; by mode (decade · identifiable victims)</span></div>
+    <div id="natGender"></div>
+  </div>
+</div>
+
+<!-- 08 — Structure (whitepaper data) -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">08 — Structure 結構的代價</span><span class="t-en">08 — The Price of Structure</span></div>
   <a href="whitepaper.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--lime)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1016,7 +1047,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — International Comparison -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">08 — International 國際比較</span><span class="t-en">08 — International</span></div>
+  <div class="section-label"><span class="t-zh">09 — International 國際比較</span><span class="t-en">09 — International</span></div>
   <a href="international.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--red)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1031,7 +1062,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 09 — Climate Evidence -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">09 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">09 — Climate Evidence</span></div>
+  <div class="section-label"><span class="t-zh">10 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">10 — Climate Evidence</span></div>
   <a href="climate.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--gold,#E8A825)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1046,7 +1077,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 10 — Dual-Zero Vision -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">10 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">10 — Dual-Zero Vision</span></div>
+  <div class="section-label"><span class="t-zh">11 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">11 — Dual-Zero Vision</span></div>
   <a href="vision.html" style="display:block;background:var(--black);color:var(--white);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1061,7 +1092,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 11 — Notes -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">11 — Notes 資料說明</span><span class="t-en">11 — Notes</span></div>
+  <div class="section-label"><span class="t-zh">12 — Notes 資料說明</span><span class="t-en">12 — Notes</span></div>
   <div class="county-card">
     <div class="card-zh"><span class="t-zh">關於本面量圖</span><span class="t-en">About this choropleth</span></div>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
@@ -1130,6 +1161,43 @@ body.lang-en .t-en-b { display: block; }
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
 function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+
+// Gender lens — national breakdown (decade, identifiable victims) · data/gender.json
+fetch('data/gender.json')
+  .then(r => r.ok ? r.json() : null)
+  .then(j => { if (j && j.national) renderGenderNat(j.national); })
+  .catch(() => {});
+function renderGenderNat(g) {
+  const el = document.getElementById('natGender');
+  if (!el || !g) return;
+  const tot = g.m + g.f; if (!tot) { el.innerHTML = '—'; return; }
+  const mp = Math.round(g.m / tot * 100), fp = 100 - mp;
+  const ML = '<span class="t-zh">男</span><span class="t-en">M</span>';
+  const FL = '<span class="t-zh">女</span><span class="t-en">F</span>';
+  const MODES = [['機車', '機車', 'Motorcycle'], ['汽車', '汽車', 'Car / Truck'], ['人', '行人', 'Pedestrian'], ['慢車', '單車', 'Bicycle']];
+  let rows = '';
+  MODES.forEach(([k, zh, en]) => {
+    const o = g.byMode[k]; if (!o) return; const t = o.m + o.f; if (!t) return;
+    const m = Math.round(o.m / t * 100), f = 100 - m;
+    rows += `<div class="gx-row"><span class="gx-lbl"><span class="t-zh">${zh}</span><span class="t-en">${en}</span></span>`
+      + `<span class="gx-bar"><span class="m" style="width:${m}%"></span><span class="f" style="width:${f}%"></span></span>`
+      + `<span class="gx-n">${m}/${f} · ${t.toLocaleString()}</span></div>`;
+  });
+  const eld = g.byAge && g.byAge['高齡'];
+  const eldF = eld && (eld.m + eld.f) ? Math.round(eld.f / (eld.m + eld.f) * 100) : null;
+  const ped = g.byMode['人']; const pedF = ped && (ped.m + ped.f) ? Math.round(ped.f / (ped.m + ped.f) * 100) : null;
+  el.innerHTML = `
+    <div class="gx">
+      <div class="gx-head">
+        <div class="gx-big">${mp}<small>% ${ML}</small></div>
+        <div class="gx-sub">${FL} ${fp}% · <span class="t-zh">可辨識死者</span><span class="t-en">identifiable victims</span> ${tot.toLocaleString()} <span class="t-zh">人</span></div>
+      </div>
+      <div class="gx-split"><div class="m" style="width:${mp}%">${ML} ${mp}%</div><div class="f" style="width:${fp}%">${fp}% ${FL}</div></div>
+      <div class="gx-legend"><span><i style="background:var(--blue)"></i><span class="t-zh">男性</span><span class="t-en">Male</span></span><span><i style="background:var(--gold)"></i><span class="t-zh">女性</span><span class="t-en">Female</span></span><span><span class="t-zh">男/女 % · 死者數</span><span class="t-en">M/F % · victims</span></span></div>
+      <div class="gx-rows">${rows}</div>
+      ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">全國 A1 死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（男女相近）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''}。男性死亡風險高度集中於<strong>機動車駕駛</strong>（汽車駕駛死者逾九成為男性），女性則以<strong>高齡行人</strong>最為脆弱——對策需分流：管制車速與酒駕／重機風險（男），以及保護行人穿越與高齡友善設計（女）。</span><span class="t-en">~<strong>${mp}%</strong> of national A1 victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''}. Male risk concentrates in <strong>motor-vehicle driving</strong> (>90% of car-driver deaths are men); women are most exposed as <strong>older pedestrians</strong> — implying two policy tracks: speed/DUI/heavy-motorcycle control (men) and pedestrian-crossing protection + age-friendly design (women).</span></div>` : ''}
+    </div>`;
+}
 function setLang(l) {
   window.__LANG = l;
   document.body.classList.toggle('lang-en', l === 'en');

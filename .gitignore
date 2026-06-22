@@ -4,3 +4,4 @@ __pycache__/
 資料/
 資料.zip
 node_modules/
+_*.html
