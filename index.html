@@ -771,7 +771,7 @@ body.lang-en .t-en-b { display: block; }
       <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-zh"><span class="t-zh">A1 死亡事故件數</span><span class="t-en">A1 fatal crash events</span></div><div class="kpi-num">16,713</div></div>
       <div class="kpi"><div class="kpi-label">Most Victims</div><div class="kpi-zh"><span class="t-zh">機車為受害最多的用路人</span><span class="t-en">Motorcyclists — most victims</span></div><div class="kpi-num" id="kMoto">—<small>%</small></div></div>
       <div class="kpi"><div class="kpi-label">Pedestrian Victim</div><div class="kpi-zh"><span class="t-zh">行人受害</span><span class="t-en">Pedestrian victims</span></div><div class="kpi-num" id="kPed">—<small>%</small></div></div>
-      <div class="kpi"><div class="kpi-label">Most Deaths · County</div><div class="kpi-zh"><span class="t-zh">十年累計第一</span><span class="t-en">Highest 10-yr total</span></div><div class="kpi-num" style="font-size:22px;font-family:var(--font-zh);">台南市<small style="font-family:var(--font-en);"> 1,785</small></div></div>
+      <div class="kpi"><div class="kpi-label">Most Deaths · County</div><div class="kpi-zh"><span class="t-zh">十年累計第一</span><span class="t-en">Highest 10-yr total</span></div><div class="kpi-num" style="font-size:22px;font-family:var(--font-zh);"><span class="t-zh">台南市</span><span class="t-en">Tainan City</span><small style="font-family:var(--font-en);"> 1,785</small></div></div>
     </div>
   </div>
 
@@ -1161,6 +1161,8 @@ body.lang-en .t-en-b { display: block; }
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
 function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+// English county name (falls back to Chinese for districts / unknowns)
+function enCounty(c) { return (window.__COUNTY2EN && window.__COUNTY2EN[c]) || c; }
 
 // Gender lens — national breakdown (decade, identifiable victims) · data/gender.json
 fetch('data/gender.json')
@@ -1218,7 +1220,8 @@ document.addEventListener('DOMContentLoaded', () => {
 (function () {
   const CITIES = window.CITIES || [];
   window.__COUNTY2SLUG = {};
-  CITIES.forEach(c => { window.__COUNTY2SLUG[c.zh] = c.slug; });
+  window.__COUNTY2EN = {};
+  CITIES.forEach(c => { window.__COUNTY2SLUG[c.zh] = c.slug; window.__COUNTY2EN[c.zh] = c.en; });
   const grid = document.getElementById('navGrid');
   if (!grid || !CITIES.length) return;
   const maxD = Math.max(...CITIES.map(c => c.deaths), 1);
@@ -1650,7 +1653,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const label = state.metric === 'rate'
           ? `${v.toFixed(2)} ${TT('/ 萬','/10k')}`
           : `${v} ${TT('件','events')}`;
-        lyr.bindTooltip(`<strong>${p.COUNTYNAME} ${p.TOWNNAME}</strong><br>${label}` +
+        lyr.bindTooltip(`<strong>${TT(p.COUNTYNAME, enCounty(p.COUNTYNAME))} ${p.TOWNNAME}</strong><br>${label}` +
           (pop ? `<br><span style="opacity:0.7;font-family:'Space Grotesk';font-size:10px">${TT('人口','pop')} ${pop.toLocaleString()}</span>` : ''),
           { sticky: true, direction: 'top', offset: [0, -4] }
         );
@@ -1679,12 +1682,12 @@ document.addEventListener('DOMContentLoaded', () => {
     card.style.display = 'block';
     const slug = (window.__COUNTY2SLUG || {})[county];
     const countyLink = slug
-      ? `<a class="detail-link" href="city.html?c=${slug}">${TT('前往 '+county+' 完整地圖 →','Open '+county+' full map →')}</a>`
+      ? `<a class="detail-link" href="city.html?c=${slug}">${TT('前往 '+county+' 完整地圖 →','Open '+enCounty(county)+' full map →')}</a>`
       : '';
     if (!rec) {
       card.innerHTML = `
         <div class="detail-name">${district}</div>
-        <div class="detail-county">${county} · ${TT('查無 A1 死亡紀錄','No A1 fatalities recorded')}</div>
+        <div class="detail-county">${TT(county, enCounty(county))} · ${TT('查無 A1 死亡紀錄','No A1 fatalities recorded')}</div>
         ${pop ? `<div style="font-size:11px;color:var(--grey-2);">${TT('人口','pop')} ${pop.toLocaleString()}</div>` : ''}
         ${countyLink}
       `;
@@ -1700,7 +1703,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxMode = Math.max(...modeRows.map(([m, v]) => v), 1);
     const modesHTML = modeRows.map(([m, v]) =>
       `<div class="detail-mode-row">
-         <span class="m-label">${m}</span>
+         <span class="m-label">${TT(m, (typeof MODE_LABEL_EN !== 'undefined' && MODE_LABEL_EN[m]) || m)}</span>
          <span class="m-track"><span class="m-fill" style="width:${v/maxMode*100}%;background:${MODE_COLOR[m]}"></span></span>
          <span class="m-val">${v}</span>
        </div>`
@@ -1717,7 +1720,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     card.innerHTML = `
       <div class="detail-name">${district}</div>
-      <div class="detail-county">${county} · ${pop ? pop.toLocaleString() + TT(' 人',' people') : TT('人口從缺','population N/A')}</div>
+      <div class="detail-county">${TT(county, enCounty(county))} · ${pop ? pop.toLocaleString() + TT(' 人',' people') : TT('人口從缺','population N/A')}</div>
       <div class="detail-stat">
         <div>
           <div class="stat-label">10y Deaths</div>
@@ -1838,7 +1841,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ? TT(`A2 ${a2e.toLocaleString()} 件 · 點選進入`, `A2 ${a2e.toLocaleString()} events · click to open`)
           : TT(`人口 ${p.toLocaleString()} · 點選進入`, `pop ${p.toLocaleString()} · click to open`);
         lyr.bindTooltip(
-          `<strong>${cy}</strong><br>${main}<br><span style="opacity:.7;font-family:'Space Grotesk';font-size:10px">${sub}</span>`,
+          `<strong>${TT(cy, enCounty(cy))}</strong><br>${main}<br><span style="opacity:.7;font-family:'Space Grotesk';font-size:10px">${sub}</span>`,
           { sticky: true, direction: 'top', offset: [0, -4] });
       };
       lyr._upd();
@@ -1891,7 +1894,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const rateVal = countyState.metric === 'lethality'
         ? r.lethality.toFixed(1) : r.rate.toFixed(1);
       return `<${tag}${href} class="county-row${slug ? ' clickable' : ''}${low ? ' lowN-row' : ''}" style="text-decoration:none;color:inherit">
-        <div class="c-name">${r.name}${slug ? ' ›' : ''}${flag}</div>
+        <div class="c-name">${TT(r.name, (window.__COUNTY2EN && window.__COUNTY2EN[r.name]) || r.name)}${slug ? ' ›' : ''}${flag}</div>
         <div class="c-track"><div class="c-fill" style="width:${cur/maxV*100}%"></div></div>
         <div class="c-abs">${absDisplay}</div>
         <div class="c-rate">${rateVal}<small>${rateSub}</small></div>
