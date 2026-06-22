@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const v = +sl.value + 1;
         sl.value = v; render(v);
         if (v >= 2050) cfStop();
-      }, 240);
+      }, 5000);
     });
     sl.addEventListener('input', cfStop);
   }

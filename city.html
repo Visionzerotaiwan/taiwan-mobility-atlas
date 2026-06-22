@@ -3673,7 +3673,7 @@ const markerLayer = L.layerGroup().addTo(map);
               const v = +sl.value + 1;
               sl.value = v; lcfRender(v);
               if (v >= 2050) lcfStop();
-            }, 240);
+            }, 5000);
           });
           sl.addEventListener('input', lcfStop);
         }
