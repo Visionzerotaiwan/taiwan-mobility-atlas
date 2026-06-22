@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>機車事故十年解析｜Motorcycle Fatalities in Taiwan 2016–2025</title>
+<title>機車事故十年解析 · Motorcycle Fatalities in Taiwan 2016–2025</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -16,14 +16,27 @@ body { animation: pageFadeIn 0.45s ease-out; }
   --font-zh:'Noto Sans TC',sans-serif; --font-en:'Space Grotesk',sans-serif;
 }
 body { font-family:var(--font-zh); background:var(--grey-4); color:var(--black); line-height:1.85; }
+body.lang-en { font-family:var(--font-en); }
 .shell { max-width:1080px; margin:0 auto; padding:48px 36px 90px; }
+
+/* i18n toggle */
+.t-en { display: none; }
+body.lang-en .t-zh { display: none; }
+body.lang-en .t-en { display: inline; }
+.t-en-b { display: none; }
+body.lang-en .t-zh-b { display: none; }
+body.lang-en .t-en-b { display: block; }
+.lang-toggle { position: fixed; top: 14px; right: 14px; z-index: 2000; display: flex; border: 1.5px solid var(--black); background: var(--white); font-family: var(--font-en); font-size: 11px; font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+.lang-toggle .lt-opt { padding: 6px 12px; cursor: pointer; letter-spacing: 0.08em; color: var(--grey-2); }
+.lang-toggle .lt-opt.active { background: var(--black); color: var(--white); }
 
 /* Header */
 .page-header { display:flex; align-items:flex-end; gap:24px; margin-bottom:40px; padding-bottom:22px; border-bottom:2px solid var(--black); }
 .logo-mark { font-family:var(--font-en); font-size:9px; font-weight:600; letter-spacing:0.18em; border:1.5px solid var(--black); padding:5px 10px; text-transform:uppercase; line-height:1.5; white-space:nowrap; }
 .title-block { flex:1; }
 .page-header h1 { font-family:var(--font-en); font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--grey-2); }
-.title-zh { font-family:var(--font-zh); font-weight:900; font-size:27px; letter-spacing:0.03em; color:var(--black); margin-top:4px; }
+.title-zh { font-weight:900; font-size:27px; letter-spacing:0.03em; color:var(--black); margin-top:4px; }
+body.lang-en .title-zh { font-family:var(--font-en); letter-spacing:0; }
 .page-header .meta { font-family:var(--font-en); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); text-align:right; }
 .page-header .meta strong { color:var(--black); font-weight:600; }
 .breadcrumb { font-family:var(--font-en); font-size:11px; letter-spacing:0.1em; margin-bottom:22px; }
@@ -43,7 +56,7 @@ body { font-family:var(--font-zh); background:var(--grey-4); color:var(--black);
 /* County selector */
 .county-bar { position:sticky; top:0; z-index:50; background:var(--white); border:1.5px solid var(--black); padding:14px 18px; margin-bottom:38px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
 .county-bar .cb-label { font-family:var(--font-en); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); }
-.county-bar select { font-family:var(--font-zh); font-size:15px; font-weight:700; padding:7px 12px; border:1.5px solid var(--black); background:var(--white); cursor:pointer; }
+.county-bar select { font-size:15px; font-weight:700; padding:7px 12px; border:1.5px solid var(--black); background:var(--white); cursor:pointer; }
 .county-bar .cb-stat { font-size:13px; color:var(--grey-1); margin-left:auto; }
 .county-bar .cb-stat b { font-family:var(--font-en); font-size:17px; color:var(--black); }
 .scope-note { font-size:12px; color:var(--gold); font-weight:700; margin-left:8px; display:none; }
@@ -51,7 +64,8 @@ body { font-family:var(--font-zh); background:var(--grey-4); color:var(--black);
 /* Sections */
 section { background:var(--white); padding:38px 40px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 .sec-num { font-family:var(--font-en); font-size:11px; letter-spacing:0.2em; color:var(--lime-dk); font-weight:600; }
-.sec-title { font-family:var(--font-zh); font-weight:900; font-size:22px; letter-spacing:0.02em; margin:4px 0 4px; }
+.sec-title { font-weight:900; font-size:22px; letter-spacing:0.02em; margin:4px 0 4px; }
+body.lang-en .sec-title { font-family:var(--font-en); }
 .sec-en { font-family:var(--font-en); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); margin-bottom:22px; }
 .prose p { font-size:15.5px; color:var(--grey-1); margin-bottom:14px; }
 .prose p b { color:var(--black); font-weight:700; }
@@ -59,7 +73,7 @@ section { background:var(--white); padding:38px 40px; margin-bottom:14px; box-sh
 .hl { background:linear-gradient(transparent 60%, var(--lime-lt) 60%); padding:0 2px; font-weight:700; }
 .chart-wrap { margin:24px 0 8px; }
 .chart-cap { font-family:var(--font-en); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--grey-2); margin-bottom:12px; }
-.chart-cap b { color:var(--black); font-family:var(--font-zh); letter-spacing:0; }
+.chart-cap b { color:var(--black); letter-spacing:0; }
 .two-col { display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:start; }
 .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--grey-1); margin-top:10px; }
 .legend span { display:inline-flex; align-items:center; gap:6px; }
@@ -107,6 +121,7 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 </style>
 </head>
 <body>
+<div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
 <div class="shell">
 
 <div class="breadcrumb"><a href="index.html">← Taiwan Mobility Atlas</a></div>
@@ -115,7 +130,7 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
   <div class="logo-mark">Taiwan<br>Mobility<br>Atlas</div>
   <div class="title-block">
     <h1>Motorcycle Fatalities · A Ten-Year Anatomy</h1>
-    <div class="title-zh">機車事故十年解析</div>
+    <div class="title-zh"><span class="t-zh">機車事故十年解析</span><span class="t-en">Motorcycle Fatalities — A Ten-Year Anatomy</span></div>
   </div>
   <div class="meta">A1 Deaths<br><strong>2016 — 2025</strong></div>
 </div>
@@ -123,70 +138,70 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 <!-- HERO -->
 <div class="hero">
   <div class="big" id="heroBig">10,891<small> 人</small></div>
-  <div class="cap" id="heroCap">十年間，全國 <b>10,891</b> 名機車騎士在 24 小時內死於道路——佔同期所有 A1 死亡的 <b>63.4%</b>。在台灣，「道路安全」幾乎等同於「機車安全」：每 3 名交通事故死者，就有近 2 人騎在兩個輪子上。</div>
+  <div class="cap" id="heroCap"></div>
   <div class="hero-row" id="heroRow"></div>
 </div>
 
 <!-- COUNTY SELECTOR -->
 <div class="county-bar">
-  <span class="cb-label">檢視範圍 · Scope</span>
+  <span class="cb-label"><span class="t-zh">檢視範圍 · Scope</span><span class="t-en">Scope</span></span>
   <select id="countySel"></select>
-  <span class="scope-note" id="scopeNote">⚠ 樣本偏少，圖表僅供參考</span>
+  <span class="scope-note" id="scopeNote"></span>
   <span class="cb-stat" id="cbStat"></span>
 </div>
 
 <!-- 01 規模與趨勢 -->
 <section>
   <div class="sec-num">01</div>
-  <div class="sec-title">規模與趨勢：十年沒有變好</div>
+  <div class="sec-title"><span class="t-zh">規模與趨勢：十年沒有變好</span><span class="t-en">Scale & Trend — A Decade That Didn't Improve</span></div>
   <div class="sec-en">Scale & Trend</div>
   <div class="prose">
-    <p class="lead">機車是台灣道路死亡的主體，而且這個事實十年來沒有鬆動。2016 年全國機車騎士 A1 死亡 984 人、佔當年所有道路死亡 61.3%；到 2025 年，絕對數字升到 1,054 人，佔比更攀到 <b>64.2%</b>。中間 2019–2022 年甚至連年站上 1,150 人以上的高原，2022 年以 1,212 人寫下十年新高。</p>
-    <p>換句話說，過去十年無論「行人地獄」如何躍上國際版面、無論政策口號如何更迭，<span class="hl">死在路上的人，主力始終是機車騎士</span>，而且占比不降反升。這不是因為機車變得更危險，而是因為其他運具（特別是汽車駕駛與乘客）的防護隨著車體安全科技持續改善，唯獨暴露在外、缺乏潰縮空間的兩輪族群，被獨自留在風險的最前線。</p>
+    <p class="lead"><span class="t-zh">機車是台灣道路死亡的主體，而且這個事實十年來沒有鬆動。2016 年全國機車騎士 A1 死亡 984 人、佔當年所有道路死亡 61.3%；到 2025 年，絕對數字升到 1,054 人，佔比更攀到 <b>64.2%</b>。中間 2019–2022 年甚至連年站上 1,150 人以上的高原，2022 年以 1,212 人寫下十年新高。</span><span class="t-en">Motorcyclists are the backbone of Taiwan's road deaths, and that has not loosened in ten years. In 2016, 984 motorcyclists died (A1, within 24 h) — 61.3% of all road deaths that year. By 2025 the absolute number had risen to 1,054, and the share climbed to <b>64.2%</b>. From 2019 to 2022 it sat on a plateau above 1,150 a year, peaking at 1,212 in 2022 — a decade high.</span></p>
+    <p><span class="t-zh">換句話說，過去十年無論「行人地獄」如何躍上國際版面、無論政策口號如何更迭，<span class="hl">死在路上的人，主力始終是機車騎士</span>，而且占比不降反升。這不是因為機車變得更危險，而是因為其他運具（特別是汽車駕駛與乘客）的防護隨著車體安全科技持續改善，唯獨暴露在外、缺乏潰縮空間的兩輪族群，被獨自留在風險的最前線。</span><span class="t-en">In other words, however often "pedestrian hell" made international headlines, however the policy slogans changed, <span class="hl">the people dying on the road have always been mainly motorcyclists</span> — and the share is rising, not falling. Not because motorcycles got more dangerous, but because every other mode (above all car drivers and passengers) keeps getting safer as vehicle-body technology improves, leaving the exposed two-wheeled population — with no crumple zone — alone at the front line of risk.</span></p>
   </div>
   <div class="chart-wrap">
-    <div class="chart-cap"><b>圖 1</b>　機車 A1 死亡人數（柱）與佔全體道路死亡比例（線）· 2016–2025</div>
+    <div class="chart-cap"><b><span class="t-zh">圖 1</span><span class="t-en">Fig 1</span></b>　<span class="t-zh">機車 A1 死亡人數（柱）與佔全體道路死亡比例（線）· 2016–2025</span><span class="t-en">Motorcyclist A1 deaths (bars) and share of all road deaths (line) · 2016–2025</span></div>
     <div id="cTrend"></div>
   </div>
-  <div class="callout lime"><b>關鍵數字：</b>十年累計 10,891 名機車騎士死亡，平均每年 1,089 人、每天近 3 人。機車死亡佔比從 61% 緩升至 64%，意味交通安全的改善幾乎沒有惠及騎士。</div>
+  <div class="callout lime"><b><span class="t-zh">關鍵數字：</span><span class="t-en">Key figure:</span></b><span class="t-zh">十年累計 10,891 名機車騎士死亡，平均每年 1,089 人、每天近 3 人。機車死亡佔比從 61% 緩升至 64%，意味交通安全的改善幾乎沒有惠及騎士。</span><span class="t-en">10,891 motorcyclists died over the decade — about 1,089 a year, nearly 3 a day. The motorcyclist share crept from 61% to 64%, meaning road-safety gains barely reached riders at all.</span></div>
 </section>
 
 <!-- 02 使用者樣態 -->
 <section>
   <div class="sec-num">02</div>
-  <div class="sec-title">誰在死亡：年輕人與長者的雙峰</div>
+  <div class="sec-title"><span class="t-zh">誰在死亡：年輕人與長者的雙峰</span><span class="t-en">Who Dies — A Bimodal Age Curve</span></div>
   <div class="sec-en">Who Dies — A Bimodal Age Curve</div>
   <div class="prose">
-    <p class="lead">把死亡騎士的年齡攤開，會看到一條清楚的「雙峰」曲線：<span class="hl">18–24 歲的年輕騎士是單一最大族群</span>（占可辨識死者的 19.8%），另一個高峰落在 65 歲以上的高齡者（合計 26.1%）。中壯年雖然每個年齡層都有死亡，但密度明顯較低。</p>
-    <p>這兩個高峰背後是兩種完全不同的事故腳本。年輕騎士的死亡，較多與<b>速度、夜間、酒精與經驗不足</b>有關——剛拿到駕照、通勤與夜生活的移動需求高，風險辨識卻尚未成熟。高齡騎士則相反：他們多在<b>日間、低速、住家附近的路口</b>因路權衝突而身故，問題不在魯莽，而在反應時間、視野與身體脆弱度——同樣一場 40 公里的側撞，年輕人可能重傷、長者卻可能致命。</p>
-    <p>性別上，<b>男性占 72.8%、女性占 27.2%</b>，與整體 A1 死者的性別比一致。值得注意的是，高齡層的女性比例明顯上升，反映長輩女性在社區短程移動中對機車的高度依賴。</p>
+    <p class="lead"><span class="t-zh">把死亡騎士的年齡攤開，會看到一條清楚的「雙峰」曲線：<span class="hl">18–24 歲的年輕騎士是單一最大族群</span>（占可辨識死者的 19.8%），另一個高峰落在 65 歲以上的高齡者（合計 26.1%）。中壯年雖然每個年齡層都有死亡，但密度明顯較低。</span><span class="t-en">Lay out the ages of the riders who died and a clear "twin-peak" curve appears: <span class="hl">riders aged 18–24 are the single largest group</span> (19.8% of identifiable victims), with a second peak among those 65 and older (26.1% combined). The middle-aged die in every bracket too, but at noticeably lower density.</span></p>
+    <p><span class="t-zh">這兩個高峰背後是兩種完全不同的事故腳本。年輕騎士的死亡，較多與<b>速度、夜間、酒精與經驗不足</b>有關——剛拿到駕照、通勤與夜生活的移動需求高，風險辨識卻尚未成熟。高齡騎士則相反：他們多在<b>日間、低速、住家附近的路口</b>因路權衝突而身故，問題不在魯莽，而在反應時間、視野與身體脆弱度——同樣一場 40 公里的側撞，年輕人可能重傷、長者卻可能致命。</span><span class="t-en">The two peaks hide two completely different crash scripts. Young riders' deaths skew toward <b>speed, night, alcohol and inexperience</b> — newly licensed, high mobility demand for commuting and nightlife, but risk perception not yet mature. Elderly riders are the opposite: they mostly die <b>in daylight, at low speed, at junctions near home</b> through right-of-way conflicts. The problem isn't recklessness but reaction time, field of view and physical fragility — the same 40 km/h side impact may injure a young rider but kill an older one.</span></p>
+    <p><span class="t-zh">性別上，<b>男性占 72.8%、女性占 27.2%</b>，與整體 A1 死者的性別比一致。值得注意的是，高齡層的女性比例明顯上升，反映長輩女性在社區短程移動中對機車的高度依賴。</span><span class="t-en">By sex, <b>men are 72.8% and women 27.2%</b>, matching the overall A1 death ratio. Notably, the female share rises sharply among the elderly — reflecting how heavily older women rely on the scooter for short trips around the neighbourhood.</span></p>
   </div>
   <div class="two-col">
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 2</b>　死亡騎士年齡分布</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 2</span><span class="t-en">Fig 2</span></b>　<span class="t-zh">死亡騎士年齡分布</span><span class="t-en">Age of riders killed</span></div>
       <div id="cAge"></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 3</b>　死亡騎士性別</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 3</span><span class="t-en">Fig 3</span></b>　<span class="t-zh">死亡騎士性別</span><span class="t-en">Sex of riders killed</span></div>
       <div id="cGender"></div>
     </div>
   </div>
-  <div class="callout blue"><b>政策含意：</b>單一處方無效。年輕騎士需要的是「駕訓與速度管理」，高齡騎士需要的是「路口設計與替代運具」。把兩個高峰混為一談的宣導，往往兩邊都打不中。</div>
+  <div class="callout blue"><b><span class="t-zh">政策含意：</span><span class="t-en">Policy implication:</span></b><span class="t-zh">單一處方無效。年輕騎士需要的是「駕訓與速度管理」，高齡騎士需要的是「路口設計與替代運具」。把兩個高峰混為一談的宣導，往往兩邊都打不中。</span><span class="t-en">One prescription won't work. Young riders need driver training and speed management; elderly riders need junction design and alternative transport. Campaigns that lump the two peaks together usually miss both.</span></div>
 </section>
 
 <!-- 03 肇事主因 -->
 <section>
   <div class="sec-num">03</div>
-  <div class="sec-title">為什麼會死：路權衝突與分心是主旋律</div>
+  <div class="sec-title"><span class="t-zh">為什麼會死：路權衝突與分心是主旋律</span><span class="t-en">Why They Die — Right-of-Way & Inattention</span></div>
   <div class="sec-en">Primary Causes</div>
   <div class="prose">
-    <p class="lead">將 7,739 筆有詳細肇因紀錄的案件歸類後，最大宗的死因不是「飆車」，而是日常的<span class="hl">路權與注意力失誤</span>：「未依規定讓車（路權衝突）」占 20.4%、「未注意車前狀態／分心」占 19.4%，兩者合計近四成。接著是「違反號誌、標誌」13.1% 與「違規轉彎、變換車道」10.5%。</p>
-    <p>這組數字顛覆了「機車死亡＝騎士違規亂竄」的刻板印象。路權衝突的本質，是<b>兩方對誰該先行的認知落差</b>——而在汽機車混流、號誌與標線設計不友善的台灣道路上，騎士往往是衝突中肉身最沒有保護的一方。換言之，許多死亡並非單純「誰對誰錯」，而是<b>道路環境本身把碰撞的致命後果，系統性地分配給了騎士</b>。</p>
-    <p>值得單獨點名的是<b>酒（毒）駕仍占 6.9%（532 人）</b>，逆向行駛 2.0%、超速／未減速 4.5%。這些「高致命、可預防」的行為加總超過一成，是執法與工程能立即著力的部分。另有約 14% 列為「不明」或「其他」，反映基層事故調查在因果判定上的侷限。</p>
-    <p>更深一層的真相藏在「肇事責任」與「死亡」的錯位裡。在多數機車對汽車的致命碰撞中，警方紀錄的<b>第一當事人（肇事方）往往是汽車駕駛</b>，而失去生命的卻是機車騎士——肇責與後果，由不同的人承擔。這正是脆弱用路人問題的核心：<span class="hl">同樣一個失誤，發生在鋼鐵車殼裡只是擦撞，發生在血肉之軀上卻是致命</span>。因此「降低機車肇事率」與「降低機車死亡率」是兩件事——前者靠教育騎士，後者更靠改造道路與約束大型車輛，讓任何人的一次失誤都不必用一條人命來償付。</p>
+    <p class="lead"><span class="t-zh">將 7,739 筆有詳細肇因紀錄的案件歸類後，最大宗的死因不是「飆車」，而是日常的<span class="hl">路權與注意力失誤</span>：「未依規定讓車（路權衝突）」占 20.4%、「未注意車前狀態／分心」占 19.4%，兩者合計近四成。接著是「違反號誌、標誌」13.1% 與「違規轉彎、變換車道」10.5%。</span><span class="t-en">Classifying the 7,739 cases with detailed cause records, the leading killer is not "racing" but everyday <span class="hl">right-of-way and attention failures</span>: "failure to yield (right-of-way conflict)" 20.4% and "inattention / distraction" 19.4% — together nearly four in ten. Then "signal / sign violations" 13.1% and "improper turning / lane changes" 10.5%.</span></p>
+    <p><span class="t-zh">這組數字顛覆了「機車死亡＝騎士違規亂竄」的刻板印象。路權衝突的本質，是<b>兩方對誰該先行的認知落差</b>——而在汽機車混流、號誌與標線設計不友善的台灣道路上，騎士往往是衝突中肉身最沒有保護的一方。換言之，許多死亡並非單純「誰對誰錯」，而是<b>道路環境本身把碰撞的致命後果，系統性地分配給了騎士</b>。</span><span class="t-en">These numbers overturn the stereotype that "motorcyclist deaths = riders weaving recklessly." A right-of-way conflict is, at root, <b>two parties disagreeing about who goes first</b> — and on Taiwan's roads, where cars and scooters mix and signals and markings are unfriendly, the rider is usually the most unprotected body in the conflict. Many deaths are not simply about "who was right"; rather, <b>the road environment itself systematically allocates the fatal consequences of a collision to the rider</b>.</span></p>
+    <p><span class="t-zh">值得單獨點名的是<b>酒（毒）駕仍占 6.9%（532 人）</b>，逆向行駛 2.0%、超速／未減速 4.5%。這些「高致命、可預防」的行為加總超過一成，是執法與工程能立即著力的部分。另有約 14% 列為「不明」或「其他」，反映基層事故調查在因果判定上的侷限。</span><span class="t-en">Worth naming separately: <b>drink/drug driving is still 6.9% (532 people)</b>, wrong-way driving 2.0%, speeding/failure-to-slow 4.5%. These "highly lethal, highly preventable" behaviours add up to over a tenth — the part enforcement and engineering can act on immediately. About 14% are logged as "unknown" or "other," reflecting the limits of frontline crash investigation in assigning cause.</span></p>
+    <p><span class="t-zh">更深一層的真相藏在「肇事責任」與「死亡」的錯位裡。在多數機車對汽車的致命碰撞中，警方紀錄的<b>第一當事人（肇事方）往往是汽車駕駛</b>，而失去生命的卻是機車騎士——肇責與後果，由不同的人承擔。這正是脆弱用路人問題的核心：<span class="hl">同樣一個失誤，發生在鋼鐵車殼裡只是擦撞，發生在血肉之軀上卻是致命</span>。因此「降低機車肇事率」與「降低機車死亡率」是兩件事——前者靠教育騎士，後者更靠改造道路與約束大型車輛，讓任何人的一次失誤都不必用一條人命來償付。</span><span class="t-en">A deeper truth hides in the gap between "fault" and "death." In most fatal motorcycle-versus-car crashes, the <b>first party (the at-fault party) recorded by police is often the car driver</b>, while the one who dies is the motorcyclist — fault and consequence borne by different people. This is the heart of the vulnerable-road-user problem: <span class="hl">the same mistake is a fender-bender inside a steel shell, but fatal to a body of flesh</span>. So "cutting the motorcycle crash rate" and "cutting the motorcycle death rate" are two different things — the first leans on educating riders, the second on redesigning roads and restraining heavy vehicles, so that no one's single mistake has to be paid for with a life.</span></p>
   </div>
   <div class="chart-wrap">
-    <div class="chart-cap"><b>圖 4</b>　機車死亡事故主要肇因分類（依肇事第一當事人主因歸戶）</div>
+    <div class="chart-cap"><b><span class="t-zh">圖 4</span><span class="t-en">Fig 4</span></b>　<span class="t-zh">機車死亡事故主要肇因分類（依肇事第一當事人主因歸戶）</span><span class="t-en">Primary cause of fatal motorcycle crashes (grouped by the first party's main cause)</span></div>
     <div id="cCause"></div>
   </div>
 </section>
@@ -194,69 +209,69 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 <!-- 04 碰撞型態 -->
 <section>
   <div class="sec-num">04</div>
-  <div class="sec-title">怎麼撞：七成是「被別人撞」</div>
+  <div class="sec-title"><span class="t-zh">怎麼撞：七成是「被別人撞」</span><span class="t-en">How They Crash — 7 in 10 Are Hit by Another</span></div>
   <div class="sec-en">Crash Configuration</div>
   <div class="prose">
-    <p class="lead">機車死亡事故中，<span class="hl">高達 72% 涉及另一輛車</span>（多為汽車或大型車），僅 28% 是騎士自摔或自撞固定物的單車事故。這說明絕大多數的騎士之死，發生在「與他人互動」的瞬間——被左轉車切到、被右方來車側撞、在路口被未讓車的對向車輛攔腰撞上。</p>
-    <p>從碰撞細類看，<b>側撞、路口交岔撞、追撞</b>是三大型態。側撞與路口撞共同指向同一個結構問題：<b>路口的衝突點管理失靈</b>。而單車事故中的「路上翻車摔倒」「撞護欄、路樹、電桿」則暴露了郊區道路的硬體致命性——一旦失控衝出路面，路側幾乎沒有任何寬容設計來吸收撞擊。</p>
+    <p class="lead"><span class="t-zh">機車死亡事故中，<span class="hl">高達 72% 涉及另一輛車</span>（多為汽車或大型車），僅 28% 是騎士自摔或自撞固定物的單車事故。這說明絕大多數的騎士之死，發生在「與他人互動」的瞬間——被左轉車切到、被右方來車側撞、在路口被未讓車的對向車輛攔腰撞上。</span><span class="t-en">In fatal motorcycle crashes, <span class="hl">a striking 72% involve another vehicle</span> (mostly cars or heavy vehicles); only 28% are single-vehicle crashes where the rider falls or hits a fixed object. So the vast majority of rider deaths happen in a moment of "interaction with others" — cut off by a left-turning car, side-struck by a vehicle from the right, T-boned at a junction by an oncoming vehicle that failed to yield.</span></p>
+    <p><span class="t-zh">從碰撞細類看，<b>側撞、路口交岔撞、追撞</b>是三大型態。側撞與路口撞共同指向同一個結構問題：<b>路口的衝突點管理失靈</b>。而單車事故中的「路上翻車摔倒」「撞護欄、路樹、電桿」則暴露了郊區道路的硬體致命性——一旦失控衝出路面，路側幾乎沒有任何寬容設計來吸收撞擊。</span><span class="t-en">By collision sub-type, <b>side impacts, junction collisions and rear-enders</b> are the big three. Side and junction impacts point to one structural problem: <b>failed conflict-point management at junctions</b>. The single-vehicle "overturn / fall" and "hit guardrail, tree, pole" expose the lethal hardware of rural roads — once a rider loses control and leaves the carriageway, the roadside has almost no forgiving design to absorb the impact.</span></p>
   </div>
   <div class="two-col">
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 5</b>　單車 vs. 多車事故</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 5</span><span class="t-en">Fig 5</span></b>　<span class="t-zh">單車 vs. 多車事故</span><span class="t-en">Single- vs. multi-vehicle</span></div>
       <div id="cSingle"></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 6</b>　主要碰撞細類（前 8）</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 6</span><span class="t-en">Fig 6</span></b>　<span class="t-zh">主要碰撞細類（前 8）</span><span class="t-en">Top 8 collision sub-types</span></div>
       <div id="cAccSub"></div>
     </div>
   </div>
-  <div class="callout"><b>反直覺：</b>「機車死亡多是騎士自己摔死」是錯的——七成是與其他車輛的碰撞。降低騎士死亡，關鍵不只在「管騎士」，更在「讓汽車駕駛看得到、讓得了機車」。</div>
+  <div class="callout"><b><span class="t-zh">反直覺：</span><span class="t-en">Counter-intuitive:</span></b><span class="t-zh">「機車死亡多是騎士自己摔死」是錯的——七成是與其他車輛的碰撞。降低騎士死亡，關鍵不只在「管騎士」，更在「讓汽車駕駛看得到、讓得了機車」。</span><span class="t-en">"Most motorcyclists just fall and kill themselves" is wrong — seven in ten are collisions with another vehicle. Cutting rider deaths is not only about "managing riders" but about "letting car drivers see, and yield to, motorcycles."</span></div>
 </section>
 
 <!-- 05 天候與光線 -->
 <section>
   <div class="sec-num">05</div>
-  <div class="sec-title">天候與光線：殺人的是好天氣</div>
+  <div class="sec-title"><span class="t-zh">天候與光線：殺人的是好天氣</span><span class="t-en">Weather & Light — The Fair-Weather Paradox</span></div>
   <div class="sec-en">Weather & Light — The Fair-Weather Paradox</div>
   <div class="prose">
-    <p class="lead">最反直覺的一張圖：<span class="hl">81.8% 的機車死亡發生在晴天</span>，雨天僅占 7.4%；路面狀態同樣有九成是「乾燥」。這不代表雨天安全，而是<b>晴天的騎乘量遠高於雨天、且晴天車速更快</b>——當能見度好、路面乾、心理戒備低時，速度與流量才是真正的致命變數。把資源全押在「雨天小心」的宣導，等於對著最小的風險開槍。</p>
-    <p>光線則揭露另一個可工程化的破口。日間事故占 43.4%，但夜間（含晨暮）合計達 <b>56.6%</b>；其中近半數（占全部的 24.6%）發生在<b>「照明不足或無照明」</b>的路段。對缺乏車體燈光優勢、體積又小的機車而言，夜間照明不只是舒適問題，而是「能不能被看見」的生死問題。<span class="hl">路燈，是被低估的救命基礎建設</span>。</p>
+    <p class="lead"><span class="t-zh">最反直覺的一張圖：<span class="hl">81.8% 的機車死亡發生在晴天</span>，雨天僅占 7.4%；路面狀態同樣有九成是「乾燥」。這不代表雨天安全，而是<b>晴天的騎乘量遠高於雨天、且晴天車速更快</b>——當能見度好、路面乾、心理戒備低時，速度與流量才是真正的致命變數。把資源全押在「雨天小心」的宣導，等於對著最小的風險開槍。</span><span class="t-en">The most counter-intuitive chart of all: <span class="hl">81.8% of motorcyclist deaths happen in clear weather</span>, with rain only 7.4%; nine in ten road surfaces are "dry." This doesn't mean rain is safe — it means <b>far more riding happens on clear days, and speeds are higher then</b>. When visibility is good, the road is dry and mental guard is down, speed and volume are the real lethal variables. Pouring resources into "take care in the rain" campaigns is firing at the smallest risk.</span></p>
+    <p><span class="t-zh">光線則揭露另一個可工程化的破口。日間事故占 43.4%，但夜間（含晨暮）合計達 <b>56.6%</b>；其中近半數（占全部的 24.6%）發生在<b>「照明不足或無照明」</b>的路段。對缺乏車體燈光優勢、體積又小的機車而言，夜間照明不只是舒適問題，而是「能不能被看見」的生死問題。<span class="hl">路燈，是被低估的救命基礎建設</span>。</span><span class="t-en">Light exposes another engineerable gap. Daytime crashes are 43.4%, but night (including dawn/dusk) totals <b>56.6%</b>; nearly half of those (24.6% of all) happen on stretches that are <b>"poorly lit or unlit."</b> For a small machine with no big headlamp advantage, night lighting isn't a comfort issue — it is the life-or-death question of "can you be seen." <span class="hl">Street lighting is an underrated piece of life-saving infrastructure.</span></span></p>
   </div>
   <div class="two-col">
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 7</b>　事故當下天候</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 7</span><span class="t-en">Fig 7</span></b>　<span class="t-zh">事故當下天候</span><span class="t-en">Weather at the time</span></div>
       <div id="cWeather"></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 8</b>　事故當下光線條件</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 8</span><span class="t-en">Fig 8</span></b>　<span class="t-zh">事故當下光線條件</span><span class="t-en">Light conditions at the time</span></div>
       <div id="cLight"></div>
     </div>
   </div>
-  <div class="callout lime"><b>可行動：</b>約 1,900 件死亡事故發生在照明不足／無照明路段。補足路燈、要求頭燈日間恆亮，是低成本、高槓桿的工程介入。</div>
+  <div class="callout lime"><b><span class="t-zh">可行動：</span><span class="t-en">Actionable:</span></b><span class="t-zh">約 1,900 件死亡事故發生在照明不足／無照明路段。補足路燈、要求頭燈日間恆亮，是低成本、高槓桿的工程介入。</span><span class="t-en">Roughly 1,900 deaths occurred on poorly-lit / unlit stretches. Filling the street-lighting gaps and mandating daytime running lights are low-cost, high-leverage engineering moves.</span></div>
 </section>
 
 <!-- 06 好發路段 -->
 <section>
   <div class="sec-num">06</div>
-  <div class="sec-title">好發路段：50 公里的市區路口</div>
+  <div class="sec-title"><span class="t-zh">好發路段：50 公里的市區路口</span><span class="t-en">Where — The 50 km/h Urban Junction</span></div>
   <div class="sec-en">Where — The 50 km/h Urban Junction</div>
   <div class="prose">
-    <p class="lead">把「在哪裡死」拆開，輪廓非常清晰：<span class="hl">57.8% 在市區道路、54.6% 在速限 50 公里的路段、48% 發生在路口</span>。最典型的致命場景，是一條速限 50、汽機車混流、號誌與轉向動線複雜的市區幹道路口。</p>
-    <p>路口為何如此致命？因為它是所有衝突點的交會處——左轉、右轉、直行、行人穿越在同一塊空間裡爭道，而台灣的路口普遍缺乏<b>專用轉向時相、機車庇護空間與清晰的視距</b>。速限 50 看似不快，但對血肉之軀的騎士，50 公里的撞擊已遠超人體耐受極限。</p>
-    <p>另一條被忽略的戰線是<b>鄉村道路</b>：省道、縣道、鄉道與村里道路合計占了約 39% 的死亡。這些路段速限高、照明差、救護遙遠，一旦失控往往直接致命。<span class="hl">鄉村的致命性，很大一部分來自「救援空白」</span>——車禍後能否在「黃金一小時」內送醫，城鄉差距巨大。同一場撞擊，在台北可能 10 分鐘內進急診，在偏鄉卻可能因路途遙遠、救護資源稀薄而錯過急救時機。都會的問題在「路口衝突密度」，鄉村的問題在「速度、照明與救援時間」，兩者需要截然不同的對策：前者要靠號誌時相、庇護空間與速度管理，後者要靠路側淨空、照明補強與緊急醫療網的城鄉再平衡。</p>
+    <p class="lead"><span class="t-zh">把「在哪裡死」拆開，輪廓非常清晰：<span class="hl">57.8% 在市區道路、54.6% 在速限 50 公里的路段、48% 發生在路口</span>。最典型的致命場景，是一條速限 50、汽機車混流、號誌與轉向動線複雜的市區幹道路口。</span><span class="t-en">Break down "where they die" and the profile is sharp: <span class="hl">57.8% on urban roads, 54.6% on 50 km/h stretches, 48% at junctions</span>. The most typical fatal scene is a junction on an urban arterial — 50 km/h limit, cars and scooters mixed, signals and turning paths complex.</span></p>
+    <p><span class="t-zh">路口為何如此致命？因為它是所有衝突點的交會處——左轉、右轉、直行、行人穿越在同一塊空間裡爭道，而台灣的路口普遍缺乏<b>專用轉向時相、機車庇護空間與清晰的視距</b>。速限 50 看似不快，但對血肉之軀的騎士，50 公里的撞擊已遠超人體耐受極限。</span><span class="t-en">Why are junctions so lethal? Because they are where every conflict point meets — left turns, right turns, through traffic and pedestrian crossings all competing in one space, while Taiwan's junctions generally lack <b>dedicated turn phases, motorcycle refuge space and clear sightlines</b>. A 50 km/h limit seems modest, but for a rider of flesh and blood, a 50 km/h impact is already far beyond human tolerance.</span></p>
+    <p><span class="t-zh">另一條被忽略的戰線是<b>鄉村道路</b>：省道、縣道、鄉道與村里道路合計占了約 39% 的死亡。這些路段速限高、照明差、救護遙遠，一旦失控往往直接致命。<span class="hl">鄉村的致命性，很大一部分來自「救援空白」</span>——車禍後能否在「黃金一小時」內送醫，城鄉差距巨大。同一場撞擊，在台北可能 10 分鐘內進急診，在偏鄉卻可能因路途遙遠、救護資源稀薄而錯過急救時機。都會的問題在「路口衝突密度」，鄉村的問題在「速度、照明與救援時間」，兩者需要截然不同的對策：前者要靠號誌時相、庇護空間與速度管理，後者要靠路側淨空、照明補強與緊急醫療網的城鄉再平衡。</span><span class="t-en">A second, overlooked front is the <b>rural road</b>: provincial, county, township and village roads together account for about 39% of deaths. These stretches have high speed limits, poor lighting and distant emergency care — once control is lost, the outcome is often immediately fatal. <span class="hl">Much of rural lethality comes from the "rescue gap"</span> — whether a crash victim reaches care within the "golden hour" varies enormously between city and country. The same impact might reach an ER within 10 minutes in Taipei, but in a remote area the distance and thin ambulance coverage can miss the window. The metro problem is "junction conflict density"; the rural problem is "speed, lighting and rescue time." They need opposite remedies: the former through signal phasing, refuge space and speed management; the latter through roadside clear zones, lighting upgrades and an urban-rural rebalancing of the emergency medical network.</span></p>
   </div>
   <div class="two-col">
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 9</b>　道路類型</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 9</span><span class="t-en">Fig 9</span></b>　<span class="t-zh">道路類型</span><span class="t-en">Road type</span></div>
       <div id="cRoad"></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-cap"><b>圖 10</b>　速限分布</div>
+      <div class="chart-cap"><b><span class="t-zh">圖 10</span><span class="t-en">Fig 10</span></b>　<span class="t-zh">速限分布</span><span class="t-en">Speed-limit distribution</span></div>
       <div id="cSpeed"></div>
     </div>
   </div>
   <div class="chart-wrap">
-    <div class="chart-cap"><b>圖 11</b>　路口 vs. 路段（單路）</div>
+    <div class="chart-cap"><b><span class="t-zh">圖 11</span><span class="t-en">Fig 11</span></b>　<span class="t-zh">路口 vs. 路段（單路）</span><span class="t-en">Junction vs. mid-block</span></div>
     <div id="cShape"></div>
   </div>
 </section>
@@ -264,14 +279,14 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 <!-- 07 時段 -->
 <section>
   <div class="sec-num">07</div>
-  <div class="sec-title">什麼時候：兩個通勤尖峰</div>
+  <div class="sec-title"><span class="t-zh">什麼時候：兩個通勤尖峰</span><span class="t-en">When — Two Commuting Peaks</span></div>
   <div class="sec-en">When — Two Commuting Peaks</div>
   <div class="prose">
-    <p class="lead">死亡時間分布呈現典型的「通勤雙峰」：<span class="hl">早上 7–9 時與下午 4–6 時</span>是兩個明顯高點，正是上班上學與下班放學的車流尖峰。深夜 2–4 時雖然車少，死亡密度（每單位車流的致死率）卻最高，與酒駕、疲勞、超速高度重疊。</p>
-    <p>這條曲線提醒我們：機車死亡主要是<b>「日常移動」的代價</b>，而非少數極端時刻的意外。當一個社會把絕大多數通勤者推上機車，尖峰時段的死亡就成了系統的結構性產物——解法不在勸導個別騎士「小心一點」，而在<b>提供安全的替代運具與保護性的尖峰車流管理</b>。</p>
+    <p class="lead"><span class="t-zh">死亡時間分布呈現典型的「通勤雙峰」：<span class="hl">早上 7–9 時與下午 4–6 時</span>是兩個明顯高點，正是上班上學與下班放學的車流尖峰。深夜 2–4 時雖然車少，死亡密度（每單位車流的致死率）卻最高，與酒駕、疲勞、超速高度重疊。</span><span class="t-en">The time-of-day distribution shows a classic "commuting twin-peak": <span class="hl">7–9 am and 4–6 pm</span> are the two clear highs — exactly the rush hours for work and school. Late at night, 2–4 am, traffic is light yet death density (lethality per unit of traffic) is highest, overlapping heavily with drink-driving, fatigue and speeding.</span></p>
+    <p><span class="t-zh">這條曲線提醒我們：機車死亡主要是<b>「日常移動」的代價</b>，而非少數極端時刻的意外。當一個社會把絕大多數通勤者推上機車，尖峰時段的死亡就成了系統的結構性產物——解法不在勸導個別騎士「小心一點」，而在<b>提供安全的替代運具與保護性的尖峰車流管理</b>。</span><span class="t-en">The curve reminds us that motorcyclist death is mainly the <b>price of "everyday mobility,"</b> not a freak event at rare moments. When a society pushes the great majority of commuters onto scooters, rush-hour deaths become a structural output of the system — and the fix is not to nag individual riders to "be careful," but to <b>provide safe alternative transport and protective peak-hour traffic management</b>.</span></p>
   </div>
   <div class="chart-wrap">
-    <div class="chart-cap"><b>圖 12</b>　死亡事故的時刻分布（00–23 時）</div>
+    <div class="chart-cap"><b><span class="t-zh">圖 12</span><span class="t-en">Fig 12</span></b>　<span class="t-zh">死亡事故的時刻分布（00–23 時）</span><span class="t-en">Hour-of-day distribution of fatal crashes (00–23 h)</span></div>
     <div id="cHour"></div>
   </div>
 </section>
@@ -279,133 +294,133 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 <!-- 08 縣市差異 -->
 <section>
   <div class="sec-num">08</div>
-  <div class="sec-title">縣市差異：機車死亡是南方與鄉村的故事</div>
+  <div class="sec-title"><span class="t-zh">縣市差異：機車死亡是南方與鄉村的故事</span><span class="t-en">Geography of Risk — A Southern, Rural Story</span></div>
   <div class="sec-en">Geography of Risk</div>
   <div class="prose">
-    <p class="lead">機車死亡佔比的城鄉落差極大。<span class="hl">屏東（71.5%）、金門（70.8%）、高雄（70.2%）、台南（67.7%）</span>等南部與離島縣市，每 10 名道路死者就有 7 人是騎士；相對地，<b>台北市僅 47.7%</b>、基隆 51.2%、台東 54.7% 明顯較低。</p>
-    <p>這條光譜幾乎完美對應<b>大眾運輸的可及性</b>：台北擁有最密集的捷運與公車網，市民有「不騎車也能移動」的選項，機車死亡佔比自然最低；而南部與鄉村縣市公共運輸稀疏，機車是唯一務實的日常工具，死亡也就高度集中在兩輪。<span class="hl">機車安全的終極解方，是讓人們「可以不必騎車」</span>——這正是公共運輸投資的安全紅利。</p>
-    <p class="method" style="margin-top:18px">使用上方選單可切換任一縣市，本頁所有圖表（趨勢、年齡、肇因、天候、路段⋯⋯）都會即時重繪為該縣市的數據。樣本偏少的離島縣市會標註提醒。</p>
+    <p class="lead"><span class="t-zh">機車死亡佔比的城鄉落差極大。<span class="hl">屏東（71.5%）、金門（70.8%）、高雄（70.2%）、台南（67.7%）</span>等南部與離島縣市，每 10 名道路死者就有 7 人是騎士；相對地，<b>台北市僅 47.7%</b>、基隆 51.2%、台東 54.7% 明顯較低。</span><span class="t-en">The urban-rural gap in the motorcyclist share is enormous. In southern and offshore counties — <span class="hl">Pingtung (71.5%), Kinmen (70.8%), Kaohsiung (70.2%), Tainan (67.7%)</span> — 7 of every 10 road deaths are riders. By contrast, <b>Taipei City is only 47.7%</b>, Keelung 51.2% and Taitung 54.7% — markedly lower.</span></p>
+    <p><span class="t-zh">這條光譜幾乎完美對應<b>大眾運輸的可及性</b>：台北擁有最密集的捷運與公車網，市民有「不騎車也能移動」的選項，機車死亡佔比自然最低；而南部與鄉村縣市公共運輸稀疏，機車是唯一務實的日常工具，死亡也就高度集中在兩輪。<span class="hl">機車安全的終極解方，是讓人們「可以不必騎車」</span>——這正是公共運輸投資的安全紅利。</span><span class="t-en">This spectrum maps almost perfectly onto <b>public-transport access</b>: Taipei has the densest metro and bus network, so residents have the option to "move without riding," and the motorcyclist death share is naturally lowest. In southern and rural counties, public transport is sparse, the scooter is the only practical daily tool, and death concentrates on two wheels. <span class="hl">The ultimate fix for motorcycle safety is to let people "not have to ride"</span> — which is precisely the safety dividend of investing in public transport.</span></p>
+    <p class="method" style="margin-top:18px"><span class="t-zh">使用上方選單可切換任一縣市，本頁所有圖表（趨勢、年齡、肇因、天候、路段⋯⋯）都會即時重繪為該縣市的數據。樣本偏少的離島縣市會標註提醒。</span><span class="t-en">Use the selector above to switch to any county; every chart on this page (trend, age, cause, weather, road segment …) redraws instantly for that county. Offshore counties with small samples carry a warning.</span></p>
   </div>
   <div class="chart-wrap">
-    <div class="chart-cap"><b>圖 13</b>　各縣市機車死亡佔全體道路死亡之比例（全國平均 63.4%）</div>
+    <div class="chart-cap"><b><span class="t-zh">圖 13</span><span class="t-en">Fig 13</span></b>　<span class="t-zh">各縣市機車死亡佔全體道路死亡之比例（全國平均 63.4%）</span><span class="t-en">Motorcyclist share of all road deaths by county (national average 63.4%)</span></div>
     <div id="cCounty"></div>
   </div>
 </section>
 
 <!-- DIVIDER QUOTE -->
 <div class="divider-quote">
-  十年、10,891 條人命，主因不是飆車，而是日常通勤途中、晴天的市區路口、被一輛沒看見你的車側撞。機車安全不是「騎士的個人修養問題」，而是「我們把什麼樣的道路與運輸選擇，留給最脆弱的人」的制度問題。
+  <span class="t-zh">十年、10,891 條人命，主因不是飆車，而是日常通勤途中、晴天的市區路口、被一輛沒看見你的車側撞。機車安全不是「騎士的個人修養問題」，而是「我們把什麼樣的道路與運輸選擇，留給最脆弱的人」的制度問題。</span><span class="t-en">Ten years, 10,891 lives. The main cause is not racing but the ordinary commute — a clear-weather urban junction, side-struck by a car that never saw you. Motorcycle safety is not "a question of riders' personal virtue" but an institutional question: what kind of roads and transport choices do we leave to the most vulnerable?</span>
   <small>The Anatomy of Motorcycle Death · Taiwan 2016–2025</small>
 </div>
 
 <!-- 09 不只是受害者 -->
 <section>
   <div class="sec-num">09</div>
-  <div class="sec-title">不只是受害者：機車是系統的產物，也是外部性的來源</div>
+  <div class="sec-title"><span class="t-zh">不只是受害者：機車是系統的產物，也是外部性的來源</span><span class="t-en">Not Only Victims — A Systemic Reading</span></div>
   <div class="sec-en">Not Only Victims — A Systemic Reading</div>
   <div class="prose">
-    <p class="lead">前面八節，我們看見騎士是道路系統的受害者。但要誠實，就必須同時說出另一半：<span class="hl">機車本身，也是一種把成本外溢給整個社會的運具</span>。台灣機車保有量已逾 <b>1,466 萬輛</b>（2025 年初），密度位居世界前列——它帶來的不只是死傷，還有噪音、空污、碳排，以及對街道與人行空間的長期占據。</p>
+    <p class="lead"><span class="t-zh">前面八節，我們看見騎士是道路系統的受害者。但要誠實，就必須同時說出另一半：<span class="hl">機車本身，也是一種把成本外溢給整個社會的運具</span>。台灣機車保有量已逾 <b>1,466 萬輛</b>（2025 年初），密度位居世界前列——它帶來的不只是死傷，還有噪音、空污、碳排，以及對街道與人行空間的長期占據。</span><span class="t-en">The first eight sections showed riders as victims of the road system. But honesty requires the other half: <span class="hl">the motorcycle is also a mode that spills costs onto society at large</span>. Taiwan's registered scooter fleet exceeds <b>14.66 million</b> (early 2025), among the highest densities in the world — and it brings not only death and injury but noise, air pollution, carbon, and a long-term occupation of street and pedestrian space.</span></p>
     <div class="xstat">
-      <div class="x"><div class="n">1,466<span style="font-size:15px"> 萬輛</span></div><div class="l">全台機車保有量（2025 初），密度世界數一數二</div></div>
-      <div class="x"><div class="n">~1/3</div><div class="l">公路運輸約佔台灣 PM2.5 來源，私人汽機車是其中大宗</div></div>
-      <div class="x"><div class="n">32.1<span style="font-size:15px"> µg/m³</span></div><div class="l">機車通勤者自身的 PM2.5 暴露，約為開車者（7.6）的 4 倍</div></div>
+      <div class="x"><div class="n">14.66<span style="font-size:15px"> M</span></div><div class="l"><span class="t-zh">全台機車保有量（2025 初），密度世界數一數二</span><span class="t-en">Registered scooters (early 2025) — among the world's highest densities</span></div></div>
+      <div class="x"><div class="n">~1/3</div><div class="l"><span class="t-zh">公路運輸約佔台灣 PM2.5 來源，私人汽機車是其中大宗</span><span class="t-en">Road transport's share of Taiwan's PM2.5; private cars + scooters are the bulk</span></div></div>
+      <div class="x"><div class="n">32.1<span style="font-size:15px"> µg/m³</span></div><div class="l"><span class="t-zh">機車通勤者自身的 PM2.5 暴露，約為開車者（7.6）的 4 倍</span><span class="t-en">A scooter commuter's own PM2.5 exposure — about 4× a car driver's (7.6)</span></div></div>
     </div>
-    <p>這裡藏著一個殘酷的對稱：<b>騎士既是污染的製造者之一，也是承受最深的受害者</b>。當你被困在車陣縫隙裡前進，吸進的廢氣濃度遠高於坐在車內的人。死亡、噪音、空污——這些都不是「騎士的道德缺陷」，而是<span class="hl">系統的結構性產出</span>。當一個社會把一千四百多萬人推上機車坐墊，這些外部成本就成了系統的必然輸出，而非個別選擇的偶然。</p>
-    <p>所以請記得第二節那條年齡曲線：<b>18–24 歲是單一最大的死亡族群</b>。這不是因為年輕人特別魯莽，而是因為對一個剛離家、買不起汽車、所在城市又沒有捷運可搭的年輕人來說，機車幾乎是唯一務實的選項。<span class="hl">他不是「選擇」了風險——是系統替他做了選擇，讓他在毫無意識的情況下，坐上了那張坐墊。</span>把責任推給「個人不小心」，等於要求最沒有議價能力的人，獨自承擔整個系統的設計失敗。</p>
+    <p><span class="t-zh">這裡藏著一個殘酷的對稱：<b>騎士既是污染的製造者之一，也是承受最深的受害者</b>。當你被困在車陣縫隙裡前進，吸進的廢氣濃度遠高於坐在車內的人。死亡、噪音、空污——這些都不是「騎士的道德缺陷」，而是<span class="hl">系統的結構性產出</span>。當一個社會把一千四百多萬人推上機車坐墊，這些外部成本就成了系統的必然輸出，而非個別選擇的偶然。</span><span class="t-en">Here lies a cruel symmetry: <b>the rider is both one of the polluters and the most exposed victim</b>. Threading through gaps in traffic, you breathe exhaust far more concentrated than someone inside a car. Death, noise, air pollution — none of these is "a rider's moral failing"; they are <span class="hl">structural outputs of the system</span>. When a society puts over fourteen million people on a scooter seat, these external costs become an inevitable output of the system, not an accident of individual choice.</span></p>
+    <p><span class="t-zh">所以請記得第二節那條年齡曲線：<b>18–24 歲是單一最大的死亡族群</b>。這不是因為年輕人特別魯莽，而是因為對一個剛離家、買不起汽車、所在城市又沒有捷運可搭的年輕人來說，機車幾乎是唯一務實的選項。<span class="hl">他不是「選擇」了風險——是系統替他做了選擇，讓他在毫無意識的情況下，坐上了那張坐墊。</span>把責任推給「個人不小心」，等於要求最沒有議價能力的人，獨自承擔整個系統的設計失敗。</span><span class="t-en">So recall that age curve from Section 2: <b>18–24 is the single largest death group</b>. Not because the young are especially reckless, but because for someone who has just left home, can't afford a car, and lives in a city with no metro to take, the scooter is almost the only practical option. <span class="hl">He did not "choose" the risk — the system chose for him, and seated him, unawares, on that saddle.</span> Pinning the blame on "individual carelessness" asks the person with the least bargaining power to carry the entire system's design failure alone.</span></p>
   </div>
-  <div class="callout"><b>但這不是要把矛頭轉向騎士。</b>恰恰相反：正因為外部性是系統造成的，解方與責任也應該回到系統——回到那些設計、生產、並從現狀中獲利的環節。這是底下兩節的主題。</div>
+  <div class="callout"><b><span class="t-zh">但這不是要把矛頭轉向騎士。</span><span class="t-en">But this is not turning the blame toward riders.</span></b><span class="t-zh">恰恰相反：正因為外部性是系統造成的，解方與責任也應該回到系統——回到那些設計、生產、並從現狀中獲利的環節。這是底下兩節的主題。</span><span class="t-en">Quite the opposite: precisely because the externalities are created by the system, the solutions and the responsibility should return to the system — to those who design, produce and profit from the status quo. That is the subject of the next two sections.</span></div>
 </section>
 
 <!-- 10 運具移轉 -->
 <section>
   <div class="sec-num">10</div>
-  <div class="sec-title">運具移轉：讓人「可以不騎車」的三重紅利</div>
+  <div class="sec-title"><span class="t-zh">運具移轉：讓人「可以不騎車」的三重紅利</span><span class="t-en">Modal Shift — The Triple Dividend of Not Having to Ride</span></div>
   <div class="sec-en">Modal Shift — The Triple Dividend</div>
   <div class="prose">
-    <p class="lead">降低機車死亡最根本的工程，不是要求騎士更小心，而是<span class="hl">讓人們有「可以不騎車」的選項</span>。第八節的城鄉光譜已經給了答案：機車死亡佔比最低的台北（47.7%），正是大眾運輸最密集的城市；最高的屏東、高雄（逾 70%），則是公共運輸最稀疏之處。捷運、公車、安全的步行與自行車網絡，就是降低機車死亡的根本基礎建設。</p>
-    <p>運具移轉之所以值得全力投資，是因為它一次帶來<b>三重紅利</b>——這也正是本 atlas「雙齊零願景」與「複利效應」的核心：</p>
+    <p class="lead"><span class="t-zh">降低機車死亡最根本的工程，不是要求騎士更小心，而是<span class="hl">讓人們有「可以不騎車」的選項</span>。第八節的城鄉光譜已經給了答案：機車死亡佔比最低的台北（47.7%），正是大眾運輸最密集的城市；最高的屏東、高雄（逾 70%），則是公共運輸最稀疏之處。捷運、公車、安全的步行與自行車網絡，就是降低機車死亡的根本基礎建設。</span><span class="t-en">The most fundamental engineering for cutting motorcycle deaths is not demanding more care from riders, but <span class="hl">giving people the option to "not ride."</span> Section 8's urban-rural spectrum already answered it: Taipei, with the lowest motorcyclist death share (47.7%), is the city with the densest public transport; Pingtung and Kaohsiung, the highest (over 70%), are where public transport is sparsest. Metro, buses, and safe walking and cycling networks are the foundational infrastructure for fewer motorcycle deaths.</span></p>
+    <p><span class="t-zh">運具移轉之所以值得全力投資，是因為它一次帶來<b>三重紅利</b>——這也正是本 atlas「雙齊零願景」與「複利效應」的核心：</span><span class="t-en">Modal shift is worth investing in fully because it delivers a <b>triple dividend</b> at once — which is exactly the core of this atlas's "Dual-Zero Vision" and "Compound Effect":</span></p>
     <div class="triple">
-      <div class="t"><div class="th" style="color:var(--red)">安全紅利</div><p>每一趟從機車轉移到捷運／公車的旅次，都是一次幾乎歸零的死亡風險。少騎一公里，就少一公里的暴露。</p></div>
-      <div class="t"><div class="th" style="color:var(--gold)">氣候紅利</div><p>運輸是台灣碳排與空污的大宗。移轉到大眾運輸與綠運具，直接削減碳排與都市空污。</p></div>
-      <div class="t"><div class="th" style="color:var(--blue)">健康紅利</div><p>步行與自行車是日常身體活動；減少機車通勤也降低騎士自身吸入的高濃度廢氣。</p></div>
+      <div class="t"><div class="th" style="color:var(--red)"><span class="t-zh">安全紅利</span><span class="t-en">Safety dividend</span></div><p><span class="t-zh">每一趟從機車轉移到捷運／公車的旅次，都是一次幾乎歸零的死亡風險。少騎一公里，就少一公里的暴露。</span><span class="t-en">Every trip shifted from scooter to metro/bus is a near-zero death risk. One kilometre less ridden is one kilometre less exposure.</span></p></div>
+      <div class="t"><div class="th" style="color:var(--gold)"><span class="t-zh">氣候紅利</span><span class="t-en">Climate dividend</span></div><p><span class="t-zh">運輸是台灣碳排與空污的大宗。移轉到大眾運輸與綠運具，直接削減碳排與都市空污。</span><span class="t-en">Transport is a major source of Taiwan's carbon and air pollution. Shifting to public and green transport directly cuts carbon and urban air pollution.</span></p></div>
+      <div class="t"><div class="th" style="color:var(--blue)"><span class="t-zh">健康紅利</span><span class="t-en">Health dividend</span></div><p><span class="t-zh">步行與自行車是日常身體活動；減少機車通勤也降低騎士自身吸入的高濃度廢氣。</span><span class="t-en">Walking and cycling are everyday physical activity; less scooter commuting also lowers the high-concentration exhaust riders themselves inhale.</span></p></div>
     </div>
-    <p style="margin-top:16px">必須強調：<b>運具移轉不是「反機車」，更不是羞辱騎士</b>。它要做的，是把機車從「被迫的唯一選項」，還原成「眾多選項之一」。當人們真的可以不騎車，騎車就會回到它合理的尺度——短程、低速、可被安全道路寬容的尺度。<span class="hl">給選擇，而不是給譴責。</span></p>
+    <p style="margin-top:16px"><span class="t-zh">必須強調：<b>運具移轉不是「反機車」，更不是羞辱騎士</b>。它要做的，是把機車從「被迫的唯一選項」，還原成「眾多選項之一」。當人們真的可以不騎車，騎車就會回到它合理的尺度——短程、低速、可被安全道路寬容的尺度。<span class="hl">給選擇，而不是給譴責。</span></span><span class="t-en">To be clear: <b>modal shift is not "anti-motorcycle," still less shaming riders</b>. What it does is return the scooter from "the forced only option" to "one option among many." When people truly can choose not to ride, riding returns to its reasonable scale — short, slow, the kind a safe road can forgive. <span class="hl">Give choice, not condemnation.</span></span></p>
   </div>
 </section>
 
 <!-- 11 課責方向 -->
 <section>
   <div class="sec-num">11</div>
-  <div class="sec-title">課責的方向：誰製造了風險，誰就該共同承擔</div>
+  <div class="sec-title"><span class="t-zh">課責的方向：誰製造了風險，誰就該共同承擔</span><span class="t-en">Where Accountability Should Fall</span></div>
   <div class="sec-en">Where Accountability Should Fall</div>
   <div class="prose">
-    <p class="lead">「溫柔堅定」的核心命題只有一句：<span class="hl">把責任從「個別騎士」，移回「形塑系統並從中獲利的環節」</span>。「請大家騎車小心一點」從來不是政策，而是把系統的失敗，偽裝成個人的疏忽。以下是四個可以著力的課責方向——溫柔，是因為我們不究責任何一位逝者；堅定，是因為製造風險、從中得利者，理應共同承擔降低風險的責任。</p>
+    <p class="lead"><span class="t-zh">「溫柔堅定」的核心命題只有一句：<span class="hl">把責任從「個別騎士」，移回「形塑系統並從中獲利的環節」</span>。「請大家騎車小心一點」從來不是政策，而是把系統的失敗，偽裝成個人的疏忽。以下是四個可以著力的課責方向——溫柔，是因為我們不究責任何一位逝者；堅定，是因為製造風險、從中得利者，理應共同承擔降低風險的責任。</span><span class="t-en">The "gentle but firm" thesis is a single sentence: <span class="hl">move responsibility from "the individual rider" back to "those who shape the system and profit from it."</span> "Please everyone ride carefully" was never a policy — it disguises the system's failure as personal negligence. Here are four directions for accountability — gentle, because we blame none of the dead; firm, because those who manufacture risk and gain from it ought to share the duty of reducing it.</span></p>
   </div>
   <div class="acct-grid">
     <div class="acct-card gov">
-      <div class="ac-tag">Lever · 最大槓桿</div>
-      <h4>政府</h4>
-      <div class="ac-role">系統的設計者</div>
+      <div class="ac-tag">Lever · <span class="t-zh">最大槓桿</span><span class="t-en">greatest leverage</span></div>
+      <h4><span class="t-zh">政府</span><span class="t-en">Government</span></h4>
+      <div class="ac-role"><span class="t-zh">系統的設計者</span><span class="t-en">Designer of the system</span></div>
       <ul>
-        <li>運輸投資的城鄉再平衡：把資源投向最缺乏替代運具的縣市</li>
-        <li>道路與路口的 Vision Zero 設計：機車庇護空間、專用轉向時相、降速</li>
-        <li>速度管理與分級發照、駕訓制度的改革</li>
-        <li>土地使用：以混合使用與密度，減少「非移動不可」的距離</li>
+        <li><span class="t-zh">運輸投資的城鄉再平衡：把資源投向最缺乏替代運具的縣市</span><span class="t-en">Urban-rural rebalancing of transport investment: direct resources to the counties most starved of alternatives</span></li>
+        <li><span class="t-zh">道路與路口的 Vision Zero 設計：機車庇護空間、專用轉向時相、降速</span><span class="t-en">Vision Zero road and junction design: motorcycle refuge space, dedicated turn phases, lower speeds</span></li>
+        <li><span class="t-zh">速度管理與分級發照、駕訓制度的改革</span><span class="t-en">Speed management, graduated licensing and driver-training reform</span></li>
+        <li><span class="t-zh">土地使用：以混合使用與密度，減少「非移動不可」的距離</span><span class="t-en">Land use: mixed use and density to shrink the distances people are forced to travel</span></li>
       </ul>
     </div>
     <div class="acct-card">
-      <div class="ac-tag">Producer · 延伸生產者責任</div>
-      <h4>機車製造商</h4>
-      <div class="ac-role">風險的生產與行銷者</div>
+      <div class="ac-tag">Producer · <span class="t-zh">延伸生產者責任</span><span class="t-en">extended producer responsibility</span></div>
+      <h4><span class="t-zh">機車製造商</span><span class="t-en">Motorcycle makers</span></h4>
+      <div class="ac-role"><span class="t-zh">風險的生產與行銷者</span><span class="t-en">Producers and marketers of risk</span></div>
       <ul>
-        <li>安全標配：將 ABS／CBS 等防護科技列為全車系標準，而非高階選配</li>
-        <li>誠實行銷：停止向青年販售「速度與自由」的危險想像</li>
-        <li>提撥安全與運具轉型基金，分擔其產品外部成本</li>
-        <li>電動化與低污染設計，內部化噪音與空污成本</li>
+        <li><span class="t-zh">安全標配：將 ABS／CBS 等防護科技列為全車系標準，而非高階選配</span><span class="t-en">Safety as standard: make ABS/CBS standard across all models, not a premium option</span></li>
+        <li><span class="t-zh">誠實行銷：停止向青年販售「速度與自由」的危險想像</span><span class="t-en">Honest marketing: stop selling young people the dangerous fantasy of "speed and freedom"</span></li>
+        <li><span class="t-zh">提撥安全與運具轉型基金，分擔其產品外部成本</span><span class="t-en">Fund safety and mode-transition programmes, sharing their products' external costs</span></li>
+        <li><span class="t-zh">電動化與低污染設計，內部化噪音與空污成本</span><span class="t-en">Electrification and low-emission design to internalise noise and air-pollution costs</span></li>
       </ul>
     </div>
     <div class="acct-card">
-      <div class="ac-tag">Insurer · 風險的定價者</div>
-      <h4>保險公司</h4>
-      <div class="ac-role">資料與誘因的掌握者</div>
+      <div class="ac-tag">Insurer · <span class="t-zh">風險的定價者</span><span class="t-en">pricer of risk</span></div>
+      <h4><span class="t-zh">保險公司</span><span class="t-en">Insurers</span></h4>
+      <div class="ac-role"><span class="t-zh">資料與誘因的掌握者</span><span class="t-en">Holders of data and incentives</span></div>
       <ul>
-        <li>以費率獎勵安全行為（速度、里程、護具）而非齊頭式定價</li>
-        <li>確保強制險（強制責任險）對死傷者的保障真正充足</li>
-        <li>開放去識別化理賠資料，供研究與道路工程改善使用</li>
+        <li><span class="t-zh">以費率獎勵安全行為（速度、里程、護具）而非齊頭式定價</span><span class="t-en">Reward safe behaviour (speed, mileage, protective gear) in premiums, not flat pricing</span></li>
+        <li><span class="t-zh">確保強制險（強制責任險）對死傷者的保障真正充足</span><span class="t-en">Ensure compulsory liability insurance genuinely covers victims adequately</span></li>
+        <li><span class="t-zh">開放去識別化理賠資料，供研究與道路工程改善使用</span><span class="t-en">Open de-identified claims data for research and road-engineering improvement</span></li>
       </ul>
     </div>
     <div class="acct-card">
-      <div class="ac-tag">Employer · 通勤的形塑者</div>
-      <h4>雇主與都市規劃</h4>
-      <div class="ac-role">日常移動的條件設定者</div>
+      <div class="ac-tag">Employer · <span class="t-zh">通勤的形塑者</span><span class="t-en">shapers of the commute</span></div>
+      <h4><span class="t-zh">雇主與都市規劃</span><span class="t-en">Employers & planners</span></h4>
+      <div class="ac-role"><span class="t-zh">日常移動的條件設定者</span><span class="t-en">Setters of daily-mobility conditions</span></div>
       <ul>
-        <li>補貼大眾運輸通勤，而非無限供應的免費停車位</li>
-        <li>支持混合使用與可步行的職住環境，縮短被迫移動</li>
-        <li>把員工的通勤安全，納入企業的照顧責任</li>
+        <li><span class="t-zh">補貼大眾運輸通勤，而非無限供應的免費停車位</span><span class="t-en">Subsidise transit commuting instead of endless free parking</span></li>
+        <li><span class="t-zh">支持混合使用與可步行的職住環境，縮短被迫移動</span><span class="t-en">Support mixed-use, walkable live-work environments that shorten forced travel</span></li>
+        <li><span class="t-zh">把員工的通勤安全，納入企業的照顧責任</span><span class="t-en">Bring employees' commute safety into corporate duty of care</span></li>
       </ul>
     </div>
   </div>
-  <div class="callout lime"><b>課責 ≠ 究責個人。</b>它不是要找一個壞人來懲罰，而是讓「誰製造了風險、誰從中獲利、誰有能力改變」這三件事被清楚指認，並要求他們共同承擔。當死亡是系統的產出，責任就該指向系統的設計者與獲利者。</div>
+  <div class="callout lime"><b><span class="t-zh">課責 ≠ 究責個人。</span><span class="t-en">Accountability ≠ blaming individuals.</span></b><span class="t-zh">它不是要找一個壞人來懲罰，而是讓「誰製造了風險、誰從中獲利、誰有能力改變」這三件事被清楚指認，並要求他們共同承擔。當死亡是系統的產出，責任就該指向系統的設計者與獲利者。</span><span class="t-en">It is not about finding a villain to punish, but about naming clearly who manufactures the risk, who profits from it, and who has the power to change it — and asking them to share the burden. When death is an output of the system, responsibility should point to the system's designers and beneficiaries.</span></div>
 </section>
 
 <!-- CLOSING -->
 <div class="closing">
-  <div class="cz">我們不羞辱任何一位騎士，也不主張一夕禁絕機車。<br>我們主張的是：<b>把選擇權還給人民，把責任還給系統。</b></div>
+  <div class="cz"><span class="t-zh">我們不羞辱任何一位騎士，也不主張一夕禁絕機車。<br>我們主張的是：<b>把選擇權還給人民，把責任還給系統。</b></span><span class="t-en">We shame no rider, and we do not call for banning the motorcycle overnight.<br>What we call for is this: <b>give the choice back to the people, and the responsibility back to the system.</b></span></div>
   <div class="ce">Give people the choice to step off the seat — and ask those who built the system, and profit from it, to lead the way down. Gently, but firmly.</div>
 </div>
 
 <!-- METHOD -->
 <section>
   <div class="sec-num">M</div>
-  <div class="sec-title">資料與方法</div>
+  <div class="sec-title"><span class="t-zh">資料與方法</span><span class="t-en">Data & Method</span></div>
   <div class="sec-en">Data & Method</div>
   <div class="prose method">
-    <p><b>資料來源：</b>交通部公路局／道安資訊平台 A1 類（24 小時內死亡）逐案資料，2016–2025，全 22 縣市，共 17,175 名死者，其中機車騎士 10,891 人。</p>
-    <p><b>「機車死者」認定：</b>本頁以每案的「最脆弱當事人運具」（mode）為機車者計為機車死亡事故；死者年齡／性別取該案中運具為「機車」之當事人欄位，而非逕取第一當事人（第一當事人多為肇事方／駕駛，性別嚴重偏男，會造成偏誤）。</p>
-    <p><b>細項欄位涵蓋：</b>天候、光線、道路類型、速限、肇因等詳細欄位僅 2018 年起的「完整格式」案件具備（7,739 件，占 71%）；2016、2017、2021 年部分為簡式紀錄，故肇因／天候／路段等圖表以完整格式案件為母體，趨勢與佔比則使用全部案件。各圖表標題已標明母體。</p>
-    <p><b>肇因分類：</b>原始肇因代碼逾百種，本頁依關鍵字歸併為 10 大類；「酒（毒）駕」「逆向」「超速」優先於其他類別判定。</p>
-    <p><b>外部性數據（§09）：</b>機車保有量 1,466 萬輛為交通部統計查詢網 2025 年初數字；公路運輸約佔 PM2.5 三成、私人汽機車為其中大宗，引自環境部與相關研究；通勤暴露濃度（機車 32.1、汽車 7.6 µg/m³）引自臺北都會區通勤空污暴露調查。需特別說明：機車並非台灣 PM2.5 的單一最大來源，本頁無意將污染責任獨歸騎士——這些數據旨在指出機車的外部性具系統性，正呼應「課責回到系統」的主張。</p>
-    <p style="margin-top:6px;color:var(--grey-3)">分析與視覺化：吳昀慶 · Taiwan Mobility Atlas。本頁為公益倡議用途，歡迎引用並註明出處。</p>
+    <p><b><span class="t-zh">資料來源：</span><span class="t-en">Source:</span></b><span class="t-zh">交通部公路局／道安資訊平台 A1 類（24 小時內死亡）逐案資料，2016–2025，全 22 縣市，共 17,175 名死者，其中機車騎士 10,891 人。</span><span class="t-en">Case-level A1 data (death within 24 h) from Taiwan's MOTC Highway Bureau / road-safety information platform, 2016–2025, all 22 counties — 17,175 deaths in total, of which 10,891 were motorcyclists.</span></p>
+    <p><b><span class="t-zh">「機車死者」認定：</span><span class="t-en">Defining a "motorcyclist death":</span></b><span class="t-zh">本頁以每案的「最脆弱當事人運具」（mode）為機車者計為機車死亡事故；死者年齡／性別取該案中運具為「機車」之當事人欄位，而非逕取第一當事人（第一當事人多為肇事方／駕駛，性別嚴重偏男，會造成偏誤）。</span><span class="t-en">A crash is counted as a motorcyclist death when its "most-vulnerable party mode" is motorcycle; the victim's age/sex is taken from the party whose vehicle is "motorcycle," not from the first party (the first party is usually the at-fault driver and skews heavily male, which would bias the result).</span></p>
+    <p><b><span class="t-zh">細項欄位涵蓋：</span><span class="t-en">Detail-field coverage:</span></b><span class="t-zh">天候、光線、道路類型、速限、肇因等詳細欄位僅 2018 年起的「完整格式」案件具備（7,739 件，占 71%）；2016、2017、2021 年部分為簡式紀錄，故肇因／天候／路段等圖表以完整格式案件為母體，趨勢與佔比則使用全部案件。各圖表標題已標明母體。</span><span class="t-en">Detailed fields (weather, light, road type, speed limit, cause) exist only for "full-format" cases from 2018 on (7,739 cases, 71%); parts of 2016, 2017 and 2021 are simplified records. So the cause/weather/road-segment charts use the full-format cases as their base, while trend and share use all cases. Each chart caption states its base.</span></p>
+    <p><b><span class="t-zh">肇因分類：</span><span class="t-en">Cause grouping:</span></b><span class="t-zh">原始肇因代碼逾百種，本頁依關鍵字歸併為 10 大類；「酒（毒）駕」「逆向」「超速」優先於其他類別判定。</span><span class="t-en">The raw cause codes number over a hundred; this page groups them by keyword into 10 categories, with "drink/drug driving," "wrong-way" and "speeding" taking priority over other categories.</span></p>
+    <p><b><span class="t-zh">外部性數據（§09）：</span><span class="t-en">Externality figures (§09):</span></b><span class="t-zh">機車保有量 1,466 萬輛為交通部統計查詢網 2025 年初數字；公路運輸約佔 PM2.5 三成、私人汽機車為其中大宗，引自環境部與相關研究；通勤暴露濃度（機車 32.1、汽車 7.6 µg/m³）引自臺北都會區通勤空污暴露調查。需特別說明：機車並非台灣 PM2.5 的單一最大來源，本頁無意將污染責任獨歸騎士——這些數據旨在指出機車的外部性具系統性，正呼應「課責回到系統」的主張。</span><span class="t-en">The 14.66-million scooter fleet is the MOTC statistics portal's early-2025 figure; road transport's ~one-third share of PM2.5, with private cars and scooters the bulk, is drawn from the Ministry of Environment and related research; commute-exposure concentrations (scooter 32.1, car 7.6 µg/m³) come from a Taipei-metro commuting air-pollution exposure survey. To be clear: motorcycles are not Taiwan's single largest PM2.5 source, and this page does not assign pollution blame to riders alone — these figures show that motorcycle externalities are systemic, echoing the "accountability back to the system" argument.</span></p>
+    <p style="margin-top:6px;color:var(--grey-3)"><span class="t-zh">分析與視覺化：吳昀慶 · Taiwan Mobility Atlas。本頁為公益倡議用途，歡迎引用並註明出處。</span><span class="t-en">Analysis & visualisation: Wu Yun-Ching · Taiwan Mobility Atlas. For public-interest advocacy; please cite with attribution.</span></p>
   </div>
 </section>
 
@@ -427,6 +442,23 @@ const D = window.MOTO;
 const C = { lime:'#C8D400', limeDk:'#A8B200', black:'#1A1A1A', red:'#D94F3D', blue:'#3A7CC3', gold:'#E8A825', grey1:'#4A4A4A', grey2:'#888888', grey3:'#D0D0D0', grey4:'#F2F2F2' };
 let cur = 'national';
 
+// ── i18n ──
+window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
+function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+// English labels for chart category keys (cause / weather / light / road / shape / mode / collision sub-type)
+const LAB = {
+  '未注意車前／分心':'Inattention / distraction','未依規定讓車（路權）':'Failure to yield','違反號誌／標誌':'Signal / sign violation','違規轉彎／變換車道':'Improper turn / lane change','酒（毒）駕':'Drink / drug driving','超速／未減速':'Speeding / no slowdown','未保持安全距離／搶道':'Tailgating / overtaking','逆向行駛':'Wrong-way driving','其他（機件、生理、裝載等）':'Other (mech./medical/load)','不明／未填':'Unknown / unrecorded',
+  '晴':'Clear','陰':'Cloudy','雨':'Rain','其他':'Other',
+  '日間':'Daytime','夜間-有照明':'Night · lit','夜間-照明不足':'Night · poorly lit','晨暮':'Dawn / dusk',
+  '市區道路':'Urban road','村里道路':'Village road','省道':'Provincial hwy','縣道':'County road','鄉道':'Township road',
+  '路口（交岔）':'Junction','路段（單路）':'Mid-block',
+  '多車（涉及他車）':'Multi-vehicle','單車（自摔／自撞）':'Single-vehicle',
+  '男':'Male','女':'Female',
+  '側撞':'Side impact','路口交岔撞':'Junction collision','同向擦撞':'Same-dir sideswipe','追撞':'Rear-end','路上翻車、摔倒':'Overturn / fall','撞護欄(樁)':'Hit guardrail','撞路樹、電桿':'Hit tree / pole','對撞':'Head-on','衝出路外':'Ran off road','撞交通島':'Hit traffic island','對向擦撞':'Opposing sideswipe','倒車撞':'Reversing crash','撞號誌、標誌桿':'Hit signal/sign pole','撞電桿':'Hit utility pole','撞路樹':'Hit tree','撞橋樑、建築物':'Hit bridge/building','撞建築物':'Hit building','穿越道路中':'Crossing road','撞橋樑(橋墩)':'Hit bridge pier'
+};
+function L(k){ return window.__LANG === 'en' ? (LAB[k] || k) : k; }
+function cName(c){ return window.__LANG === 'en' ? (c.en || c.zh) : c.zh; }
+
 function $(id){ return document.getElementById(id); }
 function pct(n,d){ return d? (n/d*100) : 0; }
 function fmt(n){ return n.toLocaleString('en-US'); }
@@ -443,7 +475,7 @@ function hbars(el, rows, opts={}){
   rows.forEach((r,i)=>{
     const y=i*(rh+gap)+4, bw=(W-padL-padR)*(r.v/max);
     const col=r.col||C.lime;
-    s+=`<text x="${padL-10}" y="${y+rh/2+4}" text-anchor="end" font-size="13" font-family="'Noto Sans TC',sans-serif" fill="${C.grey1}">${r.k}</text>`;
+    s+=`<text x="${padL-10}" y="${y+rh/2+4}" text-anchor="end" font-size="13" font-family="'Noto Sans TC',sans-serif" fill="${C.grey1}">${L(r.k)}</text>`;
     s+=`<rect x="${padL}" y="${y}" width="${Math.max(bw,1)}" height="${rh}" fill="${col}" rx="1"/>`;
     s+=`<text class="bar-val" x="${padL+Math.max(bw,1)+8}" y="${y+rh/2+4}" font-size="12" fill="${C.grey1}">${fmt(r.v)}<tspan fill="${C.grey2}" font-size="11"> · ${pct(r.v,total).toFixed(1)}%</tspan></text>`;
   });
@@ -456,14 +488,14 @@ function vbars(el, rows, opts={}){
   const bw0=(W-padL-10)/rows.length, bw=bw0*0.66;
   const max=Math.max(...rows.map(r=>r.v),1);
   let s='';
-  // baseline
   s+=`<line x1="${padL}" y1="${H-padB}" x2="${W-6}" y2="${H-padB}" stroke="${C.grey3}" stroke-width="1"/>`;
   rows.forEach((r,i)=>{
     const x=padL+i*bw0+(bw0-bw)/2, bh=(H-padB-padT)*(r.v/max), y=H-padB-bh;
     const col=r.col||C.lime;
+    const lbl=L(r.k);
     s+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(bh,1)}" fill="${col}" rx="1"/>`;
     s+=`<text class="bar-val" x="${x+bw/2}" y="${y-5}" text-anchor="middle" font-size="11" fill="${C.grey1}">${opts.valFmt?opts.valFmt(r.v):fmt(r.v)}</text>`;
-    s+=`<text x="${x+bw/2}" y="${H-padB+16}" text-anchor="middle" font-size="11" fill="${C.grey2}" font-family="${/[一-鿿]/.test(r.k)?"'Noto Sans TC',sans-serif":"'Space Grotesk',sans-serif"}">${r.k}</text>`;
+    s+=`<text x="${x+bw/2}" y="${H-padB+16}" text-anchor="middle" font-size="11" fill="${C.grey2}" font-family="${/[一-鿿]/.test(lbl)?"'Noto Sans TC',sans-serif":"'Space Grotesk',sans-serif"}">${lbl}</text>`;
     if(opts.sub) s+=`<text x="${x+bw/2}" y="${H-padB+30}" text-anchor="middle" font-size="9" fill="${C.grey3}">${opts.sub(r)}</text>`;
   });
   el.innerHTML=svg(W,H,s);
@@ -485,7 +517,7 @@ function donut(el, rows, opts={}){
   });
   if(opts.center) s+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="22" font-weight="700" fill="${C.black}">${opts.center}</text><text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" fill="${C.grey2}">${opts.centerSub||''}</text>`;
   let leg='<div class="legend">';
-  rows.forEach(rw=> leg+=`<span><i style="background:${rw.col}"></i>${rw.k} ${pct(rw.v,total).toFixed(1)}%</span>`);
+  rows.forEach(rw=> leg+=`<span><i style="background:${rw.col}"></i>${L(rw.k)} ${pct(rw.v,total).toFixed(1)}%</span>`);
   leg+='</div>';
   el.innerHTML=svg(sz,sz,s)+leg;
 }
@@ -499,7 +531,6 @@ function trend(el, obj){
   const maxD=Math.max(...deaths,1);
   const bw0=(W-padL-padR)/yrs.length, bw=bw0*0.5;
   let s='';
-  // share axis 40-75
   const sMin=opts_share_min(shares), sMax=opts_share_max(shares);
   const sy=v=> padT+(H-padB-padT)*(1-(v-sMin)/(sMax-sMin));
   s+=`<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="${C.grey3}"/>`;
@@ -509,7 +540,6 @@ function trend(el, obj){
     s+=`<text class="bar-val" x="${x+bw/2}" y="${by-6}" text-anchor="middle" font-size="11" fill="${C.grey1}">${deaths[i]}</text>`;
     s+=`<text x="${x+bw/2}" y="${H-padB+16}" text-anchor="middle" font-size="11" fill="${C.grey2}">${y}</text>`;
   });
-  // share line
   let pts='';
   yrs.forEach((y,i)=>{ const x=padL+i*bw0+bw0/2, yy=sy(shares[i]); pts+=`${x},${yy} `; });
   s+=`<polyline points="${pts.trim()}" fill="none" stroke="${C.red}" stroke-width="2.5"/>`;
@@ -517,41 +547,33 @@ function trend(el, obj){
     s+=`<circle cx="${x}" cy="${yy}" r="4" fill="${C.red}" stroke="#fff" stroke-width="1.5"/>`;
     s+=`<text x="${x}" y="${yy-10}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${C.red}">${shares[i].toFixed(0)}%</text>`;
   });
-  el.innerHTML=svg(W,H,s)+`<div class="legend"><span><i style="background:${C.grey3}"></i>機車死亡人數</span><span><i style="background:${C.red}"></i>佔全體道路死亡比例</span></div>`;
+  el.innerHTML=svg(W,H,s)+`<div class="legend"><span><i style="background:${C.grey3}"></i>${TT('機車死亡人數','Motorcyclist deaths')}</span><span><i style="background:${C.red}"></i>${TT('佔全體道路死亡比例','Share of all road deaths')}</span></div>`;
 }
 function opts_share_min(sh){ return Math.max(0, Math.floor((Math.min(...sh)-5)/5)*5); }
 function opts_share_max(sh){ return Math.min(100, Math.ceil((Math.max(...sh)+5)/5)*5); }
 
 // ── render all charts for an aggregate ──
-function order(obj, keys){ return keys.filter(k=>obj[k]!==undefined).map(k=>({k, v:obj[k]})); }
 function sortDesc(obj){ return Object.entries(obj).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v); }
 
 function renderAll(o){
   const full = o.fullRecs||0;
-  // 01 trend
   trend($('cTrend'), o);
-  // 02 age
   const ageRows = D.meta.ageOrder.map(k=>({k, v:o.age[k]||0,
     col: (k==='18–24'||k==='25–34')?C.red : (k==='65–74'||k==='75+')?C.blue : C.lime }));
   vbars($('cAge'), ageRows, {w:520,h:240});
-  // gender
   donut($('cGender'), [
     {k:'男', v:o.gender['男']||0, col:C.blue},
     {k:'女', v:o.gender['女']||0, col:C.gold}
-  ], {center:( (o.gender['男']||0)+(o.gender['女']||0) ? ((o.gender['男']||0)/((o.gender['男']||0)+(o.gender['女']||0))*100).toFixed(0)+'%':'—'), centerSub:'男性'});
-  // 03 cause
+  ], {center:( (o.gender['男']||0)+(o.gender['女']||0) ? ((o.gender['男']||0)/((o.gender['男']||0)+(o.gender['女']||0))*100).toFixed(0)+'%':'—'), centerSub:TT('男性','Male')});
   const causeRows = D.meta.causeOrder.map((k,i)=>({k, v:o.cause[k]||0,
     col: i<2?C.red : i<4?C.gold : (k==='酒（毒）駕'||k==='逆向行駛'||k==='超速／未減速')?'#B05030' : C.grey2 }));
   causeRows.sort((a,b)=>b.v-a.v);
   hbars($('cCause'), causeRows, {w:560, padL:200, total:full});
-  // 04 single/multi
   donut($('cSingle'), [
     {k:'多車（涉及他車）', v:o.multi||0, col:C.red},
     {k:'單車（自摔／自撞）', v:o.single||0, col:C.grey2}
-  ], {center:( (o.multi+o.single)? (o.multi/(o.multi+o.single)*100).toFixed(0)+'%':'—'), centerSub:'多車'});
-  // accSub top8
+  ], {center:( (o.multi+o.single)? (o.multi/(o.multi+o.single)*100).toFixed(0)+'%':'—'), centerSub:TT('多車','Multi-veh.')});
   hbars($('cAccSub'), sortDesc(o.accSub).filter(r=>r.k!=='(未填)'&&r.k!=='其他').slice(0,8).map(r=>({...r,col:C.blue})), {w:560,padL:150,total:full});
-  // 05 weather / light
   donut($('cWeather'), [
     {k:'晴', v:o.weather['晴']||0, col:C.gold},
     {k:'陰', v:o.weather['陰']||0, col:C.grey2},
@@ -564,7 +586,6 @@ function renderAll(o){
     {k:'夜間-照明不足', v:o.light['夜間-照明不足']||0, col:C.red},
     {k:'晨暮', v:o.light['晨暮']||0, col:C.grey3}
   ], {});
-  // 06 road / speed / shape
   hbars($('cRoad'), D.meta.roadOrder.map(k=>({k, v:o.road[k]||0, col:k==='市區道路'?C.lime:C.grey2})), {w:520,padL:110,total:full});
   vbars($('cSpeed'), D.meta.speedOrder.map(k=>({k:k+(k==='≤30'||k==='≥70'?'':' '), v:o.speed[k]||0, col:k==='50'?C.red:C.lime})), {w:520,h:230});
   donut($('cShape'), [
@@ -572,12 +593,10 @@ function renderAll(o){
     {k:'路段（單路）', v:o.shape['路段（單路）']||0, col:C.lime},
     {k:'其他', v:o.shape['其他']||0, col:C.grey3}
   ], {sz:200});
-  // 07 hour
   const hrs=[]; for(let h=0;h<24;h++){ const k=String(h).padStart(2,'0'); hrs.push({k:String(h), v:o.hour[k]||0,
     col:( (h>=7&&h<=9)||(h>=16&&h<=18))?C.red:C.lime }); }
   vbars($('cHour'), hrs, {w:940,h:240});
-  // 08 county comparison (always national-scope ranking)
-  const cs = Object.values(D.counties).map(c=>({k:c.zh, v:c.share, deaths:c.motoDeaths}))
+  const cs = Object.values(D.counties).map(c=>({k:cName(c), zh:c.zh, v:c.share, deaths:c.motoDeaths}))
     .sort((a,b)=>b.v-a.v);
   countyBars($('cCounty'), cs);
 }
@@ -586,15 +605,14 @@ function countyBars(el, rows){
   const W=560, rh=18, gap=5, padL=72, padR=80;
   const H=rows.length*(rh+gap)+8, max=80;
   let s='';
-  // national avg line
   const ax=padL+(W-padL-padR)*(D.national.share/max);
   s+=`<line x1="${ax}" y1="0" x2="${ax}" y2="${H-6}" stroke="${C.black}" stroke-dasharray="3,3" stroke-width="1"/>`;
-  s+=`<text x="${ax}" y="${H}" text-anchor="middle" font-size="9" fill="${C.black}">全國 ${D.national.share}%</text>`;
+  s+=`<text x="${ax}" y="${H}" text-anchor="middle" font-size="9" fill="${C.black}">${TT('全國','National')} ${D.national.share}%</text>`;
   rows.forEach((r,i)=>{
     const y=i*(rh+gap)+4, bw=(W-padL-padR)*(r.v/max);
-    const hi = (cur!=='national' && r.k===D.counties[cur]?.zh);
+    const hi = (cur!=='national' && r.zh===D.counties[cur]?.zh);
     const col = hi?C.red : r.v>=D.national.share?C.lime:C.grey3;
-    s+=`<text x="${padL-8}" y="${y+rh/2+4}" text-anchor="end" font-size="11.5" font-family="'Noto Sans TC',sans-serif" fill="${hi?C.red:C.grey1}" font-weight="${hi?700:400}">${r.k}</text>`;
+    s+=`<text x="${padL-8}" y="${y+rh/2+4}" text-anchor="end" font-size="11.5" font-family="${window.__LANG==='en'?"'Space Grotesk',sans-serif":"'Noto Sans TC',sans-serif"}" fill="${hi?C.red:C.grey1}" font-weight="${hi?700:400}">${r.k}</text>`;
     s+=`<rect x="${padL}" y="${y}" width="${Math.max(bw,1)}" height="${rh}" fill="${col}" rx="1"/>`;
     s+=`<text class="bar-val" x="${padL+bw+6}" y="${y+rh/2+4}" font-size="10.5" fill="${C.grey1}">${r.v}%<tspan fill="${C.grey3}"> · ${fmt(r.deaths)}</tspan></text>`;
   });
@@ -605,15 +623,18 @@ function countyBars(el, rows){
 function setScope(slug){
   cur=slug;
   const o = slug==='national'? D.national : D.counties[slug];
-  // hero
   if(slug==='national'){
-    $('heroBig').innerHTML='10,891<small> 人</small>';
-    $('heroCap').innerHTML='十年間，全國 <b>10,891</b> 名機車騎士在 24 小時內死於道路——佔同期所有 A1 死亡的 <b>63.4%</b>。在台灣，「道路安全」幾乎等同於「機車安全」：每 3 名交通事故死者，就有近 2 人騎在兩個輪子上。';
+    $('heroBig').innerHTML='10,891<small>'+TT(' 人',' deaths')+'</small>';
+    $('heroCap').innerHTML=TT(
+      '十年間，全國 <b>10,891</b> 名機車騎士在 24 小時內死於道路——佔同期所有 A1 死亡的 <b>63.4%</b>。在台灣，「道路安全」幾乎等同於「機車安全」：每 3 名交通事故死者，就有近 2 人騎在兩個輪子上。',
+      'Over the decade, <b>10,891</b> motorcyclists died on the roads within 24 hours — <b>63.4%</b> of all A1 deaths in the period. In Taiwan, "road safety" is almost synonymous with "motorcycle safety": of every 3 traffic deaths, nearly 2 were on two wheels.');
   } else {
-    $('heroBig').innerHTML=fmt(o.motoDeaths)+'<small> 人</small>';
-    $('heroCap').innerHTML=`<b>${o.zh}</b>十年間 <b>${fmt(o.motoDeaths)}</b> 名機車騎士死亡，佔該縣市所有道路死亡的 <b>${o.share}%</b>${o.share>=D.national.share?'（高於全國平均 63.4%）':'（低於全國平均 63.4%）'}。`;
+    const nm = cName(o);
+    $('heroBig').innerHTML=fmt(o.motoDeaths)+'<small>'+TT(' 人',' deaths')+'</small>';
+    $('heroCap').innerHTML=TT(
+      `<b>${o.zh}</b>十年間 <b>${fmt(o.motoDeaths)}</b> 名機車騎士死亡，佔該縣市所有道路死亡的 <b>${o.share}%</b>${o.share>=D.national.share?'（高於全國平均 63.4%）':'（低於全國平均 63.4%）'}。`,
+      `<b>${nm}</b>: <b>${fmt(o.motoDeaths)}</b> motorcyclists died over the decade — <b>${o.share}%</b> of the county's road deaths ${o.share>=D.national.share?'(above the national 63.4%)':'(below the national 63.4%)'}.`);
   }
-  // hero minis
   const full=o.fullRecs||0;
   const night = (o.light['夜間-有照明']||0)+(o.light['夜間-照明不足']||0)+(o.light['晨暮']||0);
   const lightTot = night+(o.light['日間']||0);
@@ -622,29 +643,50 @@ function setScope(slug){
   const inter = (o.shape['路口']||0), shapeTot=(o.shape['路口']||0)+(o.shape['路段（單路）']||0)||1;
   const multiTot=(o.multi+o.single)||1;
   $('heroRow').innerHTML = [
-    {n:o.share+'%', l:'佔全體道路死亡'},
-    {n:(pct(o.multi,multiTot)).toFixed(0)+'%', l:'涉及其他車輛'},
-    {n:(pct(inter,shapeTot)).toFixed(0)+'%', l:'發生在路口'},
-    {n:(pct(night,lightTot)).toFixed(0)+'%', l:'夜間／晨暮'},
-    {n:(pct(young,ageTot)).toFixed(0)+'%', l:'18–34 歲'}
+    {n:o.share+'%', l:TT('佔全體道路死亡','of all road deaths')},
+    {n:(pct(o.multi,multiTot)).toFixed(0)+'%', l:TT('涉及其他車輛','involve another vehicle')},
+    {n:(pct(inter,shapeTot)).toFixed(0)+'%', l:TT('發生在路口','at junctions')},
+    {n:(pct(night,lightTot)).toFixed(0)+'%', l:TT('夜間／晨暮','night / twilight')},
+    {n:(pct(young,ageTot)).toFixed(0)+'%', l:TT('18–34 歲','aged 18–34')}
   ].map(m=>`<div class="hero-mini"><div class="n">${m.n}</div><div class="l">${m.l}</div></div>`).join('');
-  // stat bar
-  $('cbStat').innerHTML = `機車死亡 <b>${fmt(o.motoDeaths)}</b> 人 · 詳細紀錄 <b>${fmt(full)}</b> 件`;
+  $('cbStat').innerHTML = TT(
+    `機車死亡 <b>${fmt(o.motoDeaths)}</b> 人 · 詳細紀錄 <b>${fmt(full)}</b> 件`,
+    `<b>${fmt(o.motoDeaths)}</b> motorcyclist deaths · <b>${fmt(full)}</b> detailed records`);
+  $('scopeNote').textContent = TT('⚠ 樣本偏少，圖表僅供參考','⚠ Small sample — charts indicative only');
   $('scopeNote').style.display = (full>0 && full<120)?'inline':'none';
   renderAll(o);
 }
 
-// init selector
+// build selector options (re-buildable on language toggle)
+function buildSelector(){
+  const sel=$('countySel');
+  let opts=`<option value="national">${TT('全國 National','National')}</option>`;
+  Object.values(D.counties).sort((a,b)=>b.motoDeaths-a.motoDeaths)
+    .forEach(c=> opts+=`<option value="${c.slug}">${cName(c)} (${fmt(c.motoDeaths)})</option>`);
+  sel.innerHTML=opts;
+  sel.value = cur;
+}
+
+// ── language toggle wiring ──
+function setLang(l){
+  window.__LANG = l;
+  document.body.classList.toggle('lang-en', l === 'en');
+  document.documentElement.lang = l === 'en' ? 'en' : 'zh-TW';
+  try { localStorage.setItem('lang', l); } catch(e){}
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === l));
+  buildSelector();
+  setScope(cur);
+}
+
+// init
 (function(){
   const sel=$('countySel');
-  let opts='<option value="national">全國 National</option>';
-  Object.values(D.counties).sort((a,b)=>b.motoDeaths-a.motoDeaths)
-    .forEach(c=> opts+=`<option value="${c.slug}">${c.zh} (${fmt(c.motoDeaths)})</option>`);
-  sel.innerHTML=opts;
-  sel.addEventListener('change', e=> setScope(e.target.value));
-  // deep-link ?c=slug
   const p=new URLSearchParams(location.search).get('c');
-  if(p && D.counties[p]){ sel.value=p; setScope(p); } else setScope('national');
+  cur = (p && D.counties[p]) ? p : 'national';
+  buildSelector();
+  sel.addEventListener('change', e=> setScope(e.target.value));
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.addEventListener('click', () => setLang(o.dataset.lang)));
+  setLang(window.__LANG);   // applies lang class + renders everything for `cur`
 })();
 </script>
 </body>

@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>臺灣升溫的真相 — 從統計到行動 | VZT</title>
+<title>臺灣升溫的真相 — 從統計到行動 | The Truth of Taiwan's Warming — From Statistics to Action | VZT</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -25,6 +25,15 @@ body { animation: pageFadeIn 0.45s ease-out; }
   --en:      'Space Grotesk', sans-serif;
   --mono:    'JetBrains Mono', monospace;
 }
+.t-en { display: none; }
+body.lang-en .t-zh { display: none; }
+body.lang-en .t-en { display: inline; }
+.t-en-b { display: none; }
+body.lang-en .t-zh-b { display: none; }
+body.lang-en .t-en-b { display: block; }
+.lang-toggle { position: fixed; top: 14px; right: 14px; z-index: 2000; display: flex; border: 1.5px solid var(--black); background: var(--white); font-family: var(--en); font-size: 11px; font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+.lang-toggle .lt-opt { padding: 6px 12px; cursor: pointer; letter-spacing: 0.08em; color: var(--g2); }
+.lang-toggle .lt-opt.active { background: var(--black); color: var(--white); }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--zh);
@@ -554,13 +563,15 @@ footer {
 </head>
 <body>
 
+<div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
+
 <!-- ═══ HERO ═══ -->
 <header class="hero">
   <div class="hero-top">
     <div class="hero-logo">VZT INFOGRAPHIC · CLIMATE EVIDENCE</div>
     <div class="hero-tag">
       Vision Zero Taiwan<br>
-      氣候變遷 × 都市熱島
+      <span class="t-zh">氣候變遷 × 都市熱島</span><span class="t-en">Climate Change × Urban Heat Island</span>
     </div>
   </div>
 
@@ -569,24 +580,29 @@ footer {
   <div class="hero-content">
     <div class="hero-en">Climate Warming Evidence · Taiwan 1990–2025</div>
     <h1 class="hero-zh">
-      臺灣<strong>真的</strong>變熱了<br>
-      三個城市 · 三十五年 · <strong>無可否認</strong>
+      <span class="t-zh">臺灣<strong>真的</strong>變熱了<br>
+      三個城市 · 三十五年 · <strong>無可否認</strong></span><span class="t-en">Taiwan <strong>Really</strong> Is Getting Hotter<br>
+      Three Cities · Thirty-Five Years · <strong>Undeniable</strong></span>
     </h1>
     <p class="hero-sub">
-      臺北、臺中、高雄三大都市的夏季升溫趨勢，已通過嚴謹統計檢定（p &lt; 0.05）。這不是體感，這是無可迴避的科學事實。<br>本資料以中央氣象署 CODIS 測站歷史觀測為基礎，揭示升溫的真實規模、嚴重性、以及機動車輛的局部加劇機制。
+      <span class="t-zh">臺北、臺中、高雄三大都市的夏季升溫趨勢，已通過嚴謹統計檢定（p &lt; 0.05）。這不是體感，這是無可迴避的科學事實。<br>本資料以中央氣象署 CODIS 測站歷史觀測為基礎，揭示升溫的真實規模、嚴重性、以及機動車輛的局部加劇機制。</span><span class="t-en">The summer warming trends in Taiwan's three major cities — Taipei, Taichung, and Kaohsiung — have passed rigorous statistical testing (p &lt; 0.05). This is not a matter of perception; it is an inescapable scientific fact.<br>Built on historical observations from the Central Weather Administration's CODIS stations, this analysis reveals the true scale and severity of the warming, along with the localized mechanisms by which motor vehicles intensify it.</span>
     </p>
   </div>
 
   <div class="hero-foot">
     <div class="hero-meta">
-      資料來源：<strong>中央氣象署 CODIS</strong> · <strong>國家氣候變遷科學報告 2024</strong><br>
-      分析方法：線性迴歸 · Mann-Kendall 非參數趨勢檢定 · Sen 斜率
+      <span class="t-zh">資料來源：<strong>中央氣象署 CODIS</strong> · <strong>國家氣候變遷科學報告 2024</strong><br>
+      分析方法：線性迴歸 · Mann-Kendall 非參數趨勢檢定 · Sen 斜率</span><span class="t-en">Sources: <strong>Central Weather Administration CODIS</strong> · <strong>National Climate Change Science Report 2024</strong><br>
+      Methods: Linear regression · Mann-Kendall non-parametric trend test · Sen's slope</span>
     </div>
     <div class="hero-stats">
-      01 — 升溫的證據<br>
+      <span class="t-zh">01 — 升溫的證據<br>
       02 — 嚴重性評估<br>
       03 — 都市熱島機制<br>
-      04 — 大眾溝通策略
+      04 — 大眾溝通策略</span><span class="t-en">01 — The Evidence of Warming<br>
+      02 — Why It Matters<br>
+      03 — Urban Heat Island Mechanisms<br>
+      04 — Public Communication</span>
     </div>
   </div>
 </header>
@@ -598,51 +614,54 @@ footer {
     <div class="sec-num">01</div>
     <div class="sec-title-block">
       <div class="sec-en">Statistical Evidence · Warming is Real</div>
-      <div class="sec-title">三大都市 · <strong>升溫的證據</strong></div>
+      <div class="sec-title"><span class="t-zh">三大都市 · <strong>升溫的證據</strong></span><span class="t-en">Three Cities · <strong>The Evidence of Warming</strong></span></div>
     </div>
   </div>
 
   <p class="lead">
-    以線性迴歸與 Mann-Kendall 非參數趨勢檢定，對 1990 至 2025 年的夏季平均日最高溫進行分析。三個城市的升溫趨勢都通過 <strong>5% 顯著水準</strong>的統計檢定——這意味著我們可以在 <strong>95% 的信心水準</strong>下排除「升溫只是隨機波動」的可能性。
+    <span class="t-zh">以線性迴歸與 Mann-Kendall 非參數趨勢檢定，對 1990 至 2025 年的夏季平均日最高溫進行分析。三個城市的升溫趨勢都通過 <strong>5% 顯著水準</strong>的統計檢定——這意味著我們可以在 <strong>95% 的信心水準</strong>下排除「升溫只是隨機波動」的可能性。</span><span class="t-en">Using linear regression and the Mann-Kendall non-parametric trend test, we analyzed the average summer daily maximum temperature from 1990 to 2025. All three cities show warming trends that pass statistical testing at the <strong>5% significance level</strong> — meaning we can rule out, with <strong>95% confidence</strong>, the possibility that the warming is merely random fluctuation.</span>
   </p>
 
   <!-- 三都市升溫統計卡 -->
   <div class="stat-row">
     <div class="stat-card lime">
       <div class="stat-tag">CITY · 01</div>
-      <div class="stat-city">臺 北</div>
+      <div class="stat-city"><span class="t-zh">臺 北</span><span class="t-en">TAIPEI</span></div>
       <div class="stat-num"><span class="plus">+</span>0.57<span class="unit">℃</span></div>
-      <div class="stat-pval">p = 0.048 · 顯著 ✓</div>
+      <div class="stat-pval"><span class="t-zh">p = 0.048 · 顯著 ✓</span><span class="t-en">p = 0.048 · significant ✓</span></div>
       <div class="stat-desc">
-        1990s 均溫 <strong>33.82℃</strong> → 2020s 均溫 <strong>34.39℃</strong><br>
-        每十年升溫 <strong>0.23℃</strong>
+        <span class="t-zh">1990s 均溫 <strong>33.82℃</strong> → 2020s 均溫 <strong>34.39℃</strong><br>
+        每十年升溫 <strong>0.23℃</strong></span><span class="t-en">1990s mean <strong>33.82℃</strong> → 2020s mean <strong>34.39℃</strong><br>
+        Warming of <strong>0.23℃</strong> per decade</span>
       </div>
     </div>
     <div class="stat-card lime">
       <div class="stat-tag">CITY · 02</div>
-      <div class="stat-city">臺 中</div>
+      <div class="stat-city"><span class="t-zh">臺 中</span><span class="t-en">TAICHUNG</span></div>
       <div class="stat-num"><span class="plus">+</span>0.44<span class="unit">℃</span></div>
-      <div class="stat-pval">p = 0.014 · 顯著 ✓</div>
+      <div class="stat-pval"><span class="t-zh">p = 0.014 · 顯著 ✓</span><span class="t-en">p = 0.014 · significant ✓</span></div>
       <div class="stat-desc">
-        1990s 均溫 <strong>32.55℃</strong> → 2020s 均溫 <strong>32.99℃</strong><br>
-        每十年升溫 <strong>0.19℃</strong>
+        <span class="t-zh">1990s 均溫 <strong>32.55℃</strong> → 2020s 均溫 <strong>32.99℃</strong><br>
+        每十年升溫 <strong>0.19℃</strong></span><span class="t-en">1990s mean <strong>32.55℃</strong> → 2020s mean <strong>32.99℃</strong><br>
+        Warming of <strong>0.19℃</strong> per decade</span>
       </div>
     </div>
     <div class="stat-card lime">
       <div class="stat-tag">CITY · 03</div>
-      <div class="stat-city">高 雄</div>
+      <div class="stat-city"><span class="t-zh">高 雄</span><span class="t-en">KAOHSIUNG</span></div>
       <div class="stat-num"><span class="plus">+</span>0.55<span class="unit">℃</span></div>
-      <div class="stat-pval">p = 0.037 · 顯著 ✓</div>
+      <div class="stat-pval"><span class="t-zh">p = 0.037 · 顯著 ✓</span><span class="t-en">p = 0.037 · significant ✓</span></div>
       <div class="stat-desc">
-        1990s 均溫 <strong>31.94℃</strong> → 2020s 均溫 <strong>32.49℃</strong><br>
-        每十年升溫 <strong>0.17℃</strong>
+        <span class="t-zh">1990s 均溫 <strong>31.94℃</strong> → 2020s 均溫 <strong>32.49℃</strong><br>
+        每十年升溫 <strong>0.17℃</strong></span><span class="t-en">1990s mean <strong>31.94℃</strong> → 2020s mean <strong>32.49℃</strong><br>
+        Warming of <strong>0.17℃</strong> per decade</span>
       </div>
     </div>
   </div>
 
   <!-- 十年代比較長條圖 -->
   <div class="chart-block">
-    <div class="chart-title">十年代平均比較 · 夏季平均日最高溫</div>
+    <div class="chart-title"><span class="t-zh">十年代平均比較 · 夏季平均日最高溫</span><span class="t-en">Decadal Comparison · Average Summer Daily Maximum</span></div>
     <div class="chart-sub">DECADAL AVERAGE · SUMMER MAX TEMPERATURE</div>
     <div class="decade-bars">
       <div class="decade-col">
@@ -679,16 +698,16 @@ footer {
       </div>
     </div>
     <div style="display:flex;gap:32px;margin-top:24px;font-size:13px;color:var(--g1)">
-      <div><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(180deg,#C53030,#9B2C2C);margin-right:8px;vertical-align:middle"></span>臺北</div>
-      <div><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(180deg,#DD6B20,#C05621);margin-right:8px;vertical-align:middle"></span>臺中</div>
-      <div><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(180deg,#2C7A7B,#285E61);margin-right:8px;vertical-align:middle"></span>高雄</div>
+      <div><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(180deg,#C53030,#9B2C2C);margin-right:8px;vertical-align:middle"></span><span class="t-zh">臺北</span><span class="t-en">Taipei</span></div>
+      <div><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(180deg,#DD6B20,#C05621);margin-right:8px;vertical-align:middle"></span><span class="t-zh">臺中</span><span class="t-en">Taichung</span></div>
+      <div><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(180deg,#2C7A7B,#285E61);margin-right:8px;vertical-align:middle"></span><span class="t-zh">高雄</span><span class="t-en">Kaohsiung</span></div>
     </div>
   </div>
 
   <div class="key-finding">
-    <h3>三個城市的升溫幅度，<strong>都遠超出年際標準差</strong>。<br>這是趨勢真實存在、而非統計噪音的關鍵證據。</h3>
+    <h3><span class="t-zh">三個城市的升溫幅度，<strong>都遠超出年際標準差</strong>。<br>這是趨勢真實存在、而非統計噪音的關鍵證據。</span><span class="t-en">In all three cities, the warming <strong>far exceeds the year-to-year standard deviation</strong>.<br>This is the key evidence that the trend is real, not statistical noise.</span></h3>
     <p>
-      若升溫只是隨機波動，十年代均值的變動應該被年際標準差所覆蓋。但實際觀察到的卻是均值的<strong style="color:white">單調上升</strong>，且幅度系統性地超越波動範圍。這個分析結果與《國家氣候變遷科學報告 2024》以六個百年測站、123 年觀測資料所得的「最高溫每十年上升至少 0.2℃」之長期趨勢，形成跨資料來源的<strong style="color:white">交叉驗證</strong>。
+      <span class="t-zh">若升溫只是隨機波動，十年代均值的變動應該被年際標準差所覆蓋。但實際觀察到的卻是均值的<strong style="color:white">單調上升</strong>，且幅度系統性地超越波動範圍。這個分析結果與《國家氣候變遷科學報告 2024》以六個百年測站、123 年觀測資料所得的「最高溫每十年上升至少 0.2℃」之長期趨勢，形成跨資料來源的<strong style="color:white">交叉驗證</strong>。</span><span class="t-en">If the warming were merely random fluctuation, the shifts in decadal means would fall within the year-to-year standard deviation. What we observe instead is a <strong style="color:white">monotonic rise</strong> in the means, with magnitudes that systematically exceed the range of variability. This finding provides <strong style="color:white">cross-source corroboration</strong> with the long-term trend reported in the National Climate Change Science Report 2024, which — drawing on 123 years of observations from six century-old stations — found that maximum temperatures have risen by at least 0.2℃ per decade.</span>
     </p>
   </div>
 </section>
@@ -699,50 +718,50 @@ footer {
     <div class="sec-num">02</div>
     <div class="sec-title-block">
       <div class="sec-en">Why 0.5°C Matters · Beyond the Number</div>
-      <div class="sec-title">0.5℃ 為何<strong>很嚴重</strong>？</div>
+      <div class="sec-title"><span class="t-zh">0.5℃ 為何<strong>很嚴重</strong>？</span><span class="t-en">Why Does 0.5℃ <strong>Matter So Much</strong>?</span></div>
     </div>
   </div>
 
   <p class="lead">
-    「半度也沒多少嘛」——這是氣候溝通最常見的反應，也是最危險的誤解。從<strong>氣候科學的角度</strong>，這個數字非常嚴重。從<strong>體感經驗的角度</strong>，問題不在數字本身，而在於它如何被翻譯。
+    <span class="t-zh">「半度也沒多少嘛」——這是氣候溝通最常見的反應，也是最危險的誤解。從<strong>氣候科學的角度</strong>，這個數字非常嚴重。從<strong>體感經驗的角度</strong>，問題不在數字本身，而在於它如何被翻譯。</span><span class="t-en">"Half a degree, that's hardly anything" — this is the most common reaction in climate communication, and the most dangerous misconception. From the perspective of <strong>climate science</strong>, this number is deeply serious. From the perspective of <strong>everyday experience</strong>, the problem lies not in the number itself, but in how it is translated.</span>
   </p>
 
   <div class="sub-h">
     <div class="sub-h-n">02.1</div>
-    <div class="sub-h-t">嚴重性的三個科學視角</div>
+    <div class="sub-h-t"><span class="t-zh">嚴重性的三個科學視角</span><span class="t-en">Three Scientific Perspectives on Its Severity</span></div>
   </div>
 
   <div class="callout-grid">
     <div class="callout">
       <div class="callout-tag">VIEW · 01 · DISTRIBUTION SHIFT</div>
       <div class="callout-num">×<strong>3-5</strong></div>
-      <div style="font-size:15px;color:var(--g1);font-weight:400">35℃ 以上極端高溫日<br>頻率倍數增加</div>
+      <div style="font-size:15px;color:var(--g1);font-weight:400"><span class="t-zh">35℃ 以上極端高溫日<br>頻率倍數增加</span><span class="t-en">Days above 35℃ become<br>several times more frequent</span></div>
       <div class="callout-desc">
-        平均值位移 <strong>0.5℃</strong>，會徹底改變極端事件頻率。過去三十年一遇的酷熱，現在可能<strong>每三五年就出現一次</strong>。臺北 2020 年達 39.7℃、2013 年達 39.3℃，並非孤立偶發。
+        <span class="t-zh">平均值位移 <strong>0.5℃</strong>，會徹底改變極端事件頻率。過去三十年一遇的酷熱，現在可能<strong>每三五年就出現一次</strong>。臺北 2020 年達 39.7℃、2013 年達 39.3℃，並非孤立偶發。</span><span class="t-en">A <strong>0.5℃</strong> shift in the mean utterly transforms the frequency of extreme events. Heat that was once a once-in-thirty-years event may now appear <strong>every three to five years</strong>. Taipei reached 39.7℃ in 2020 and 39.3℃ in 2013 — these are not isolated freak occurrences.</span>
       </div>
     </div>
     <div class="callout">
       <div class="callout-tag">VIEW · 02 · PACE OF WARMING</div>
-      <div class="callout-num"><strong>＞</strong>全球均值</div>
-      <div style="font-size:15px;color:var(--g1);font-weight:400">臺灣升溫速度<br>快於全球平均</div>
+      <div class="callout-num"><strong>＞</strong><span class="t-zh">全球均值</span><span class="t-en">global avg</span></div>
+      <div style="font-size:15px;color:var(--g1);font-weight:400"><span class="t-zh">臺灣升溫速度<br>快於全球平均</span><span class="t-en">Taiwan is warming<br>faster than the global average</span></div>
       <div class="callout-desc">
-        全球地表溫度每十年升溫約 <strong>0.18℃</strong>，臺灣三大都市夏季最高溫每十年升 <strong>0.17–0.23℃</strong>，加上都市熱島效應疊加，市中心暖化速度更為顯著。
+        <span class="t-zh">全球地表溫度每十年升溫約 <strong>0.18℃</strong>，臺灣三大都市夏季最高溫每十年升 <strong>0.17–0.23℃</strong>，加上都市熱島效應疊加，市中心暖化速度更為顯著。</span><span class="t-en">Global surface temperatures rise by roughly <strong>0.18℃</strong> per decade. Summer maximums in Taiwan's three major cities rise by <strong>0.17–0.23℃</strong> per decade — and once the urban heat island effect is layered on top, warming in city centers is even more pronounced.</span>
       </div>
     </div>
     <div class="callout">
       <div class="callout-tag">VIEW · 03 · UNEQUAL BURDEN</div>
       <div class="callout-num">+<strong>231</strong>%</div>
-      <div style="font-size:15px;color:var(--g1);font-weight:400">長者熱傷害就診<br>15 年間成長幅度</div>
+      <div style="font-size:15px;color:var(--g1);font-weight:400"><span class="t-zh">長者熱傷害就診<br>15 年間成長幅度</span><span class="t-en">Rise in heat-related ER visits<br>among seniors over 15 years</span></div>
       <div class="callout-desc">
-        2011 年以來，全國熱傷害就診人次成長 <strong>165%</strong>，其中 <strong>65 歲以上長者</strong>成長 <strong>231%</strong>。升溫不是均勻分布，而是不成比例地壓在脆弱族群身上。
+        <span class="t-zh">2011 年以來，全國熱傷害就診人次成長 <strong>165%</strong>，其中 <strong>65 歲以上長者</strong>成長 <strong>231%</strong>。升溫不是均勻分布，而是不成比例地壓在脆弱族群身上。</span><span class="t-en">Since 2011, nationwide heat-related medical visits have risen by <strong>165%</strong>, and among <strong>adults aged 65 and over</strong> by <strong>231%</strong>. The warming is not evenly distributed; it bears down disproportionately on the most vulnerable.</span>
       </div>
     </div>
   </div>
 
   <div class="key-finding" style="background:var(--lime-dk);color:var(--black)">
-    <h3 style="color:var(--black)">夏季已從<strong style="color:var(--white);background:var(--black);padding:4px 12px">2 個月</strong>延長至<strong style="color:var(--white);background:var(--black);padding:4px 12px">4–5 個月</strong>。<br>我們正在失去過渡季節。</h3>
+    <h3 style="color:var(--black)"><span class="t-zh">夏季已從<strong style="color:var(--white);background:var(--black);padding:4px 12px">2 個月</strong>延長至<strong style="color:var(--white);background:var(--black);padding:4px 12px">4–5 個月</strong>。<br>我們正在失去過渡季節。</span><span class="t-en">Summer has stretched from <strong style="color:var(--white);background:var(--black);padding:4px 12px">2 months</strong> to <strong style="color:var(--white);background:var(--black);padding:4px 12px">4–5 months</strong>.<br>We are losing our transitional seasons.</span></h3>
     <p style="color:rgba(0,0,0,0.7)">
-      根據《國家氣候變遷科學報告 2024》分析，過去 120 年間，臺灣冬季已從 3 個多月縮短至 1–2 個月，夏季從 2 個月延長至 4–5 個月。全年承受高溫脅迫的時間大幅增加，這對能源消耗、戶外工作、農業生產與公共健康都構成系統性壓力。
+      <span class="t-zh">根據《國家氣候變遷科學報告 2024》分析，過去 120 年間，臺灣冬季已從 3 個多月縮短至 1–2 個月，夏季從 2 個月延長至 4–5 個月。全年承受高溫脅迫的時間大幅增加，這對能源消耗、戶外工作、農業生產與公共健康都構成系統性壓力。</span><span class="t-en">According to the National Climate Change Science Report 2024, over the past 120 years Taiwan's winter has shrunk from more than 3 months to just 1–2 months, while summer has stretched from 2 months to 4–5. The portion of the year spent under heat stress has grown dramatically, placing systemic pressure on energy consumption, outdoor labor, agricultural production, and public health.</span>
     </p>
     <div style="position:absolute;top:24px;right:32px;font-family:var(--en);font-size:11px;letter-spacing:0.22em;color:var(--black);font-weight:600">SEASONAL SHIFT</div>
   </div>
@@ -754,12 +773,12 @@ footer {
     <div class="sec-num">03</div>
     <div class="sec-title-block">
       <div class="sec-en">Urban Heat Island · Vehicle Contributions</div>
-      <div class="sec-title">機動車輛 · <strong>三大局部加熱機制</strong></div>
+      <div class="sec-title"><span class="t-zh">機動車輛 · <strong>三大局部加熱機制</strong></span><span class="t-en">Motor Vehicles · <strong>Three Local Heating Mechanisms</strong></span></div>
     </div>
   </div>
 
   <p class="lead">
-    機動車輛在都市範圍內透過幾個直接機制加劇升溫，這些機制<strong>不依賴全球暖化的中介</strong>，是直接、局部、且可實證的。當我們討論「為什麼夏天的都市越來越難以承受」時，全球暖化是長期背景，而高度依賴機動車輛的都市運作模式，則是疊加其上、<strong>可被政策直接介入</strong>的局部加劇因素。
+    <span class="t-zh">機動車輛在都市範圍內透過幾個直接機制加劇升溫，這些機制<strong>不依賴全球暖化的中介</strong>，是直接、局部、且可實證的。當我們討論「為什麼夏天的都市越來越難以承受」時，全球暖化是長期背景，而高度依賴機動車輛的都市運作模式，則是疊加其上、<strong>可被政策直接介入</strong>的局部加劇因素。</span><span class="t-en">Within the city, motor vehicles intensify warming through several direct mechanisms — mechanisms that <strong>do not depend on global warming as an intermediary</strong> and are direct, local, and empirically demonstrable. When we ask "why are city summers becoming ever harder to endure," global warming is the long-term backdrop, while a car-dependent urban operating model is the local amplifier layered on top — and one that <strong>policy can intervene in directly</strong>.</span>
   </p>
 
   <div class="mech-grid">
@@ -775,9 +794,9 @@ footer {
         <path d="M54 26 Q58 22, 62 26" stroke="#C8D400" stroke-width="2"/>
         <path d="M50 36 Q54 32, 58 36" stroke="#C8D400" stroke-width="2"/>
       </svg>
-      <h4>車輛廢熱<br>直接加熱空氣</h4>
+      <h4><span class="t-zh">車輛廢熱<br>直接加熱空氣</span><span class="t-en">Vehicle Waste Heat<br>Directly Warms the Air</span></h4>
       <p>
-        引擎運轉時將化學能轉換為動能，過程中產生的<strong>熱能</strong>與冷氣排放的熱量直接釋放到周邊空氣中，形成所謂的<strong>人為熱排放</strong>（anthropogenic heat）。在車流密集的都市路網中，這種廢熱在尖峰時段可達顯著的能量通量規模，<strong>直接墊高地表氣溫</strong>。
+        <span class="t-zh">引擎運轉時將化學能轉換為動能，過程中產生的<strong>熱能</strong>與冷氣排放的熱量直接釋放到周邊空氣中，形成所謂的<strong>人為熱排放</strong>（anthropogenic heat）。在車流密集的都市路網中，這種廢熱在尖峰時段可達顯著的能量通量規模，<strong>直接墊高地表氣溫</strong>。</span><span class="t-en">As an engine converts chemical energy into motion, the <strong>heat</strong> it generates — together with heat dumped by air conditioning — is released straight into the surrounding air, producing what is known as <strong>anthropogenic heat</strong>. On dense urban road networks, this waste heat can reach a significant energy flux at peak hours, <strong>directly raising surface air temperatures</strong>.</span>
       </p>
       <div class="mech-tag">Anthropogenic Heat</div>
     </div>
@@ -793,9 +812,9 @@ footer {
         <path d="M16 32 L20 24 M24 32 L28 24 M32 32 L36 24 M40 32 L44 24 M48 32 L52 24" stroke="#C8D400" stroke-width="2"/>
         <circle cx="32" cy="14" r="6" stroke="#1A1A1A" fill="none"/>
       </svg>
-      <h4>不透水鋪面<br>蓄熱抑制散熱</h4>
+      <h4><span class="t-zh">不透水鋪面<br>蓄熱抑制散熱</span><span class="t-en">Impervious Pavement<br>Stores Heat, Blocks Cooling</span></h4>
       <p>
-        道路擴張帶來大量<strong>柏油與混凝土路面</strong>——<strong>吸熱率高、反照率低</strong>，能在白天大量吸收太陽輻射並儲存熱量；又因不透水的特性，抑制了地表的蒸散冷卻效應，使得熱量在夜間難以散逸，形成<strong>持續的熱蓄積</strong>。
+        <span class="t-zh">道路擴張帶來大量<strong>柏油與混凝土路面</strong>——<strong>吸熱率高、反照率低</strong>，能在白天大量吸收太陽輻射並儲存熱量；又因不透水的特性，抑制了地表的蒸散冷卻效應，使得熱量在夜間難以散逸，形成<strong>持續的熱蓄積</strong>。</span><span class="t-en">Road expansion brings vast expanses of <strong>asphalt and concrete</strong> — surfaces with <strong>high heat absorption and low albedo</strong> that soak up and store solar radiation throughout the day. Because they are also impervious, they suppress the cooling effect of surface evaporation, leaving heat unable to dissipate at night and producing a <strong>persistent buildup of heat</strong>.</span>
       </p>
       <div class="mech-tag">Impervious Surface</div>
     </div>
@@ -814,18 +833,18 @@ footer {
         <path d="M8 50 Q16 46, 24 50 T40 50 T56 50" stroke="#C8D400" stroke-width="2"/>
         <text x="24" y="60" font-family="Space Grotesk" font-size="8" fill="#C8D400" font-weight="600">PM · NOx</text>
       </svg>
-      <h4>污染物改變<br>大氣輻射平衡</h4>
+      <h4><span class="t-zh">污染物改變<br>大氣輻射平衡</span><span class="t-en">Pollutants Alter the<br>Atmospheric Radiation Balance</span></h4>
       <p>
-        機動車輛排放的<strong>細懸浮微粒</strong>（PM）、氮氧化物（NOx）等污染物，會改變大氣的<strong>輻射平衡</strong>與邊界層結構，進一步影響局部熱環境。空氣品質劣化與都市熱島不是兩個獨立議題，而是<strong>同一個源頭的雙重後果</strong>。
+        <span class="t-zh">機動車輛排放的<strong>細懸浮微粒</strong>（PM）、氮氧化物（NOx）等污染物，會改變大氣的<strong>輻射平衡</strong>與邊界層結構，進一步影響局部熱環境。空氣品質劣化與都市熱島不是兩個獨立議題，而是<strong>同一個源頭的雙重後果</strong>。</span><span class="t-en">Pollutants emitted by motor vehicles — <strong>fine particulate matter</strong> (PM), nitrogen oxides (NOx), and others — alter the atmosphere's <strong>radiation balance</strong> and boundary-layer structure, further shaping the local thermal environment. Worsening air quality and the urban heat island are not two separate issues, but <strong>twin consequences of a single source</strong>.</span>
       </p>
       <div class="mech-tag">Radiative Forcing</div>
     </div>
   </div>
 
   <div class="key-finding">
-    <h3>三個機制相互疊加，<strong>共同構成都市熱島效應</strong>。<br>臺北 UHII 最高達 <strong>6.9℃</strong>。</h3>
+    <h3><span class="t-zh">三個機制相互疊加，<strong>共同構成都市熱島效應</strong>。<br>臺北 UHII 最高達 <strong>6.9℃</strong>。</span><span class="t-en">The three mechanisms stack together to <strong>form the urban heat island effect</strong>.<br>Taipei's UHII has peaked at <strong>6.9℃</strong>.</span></h3>
     <p>
-      臺北的都市熱島強度（Urban Heat Island Intensity, UHII）在 2023 年觀測到最高達 <strong style="color:white">6.9℃</strong>，相當於市中心比周邊郊區高出將近 7℃ 的溫差。這個量級遠超過全球暖化在同等時間尺度下的累計升幅，凸顯都市尺度上人為熱源與地表覆蓋變化的<strong style="color:white">決定性影響</strong>。
+      <span class="t-zh">臺北的都市熱島強度（Urban Heat Island Intensity, UHII）在 2023 年觀測到最高達 <strong style="color:white">6.9℃</strong>，相當於市中心比周邊郊區高出將近 7℃ 的溫差。這個量級遠超過全球暖化在同等時間尺度下的累計升幅，凸顯都市尺度上人為熱源與地表覆蓋變化的<strong style="color:white">決定性影響</strong>。</span><span class="t-en">Taipei's Urban Heat Island Intensity (UHII) was observed to peak at <strong style="color:white">6.9℃</strong> in 2023 — meaning the city center ran nearly 7℃ hotter than its surrounding suburbs. That magnitude far exceeds the cumulative warming attributable to global change over the same period, underscoring the <strong style="color:white">decisive influence</strong> of anthropogenic heat sources and land-cover change at the urban scale.</span>
     </p>
   </div>
 </section>
@@ -836,12 +855,12 @@ footer {
     <div class="sec-num">04</div>
     <div class="sec-title-block">
       <div class="sec-en">Public Communication · From Data to Action</div>
-      <div class="sec-title">向大眾說明嚴重性 · <strong>三種轉譯策略</strong></div>
+      <div class="sec-title"><span class="t-zh">向大眾說明嚴重性 · <strong>三種轉譯策略</strong></span><span class="t-en">Conveying the Severity · <strong>Three Translation Strategies</strong></span></div>
     </div>
   </div>
 
   <p class="lead">
-    向大眾溝通升溫嚴重性的關鍵，<strong>不在於提供更精確的數據</strong>，而在於建立「<strong>氣候訊號 — 生活經驗 — 政策行動</strong>」三者的連結。
+    <span class="t-zh">向大眾溝通升溫嚴重性的關鍵，<strong>不在於提供更精確的數據</strong>，而在於建立「<strong>氣候訊號 — 生活經驗 — 政策行動</strong>」三者的連結。</span><span class="t-en">The key to communicating the severity of warming to the public lies <strong>not in supplying more precise data</strong>, but in forging the link between three things: "<strong>climate signal — lived experience — policy action</strong>."</span>
   </p>
 
   <div class="comm-list">
@@ -849,14 +868,14 @@ footer {
       <div class="comm-n">01</div>
       <div>
         <div class="comm-tag">STRATEGY · EVENT FREQUENCY</div>
-        <div class="comm-title">事件頻率轉譯<br>把平均值翻譯成可驗證的生活經驗</div>
+        <div class="comm-title"><span class="t-zh">事件頻率轉譯<br>把平均值翻譯成可驗證的生活經驗</span><span class="t-en">Translating into Event Frequency<br>Turn averages into verifiable lived experience</span></div>
       </div>
       <div>
         <div class="comm-content">
-          將抽象的平均值變化，翻譯成市民可以<strong>直接驗證</strong>的生活經驗：冷氣使用月份、可開窗夜晚的天數、戶外活動需取消的場合次數。具體可感的指標遠比小數點後兩位的溫度差更具說服力。
+          <span class="t-zh">將抽象的平均值變化，翻譯成市民可以<strong>直接驗證</strong>的生活經驗：冷氣使用月份、可開窗夜晚的天數、戶外活動需取消的場合次數。具體可感的指標遠比小數點後兩位的溫度差更具說服力。</span><span class="t-en">Translate abstract changes in averages into experiences citizens can <strong>verify for themselves</strong>: how many months the air conditioning runs, how many nights are cool enough to open a window, how often outdoor plans have to be canceled. Tangible, felt indicators are far more persuasive than a temperature difference in the second decimal place.</span>
         </div>
         <div class="comm-example">
-          「過去你父母那一代，臺北一年大概只有兩三天會飆破 35℃；現在動輒一個夏天有二三十天。」
+          <span class="t-zh">「過去你父母那一代，臺北一年大概只有兩三天會飆破 35℃；現在動輒一個夏天有二三十天。」</span><span class="t-en">"Back in your parents' generation, Taipei saw maybe two or three days a year break 35℃. Now a single summer routinely brings twenty or thirty."</span>
         </div>
       </div>
     </div>
@@ -865,14 +884,14 @@ footer {
       <div class="comm-n">02</div>
       <div>
         <div class="comm-tag">STRATEGY · HEALTH RISK</div>
-        <div class="comm-title">健康風險轉譯<br>從抽象環境變遷到具體家人安危</div>
+        <div class="comm-title"><span class="t-zh">健康風險轉譯<br>從抽象環境變遷到具體家人安危</span><span class="t-en">Translating into Health Risk<br>From abstract change to the safety of one's own family</span></div>
       </div>
       <div>
         <div class="comm-content">
-          訴諸熱傷害數字的成長倍數，將氣候議題與每個家庭都有的<strong>長輩、孩童</strong>連結。從抽象環境變遷轉為具體家人安危，能夠有效啟動風險感知。
+          <span class="t-zh">訴諸熱傷害數字的成長倍數，將氣候議題與每個家庭都有的<strong>長輩、孩童</strong>連結。從抽象環境變遷轉為具體家人安危，能夠有效啟動風險感知。</span><span class="t-en">Invoke the multiplying numbers of heat-related injuries to connect the climate issue to the <strong>elders and children</strong> every family has. Shifting from abstract environmental change to the concrete safety of loved ones is an effective way to activate risk perception.</span>
         </div>
         <div class="comm-example">
-          「自 2011 年以來，因熱傷害送醫的長者增加了兩倍。每年六、七、八月，急診量是其他月份的數倍。」
+          <span class="t-zh">「自 2011 年以來，因熱傷害送醫的長者增加了兩倍。每年六、七、八月，急診量是其他月份的數倍。」</span><span class="t-en">"Since 2011, the number of seniors hospitalized for heat injuries has tripled. Every June, July, and August, emergency-room volumes run several times higher than in other months."</span>
         </div>
       </div>
     </div>
@@ -881,14 +900,14 @@ footer {
       <div class="comm-n">03</div>
       <div>
         <div class="comm-tag">STRATEGY · IRREVERSIBILITY</div>
-        <div class="comm-title">累積與不可逆轉譯<br>把個人選擇與三十年後連結</div>
+        <div class="comm-title"><span class="t-zh">累積與不可逆轉譯<br>把個人選擇與三十年後連結</span><span class="t-en">Translating into Accumulation and Irreversibility<br>Link personal choices to thirty years from now</span></div>
       </div>
       <div>
         <div class="comm-content">
-          氣候變遷最違反直覺的特性，是它的<strong>累積性與不可逆性</strong>。一般人習慣以年為單位思考，但升溫一旦發生，至少需要數十年的減排與政策調整才能穩定，更別說「逆轉」。用世代框架，將個人選擇與長遠後果直接連結。
+          <span class="t-zh">氣候變遷最違反直覺的特性，是它的<strong>累積性與不可逆性</strong>。一般人習慣以年為單位思考，但升溫一旦發生，至少需要數十年的減排與政策調整才能穩定，更別說「逆轉」。用世代框架，將個人選擇與長遠後果直接連結。</span><span class="t-en">The most counter-intuitive feature of climate change is its <strong>cumulative and irreversible</strong> nature. People are used to thinking year by year, but once warming has happened, it takes at least decades of emissions cuts and policy change merely to stabilize — let alone "reverse." A generational frame links personal choices directly to their long-term consequences.</span>
         </div>
         <div class="comm-example">
-          「我們現在每多開一年的車、每多鋪一條柏油路，都是在替三十年後的孩子預訂一個更熱的夏天。」
+          <span class="t-zh">「我們現在每多開一年的車、每多鋪一條柏油路，都是在替三十年後的孩子預訂一個更熱的夏天。」</span><span class="t-en">"Every extra year we keep driving, every extra road we pave, is booking a hotter summer for the children of thirty years from now."</span>
         </div>
       </div>
     </div>
@@ -897,31 +916,31 @@ footer {
   <!-- 三都市在地化提示 -->
   <div class="sub-h">
     <div class="sub-h-n">04.1</div>
-    <div class="sub-h-t">在地化敘事 · 三個城市的差異訴求</div>
+    <div class="sub-h-t"><span class="t-zh">在地化敘事 · 三個城市的差異訴求</span><span class="t-en">Localized Narratives · Distinct Appeals for Each City</span></div>
   </div>
 
   <div class="mech-grid">
     <div class="mech">
       <div class="mech-n">CITY · 01 · TAIPEI</div>
-      <h4 style="color:#C53030">臺 北</h4>
+      <h4 style="color:#C53030"><span class="t-zh">臺 北</span><span class="t-en">TAIPEI</span></h4>
       <p style="margin-top:24px">
-        強調<strong>盆地地形與熱島效應的疊加</strong>。臺北 UHII 最高達 6.9℃，市中心夜間難以散熱、悶熱感倍增。萬華、信義、士林、內湖為城市熱島「四大天王」。
+        <span class="t-zh">強調<strong>盆地地形與熱島效應的疊加</strong>。臺北 UHII 最高達 6.9℃，市中心夜間難以散熱、悶熱感倍增。萬華、信義、士林、內湖為城市熱島「四大天王」。</span><span class="t-en">Emphasize the <strong>compounding of basin topography and the heat island effect</strong>. With a UHII peaking at 6.9℃, Taipei's city center struggles to release heat at night, and the muggy oppressiveness redoubles. Wanhua, Xinyi, Shilin, and Neihu are the district "big four" of the urban heat island.</span>
       </p>
       <div class="mech-tag">BASIN × UHI</div>
     </div>
     <div class="mech">
       <div class="mech-n">CITY · 02 · TAICHUNG</div>
-      <h4 style="color:#DD6B20">臺 中</h4>
+      <h4 style="color:#DD6B20"><span class="t-zh">臺 中</span><span class="t-en">TAICHUNG</span></h4>
       <p style="margin-top:24px">
-        凸顯<strong>空氣污染與熱島的雙重壓力</strong>。中部空品不良日數較高，PM2.5、臭氧與高溫相互疊加，戶外活動空間受限，影響市民日常生活品質。
+        <span class="t-zh">凸顯<strong>空氣污染與熱島的雙重壓力</strong>。中部空品不良日數較高，PM2.5、臭氧與高溫相互疊加，戶外活動空間受限，影響市民日常生活品質。</span><span class="t-en">Highlight the <strong>double burden of air pollution and the heat island</strong>. Central Taiwan logs more poor-air-quality days, where PM2.5, ozone, and high heat stack on one another, shrinking the space for outdoor activity and eroding residents' quality of daily life.</span>
       </p>
       <div class="mech-tag">AIR × HEAT</div>
     </div>
     <div class="mech">
       <div class="mech-n">CITY · 03 · KAOHSIUNG</div>
-      <h4 style="color:#2C7A7B">高 雄</h4>
+      <h4 style="color:#2C7A7B"><span class="t-zh">高 雄</span><span class="t-en">KAOHSIUNG</span></h4>
       <p style="margin-top:24px">
-        訴諸<strong>寬闊道路與強日照下的鋪面蓄熱</strong>。大馬路、強烈日照、缺乏遮蔭，讓整個城市在夏天變成巨大的熱源。地面吸熱、車流排熱，行人幾乎無停留空間。
+        <span class="t-zh">訴諸<strong>寬闊道路與強日照下的鋪面蓄熱</strong>。大馬路、強烈日照、缺乏遮蔭，讓整個城市在夏天變成巨大的熱源。地面吸熱、車流排熱，行人幾乎無停留空間。</span><span class="t-en">Appeal to <strong>pavement heat storage under wide roads and intense sun</strong>. Broad avenues, fierce sunlight, and a lack of shade turn the entire city into a giant heat source in summer. The ground absorbs heat while traffic radiates it, leaving pedestrians almost nowhere to linger.</span>
       </p>
       <div class="mech-tag">PAVEMENT × HEAT</div>
     </div>
@@ -934,21 +953,22 @@ footer {
     <div class="sec-num">05</div>
     <div class="sec-title-block">
       <div class="sec-en">From Evidence to Action · Vision Zero × Net Zero</div>
-      <div class="sec-title">從證據到行動 · <strong>雙零交通</strong></div>
+      <div class="sec-title"><span class="t-zh">從證據到行動 · <strong>雙零交通</strong></span><span class="t-en">From Evidence to Action · <strong>Twin-Zero Mobility</strong></span></div>
     </div>
   </div>
 
   <p class="lead">
-    減少機動車輛依賴<strong>並非僅是減碳的長期承諾</strong>，更是緩解都市熱島、改善市民日常熱舒適度的<strong>近程行動</strong>。透過道路空間重分配、實體保護自行車道建置、人行環境改善與大眾運輸投資，城市能夠<strong>同時</strong>削減車輛廢熱、減少不透水鋪面、降低污染暴露——三條路徑同時作用於都市熱環境，產生<strong>協同的降溫效益</strong>。
+    <span class="t-zh">減少機動車輛依賴<strong>並非僅是減碳的長期承諾</strong>，更是緩解都市熱島、改善市民日常熱舒適度的<strong>近程行動</strong>。透過道路空間重分配、實體保護自行車道建置、人行環境改善與大眾運輸投資，城市能夠<strong>同時</strong>削減車輛廢熱、減少不透水鋪面、降低污染暴露——三條路徑同時作用於都市熱環境，產生<strong>協同的降溫效益</strong>。</span><span class="t-en">Reducing car dependence is <strong>not merely a long-term commitment to decarbonization</strong>; it is also a <strong>near-term action</strong> to relieve the urban heat island and improve residents' day-to-day thermal comfort. Through reallocating road space, building physically protected bike lanes, improving the pedestrian environment, and investing in public transit, a city can <strong>simultaneously</strong> cut vehicle waste heat, reduce impervious paving, and lower pollution exposure — three pathways acting on the urban thermal environment at once, producing a <strong>synergistic cooling benefit</strong>.</span>
   </p>
 
   <div class="key-finding" style="background:var(--lime);color:var(--black)">
     <h3 style="color:var(--black)">
-      這是 <strong style="color:var(--white);background:var(--black);padding:4px 12px">Vision Zero</strong> 與 <strong style="color:var(--white);background:var(--black);padding:4px 12px">Net Zero</strong><br>
-      在街道層級得以匯流的具體場景。
+      <span class="t-zh">這是 <strong style="color:var(--white);background:var(--black);padding:4px 12px">Vision Zero</strong> 與 <strong style="color:var(--white);background:var(--black);padding:4px 12px">Net Zero</strong><br>
+      在街道層級得以匯流的具體場景。</span><span class="t-en">This is where <strong style="color:var(--white);background:var(--black);padding:4px 12px">Vision Zero</strong> and <strong style="color:var(--white);background:var(--black);padding:4px 12px">Net Zero</strong><br>
+      converge at the level of the street.</span>
     </h3>
     <p style="color:rgba(0,0,0,0.75)">
-      氣候訊號是真實的，嚴重性是科學事實，車輛的局部加劇機制是可介入的政策變項。<strong style="color:black">下一步</strong>，是讓每個市民理解：街道空間重分配、自行車道建設、大眾運輸投資，不是為了「環保」這個遙遠概念，而是為了自己家人的健康、為了夏天可以在街上行走、為了三十年後的孩子能擁有一個還能呼吸的城市。
+      <span class="t-zh">氣候訊號是真實的，嚴重性是科學事實，車輛的局部加劇機制是可介入的政策變項。<strong style="color:black">下一步</strong>，是讓每個市民理解：街道空間重分配、自行車道建設、大眾運輸投資，不是為了「環保」這個遙遠概念，而是為了自己家人的健康、為了夏天可以在街上行走、為了三十年後的孩子能擁有一個還能呼吸的城市。</span><span class="t-en">The climate signal is real, the severity is scientific fact, and the way vehicles locally intensify the heat is a policy variable we can act on. The <strong style="color:black">next step</strong> is to help every citizen understand: reallocating street space, building bike lanes, and investing in public transit are not about the distant abstraction of "being green." They are about the health of one's own family, about being able to walk the streets in summer, and about ensuring the children of thirty years from now inherit a city that can still breathe.</span>
     </p>
     <div style="position:absolute;top:24px;right:32px;font-family:var(--en);font-size:11px;letter-spacing:0.22em;color:var(--black);font-weight:600">CALL TO ACTION</div>
   </div>
@@ -961,33 +981,36 @@ footer {
     <div>
       <div class="foot-h">Climate Evidence Infographic · v1.0</div>
       <div style="font-size:28px;font-weight:100;letter-spacing:0.04em;line-height:1.5;color:var(--white);margin-bottom:24px">
-        證據在這裡<br>
-        <span style="color:var(--lime)">行動該開始了。</span>
+        <span class="t-zh">證據在這裡<br>
+        <span style="color:var(--lime)">行動該開始了。</span></span><span class="t-en">The evidence is here.<br>
+        <span style="color:var(--lime)">It is time to act.</span></span>
       </div>
       <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.9">
-        本資訊圖表由<strong style="color:rgba(255,255,255,0.85);font-weight:400">還路於民行人路權促進會 · TCAN · VZT</strong>合作製作，<br>
+        <span class="t-zh">本資訊圖表由<strong style="color:rgba(255,255,255,0.85);font-weight:400">還路於民行人路權促進會 · TCAN · VZT</strong>合作製作，<br>
         作為《街道願景手冊》氣候章節之延伸視覺資料，<br>
-        提供公部門、媒體與一般市民理解臺灣升溫實況之依據。
+        提供公部門、媒體與一般市民理解臺灣升溫實況之依據。</span><span class="t-en">This infographic was produced collaboratively by the <strong style="color:rgba(255,255,255,0.85);font-weight:400">Walking Rights Taiwan Association · TCAN · VZT</strong>,<br>
+        as supplementary visual material for the climate chapter of the <em>Street Vision Handbook</em>,<br>
+        offering public agencies, the media, and citizens a basis for understanding the reality of Taiwan's warming.</span>
       </div>
     </div>
     <div>
       <div class="foot-h">Data Sources</div>
       <ul class="foot-list">
-        <li>中央氣象署 CODIS 測站</li>
-        <li>國家氣候變遷科學報告 2024</li>
-        <li>衛福部國民健康署</li>
+        <li><span class="t-zh">中央氣象署 CODIS 測站</span><span class="t-en">Central Weather Administration CODIS stations</span></li>
+        <li><span class="t-zh">國家氣候變遷科學報告 2024</span><span class="t-en">National Climate Change Science Report 2024</span></li>
+        <li><span class="t-zh">衛福部國民健康署</span><span class="t-en">Health Promotion Administration, MOHW</span></li>
         <li>Lau & Hsu (2025), Urban Sci.</li>
-        <li>交通部公路局統計查詢網</li>
+        <li><span class="t-zh">交通部公路局統計查詢網</span><span class="t-en">Directorate General of Highways, MOTC statistics portal</span></li>
         <li>IPCC AR6, WGI</li>
       </ul>
     </div>
     <div>
       <div class="foot-h">Methodology</div>
       <ul class="foot-list">
-        <li>線性迴歸 (OLS)</li>
-        <li>Mann-Kendall 趨勢檢定</li>
-        <li>Sen's 斜率估計</li>
-        <li>5% 顯著水準</li>
+        <li><span class="t-zh">線性迴歸 (OLS)</span><span class="t-en">Linear regression (OLS)</span></li>
+        <li><span class="t-zh">Mann-Kendall 趨勢檢定</span><span class="t-en">Mann-Kendall trend test</span></li>
+        <li><span class="t-zh">Sen's 斜率估計</span><span class="t-en">Sen's slope estimator</span></li>
+        <li><span class="t-zh">5% 顯著水準</span><span class="t-en">5% significance level</span></li>
         <li>—</li>
         <li>2026.05 · v1.0</li>
       </ul>
@@ -1003,6 +1026,23 @@ footer {
     <a href="index.html" style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#888;text-decoration:none">← Taiwan Mobility Atlas</a>
   </div>
 </footer>
+
+<script>
+window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
+function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+function setLang(l) {
+  window.__LANG = l;
+  document.body.classList.toggle('lang-en', l === 'en');
+  document.documentElement.lang = l === 'en' ? 'en' : 'zh-TW';
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === l));
+  if (window.__rerender) window.__rerender();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.addEventListener('click', () => setLang(o.dataset.lang)));
+  setLang(window.__LANG);
+});
+</script>
 
 </body>
 </html>
