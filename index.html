@@ -1157,12 +1157,15 @@ body.lang-en .t-en-b { display: block; }
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="data/cities.js"></script>
+<script src="data/townships_en.js"></script>
 <script>
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
 function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
 // English county name (falls back to Chinese for districts / unknowns)
 function enCounty(c) { return (window.__COUNTY2EN && window.__COUNTY2EN[c]) || c; }
+// English township/district name (Hanyu Pinyin official romanization), zh in zh-mode
+function enTown(t) { return TT(t, (window.TOWN_EN && window.TOWN_EN[t]) || t); }
 
 // Gender lens — national breakdown (decade, identifiable victims) · data/gender.json
 fetch('data/gender.json')
@@ -1653,7 +1656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const label = state.metric === 'rate'
           ? `${v.toFixed(2)} ${TT('/ 萬','/10k')}`
           : `${v} ${TT('件','events')}`;
-        lyr.bindTooltip(`<strong>${TT(p.COUNTYNAME, enCounty(p.COUNTYNAME))} ${p.TOWNNAME}</strong><br>${label}` +
+        lyr.bindTooltip(`<strong>${TT(p.COUNTYNAME, enCounty(p.COUNTYNAME))} ${enTown(p.TOWNNAME)}</strong><br>${label}` +
           (pop ? `<br><span style="opacity:0.7;font-family:'Space Grotesk';font-size:10px">${TT('人口','pop')} ${pop.toLocaleString()}</span>` : ''),
           { sticky: true, direction: 'top', offset: [0, -4] }
         );
@@ -1686,7 +1689,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : '';
     if (!rec) {
       card.innerHTML = `
-        <div class="detail-name">${district}</div>
+        <div class="detail-name">${enTown(district)}</div>
         <div class="detail-county">${TT(county, enCounty(county))} · ${TT('查無 A1 死亡紀錄','No A1 fatalities recorded')}</div>
         ${pop ? `<div style="font-size:11px;color:var(--grey-2);">${TT('人口','pop')} ${pop.toLocaleString()}</div>` : ''}
         ${countyLink}
@@ -1719,7 +1722,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
 
     card.innerHTML = `
-      <div class="detail-name">${district}</div>
+      <div class="detail-name">${enTown(district)}</div>
       <div class="detail-county">${TT(county, enCounty(county))} · ${pop ? pop.toLocaleString() + TT(' 人',' people') : TT('人口從缺','population N/A')}</div>
       <div class="detail-stat">
         <div>
