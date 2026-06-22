@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>機車事故十年解剖｜Motorcycle Fatalities in Taiwan 2016–2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+body { animation: pageFadeIn 0.45s ease-out; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888888; --grey-3:#D0D0D0; --grey-4:#F2F2F2;
+  --white:#FFFFFF; --red:#D94F3D; --blue:#3A7CC3; --gold:#E8A825;
+  --font-zh:'Noto Sans TC',sans-serif; --font-en:'Space Grotesk',sans-serif;
+}
+body { font-family:var(--font-zh); background:var(--grey-4); color:var(--black); line-height:1.85; }
+.shell { max-width:1080px; margin:0 auto; padding:48px 36px 90px; }
+
+/* Header */
+.page-header { display:flex; align-items:flex-end; gap:24px; margin-bottom:40px; padding-bottom:22px; border-bottom:2px solid var(--black); }
+.logo-mark { font-family:var(--font-en); font-size:9px; font-weight:600; letter-spacing:0.18em; border:1.5px solid var(--black); padding:5px 10px; text-transform:uppercase; line-height:1.5; white-space:nowrap; }
+.title-block { flex:1; }
+.page-header h1 { font-family:var(--font-en); font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--grey-2); }
+.title-zh { font-family:var(--font-zh); font-weight:900; font-size:27px; letter-spacing:0.03em; color:var(--black); margin-top:4px; }
+.page-header .meta { font-family:var(--font-en); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); text-align:right; }
+.page-header .meta strong { color:var(--black); font-weight:600; }
+.breadcrumb { font-family:var(--font-en); font-size:11px; letter-spacing:0.1em; margin-bottom:22px; }
+.breadcrumb a { color:var(--grey-2); text-decoration:none; } .breadcrumb a:hover { color:var(--black); }
+
+/* Hero */
+.hero { background:var(--black); color:var(--white); padding:40px 38px; margin-bottom:14px; }
+.hero .big { font-family:var(--font-en); font-size:78px; font-weight:700; line-height:0.95; letter-spacing:-0.02em; color:var(--lime); }
+.hero .big small { font-size:30px; color:var(--white); font-weight:500; }
+.hero .cap { font-size:15px; color:var(--grey-3); margin-top:10px; line-height:1.7; max-width:760px; }
+.hero .cap b { color:var(--white); font-weight:700; }
+.hero-row { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:34px; }
+.hero-mini { flex:1; min-width:150px; background:#262626; padding:20px 22px; }
+.hero-mini .n { font-family:var(--font-en); font-size:32px; font-weight:700; color:var(--lime); line-height:1; }
+.hero-mini .l { font-size:12px; color:var(--grey-3); margin-top:8px; letter-spacing:0.02em; }
+
+/* County selector */
+.county-bar { position:sticky; top:0; z-index:50; background:var(--white); border:1.5px solid var(--black); padding:14px 18px; margin-bottom:38px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.county-bar .cb-label { font-family:var(--font-en); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); }
+.county-bar select { font-family:var(--font-zh); font-size:15px; font-weight:700; padding:7px 12px; border:1.5px solid var(--black); background:var(--white); cursor:pointer; }
+.county-bar .cb-stat { font-size:13px; color:var(--grey-1); margin-left:auto; }
+.county-bar .cb-stat b { font-family:var(--font-en); font-size:17px; color:var(--black); }
+.scope-note { font-size:12px; color:var(--gold); font-weight:700; margin-left:8px; display:none; }
+
+/* Sections */
+section { background:var(--white); padding:38px 40px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.sec-num { font-family:var(--font-en); font-size:11px; letter-spacing:0.2em; color:var(--lime-dk); font-weight:600; }
+.sec-title { font-family:var(--font-zh); font-weight:900; font-size:22px; letter-spacing:0.02em; margin:4px 0 4px; }
+.sec-en { font-family:var(--font-en); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); margin-bottom:22px; }
+.prose p { font-size:15.5px; color:var(--grey-1); margin-bottom:14px; }
+.prose p b { color:var(--black); font-weight:700; }
+.prose .lead { font-size:17px; color:var(--black); font-weight:500; line-height:1.8; }
+.hl { background:linear-gradient(transparent 60%, var(--lime-lt) 60%); padding:0 2px; font-weight:700; }
+.chart-wrap { margin:24px 0 8px; }
+.chart-cap { font-family:var(--font-en); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--grey-2); margin-bottom:12px; }
+.chart-cap b { color:var(--black); font-family:var(--font-zh); letter-spacing:0; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:start; }
+.legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--grey-1); margin-top:10px; }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { width:11px; height:11px; display:inline-block; border-radius:2px; }
+.callout { border-left:5px solid var(--red); background:#FBF0EE; padding:16px 20px; margin:20px 0; font-size:14.5px; color:var(--grey-1); }
+.callout b { color:var(--red); }
+.callout.lime { border-color:var(--lime-dk); background:#F7FAE0; } .callout.lime b { color:var(--lime-dk); }
+.callout.blue { border-color:var(--blue); background:#EEF4FB; } .callout.blue b { color:var(--blue); }
+svg text { font-family:var(--font-en); }
+.bar-val { font-family:var(--font-en); font-weight:600; }
+.divider-quote { background:var(--lime); color:var(--black); padding:34px 40px; margin-bottom:14px; font-size:21px; font-weight:700; line-height:1.6; letter-spacing:0.02em; border-left:8px solid var(--black); }
+.divider-quote small { display:block; font-family:var(--font-en); font-size:12px; font-weight:500; letter-spacing:0.1em; color:var(--grey-1); margin-top:10px; text-transform:uppercase; }
+.method { font-size:12.5px; color:var(--grey-2); line-height:1.7; }
+.method b { color:var(--grey-1); }
+footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-family:var(--font-en); font-size:11px; color:var(--grey-2); letter-spacing:0.04em; }
+.partner-logos { text-align:center; margin:36px 0 10px; }
+.partner-logos .pl-label { font-family:var(--font-en); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2); margin-bottom:10px; }
+.partner-logos img { max-width:440px; width:100%; height:auto; }
+@media (max-width:760px){ .shell{padding:32px 18px 70px;} .two-col{grid-template-columns:1fr; gap:18px;} .hero .big{font-size:58px;} section{padding:28px 22px;} .county-bar .cb-stat{margin-left:0; width:100%;} }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="breadcrumb"><a href="index.html">← Taiwan Mobility Atlas</a></div>
+
+<div class="page-header">
+  <div class="logo-mark">Taiwan<br>Mobility<br>Atlas</div>
+  <div class="title-block">
+    <h1>Motorcycle Fatalities · A Ten-Year Anatomy</h1>
+    <div class="title-zh">機車事故十年解剖</div>
+  </div>
+  <div class="meta">A1 Deaths<br><strong>2016 — 2025</strong></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="big" id="heroBig">10,891<small> 人</small></div>
+  <div class="cap" id="heroCap">十年間，全國 <b>10,891</b> 名機車騎士在 24 小時內死於道路——佔同期所有 A1 死亡的 <b>63.4%</b>。在台灣，「道路安全」幾乎等同於「機車安全」：每 3 名交通事故死者，就有近 2 人騎在兩個輪子上。</div>
+  <div class="hero-row" id="heroRow"></div>
+</div>
+
+<!-- COUNTY SELECTOR -->
+<div class="county-bar">
+  <span class="cb-label">檢視範圍 · Scope</span>
+  <select id="countySel"></select>
+  <span class="scope-note" id="scopeNote">⚠ 樣本偏少，圖表僅供參考</span>
+  <span class="cb-stat" id="cbStat"></span>
+</div>
+
+<!-- 01 規模與趨勢 -->
+<section>
+  <div class="sec-num">01</div>
+  <div class="sec-title">規模與趨勢：十年沒有變好</div>
+  <div class="sec-en">Scale & Trend</div>
+  <div class="prose">
+    <p class="lead">機車是台灣道路死亡的主體，而且這個事實十年來沒有鬆動。2016 年全國機車騎士 A1 死亡 984 人、佔當年所有道路死亡 61.3%；到 2025 年，絕對數字升到 1,054 人，佔比更攀到 <b>64.2%</b>。中間 2019–2022 年甚至連年站上 1,150 人以上的高原，2022 年以 1,212 人寫下十年新高。</p>
+    <p>換句話說，過去十年無論「行人地獄」如何躍上國際版面、無論政策口號如何更迭，<span class="hl">死在路上的人，主力始終是機車騎士</span>，而且占比不降反升。這不是因為機車變得更危險，而是因為其他運具（特別是汽車駕駛與乘客）的防護隨著車體安全科技持續改善，唯獨暴露在外、缺乏潰縮空間的兩輪族群，被獨自留在風險的最前線。</p>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-cap"><b>圖 1</b>　機車 A1 死亡人數（柱）與佔全體道路死亡比例（線）· 2016–2025</div>
+    <div id="cTrend"></div>
+  </div>
+  <div class="callout lime"><b>關鍵數字：</b>十年累計 10,891 名機車騎士死亡，平均每年 1,089 人、每天近 3 人。機車死亡佔比從 61% 緩升至 64%，意味交通安全的改善幾乎沒有惠及騎士。</div>
+</section>
+
+<!-- 02 使用者樣態 -->
+<section>
+  <div class="sec-num">02</div>
+  <div class="sec-title">誰在死亡：年輕人與長者的雙峰</div>
+  <div class="sec-en">Who Dies — A Bimodal Age Curve</div>
+  <div class="prose">
+    <p class="lead">把死亡騎士的年齡攤開，會看到一條清楚的「雙峰」曲線：<span class="hl">18–24 歲的年輕騎士是單一最大族群</span>（占可辨識死者的 19.8%），另一個高峰落在 65 歲以上的高齡者（合計 26.1%）。中壯年雖然每個年齡層都有死亡，但密度明顯較低。</p>
+    <p>這兩個高峰背後是兩種完全不同的事故腳本。年輕騎士的死亡，較多與<b>速度、夜間、酒精與經驗不足</b>有關——剛拿到駕照、通勤與夜生活的移動需求高，風險辨識卻尚未成熟。高齡騎士則相反：他們多在<b>日間、低速、住家附近的路口</b>因路權衝突而身故，問題不在魯莽，而在反應時間、視野與身體脆弱度——同樣一場 40 公里的側撞，年輕人可能重傷、長者卻可能致命。</p>
+    <p>性別上，<b>男性占 72.8%、女性占 27.2%</b>，與整體 A1 死者的性別比一致。值得注意的是，高齡層的女性比例明顯上升，反映長輩女性在社區短程移動中對機車的高度依賴。</p>
+  </div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 2</b>　死亡騎士年齡分布</div>
+      <div id="cAge"></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 3</b>　死亡騎士性別</div>
+      <div id="cGender"></div>
+    </div>
+  </div>
+  <div class="callout blue"><b>政策含意：</b>單一處方無效。年輕騎士需要的是「駕訓與速度管理」，高齡騎士需要的是「路口設計與替代運具」。把兩個高峰混為一談的宣導，往往兩邊都打不中。</div>
+</section>
+
+<!-- 03 肇事主因 -->
+<section>
+  <div class="sec-num">03</div>
+  <div class="sec-title">為什麼會死：路權衝突與分心是主旋律</div>
+  <div class="sec-en">Primary Causes</div>
+  <div class="prose">
+    <p class="lead">將 7,739 筆有詳細肇因紀錄的案件歸類後，最大宗的死因不是「飆車」，而是日常的<span class="hl">路權與注意力失誤</span>：「未依規定讓車（路權衝突）」占 20.4%、「未注意車前狀態／分心」占 19.4%，兩者合計近四成。接著是「違反號誌、標誌」13.1% 與「違規轉彎、變換車道」10.5%。</p>
+    <p>這組數字顛覆了「機車死亡＝騎士違規亂竄」的刻板印象。路權衝突的本質，是<b>兩方對誰該先行的認知落差</b>——而在汽機車混流、號誌與標線設計不友善的台灣道路上，騎士往往是衝突中肉身最沒有保護的一方。換言之，許多死亡並非單純「誰對誰錯」，而是<b>道路環境本身把碰撞的致命後果，系統性地分配給了騎士</b>。</p>
+    <p>值得單獨點名的是<b>酒（毒）駕仍占 6.9%（532 人）</b>，逆向行駛 2.0%、超速／未減速 4.5%。這些「高致命、可預防」的行為加總超過一成，是執法與工程能立即著力的部分。另有約 14% 列為「不明」或「其他」，反映基層事故調查在因果判定上的侷限。</p>
+    <p>更深一層的真相藏在「肇事責任」與「死亡」的錯位裡。在多數機車對汽車的致命碰撞中，警方紀錄的<b>第一當事人（肇事方）往往是汽車駕駛</b>，而失去生命的卻是機車騎士——肇責與後果，由不同的人承擔。這正是脆弱用路人問題的核心：<span class="hl">同樣一個失誤，發生在鋼鐵車殼裡只是擦撞，發生在血肉之軀上卻是致命</span>。因此「降低機車肇事率」與「降低機車死亡率」是兩件事——前者靠教育騎士，後者更靠改造道路與約束大型車輛，讓任何人的一次失誤都不必用一條人命來償付。</p>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-cap"><b>圖 4</b>　機車死亡事故主要肇因分類（依肇事第一當事人主因歸戶）</div>
+    <div id="cCause"></div>
+  </div>
+</section>
+
+<!-- 04 碰撞型態 -->
+<section>
+  <div class="sec-num">04</div>
+  <div class="sec-title">怎麼撞：七成是「被別人撞」</div>
+  <div class="sec-en">Crash Configuration</div>
+  <div class="prose">
+    <p class="lead">機車死亡事故中，<span class="hl">高達 72% 涉及另一輛車</span>（多為汽車或大型車），僅 28% 是騎士自摔或自撞固定物的單車事故。這說明絕大多數的騎士之死，發生在「與他人互動」的瞬間——被左轉車切到、被右方來車側撞、在路口被未讓車的對向車輛攔腰撞上。</p>
+    <p>從碰撞細類看，<b>側撞、路口交岔撞、追撞</b>是三大型態。側撞與路口撞共同指向同一個結構問題：<b>路口的衝突點管理失靈</b>。而單車事故中的「路上翻車摔倒」「撞護欄、路樹、電桿」則暴露了郊區道路的硬體致命性——一旦失控衝出路面，路側幾乎沒有任何寬容設計來吸收撞擊。</p>
+  </div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 5</b>　單車 vs. 多車事故</div>
+      <div id="cSingle"></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 6</b>　主要碰撞細類（前 8）</div>
+      <div id="cAccSub"></div>
+    </div>
+  </div>
+  <div class="callout"><b>反直覺：</b>「機車死亡多是騎士自己摔死」是錯的——七成是與其他車輛的碰撞。降低騎士死亡，關鍵不只在「管騎士」，更在「讓汽車駕駛看得到、讓得了機車」。</div>
+</section>
+
+<!-- 05 天候與光線 -->
+<section>
+  <div class="sec-num">05</div>
+  <div class="sec-title">天候與光線：殺人的是好天氣</div>
+  <div class="sec-en">Weather & Light — The Fair-Weather Paradox</div>
+  <div class="prose">
+    <p class="lead">最反直覺的一張圖：<span class="hl">81.8% 的機車死亡發生在晴天</span>，雨天僅占 7.4%；路面狀態同樣有九成是「乾燥」。這不代表雨天安全，而是<b>晴天的騎乘量遠高於雨天、且晴天車速更快</b>——當能見度好、路面乾、心理戒備低時，速度與流量才是真正的致命變數。把資源全押在「雨天小心」的宣導，等於對著最小的風險開槍。</p>
+    <p>光線則揭露另一個可工程化的破口。日間事故占 43.4%，但夜間（含晨暮）合計達 <b>56.6%</b>；其中近半數（占全部的 24.6%）發生在<b>「照明不足或無照明」</b>的路段。對缺乏車體燈光優勢、體積又小的機車而言，夜間照明不只是舒適問題，而是「能不能被看見」的生死問題。<span class="hl">路燈，是被低估的救命基礎建設</span>。</p>
+  </div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 7</b>　事故當下天候</div>
+      <div id="cWeather"></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 8</b>　事故當下光線條件</div>
+      <div id="cLight"></div>
+    </div>
+  </div>
+  <div class="callout lime"><b>可行動：</b>約 1,900 件死亡事故發生在照明不足／無照明路段。補足路燈、要求頭燈日間恆亮，是低成本、高槓桿的工程介入。</div>
+</section>
+
+<!-- 06 好發路段 -->
+<section>
+  <div class="sec-num">06</div>
+  <div class="sec-title">好發路段：50 公里的市區路口</div>
+  <div class="sec-en">Where — The 50 km/h Urban Junction</div>
+  <div class="prose">
+    <p class="lead">把「在哪裡死」拆開，輪廓非常清晰：<span class="hl">57.8% 在市區道路、54.6% 在速限 50 公里的路段、48% 發生在路口</span>。最典型的致命場景，是一條速限 50、汽機車混流、號誌與轉向動線複雜的市區幹道路口。</p>
+    <p>路口為何如此致命？因為它是所有衝突點的交會處——左轉、右轉、直行、行人穿越在同一塊空間裡爭道，而台灣的路口普遍缺乏<b>專用轉向時相、機車庇護空間與清晰的視距</b>。速限 50 看似不快，但對血肉之軀的騎士，50 公里的撞擊已遠超人體耐受極限。</p>
+    <p>另一條被忽略的戰線是<b>鄉村道路</b>：省道、縣道、鄉道與村里道路合計占了約 39% 的死亡。這些路段速限高、照明差、救護遙遠，一旦失控往往直接致命。<span class="hl">鄉村的致命性，很大一部分來自「救援空白」</span>——車禍後能否在「黃金一小時」內送醫，城鄉差距巨大。同一場撞擊，在台北可能 10 分鐘內進急診，在偏鄉卻可能因路途遙遠、救護資源稀薄而錯過急救時機。都會的問題在「路口衝突密度」，鄉村的問題在「速度、照明與救援時間」，兩者需要截然不同的對策：前者要靠號誌時相、庇護空間與速度管理，後者要靠路側淨空、照明補強與緊急醫療網的城鄉再平衡。</p>
+  </div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 9</b>　道路類型</div>
+      <div id="cRoad"></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-cap"><b>圖 10</b>　速限分布</div>
+      <div id="cSpeed"></div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-cap"><b>圖 11</b>　路口 vs. 路段（單路）</div>
+    <div id="cShape"></div>
+  </div>
+</section>
+
+<!-- 07 時段 -->
+<section>
+  <div class="sec-num">07</div>
+  <div class="sec-title">什麼時候：兩個通勤尖峰</div>
+  <div class="sec-en">When — Two Commuting Peaks</div>
+  <div class="prose">
+    <p class="lead">死亡時間分布呈現典型的「通勤雙峰」：<span class="hl">早上 7–9 時與下午 4–6 時</span>是兩個明顯高點，正是上班上學與下班放學的車流尖峰。深夜 2–4 時雖然車少，死亡密度（每單位車流的致死率）卻最高，與酒駕、疲勞、超速高度重疊。</p>
+    <p>這條曲線提醒我們：機車死亡主要是<b>「日常移動」的代價</b>，而非少數極端時刻的意外。當一個社會把絕大多數通勤者推上機車，尖峰時段的死亡就成了系統的結構性產物——解法不在勸導個別騎士「小心一點」，而在<b>提供安全的替代運具與保護性的尖峰車流管理</b>。</p>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-cap"><b>圖 12</b>　死亡事故的時刻分布（00–23 時）</div>
+    <div id="cHour"></div>
+  </div>
+</section>
+
+<!-- 08 縣市差異 -->
+<section>
+  <div class="sec-num">08</div>
+  <div class="sec-title">縣市差異：機車死亡是南方與鄉村的故事</div>
+  <div class="sec-en">Geography of Risk</div>
+  <div class="prose">
+    <p class="lead">機車死亡佔比的城鄉落差極大。<span class="hl">屏東（71.5%）、金門（70.8%）、高雄（70.2%）、台南（67.7%）</span>等南部與離島縣市，每 10 名道路死者就有 7 人是騎士；相對地，<b>台北市僅 47.7%</b>、基隆 51.2%、台東 54.7% 明顯較低。</p>
+    <p>這條光譜幾乎完美對應<b>大眾運輸的可及性</b>：台北擁有最密集的捷運與公車網，市民有「不騎車也能移動」的選項，機車死亡佔比自然最低；而南部與鄉村縣市公共運輸稀疏，機車是唯一務實的日常工具，死亡也就高度集中在兩輪。<span class="hl">機車安全的終極解方，是讓人們「可以不必騎車」</span>——這正是公共運輸投資的安全紅利。</p>
+    <p class="method" style="margin-top:18px">使用上方選單可切換任一縣市，本頁所有圖表（趨勢、年齡、肇因、天候、路段⋯⋯）都會即時重繪為該縣市的數據。樣本偏少的離島縣市會標註提醒。</p>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-cap"><b>圖 13</b>　各縣市機車死亡佔全體道路死亡之比例（全國平均 63.4%）</div>
+    <div id="cCounty"></div>
+  </div>
+</section>
+
+<!-- DIVIDER QUOTE -->
+<div class="divider-quote">
+  十年、10,891 條人命，主因不是飆車，而是日常通勤途中、晴天的市區路口、被一輛沒看見你的車側撞。機車安全不是「騎士的個人修養問題」，而是「我們把什麼樣的道路與運輸選擇，留給最脆弱的人」的制度問題。
+  <small>The Anatomy of Motorcycle Death · Taiwan 2016–2025</small>
+</div>
+
+<!-- METHOD -->
+<section>
+  <div class="sec-num">M</div>
+  <div class="sec-title">資料與方法</div>
+  <div class="sec-en">Data & Method</div>
+  <div class="prose method">
+    <p><b>資料來源：</b>交通部公路局／道安資訊平台 A1 類（24 小時內死亡）逐案資料，2016–2025，全 22 縣市，共 17,175 名死者，其中機車騎士 10,891 人。</p>
+    <p><b>「機車死者」認定：</b>本頁以每案的「最脆弱當事人運具」（mode）為機車者計為機車死亡事故；死者年齡／性別取該案中運具為「機車」之當事人欄位，而非逕取第一當事人（第一當事人多為肇事方／駕駛，性別嚴重偏男，會造成偏誤）。</p>
+    <p><b>細項欄位涵蓋：</b>天候、光線、道路類型、速限、肇因等詳細欄位僅 2018 年起的「完整格式」案件具備（7,739 件，占 71%）；2016、2017、2021 年部分為簡式紀錄，故肇因／天候／路段等圖表以完整格式案件為母體，趨勢與佔比則使用全部案件。各圖表標題已標明母體。</p>
+    <p><b>肇因分類：</b>原始肇因代碼逾百種，本頁依關鍵字歸併為 10 大類；「酒（毒）駕」「逆向」「超速」優先於其他類別判定。</p>
+    <p style="margin-top:6px;color:var(--grey-3)">分析與視覺化：吳昀慶 · Taiwan Mobility Atlas。本頁為公益倡議用途，歡迎引用並註明出處。</p>
+  </div>
+</section>
+
+<div class="partner-logos">
+  <div class="pl-label">In partnership with</div>
+  <img src="assets/tcan_vzt_logo.png" alt="TCAN 台灣氣候行動網路 · Vision Zero Taiwan 還路於民行人路權促進會">
+</div>
+
+<footer>
+  <div>Taiwan Mobility Atlas · Motorcycle Anatomy · Designed by 吳昀慶</div>
+  <div>2016 — 2025 · A1 Fatal Crashes · 2026</div>
+</footer>
+
+</div>
+
+<script src="data/moto.js"></script>
+<script>
+const D = window.MOTO;
+const C = { lime:'#C8D400', limeDk:'#A8B200', black:'#1A1A1A', red:'#D94F3D', blue:'#3A7CC3', gold:'#E8A825', grey1:'#4A4A4A', grey2:'#888888', grey3:'#D0D0D0', grey4:'#F2F2F2' };
+let cur = 'national';
+
+function $(id){ return document.getElementById(id); }
+function pct(n,d){ return d? (n/d*100) : 0; }
+function fmt(n){ return n.toLocaleString('en-US'); }
+function svg(w,h,inner){ return `<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;overflow:visible">${inner}</svg>`; }
+
+// horizontal bars
+function hbars(el, rows, opts={}){
+  rows = rows.filter(r=>r.v>0);
+  const W=opts.w||520, rh=opts.rh||30, gap=10, padL=opts.padL||168, padR=58;
+  const H=rows.length*(rh+gap)+8;
+  const max=Math.max(...rows.map(r=>r.v),1);
+  const total=opts.total||rows.reduce((s,r)=>s+r.v,0);
+  let s='';
+  rows.forEach((r,i)=>{
+    const y=i*(rh+gap)+4, bw=(W-padL-padR)*(r.v/max);
+    const col=r.col||C.lime;
+    s+=`<text x="${padL-10}" y="${y+rh/2+4}" text-anchor="end" font-size="13" font-family="'Noto Sans TC',sans-serif" fill="${C.grey1}">${r.k}</text>`;
+    s+=`<rect x="${padL}" y="${y}" width="${Math.max(bw,1)}" height="${rh}" fill="${col}" rx="1"/>`;
+    s+=`<text class="bar-val" x="${padL+Math.max(bw,1)+8}" y="${y+rh/2+4}" font-size="12" fill="${C.grey1}">${fmt(r.v)}<tspan fill="${C.grey2}" font-size="11"> · ${pct(r.v,total).toFixed(1)}%</tspan></text>`;
+  });
+  el.innerHTML=svg(W,H,s);
+}
+
+// vertical bars
+function vbars(el, rows, opts={}){
+  const W=opts.w||520, H=opts.h||230, padB=46, padT=18, padL=34;
+  const bw0=(W-padL-10)/rows.length, bw=bw0*0.66;
+  const max=Math.max(...rows.map(r=>r.v),1);
+  let s='';
+  // baseline
+  s+=`<line x1="${padL}" y1="${H-padB}" x2="${W-6}" y2="${H-padB}" stroke="${C.grey3}" stroke-width="1"/>`;
+  rows.forEach((r,i)=>{
+    const x=padL+i*bw0+(bw0-bw)/2, bh=(H-padB-padT)*(r.v/max), y=H-padB-bh;
+    const col=r.col||C.lime;
+    s+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(bh,1)}" fill="${col}" rx="1"/>`;
+    s+=`<text class="bar-val" x="${x+bw/2}" y="${y-5}" text-anchor="middle" font-size="11" fill="${C.grey1}">${opts.valFmt?opts.valFmt(r.v):fmt(r.v)}</text>`;
+    s+=`<text x="${x+bw/2}" y="${H-padB+16}" text-anchor="middle" font-size="11" fill="${C.grey2}" font-family="${/[一-鿿]/.test(r.k)?"'Noto Sans TC',sans-serif":"'Space Grotesk',sans-serif"}">${r.k}</text>`;
+    if(opts.sub) s+=`<text x="${x+bw/2}" y="${H-padB+30}" text-anchor="middle" font-size="9" fill="${C.grey3}">${opts.sub(r)}</text>`;
+  });
+  el.innerHTML=svg(W,H,s);
+}
+
+// donut
+function donut(el, rows, opts={}){
+  rows=rows.filter(r=>r.v>0);
+  const total=rows.reduce((s,r)=>s+r.v,0)||1;
+  const sz=opts.sz||190, cx=sz/2, cy=sz/2, r=sz/2-6, ir=opts.ir||r*0.58;
+  let a=-Math.PI/2, s='';
+  rows.forEach(rw=>{
+    const frac=rw.v/total, a2=a+frac*Math.PI*2;
+    const x1=cx+r*Math.cos(a), y1=cy+r*Math.sin(a), x2=cx+r*Math.cos(a2), y2=cy+r*Math.sin(a2);
+    const xi2=cx+ir*Math.cos(a2), yi2=cy+ir*Math.sin(a2), xi1=cx+ir*Math.cos(a), yi1=cy+ir*Math.sin(a);
+    const large=frac>0.5?1:0;
+    s+=`<path d="M${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${xi2},${yi2} A${ir},${ir} 0 ${large} 0 ${xi1},${yi1} Z" fill="${rw.col}"/>`;
+    a=a2;
+  });
+  if(opts.center) s+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="22" font-weight="700" fill="${C.black}">${opts.center}</text><text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" fill="${C.grey2}">${opts.centerSub||''}</text>`;
+  let leg='<div class="legend">';
+  rows.forEach(rw=> leg+=`<span><i style="background:${rw.col}"></i>${rw.k} ${pct(rw.v,total).toFixed(1)}%</span>`);
+  leg+='</div>';
+  el.innerHTML=svg(sz,sz,s)+leg;
+}
+
+// trend: bars (deaths) + line (share %)
+function trend(el, obj){
+  const yrs=[]; for(let y=2016;y<=2025;y++) yrs.push(y);
+  const W=940, H=300, padB=42, padT=24, padL=46, padR=52;
+  const deaths=yrs.map(y=>obj.byYear[y]||0);
+  const shares=yrs.map(y=>{ const a=obj.byYearAll[y]||0; return a? (obj.byYear[y]||0)/a*100:0; });
+  const maxD=Math.max(...deaths,1);
+  const bw0=(W-padL-padR)/yrs.length, bw=bw0*0.5;
+  let s='';
+  // share axis 40-75
+  const sMin=opts_share_min(shares), sMax=opts_share_max(shares);
+  const sy=v=> padT+(H-padB-padT)*(1-(v-sMin)/(sMax-sMin));
+  s+=`<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="${C.grey3}"/>`;
+  yrs.forEach((y,i)=>{
+    const x=padL+i*bw0+(bw0-bw)/2, bh=(H-padB-padT)*(deaths[i]/maxD), by=H-padB-bh;
+    s+=`<rect x="${x}" y="${by}" width="${bw}" height="${bh}" fill="${C.grey3}" rx="1"/>`;
+    s+=`<text class="bar-val" x="${x+bw/2}" y="${by-6}" text-anchor="middle" font-size="11" fill="${C.grey1}">${deaths[i]}</text>`;
+    s+=`<text x="${x+bw/2}" y="${H-padB+16}" text-anchor="middle" font-size="11" fill="${C.grey2}">${y}</text>`;
+  });
+  // share line
+  let pts='';
+  yrs.forEach((y,i)=>{ const x=padL+i*bw0+bw0/2, yy=sy(shares[i]); pts+=`${x},${yy} `; });
+  s+=`<polyline points="${pts.trim()}" fill="none" stroke="${C.red}" stroke-width="2.5"/>`;
+  yrs.forEach((y,i)=>{ const x=padL+i*bw0+bw0/2, yy=sy(shares[i]);
+    s+=`<circle cx="${x}" cy="${yy}" r="4" fill="${C.red}" stroke="#fff" stroke-width="1.5"/>`;
+    s+=`<text x="${x}" y="${yy-10}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${C.red}">${shares[i].toFixed(0)}%</text>`;
+  });
+  el.innerHTML=svg(W,H,s)+`<div class="legend"><span><i style="background:${C.grey3}"></i>機車死亡人數</span><span><i style="background:${C.red}"></i>佔全體道路死亡比例</span></div>`;
+}
+function opts_share_min(sh){ return Math.max(0, Math.floor((Math.min(...sh)-5)/5)*5); }
+function opts_share_max(sh){ return Math.min(100, Math.ceil((Math.max(...sh)+5)/5)*5); }
+
+// ── render all charts for an aggregate ──
+function order(obj, keys){ return keys.filter(k=>obj[k]!==undefined).map(k=>({k, v:obj[k]})); }
+function sortDesc(obj){ return Object.entries(obj).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v); }
+
+function renderAll(o){
+  const full = o.fullRecs||0;
+  // 01 trend
+  trend($('cTrend'), o);
+  // 02 age
+  const ageRows = D.meta.ageOrder.map(k=>({k, v:o.age[k]||0,
+    col: (k==='18–24'||k==='25–34')?C.red : (k==='65–74'||k==='75+')?C.blue : C.lime }));
+  vbars($('cAge'), ageRows, {w:520,h:240});
+  // gender
+  donut($('cGender'), [
+    {k:'男', v:o.gender['男']||0, col:C.blue},
+    {k:'女', v:o.gender['女']||0, col:C.gold}
+  ], {center:( (o.gender['男']||0)+(o.gender['女']||0) ? ((o.gender['男']||0)/((o.gender['男']||0)+(o.gender['女']||0))*100).toFixed(0)+'%':'—'), centerSub:'男性'});
+  // 03 cause
+  const causeRows = D.meta.causeOrder.map((k,i)=>({k, v:o.cause[k]||0,
+    col: i<2?C.red : i<4?C.gold : (k==='酒（毒）駕'||k==='逆向行駛'||k==='超速／未減速')?'#B05030' : C.grey2 }));
+  causeRows.sort((a,b)=>b.v-a.v);
+  hbars($('cCause'), causeRows, {w:560, padL:200, total:full});
+  // 04 single/multi
+  donut($('cSingle'), [
+    {k:'多車（涉及他車）', v:o.multi||0, col:C.red},
+    {k:'單車（自摔／自撞）', v:o.single||0, col:C.grey2}
+  ], {center:( (o.multi+o.single)? (o.multi/(o.multi+o.single)*100).toFixed(0)+'%':'—'), centerSub:'多車'});
+  // accSub top8
+  hbars($('cAccSub'), sortDesc(o.accSub).filter(r=>r.k!=='(未填)'&&r.k!=='其他').slice(0,8).map(r=>({...r,col:C.blue})), {w:560,padL:150,total:full});
+  // 05 weather / light
+  donut($('cWeather'), [
+    {k:'晴', v:o.weather['晴']||0, col:C.gold},
+    {k:'陰', v:o.weather['陰']||0, col:C.grey2},
+    {k:'雨', v:o.weather['雨']||0, col:C.blue},
+    {k:'其他', v:o.weather['其他（霧、風）']||0, col:C.grey3}
+  ], {});
+  donut($('cLight'), [
+    {k:'日間', v:o.light['日間']||0, col:C.gold},
+    {k:'夜間-有照明', v:o.light['夜間-有照明']||0, col:C.blue},
+    {k:'夜間-照明不足', v:o.light['夜間-照明不足']||0, col:C.red},
+    {k:'晨暮', v:o.light['晨暮']||0, col:C.grey3}
+  ], {});
+  // 06 road / speed / shape
+  hbars($('cRoad'), D.meta.roadOrder.map(k=>({k, v:o.road[k]||0, col:k==='市區道路'?C.lime:C.grey2})), {w:520,padL:110,total:full});
+  vbars($('cSpeed'), D.meta.speedOrder.map(k=>({k:k+(k==='≤30'||k==='≥70'?'':' '), v:o.speed[k]||0, col:k==='50'?C.red:C.lime})), {w:520,h:230});
+  donut($('cShape'), [
+    {k:'路口（交岔）', v:o.shape['路口']||0, col:C.red},
+    {k:'路段（單路）', v:o.shape['路段（單路）']||0, col:C.lime},
+    {k:'其他', v:o.shape['其他']||0, col:C.grey3}
+  ], {sz:200});
+  // 07 hour
+  const hrs=[]; for(let h=0;h<24;h++){ const k=String(h).padStart(2,'0'); hrs.push({k:String(h), v:o.hour[k]||0,
+    col:( (h>=7&&h<=9)||(h>=16&&h<=18))?C.red:C.lime }); }
+  vbars($('cHour'), hrs, {w:940,h:240});
+  // 08 county comparison (always national-scope ranking)
+  const cs = Object.values(D.counties).map(c=>({k:c.zh, v:c.share, deaths:c.motoDeaths}))
+    .sort((a,b)=>b.v-a.v);
+  countyBars($('cCounty'), cs);
+}
+
+function countyBars(el, rows){
+  const W=560, rh=18, gap=5, padL=72, padR=80;
+  const H=rows.length*(rh+gap)+8, max=80;
+  let s='';
+  // national avg line
+  const ax=padL+(W-padL-padR)*(D.national.share/max);
+  s+=`<line x1="${ax}" y1="0" x2="${ax}" y2="${H-6}" stroke="${C.black}" stroke-dasharray="3,3" stroke-width="1"/>`;
+  s+=`<text x="${ax}" y="${H}" text-anchor="middle" font-size="9" fill="${C.black}">全國 ${D.national.share}%</text>`;
+  rows.forEach((r,i)=>{
+    const y=i*(rh+gap)+4, bw=(W-padL-padR)*(r.v/max);
+    const hi = (cur!=='national' && r.k===D.counties[cur]?.zh);
+    const col = hi?C.red : r.v>=D.national.share?C.lime:C.grey3;
+    s+=`<text x="${padL-8}" y="${y+rh/2+4}" text-anchor="end" font-size="11.5" font-family="'Noto Sans TC',sans-serif" fill="${hi?C.red:C.grey1}" font-weight="${hi?700:400}">${r.k}</text>`;
+    s+=`<rect x="${padL}" y="${y}" width="${Math.max(bw,1)}" height="${rh}" fill="${col}" rx="1"/>`;
+    s+=`<text class="bar-val" x="${padL+bw+6}" y="${y+rh/2+4}" font-size="10.5" fill="${C.grey1}">${r.v}%<tspan fill="${C.grey3}"> · ${fmt(r.deaths)}</tspan></text>`;
+  });
+  el.innerHTML=svg(W,H+6,s);
+}
+
+// ── county selector ──
+function setScope(slug){
+  cur=slug;
+  const o = slug==='national'? D.national : D.counties[slug];
+  // hero
+  if(slug==='national'){
+    $('heroBig').innerHTML='10,891<small> 人</small>';
+    $('heroCap').innerHTML='十年間，全國 <b>10,891</b> 名機車騎士在 24 小時內死於道路——佔同期所有 A1 死亡的 <b>63.4%</b>。在台灣，「道路安全」幾乎等同於「機車安全」：每 3 名交通事故死者，就有近 2 人騎在兩個輪子上。';
+  } else {
+    $('heroBig').innerHTML=fmt(o.motoDeaths)+'<small> 人</small>';
+    $('heroCap').innerHTML=`<b>${o.zh}</b>十年間 <b>${fmt(o.motoDeaths)}</b> 名機車騎士死亡，佔該縣市所有道路死亡的 <b>${o.share}%</b>${o.share>=D.national.share?'（高於全國平均 63.4%）':'（低於全國平均 63.4%）'}。`;
+  }
+  // hero minis
+  const full=o.fullRecs||0;
+  const night = (o.light['夜間-有照明']||0)+(o.light['夜間-照明不足']||0)+(o.light['晨暮']||0);
+  const lightTot = night+(o.light['日間']||0);
+  const young = (o.age['18–24']||0)+(o.age['25–34']||0);
+  const ageTot = Object.values(o.age).reduce((s,v)=>s+v,0)||1;
+  const inter = (o.shape['路口']||0), shapeTot=(o.shape['路口']||0)+(o.shape['路段（單路）']||0)||1;
+  const multiTot=(o.multi+o.single)||1;
+  $('heroRow').innerHTML = [
+    {n:o.share+'%', l:'佔全體道路死亡'},
+    {n:(pct(o.multi,multiTot)).toFixed(0)+'%', l:'涉及其他車輛'},
+    {n:(pct(inter,shapeTot)).toFixed(0)+'%', l:'發生在路口'},
+    {n:(pct(night,lightTot)).toFixed(0)+'%', l:'夜間／晨暮'},
+    {n:(pct(young,ageTot)).toFixed(0)+'%', l:'18–34 歲'}
+  ].map(m=>`<div class="hero-mini"><div class="n">${m.n}</div><div class="l">${m.l}</div></div>`).join('');
+  // stat bar
+  $('cbStat').innerHTML = `機車死亡 <b>${fmt(o.motoDeaths)}</b> 人 · 詳細紀錄 <b>${fmt(full)}</b> 件`;
+  $('scopeNote').style.display = (full>0 && full<120)?'inline':'none';
+  renderAll(o);
+}
+
+// init selector
+(function(){
+  const sel=$('countySel');
+  let opts='<option value="national">全國 National</option>';
+  Object.values(D.counties).sort((a,b)=>b.motoDeaths-a.motoDeaths)
+    .forEach(c=> opts+=`<option value="${c.slug}">${c.zh} (${fmt(c.motoDeaths)})</option>`);
+  sel.innerHTML=opts;
+  sel.addEventListener('change', e=> setScope(e.target.value));
+  // deep-link ?c=slug
+  const p=new URLSearchParams(location.search).get('c');
+  if(p && D.counties[p]){ sel.value=p; setScope(p); } else setScope('national');
+})();
+</script>
+</body>
+</html>
