@@ -237,6 +237,10 @@ const DB = await fetch('data/whitepaper.json').then(r => r.json());
 const $ = id => document.getElementById(id);
 
 const REGION_COLOR = { '北部': '#A8B200', '中部': '#E8A825', '南部': '#D94F3D', '東部': '#3A7CC3', '離島': '#888888' };
+const REGION_EN = { '北部': 'North', '中部': 'Central', '南部': 'South', '東部': 'East', '離島': 'Islands' };
+const COUNTY_EN = {"台南市":"Tainan City","高雄市":"Kaohsiung City","台中市":"Taichung City","桃園市":"Taoyuan City","新北市":"New Taipei City","彰化縣":"Changhua County","屏東縣":"Pingtung County","雲林縣":"Yunlin County","嘉義縣":"Chiayi County","台北市":"Taipei City","苗栗縣":"Miaoli County","南投縣":"Nantou County","新竹縣":"Hsinchu County","宜蘭縣":"Yilan County","花蓮縣":"Hualien County","台東縣":"Taitung County","新竹市":"Hsinchu City","基隆市":"Keelung City","嘉義市":"Chiayi City","澎湖縣":"Penghu County","金門縣":"Kinmen County","連江縣":"Lienchiang County"};
+const MILESTONE_EN = { 2025: 'Target baseline', 2035: 'Casualties halved', 2040: 'Injuries below 200k', 2045: 'Injuries below 100k', 2050: 'Injuries to 10k' };
+function cEN(zh) { return TT(zh, COUNTY_EN[zh] || zh); }
 
 function placeTip(tip, wrap, evt, html) {
   tip.innerHTML = html;
@@ -280,18 +284,18 @@ function drawScatter() {
   });
   // permanent annotations
   const tp = data.find(d => d.n === '台北市'), pt = data.find(d => d.n === '屏東縣');
-  s += `<text x="${x(tp.share)}" y="${y(tp.rate)-16}" text-anchor="middle" font-family="Noto Sans TC" font-size="13" font-weight="700" fill="#1A1A1A">台北市</text>`;
-  s += `<text x="${x(pt.share)-4}" y="${y(pt.rate)-16}" text-anchor="middle" font-family="Noto Sans TC" font-size="13" font-weight="700" fill="#A33A2D">屏東縣</text>`;
+  s += `<text x="${x(tp.share)}" y="${y(tp.rate)-16}" text-anchor="middle" font-family="Noto Sans TC" font-size="13" font-weight="700" fill="#1A1A1A">${cEN('台北市')}</text>`;
+  s += `<text x="${x(pt.share)-4}" y="${y(pt.rate)-16}" text-anchor="middle" font-family="Noto Sans TC" font-size="13" font-weight="700" fill="#A33A2D">${cEN('屏東縣')}</text>`;
   svg.innerHTML = s;
   // legend
   $('scLegend').innerHTML = Object.entries(REGION_COLOR).map(([k, c]) =>
-    `<span><span class="sw" style="background:${c}"></span>${k}</span>`).join('') ;
+    `<span><span class="sw" style="background:${c}"></span>${TT(k, REGION_EN[k] || k)}</span>`).join('') ;
   // interactions
   const tip = $('scTip'), wrap = $('scWrap');
   svg.querySelectorAll('circle[data-i]').forEach(el => {
     const d = data[+el.dataset.i];
     el.addEventListener('mousemove', e => placeTip(tip, wrap, e,
-      `<b>${d.n}</b><br>${TT('私人運具','private')} <b>${d.share}%</b> · ${TT('死傷率','casualties')} <b>${d.rate}</b>/1k`));
+      `<b>${cEN(d.n)}</b><br>${TT('私人運具','private')} <b>${d.share}%</b> · ${TT('死傷率','casualties')} <b>${d.rate}</b>/1k`));
     el.addEventListener('mouseleave', () => tip.style.display = 'none');
     el.addEventListener('click', () => { if (d.slug) location.href = 'city.html?c=' + d.slug; });
   });
@@ -339,7 +343,7 @@ function initRace() {
   const { years, counties } = DB.race;
   const order = Object.keys(counties).sort((a, b) => counties[b][years.length-1] - counties[a][years.length-1]);
   $('raceChips').innerHTML = order.map(cy =>
-    `<span class="chip" data-cy="${cy}">${cy}</span>`).join('');
+    `<span class="chip" data-cy="${cy}">${cEN(cy)}</span>`).join('');
   document.querySelectorAll('#raceChips .chip').forEach(ch => ch.addEventListener('click', () => {
     raceSel = (raceSel === ch.dataset.cy) ? null : ch.dataset.cy;
     document.querySelectorAll('#raceChips .chip').forEach(c => c.classList.toggle('active', c.dataset.cy === raceSel));
@@ -415,7 +419,7 @@ function drawScen() {
   // milestone labels at top
   S.milestones.forEach(m => {
     if (m.y === 2025) return;
-    s += `<text x="${x(m.y)}" y="${pad.t-8}" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="#A85F00">${m.label.replace('受傷人數','傷')}</text>`;
+    s += `<text x="${x(m.y)}" y="${pad.t-8}" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="#A85F00">${TT(m.label.replace('受傷人數','傷'), MILESTONE_EN[m.y] || m.label)}</text>`;
   });
   svg.innerHTML = s;
 

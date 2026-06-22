@@ -1525,9 +1525,9 @@ body.lang-en #hdrTitleZh { display: none; }
     <div class="filter-group">
       <span class="filter-group-label">Victim</span>
       <span class="cat-pill active" data-mode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
-      <span class="cat-pill" data-mode="機車">機車</span>
-      <span class="cat-pill" data-mode="汽車">汽/貨車</span>
-      <span class="cat-pill" data-mode="人">行人</span>
+      <span class="cat-pill" data-mode="機車"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="cat-pill" data-mode="汽車"><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
+      <span class="cat-pill" data-mode="人"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
       <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
       <span class="mode-hint"><span class="t-zh">雙擊可複選</span><span class="t-en">dbl-click = multi</span></span>
     </div>
@@ -1544,12 +1544,12 @@ body.lang-en #hdrTitleZh { display: none; }
       <span class="cat-pill" data-base="satellite"><span class="t-zh">衛星</span><span class="t-en">Satellite</span></span>
     </div>
     <div class="filter-group">
-      <span class="filter-group-label">幹線 Hwys</span>
+      <span class="filter-group-label"><span class="t-zh">幹線 Hwys</span><span class="t-en">Hwys</span></span>
       <span class="cat-pill active" data-hwy="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
       <span class="cat-pill" data-hwy="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
     </div>
     <div class="filter-group" id="swGroup" style="display:none">
-      <span class="filter-group-label" id="swLabel">人行道 Sidewalks</span>
+      <span class="filter-group-label" id="swLabel"><span class="t-zh">人行道 Sidewalks</span><span class="t-en">Sidewalks</span></span>
       <span class="cat-pill" data-sw="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
       <span class="cat-pill active" data-sw="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
     </div>
@@ -1846,6 +1846,13 @@ body.lang-en #hdrTitleZh { display: none; }
 <script>
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
 function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+// English labels for breakdown-chart categories (victim mode / road type / light)
+const CAT_EN = {
+  '機車':'Motorcycle','汽車':'Car / truck','人':'Pedestrian','慢車':'Bicycle / slow','其他':'Other',
+  '市區道路':'Urban road','國道':'Freeway','省道':'Provincial hwy','鄉道':'Township road','縣道':'County road','村里道路':'Village road','快速(公)道':'Expressway','專用道路':'Dedicated road',
+  '日間自然光線':'Daylight','夜間(或隧道、地下道、涵洞)有照明':'Night · lit','夜間(或隧道、地下道、涵洞)無照明':'Night · unlit','晨或暮光':'Dawn / dusk','無照明':'No lighting','有照明未開啟或故障':'Light off / broken','有照明且開啟':'Light on'
+};
+function catEN(k) { return TT(k, CAT_EN[k] || k); }
 function setLang(l) {
   window.__LANG = l;
   document.body.classList.toggle('lang-en', l === 'en');
@@ -2580,7 +2587,7 @@ const markerLayer = L.layerGroup().addTo(map);
       const cls = (opts.cls && opts.cls(k)) || '';
       const pct = (v/total*100).toFixed(0);
       return `<div class="bar-row ${cls}">
-        <div class="bar-label">${k}</div>
+        <div class="bar-label">${catEN(k)}</div>
         <div class="bar-track"><div class="bar-fill" style="width:${(v/max*100).toFixed(1)}%"></div></div>
         <div class="bar-val">${v}<small>${pct}%</small></div>
       </div>`;
