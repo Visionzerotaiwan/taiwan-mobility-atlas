@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>機車事故十年解剖｜Motorcycle Fatalities in Taiwan 2016–2025</title>
+<title>機車事故十年解析｜Motorcycle Fatalities in Taiwan 2016–2025</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -74,6 +74,31 @@ svg text { font-family:var(--font-en); }
 .divider-quote small { display:block; font-family:var(--font-en); font-size:12px; font-weight:500; letter-spacing:0.1em; color:var(--grey-1); margin-top:10px; text-transform:uppercase; }
 .method { font-size:12.5px; color:var(--grey-2); line-height:1.7; }
 .method b { color:var(--grey-1); }
+/* externality stat strip */
+.xstat { display:flex; gap:14px; flex-wrap:wrap; margin:22px 0 6px; }
+.xstat .x { flex:1; min-width:160px; background:var(--grey-4); border-left:4px solid var(--gold); padding:16px 18px; }
+.xstat .x .n { font-family:var(--font-en); font-size:26px; font-weight:700; color:var(--black); line-height:1; }
+.xstat .x .l { font-size:12.5px; color:var(--grey-1); margin-top:8px; line-height:1.6; }
+/* accountability cards */
+.acct-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0 8px; }
+.acct-card { border:1.5px solid var(--black); padding:22px 24px; background:var(--white); }
+.acct-card .ac-tag { font-family:var(--font-en); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); }
+.acct-card h4 { font-size:18px; font-weight:900; margin:6px 0 4px; letter-spacing:0.02em; }
+.acct-card .ac-role { font-size:12.5px; color:var(--lime-dk); font-weight:700; margin-bottom:10px; }
+.acct-card ul { list-style:none; }
+.acct-card li { font-size:13.5px; color:var(--grey-1); padding-left:16px; position:relative; margin-bottom:7px; line-height:1.65; }
+.acct-card li::before { content:'→'; position:absolute; left:0; color:var(--lime-dk); font-weight:700; }
+.acct-card.gov { border-color:var(--red); } .acct-card.gov .ac-role { color:var(--red); } .acct-card.gov li::before { color:var(--red); }
+.triple { display:flex; gap:0; flex-wrap:wrap; margin:22px 0 6px; border:1.5px solid var(--black); }
+.triple .t { flex:1; min-width:150px; padding:20px 22px; border-right:1px solid var(--grey-3); }
+.triple .t:last-child { border-right:none; }
+.triple .t .th { font-family:var(--font-en); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; margin-bottom:8px; }
+.triple .t p { font-size:13px; color:var(--grey-1); line-height:1.7; }
+.closing { background:var(--black); color:var(--white); padding:40px 42px; margin-bottom:14px; }
+.closing .cz { font-size:22px; font-weight:900; line-height:1.6; letter-spacing:0.02em; }
+.closing .cz b { color:var(--lime); }
+.closing .ce { font-family:var(--font-en); font-size:12px; letter-spacing:0.06em; color:var(--grey-3); margin-top:14px; line-height:1.7; }
+@media (max-width:760px){ .acct-grid{grid-template-columns:1fr;} .triple .t{border-right:none; border-bottom:1px solid var(--grey-3);} }
 footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-family:var(--font-en); font-size:11px; color:var(--grey-2); letter-spacing:0.04em; }
 .partner-logos { text-align:center; margin:36px 0 10px; }
 .partner-logos .pl-label { font-family:var(--font-en); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2); margin-bottom:10px; }
@@ -90,7 +115,7 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
   <div class="logo-mark">Taiwan<br>Mobility<br>Atlas</div>
   <div class="title-block">
     <h1>Motorcycle Fatalities · A Ten-Year Anatomy</h1>
-    <div class="title-zh">機車事故十年解剖</div>
+    <div class="title-zh">機車事故十年解析</div>
   </div>
   <div class="meta">A1 Deaths<br><strong>2016 — 2025</strong></div>
 </div>
@@ -273,6 +298,102 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
   <small>The Anatomy of Motorcycle Death · Taiwan 2016–2025</small>
 </div>
 
+<!-- 09 不只是受害者 -->
+<section>
+  <div class="sec-num">09</div>
+  <div class="sec-title">不只是受害者：機車是系統的產物，也是外部性的來源</div>
+  <div class="sec-en">Not Only Victims — A Systemic Reading</div>
+  <div class="prose">
+    <p class="lead">前面八節，我們看見騎士是道路系統的受害者。但要誠實，就必須同時說出另一半：<span class="hl">機車本身，也是一種把成本外溢給整個社會的運具</span>。台灣機車保有量已逾 <b>1,466 萬輛</b>（2025 年初），密度位居世界前列——它帶來的不只是死傷，還有噪音、空污、碳排，以及對街道與人行空間的長期占據。</p>
+    <div class="xstat">
+      <div class="x"><div class="n">1,466<span style="font-size:15px"> 萬輛</span></div><div class="l">全台機車保有量（2025 初），密度世界數一數二</div></div>
+      <div class="x"><div class="n">~1/3</div><div class="l">公路運輸約佔台灣 PM2.5 來源，私人汽機車是其中大宗</div></div>
+      <div class="x"><div class="n">32.1<span style="font-size:15px"> µg/m³</span></div><div class="l">機車通勤者自身的 PM2.5 暴露，約為開車者（7.6）的 4 倍</div></div>
+    </div>
+    <p>這裡藏著一個殘酷的對稱：<b>騎士既是污染的製造者之一，也是承受最深的受害者</b>。當你被困在車陣縫隙裡前進，吸進的廢氣濃度遠高於坐在車內的人。死亡、噪音、空污——這些都不是「騎士的道德缺陷」，而是<span class="hl">系統的結構性產出</span>。當一個社會把一千四百多萬人推上機車坐墊，這些外部成本就成了系統的必然輸出，而非個別選擇的偶然。</p>
+    <p>所以請記得第二節那條年齡曲線：<b>18–24 歲是單一最大的死亡族群</b>。這不是因為年輕人特別魯莽，而是因為對一個剛離家、買不起汽車、所在城市又沒有捷運可搭的年輕人來說，機車幾乎是唯一務實的選項。<span class="hl">他不是「選擇」了風險——是系統替他做了選擇，讓他在毫無意識的情況下，坐上了那張坐墊。</span>把責任推給「個人不小心」，等於要求最沒有議價能力的人，獨自承擔整個系統的設計失敗。</p>
+  </div>
+  <div class="callout"><b>但這不是要把矛頭轉向騎士。</b>恰恰相反：正因為外部性是系統造成的，解方與責任也應該回到系統——回到那些設計、生產、並從現狀中獲利的環節。這是底下兩節的主題。</div>
+</section>
+
+<!-- 10 運具移轉 -->
+<section>
+  <div class="sec-num">10</div>
+  <div class="sec-title">運具移轉：讓人「可以不騎車」的三重紅利</div>
+  <div class="sec-en">Modal Shift — The Triple Dividend</div>
+  <div class="prose">
+    <p class="lead">降低機車死亡最根本的工程，不是要求騎士更小心，而是<span class="hl">讓人們有「可以不騎車」的選項</span>。第八節的城鄉光譜已經給了答案：機車死亡佔比最低的台北（47.7%），正是大眾運輸最密集的城市；最高的屏東、高雄（逾 70%），則是公共運輸最稀疏之處。捷運、公車、安全的步行與自行車網絡，就是降低機車死亡的根本基礎建設。</p>
+    <p>運具移轉之所以值得全力投資，是因為它一次帶來<b>三重紅利</b>——這也正是本 atlas「雙齊零願景」與「複利效應」的核心：</p>
+    <div class="triple">
+      <div class="t"><div class="th" style="color:var(--red)">安全紅利</div><p>每一趟從機車轉移到捷運／公車的旅次，都是一次幾乎歸零的死亡風險。少騎一公里，就少一公里的暴露。</p></div>
+      <div class="t"><div class="th" style="color:var(--gold)">氣候紅利</div><p>運輸是台灣碳排與空污的大宗。移轉到大眾運輸與綠運具，直接削減碳排與都市空污。</p></div>
+      <div class="t"><div class="th" style="color:var(--blue)">健康紅利</div><p>步行與自行車是日常身體活動；減少機車通勤也降低騎士自身吸入的高濃度廢氣。</p></div>
+    </div>
+    <p style="margin-top:16px">必須強調：<b>運具移轉不是「反機車」，更不是羞辱騎士</b>。它要做的，是把機車從「被迫的唯一選項」，還原成「眾多選項之一」。當人們真的可以不騎車，騎車就會回到它合理的尺度——短程、低速、可被安全道路寬容的尺度。<span class="hl">給選擇，而不是給譴責。</span></p>
+  </div>
+</section>
+
+<!-- 11 課責方向 -->
+<section>
+  <div class="sec-num">11</div>
+  <div class="sec-title">課責的方向：誰製造了風險，誰就該共同承擔</div>
+  <div class="sec-en">Where Accountability Should Fall</div>
+  <div class="prose">
+    <p class="lead">「溫柔堅定」的核心命題只有一句：<span class="hl">把責任從「個別騎士」，移回「形塑系統並從中獲利的環節」</span>。「請大家騎車小心一點」從來不是政策，而是把系統的失敗，偽裝成個人的疏忽。以下是四個可以著力的課責方向——溫柔，是因為我們不究責任何一位逝者；堅定，是因為製造風險、從中得利者，理應共同承擔降低風險的責任。</p>
+  </div>
+  <div class="acct-grid">
+    <div class="acct-card gov">
+      <div class="ac-tag">Lever · 最大槓桿</div>
+      <h4>政府</h4>
+      <div class="ac-role">系統的設計者</div>
+      <ul>
+        <li>運輸投資的城鄉再平衡：把資源投向最缺乏替代運具的縣市</li>
+        <li>道路與路口的 Vision Zero 設計：機車庇護空間、專用轉向時相、降速</li>
+        <li>速度管理與分級發照、駕訓制度的改革</li>
+        <li>土地使用：以混合使用與密度，減少「非移動不可」的距離</li>
+      </ul>
+    </div>
+    <div class="acct-card">
+      <div class="ac-tag">Producer · 延伸生產者責任</div>
+      <h4>機車製造商</h4>
+      <div class="ac-role">風險的生產與行銷者</div>
+      <ul>
+        <li>安全標配：將 ABS／CBS 等防護科技列為全車系標準，而非高階選配</li>
+        <li>誠實行銷：停止向青年販售「速度與自由」的危險想像</li>
+        <li>提撥安全與運具轉型基金，分擔其產品外部成本</li>
+        <li>電動化與低污染設計，內部化噪音與空污成本</li>
+      </ul>
+    </div>
+    <div class="acct-card">
+      <div class="ac-tag">Insurer · 風險的定價者</div>
+      <h4>保險公司</h4>
+      <div class="ac-role">資料與誘因的掌握者</div>
+      <ul>
+        <li>以費率獎勵安全行為（速度、里程、護具）而非齊頭式定價</li>
+        <li>確保強制險（強制責任險）對死傷者的保障真正充足</li>
+        <li>開放去識別化理賠資料，供研究與道路工程改善使用</li>
+      </ul>
+    </div>
+    <div class="acct-card">
+      <div class="ac-tag">Employer · 通勤的形塑者</div>
+      <h4>雇主與都市規劃</h4>
+      <div class="ac-role">日常移動的條件設定者</div>
+      <ul>
+        <li>補貼大眾運輸通勤，而非無限供應的免費停車位</li>
+        <li>支持混合使用與可步行的職住環境，縮短被迫移動</li>
+        <li>把員工的通勤安全，納入企業的照顧責任</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout lime"><b>課責 ≠ 究責個人。</b>它不是要找一個壞人來懲罰，而是讓「誰製造了風險、誰從中獲利、誰有能力改變」這三件事被清楚指認，並要求他們共同承擔。當死亡是系統的產出，責任就該指向系統的設計者與獲利者。</div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="cz">我們不羞辱任何一位騎士，也不主張一夕禁絕機車。<br>我們主張的是：<b>把選擇權還給人民，把責任還給系統。</b></div>
+  <div class="ce">Give people the choice to step off the seat — and ask those who built the system, and profit from it, to lead the way down. Gently, but firmly.</div>
+</div>
+
 <!-- METHOD -->
 <section>
   <div class="sec-num">M</div>
@@ -283,6 +404,7 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
     <p><b>「機車死者」認定：</b>本頁以每案的「最脆弱當事人運具」（mode）為機車者計為機車死亡事故；死者年齡／性別取該案中運具為「機車」之當事人欄位，而非逕取第一當事人（第一當事人多為肇事方／駕駛，性別嚴重偏男，會造成偏誤）。</p>
     <p><b>細項欄位涵蓋：</b>天候、光線、道路類型、速限、肇因等詳細欄位僅 2018 年起的「完整格式」案件具備（7,739 件，占 71%）；2016、2017、2021 年部分為簡式紀錄，故肇因／天候／路段等圖表以完整格式案件為母體，趨勢與佔比則使用全部案件。各圖表標題已標明母體。</p>
     <p><b>肇因分類：</b>原始肇因代碼逾百種，本頁依關鍵字歸併為 10 大類；「酒（毒）駕」「逆向」「超速」優先於其他類別判定。</p>
+    <p><b>外部性數據（§09）：</b>機車保有量 1,466 萬輛為交通部統計查詢網 2025 年初數字；公路運輸約佔 PM2.5 三成、私人汽機車為其中大宗，引自環境部與相關研究；通勤暴露濃度（機車 32.1、汽車 7.6 µg/m³）引自臺北都會區通勤空污暴露調查。需特別說明：機車並非台灣 PM2.5 的單一最大來源，本頁無意將污染責任獨歸騎士——這些數據旨在指出機車的外部性具系統性，正呼應「課責回到系統」的主張。</p>
     <p style="margin-top:6px;color:var(--grey-3)">分析與視覺化：吳昀慶 · Taiwan Mobility Atlas。本頁為公益倡議用途，歡迎引用並註明出處。</p>
   </div>
 </section>
