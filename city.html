@@ -426,6 +426,7 @@ body {
   text-decoration: line-through;
 }
 .cat-pill.disabled:hover { border-color: var(--grey-3); }
+.mode-hint { align-self: center; margin-left: 4px; font-size: 10px; color: var(--grey-2); letter-spacing: 0.04em; font-style: italic; }
 
 /* ── Map + side panel ── */
 .map-grid {
@@ -1528,6 +1529,7 @@ body.lang-en #hdrTitleZh { display: none; }
       <span class="cat-pill" data-mode="汽車">汽/貨車</span>
       <span class="cat-pill" data-mode="人">行人</span>
       <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+      <span class="mode-hint"><span class="t-zh">雙擊可複選</span><span class="t-en">dbl-click = multi</span></span>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">View</span>
@@ -1923,12 +1925,12 @@ function __main() {
   }
 
   // ---------- Filter state ----------
-  const state = { year: 'all', mode: 'all', view: 'points', hwy: 'on', sw: 'off', selectedId: null };
+  const state = { year: 'all', modes: [], view: 'points', hwy: 'on', sw: 'off', selectedId: null };
 
   function filteredAll() {
     return DATA.filter(e =>
       (state.year === 'all' || String(e.year) === state.year) &&
-      (state.mode === 'all' || e.mode === state.mode)
+      (state.modes.length === 0 || state.modes.includes(e.mode))
     );
   }
   function filteredOnMap() {
@@ -2662,12 +2664,34 @@ const markerLayer = L.layerGroup().addTo(map);
       refresh();
     });
   });
+  function syncModePills() {
+    document.querySelectorAll('[data-mode]').forEach(x => {
+      const m = x.dataset.mode;
+      const on = (m === 'all') ? state.modes.length === 0 : state.modes.includes(m);
+      x.classList.toggle('active', on);
+    });
+  }
+  // Single click = exclusive select · double click = toggle into a multi-select combo
   document.querySelectorAll('[data-mode]').forEach(el => {
+    let timer = null;
     el.addEventListener('click', () => {
-      document.querySelectorAll('[data-mode]').forEach(x => x.classList.remove('active'));
-      el.classList.add('active');
-      state.mode = el.dataset.mode;
-      refresh();
+      if (timer) return;               // 2nd click of a double-click — ignore
+      timer = setTimeout(() => {
+        timer = null;
+        const m = el.dataset.mode;
+        state.modes = (m === 'all') ? [] : [m];   // exclusive
+        syncModePills(); refresh();
+      }, 200);
+    });
+    el.addEventListener('dblclick', () => {
+      if (timer) { clearTimeout(timer); timer = null; }
+      const m = el.dataset.mode;
+      if (m === 'all') { state.modes = []; }       // back to all
+      else {
+        const i = state.modes.indexOf(m);
+        if (i >= 0) state.modes.splice(i, 1); else state.modes.push(m);  // toggle in combo
+      }
+      syncModePills(); refresh();
     });
   });
   document.querySelectorAll('[data-view]').forEach(el => {
