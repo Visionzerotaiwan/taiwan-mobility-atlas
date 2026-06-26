@@ -1374,7 +1374,7 @@ body.lang-en #hdrTitleZh { display: none; }
       </div>
       <div class="kpi">
         <div class="kpi-label">Motorcycle</div>
-        <div class="kpi-zh"><span class="t-zh">機車為受害最多的用路人</span><span class="t-en">Motorcyclists — most victims</span></div>
+        <div class="kpi-zh"><span class="t-zh">機車騎士為 A1 事故死亡人數最多的用路人</span><span class="t-en">Motorcyclists — most A1 deaths</span></div>
         <div class="kpi-num" id="kMoto">226<small><span class="t-zh">件</span><span class="t-en">ev</span></small></div>
       </div>
       <div class="kpi">
@@ -1525,9 +1525,9 @@ body.lang-en #hdrTitleZh { display: none; }
     <div class="filter-group">
       <span class="filter-group-label">Victim</span>
       <span class="cat-pill active" data-mode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
-      <span class="cat-pill" data-mode="機車">機車</span>
-      <span class="cat-pill" data-mode="汽車">汽/貨車</span>
-      <span class="cat-pill" data-mode="人">行人</span>
+      <span class="cat-pill" data-mode="機車"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="cat-pill" data-mode="汽車"><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
+      <span class="cat-pill" data-mode="人"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
       <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
       <span class="mode-hint"><span class="t-zh">雙擊可複選</span><span class="t-en">dbl-click = multi</span></span>
     </div>
@@ -1544,12 +1544,12 @@ body.lang-en #hdrTitleZh { display: none; }
       <span class="cat-pill" data-base="satellite"><span class="t-zh">衛星</span><span class="t-en">Satellite</span></span>
     </div>
     <div class="filter-group">
-      <span class="filter-group-label">幹線 Hwys</span>
+      <span class="filter-group-label"><span class="t-zh">幹線 Hwys</span><span class="t-en">Hwys</span></span>
       <span class="cat-pill active" data-hwy="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
       <span class="cat-pill" data-hwy="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
     </div>
     <div class="filter-group" id="swGroup" style="display:none">
-      <span class="filter-group-label" id="swLabel">人行道 Sidewalks</span>
+      <span class="filter-group-label" id="swLabel"><span class="t-zh">人行道 Sidewalks</span><span class="t-en">Sidewalks</span></span>
       <span class="cat-pill" data-sw="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
       <span class="cat-pill active" data-sw="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
     </div>
@@ -1843,9 +1843,19 @@ body.lang-en #hdrTitleZh { display: none; }
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <script src="data/cities.js"></script>
+<script src="data/townships_en.js"></script>
 <script>
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
 function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
+// English labels for breakdown-chart categories (victim mode / road type / light)
+const CAT_EN = {
+  '機車':'Motorcycle','汽車':'Car / truck','人':'Pedestrian','慢車':'Bicycle / slow','其他':'Other',
+  '市區道路':'Urban road','國道':'Freeway','省道':'Provincial hwy','鄉道':'Township road','縣道':'County road','村里道路':'Village road','快速(公)道':'Expressway','專用道路':'Dedicated road',
+  '日間自然光線':'Daylight','夜間(或隧道、地下道、涵洞)有照明':'Night · lit','夜間(或隧道、地下道、涵洞)無照明':'Night · unlit','晨或暮光':'Dawn / dusk','無照明':'No lighting','有照明未開啟或故障':'Light off / broken','有照明且開啟':'Light on'
+};
+function catEN(k) { return TT(k, CAT_EN[k] || k); }
+// English township/district name (Hanyu Pinyin), zh in zh-mode
+function enTown(t) { return TT(t, (window.TOWN_EN && window.TOWN_EN[t]) || t); }
 function setLang(l) {
   window.__LANG = l;
   document.body.classList.toggle('lang-en', l === 'en');
@@ -2081,7 +2091,7 @@ function __main() {
     let html = `<div class="corner">DISTRICT · YEAR</div>`;
     years.forEach(y => { html += `<div class="col-head">${y}</div>`; });
     districts.forEach(d => {
-      html += `<div class="row-label">${d}</div>`;
+      html += `<div class="row-label">${enTown(d)}</div>`;
       years.forEach(y => {
         const yr = YEARLY.find(x => x.year === y);
         const v = yr.by_district[d] || 0;
@@ -2256,7 +2266,7 @@ const markerLayer = L.layerGroup().addTo(map);
       fillOpacity: 0.9,
       className: 'lf-marker',
     });
-    m.bindTooltip(`${ev.date.slice(0,4)}.${ev.date.slice(4,6)}.${ev.date.slice(6,8)} · ${ev.district}`, {
+    m.bindTooltip(`${ev.date.slice(0,4)}.${ev.date.slice(4,6)}.${ev.date.slice(6,8)} · ${enTown(ev.district)}`, {
       className: 'taitung-tt',
       direction: 'top',
       offset: [0, -6],
@@ -2348,10 +2358,10 @@ const markerLayer = L.layerGroup().addTo(map);
             kmLabel = lo === hi ? `${lo}k` : `${lo}–${hi}k`;
           }
           label = `${road} ${kmLabel}`.trim();
-          sublabel = districts.slice(0, 2).join(' / ');
+          sublabel = districts.slice(0, 2).map(enTown).join(' / ');
         } else {
           label = lead.location;
-          sublabel = districts[0];
+          sublabel = enTown(districts[0]);
         }
 
         // mean coordinate (excluding centroid-suspect dupes)
@@ -2554,7 +2564,7 @@ const markerLayer = L.layerGroup().addTo(map);
       const low = districtSort === 'rate' && r.deaths < 30;  // unstable per-10k rate
       const flag = low ? `<span class="lowN" title="${TT('樣本數 <30，每萬人率僅供參考','N<30 — rate unstable')}">N&lt;30</span>` : '';
       return `<div class="district-row ${rankCls}${low ? ' lowN-row' : ''}">
-        <div class="d-name">${r.name}${flag}</div>
+        <div class="d-name">${enTown(r.name)}${flag}</div>
         <div class="d-track"><div class="d-fill" style="width:${fillPct.toFixed(1)}%"></div></div>
         <div class="d-abs">${r.deaths}<small style="font-family:var(--font-en);font-size:8px;color:var(--grey-2);letter-spacing:0.1em;display:block">DEATHS</small></div>
         <div class="d-rate">${rateTxt}<small>${TT('/萬','/10k')} · ${popTxt}</small></div>
@@ -2580,7 +2590,7 @@ const markerLayer = L.layerGroup().addTo(map);
       const cls = (opts.cls && opts.cls(k)) || '';
       const pct = (v/total*100).toFixed(0);
       return `<div class="bar-row ${cls}">
-        <div class="bar-label">${k}</div>
+        <div class="bar-label">${catEN(k)}</div>
         <div class="bar-track"><div class="bar-fill" style="width:${(v/max*100).toFixed(1)}%"></div></div>
         <div class="bar-val">${v}<small>${pct}%</small></div>
       </div>`;
@@ -3663,7 +3673,7 @@ const markerLayer = L.layerGroup().addTo(map);
               const v = +sl.value + 1;
               sl.value = v; lcfRender(v);
               if (v >= 2050) lcfStop();
-            }, 240);
+            }, 5000);
           });
           sl.addEventListener('input', lcfStop);
         }
@@ -3719,7 +3729,7 @@ const markerLayer = L.layerGroup().addTo(map);
         'pedestrians ' + ped + ' (' + pct(ped) + '%), bicycle/slow ' + slow + ' (' + pct(slow) + '%) — ' +
         '<strong>vulnerable users total ' + pct(vuln) + '%</strong>.<br>' +
         'The decade peak was <strong>' + peak.year + '</strong> (' + peak.deaths + ' deaths); the latest year ' + latest.year + ' had ' + latest.deaths + '. ' +
-        '<strong>' + topD[0] + '</strong> has the most cumulative deaths (' + topD[1] + '), a priority area.';
+        '<strong>' + enTown(topD[0]) + '</strong> has the most cumulative deaths (' + topD[1] + '), a priority area.';
     } else {
       el.innerHTML =
         '過去十年間，每年約有 <strong>' + avg + '</strong> 人在' + zh + '道路上喪生。' +
