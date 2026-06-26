@@ -2257,11 +2257,11 @@ const markerLayer = L.layerGroup().addTo(map);
 
   function makeMarker(ev) {
     const color = MODE_COLOR[ev.mode] || '#888';
-    const radius = 6 + Math.min(ev.deaths - 1, 3) * 2;
+    const radius = 3 + Math.min(ev.deaths - 1, 3);   // 50% smaller (was 6 + …*2 → 6–12; now 3–6)
     const m = L.circleMarker([ev.lat, ev.lon], {
       radius,
       color: '#1A1A1A',
-      weight: 1.2,
+      weight: 0.8,
       fillColor: color,
       fillOpacity: 0.9,
       className: 'lf-marker',
