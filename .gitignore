@@ -5,3 +5,6 @@ __pycache__/
 資料.zip
 node_modules/
 _*.html
+
+# Claude Code local preview config
+.claude/launch.json
