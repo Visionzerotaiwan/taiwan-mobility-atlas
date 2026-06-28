@@ -507,15 +507,15 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--grey-2); font-weight: 600;
 }
-.cat-pill {
+.cat-pill, .pt-pill {
   font-size: 11px; font-weight: 400; padding: 6px 11px;
   border: 1px solid var(--grey-3); cursor: pointer;
   letter-spacing: 0.03em; background: var(--white);
   user-select: none; transition: background .12s, border-color .12s;
 }
-.cat-pill.en { font-family: var(--font-en); letter-spacing: 0.05em; font-weight: 500; }
-.cat-pill:hover { border-color: var(--black); }
-.cat-pill.active { background: var(--lime); border-color: var(--lime); font-weight: 700; }
+.cat-pill.en, .pt-pill.en { font-family: var(--font-en); letter-spacing: 0.05em; font-weight: 500; }
+.cat-pill:hover, .pt-pill:hover { border-color: var(--black); }
+.cat-pill.active, .pt-pill.active { background: var(--lime); border-color: var(--lime); font-weight: 700; }
 
 /* Map area */
 .map-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 24px; }
@@ -532,6 +532,22 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--grey-2); margin-right: 8px;
 }
+
+/* ── National crash-points (dot) map — Section 04 ── */
+.ptmap-wrap { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px; }
+#ptmap { height: 760px; background: var(--grey-4); border: 1px solid var(--grey-3); }
+#ptmap .leaflet-interactive { cursor: pointer; }
+.ptmap-legend {
+  display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 12px 4px 2px;
+  align-items: center; font-family: var(--font-zh); font-size: 12px;
+  color: var(--grey-1); letter-spacing: 0.03em;
+}
+.ptmap-legend .lg-dot { display: inline-flex; align-items: center; gap: 6px; }
+.ptmap-legend .lg-dot i {
+  width: 11px; height: 11px; border-radius: 50%;
+  border: 1px solid #1A1A1A; display: inline-block;
+}
+.ptmap-note { width: 100%; margin-top: 4px; font-size: 11px; font-weight: 300; color: var(--grey-2); letter-spacing: 0.02em; }
 
 /* Side panel */
 .side-panel {
@@ -725,6 +741,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   .filter-bar { padding: 14px 14px; gap: 10px 14px; }
   .filter-group { width: 100%; }
   .filter-group-label { width: 100%; }
+  #ptmap { height: 480px; }
 }
 
 /* ── i18n + logo ── */
@@ -963,9 +980,66 @@ body.lang-en .t-en-b { display: block; }
   </div>
 </div>
 
+<!-- 04 — National crash points (dot map) -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">04 — National Crash Points 全國事故點位地圖</span><span class="t-en">04 — National Crash Points</span></div>
+
+  <div class="county-card" style="margin-bottom:18px">
+    <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
+      <span class="t-zh">每一個點，都是一條在 24 小時內逝去的人命</span>
+      <span class="t-en">Every dot is a life lost within 24 hours</span>
+    </div>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
+      <span class="t-zh">全台 <strong>13,708</strong> 件可定位的 A1 死亡事故（2016–2025），依受害者運具著色。其餘約 3,000 件因原始資料缺座標（多為 2016–2017、2021 簡式年度）未能標點。點選任一點可進入該縣市的完整互動地圖。</span>
+      <span class="t-en"><strong>13,708</strong> geolocatable A1 fatal crashes nationwide (2016–2025), coloured by victim's mode of travel. ~3,000 more lack coordinates in the source data (mostly the 2016–2017 &amp; 2021 simplified years). Click any dot to open that county's full interactive map.</span>
+    </p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">Victim</span>
+      <span class="pt-pill active" data-pmode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
+      <span class="pt-pill" data-pmode="0"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="pt-pill" data-pmode="1"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
+      <span class="pt-pill" data-pmode="2"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="pt-pill" data-pmode="3"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Year</span>
+      <span class="pt-pill en active" data-pyear="all">All</span>
+      <span class="pt-pill en" data-pyear="2016">2016</span>
+      <span class="pt-pill en" data-pyear="2017">2017</span>
+      <span class="pt-pill en" data-pyear="2018">2018</span>
+      <span class="pt-pill en" data-pyear="2019">2019</span>
+      <span class="pt-pill en" data-pyear="2020">2020</span>
+      <span class="pt-pill en" data-pyear="2021">2021</span>
+      <span class="pt-pill en" data-pyear="2022">2022</span>
+      <span class="pt-pill en" data-pyear="2023">2023</span>
+      <span class="pt-pill en" data-pyear="2024">2024</span>
+      <span class="pt-pill en" data-pyear="2025">2025</span>
+    </div>
+    <div class="filter-group" style="margin-left:auto">
+      <span class="filter-group-label" id="ptCount">— A1</span>
+    </div>
+  </div>
+
+  <div class="ptmap-wrap">
+    <div id="ptmap"></div>
+    <div class="ptmap-legend">
+      <span class="legend-title">Victim</span>
+      <span class="lg-dot"><i style="background:#1A1A1A"></i><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="lg-dot"><i style="background:#3A7CC3"></i><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
+      <span class="lg-dot"><i style="background:#D94F3D"></i><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="lg-dot"><i style="background:#E8A825"></i><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+      <span class="lg-dot"><i style="background:#888888"></i><span class="t-zh">其他</span><span class="t-en">Other</span></span>
+      <span class="ptmap-note"><span class="t-zh">點大小依死亡人數 · 滑過看地點 · 點擊進入縣市地圖</span><span class="t-en">Dot size ∝ deaths · hover for location · click to open the county map</span></span>
+    </div>
+  </div>
+</div>
+
 <!-- 03 — Choropleth -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">04 — District-Level Choropleth 行政區面量圖</span><span class="t-en">04 — District-Level Choropleth</span></div>
+  <div class="section-label"><span class="t-zh">05 — District-Level Choropleth 行政區面量圖</span><span class="t-en">05 — District-Level Choropleth</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -1022,7 +1096,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 04 — County choropleth -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">05 — County Choropleth 縣市熱力圖</span><span class="t-en">05 — County Choropleth</span></div>
+  <div class="section-label"><span class="t-zh">06 — County Choropleth 縣市熱力圖</span><span class="t-en">06 — County Choropleth</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -1058,7 +1132,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 05 — Age × Accident Type -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">06 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">06 — Age × Accident Type</span></div>
+  <div class="section-label"><span class="t-zh">07 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">07 — Age × Accident Type</span></div>
 
   <div class="age-card">
     <div class="age-hero">
@@ -1129,7 +1203,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 07 — Gender Lens -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">07 — Gender Lens 性別視角</span><span class="t-en">07 — Gender Lens</span></div>
+  <div class="section-label"><span class="t-zh">08 — Gender Lens 性別視角</span><span class="t-en">08 — Gender Lens</span></div>
   <div class="age-card">
     <div class="card-zh" style="font-size:14px;color:var(--grey-2);margin-bottom:22px"><span class="t-zh">全國 A1 死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">National A1 victim gender · overall &amp; by mode (decade · identifiable victims)</span></div>
     <div id="natGender"></div>
@@ -1138,7 +1212,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — Structure (whitepaper data) -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">08 — Structure 結構的代價</span><span class="t-en">08 — The Price of Structure</span></div>
+  <div class="section-label"><span class="t-zh">09 — Structure 結構的代價</span><span class="t-en">09 — The Price of Structure</span></div>
   <a href="whitepaper.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--lime)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1153,7 +1227,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — International Comparison -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">09 — International 國際比較</span><span class="t-en">09 — International</span></div>
+  <div class="section-label"><span class="t-zh">10 — International 國際比較</span><span class="t-en">10 — International</span></div>
   <a href="international.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--red)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1168,7 +1242,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 09 — Climate Evidence -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">10 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">10 — Climate Evidence</span></div>
+  <div class="section-label"><span class="t-zh">11 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">11 — Climate Evidence</span></div>
   <a href="climate.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--gold,#E8A825)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1183,7 +1257,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 10 — Dual-Zero Vision -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">11 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">11 — Dual-Zero Vision</span></div>
+  <div class="section-label"><span class="t-zh">12 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">12 — Dual-Zero Vision</span></div>
   <a href="vision.html" style="display:block;background:var(--black);color:var(--white);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1198,7 +1272,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 11 — Notes -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">12 — Notes 資料說明</span><span class="t-en">12 — Notes</span></div>
+  <div class="section-label"><span class="t-zh">13 — Notes 資料說明</span><span class="t-en">13 — Notes</span></div>
   <div class="county-card">
     <div class="card-zh"><span class="t-zh">關於本面量圖</span><span class="t-en">About this choropleth</span></div>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
@@ -1270,6 +1344,7 @@ body.lang-en .t-en-b { display: block; }
 <script src="data/cities.js"></script>
 <script src="data/townships_en.js"></script>
 <script src="data/official_30day.js"></script>
+<script src="data/national_points.js"></script>
 <script>
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
@@ -2151,6 +2226,103 @@ document.addEventListener('DOMContentLoaded', () => {
   recomputeCounty();
   // County map needs a size invalidation once laid out
   setTimeout(() => countyMap.invalidateSize(), 200);
+})();
+</script>
+
+<!-- ════ National crash-points (dot) map · Section 04 ════ -->
+<script>
+(function () {
+  const NP = window.NATIONAL_POINTS;
+  if (!NP || !document.getElementById('ptmap')) return;
+  const isEN = () => document.body.classList.contains('lang-en');
+  const MODE_COLOR = ['#1A1A1A', '#3A7CC3', '#D94F3D', '#E8A825', '#888888'];
+
+  const map = L.map('ptmap', {
+    center: [23.75, 120.95], zoom: 7, minZoom: 6, maxZoom: 16,
+    zoomControl: true, scrollWheelZoom: true, preferCanvas: true,
+    attributionControl: true,
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
+  }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd', maxZoom: 19, pane: 'shadowPane',
+  }).addTo(map);
+
+  const renderer = L.canvas({ padding: 0.5 });
+  const group = L.featureGroup().addTo(map);   // featureGroup → child events bubble up
+
+  // Pre-build every marker once; filters just re-select from this array.
+  const all = NP.pts.map(p => {
+    const r = 2.4 + Math.min((p[4] || 1) - 1, 3) * 0.7;   // radius ∝ deaths (small & clean)
+    const m = L.circleMarker([p[0], p[1]], {
+      renderer, radius: r, stroke: false,
+      fillColor: MODE_COLOR[p[2]] || '#888', fillOpacity: 0.82,
+    });
+    m._p = p;
+    return m;
+  });
+
+  // One hover + one click handler for the whole group (no per-marker listeners).
+  group.on('mouseover', e => {
+    const p = e.layer && e.layer._p; if (!p) return;
+    const c = NP.counties[p[5]] || {};
+    const cN = isEN() ? (c.en || c.zh || '') : (c.zh || '');
+    const dN = isEN() ? ((window.TOWN_EN && window.TOWN_EN[p[6]]) || p[6]) : p[6];
+    const mN = isEN() ? NP.modes_en[p[2]] : NP.modes[p[2]];
+    const dl = isEN() ? 'deaths' : '死亡';
+    e.layer.bindTooltip(`${p[3]} · ${cN} ${dN}<br>${mN} · ${p[4]} ${dl}`,
+      { direction: 'top', offset: [0, -3] }).openTooltip();
+  });
+  group.on('click', e => {
+    const p = e.layer && e.layer._p; if (!p) return;
+    const c = NP.counties[p[5]];
+    if (c && c.slug) window.location.href = 'city.html?c=' + c.slug;
+  });
+
+  let curMode = 'all', curYear = 'all';
+  function updateCount(n, d) {
+    const el = document.getElementById('ptCount');
+    if (!el) return;
+    el.__n = n; el.__d = d;
+    el.textContent = isEN()
+      ? `${n.toLocaleString()} crashes · ${d.toLocaleString()} deaths`
+      : `${n.toLocaleString()} 件 · ${d.toLocaleString()} 死亡`;
+  }
+  function draw() {
+    group.clearLayers();
+    const layers = []; let n = 0, d = 0;
+    for (const m of all) {
+      const p = m._p;
+      if (curMode !== 'all' && p[2] !== +curMode) continue;
+      if (curYear !== 'all' && p[3] !== +curYear) continue;
+      layers.push(m); n++; d += (p[4] || 1);
+    }
+    layers.forEach(m => group.addLayer(m));
+    updateCount(n, d);
+  }
+
+  map.fitBounds([[21.9, 120.0], [25.35, 122.05]]);  // main island
+  draw();
+
+  document.querySelectorAll('.pt-pill[data-pmode]').forEach(pill =>
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-pmode]').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active'); curMode = pill.dataset.pmode; draw();
+    }));
+  document.querySelectorAll('.pt-pill[data-pyear]').forEach(pill =>
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-pyear]').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active'); curYear = pill.dataset.pyear; draw();
+    }));
+
+  // Re-localize the count when the site language toggles.
+  new MutationObserver(() => {
+    const el = document.getElementById('ptCount');
+    if (el && el.__n != null) updateCount(el.__n, el.__d);
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  setTimeout(() => map.invalidateSize(), 300);
 })();
 </script>
 </body>
