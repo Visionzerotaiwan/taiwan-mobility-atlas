@@ -586,6 +586,23 @@ body {
 .party-row.role-victim .pname { color: var(--red); font-weight: 500; }
 
 /* News-verification block (sampled accuracy audit) */
+.detail-sv {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 14px; padding: 10px 13px;
+  text-decoration: none;
+  background: var(--black); color: var(--white);
+  border-radius: 2px; transition: background .12s;
+}
+.detail-sv:hover { background: #333; }
+.detail-sv .sv-ico { font-size: 15px; line-height: 1; }
+.detail-sv .sv-txt {
+  font-family: var(--font-zh); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; flex: 1;
+}
+.detail-sv .sv-arrow {
+  font-family: var(--font-en); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--lime);
+}
 .detail-news {
   display: flex;
   flex-direction: column;
@@ -2495,6 +2512,17 @@ const markerLayer = L.layerGroup().addTo(map);
       </div>
     `;
 
+    // Google Street View — opens the scene at this crash's coordinates (no API key).
+    let svBlock = '';
+    if (+ev.lat && +ev.lon) {
+      const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${ev.lat},${ev.lon}`;
+      svBlock = `<a class="detail-sv" href="${sv}" target="_blank" rel="noopener">
+        <span class="sv-ico">📍</span>
+        <span class="sv-txt">${TT('在 Google 街景看現場道路', 'View this spot in Google Street View')}</span>
+        <span class="sv-arrow">↗</span>
+      </a>`;
+    }
+
     card.innerHTML = `
       <div class="detail-date">${fmtDate(ev.date)} · ${fmtTime(ev.time)}</div>
       <div class="detail-loc">${ev.location}</div>
@@ -2504,6 +2532,7 @@ const markerLayer = L.layerGroup().addTo(map);
       </div>
       ${optionalRows}
       ${partiesBlock}
+      ${svBlock}
       ${newsBlock}
     `;
   }
