@@ -549,6 +549,35 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 }
 .ptmap-note { width: 100%; margin-top: 4px; font-size: 11px; font-weight: 300; color: var(--grey-2); letter-spacing: 0.02em; }
 
+/* ── Deadliest road segments (Section 07) ── */
+.dseg-wrap { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.dseg-row {
+  display: grid; grid-template-columns: 40px 1fr auto; gap: 14px;
+  align-items: center; padding: 14px 22px; border-top: 1px solid var(--grey-4);
+}
+.dseg-row:first-child { border-top: none; }
+.dseg-row:hover { background: var(--grey-4); }
+.dseg-rank { font-family: var(--font-en); font-size: 20px; font-weight: 300; color: var(--grey-3); text-align: center; }
+.dseg-row.top1 .dseg-rank { color: var(--red); font-weight: 500; }
+.dseg-row.top2 .dseg-rank, .dseg-row.top3 .dseg-rank { color: var(--gold); }
+.dseg-info { min-width: 0; }
+.dseg-label { font-size: 15px; font-weight: 700; color: var(--black); letter-spacing: 0.02em; line-height: 1.3; }
+.dseg-label .seg-tag { font-family: var(--font-en); font-size: 8.5px; font-weight: 700; letter-spacing: 0.15em; color: var(--gold-dk, #A8801A); margin-left: 7px; vertical-align: 1px; }
+.dseg-meta { font-size: 11.5px; font-weight: 300; color: var(--grey-1); margin-top: 3px; }
+.dseg-meta .sep { color: var(--grey-3); margin: 0 6px; }
+.dseg-mix { display: flex; height: 5px; margin-top: 7px; max-width: 280px; border-radius: 2px; overflow: hidden; background: var(--grey-4); }
+.dseg-mix i { height: 100%; }
+.dseg-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.dseg-deaths { font-family: var(--font-en); font-size: 26px; font-weight: 400; color: var(--red); line-height: 1; }
+.dseg-deaths small { font-size: 10px; color: var(--grey-2); font-weight: 300; letter-spacing: 0.04em; }
+.dseg-sv { font-family: var(--font-zh); font-size: 11px; color: var(--blue); text-decoration: none; white-space: nowrap; }
+.dseg-sv:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .dseg-row { grid-template-columns: 28px 1fr auto; padding: 12px 14px; gap: 10px; }
+  .dseg-label { font-size: 14px; }
+  .dseg-deaths { font-size: 22px; }
+}
+
 /* Side panel */
 .side-panel {
   background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08);
@@ -1130,9 +1159,42 @@ body.lang-en .t-en-b { display: block; }
   </div>
 </div>
 
+<!-- 07 — Deadliest road segments -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">07 — Deadliest Road Segments 全國最危險路段</span><span class="t-en">07 — Deadliest Road Segments</span></div>
+
+  <div class="county-card" style="margin-bottom:16px">
+    <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
+      <span class="t-zh">十年來，奪命最多的十個路段</span>
+      <span class="t-en">The ten road segments that have killed the most</span>
+    </div>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
+      <span class="t-zh">依受害者運具切換。有道路名稱＋里程者聚合為「~3 公里路段」（標記 ⚑），其餘以 ~300 公尺方格聚合，依十年累計死亡排序。已濾除座標落在行政中心的「定位失敗群集」（同一座標混入多個行政區與路名者）。點「看街景」可直接看現場道路。</span>
+      <span class="t-en">Switch by victim's mode. Roads with a name + km are clustered into ~3 km segments (⚑); others into ~300 m cells, ranked by 10-year cumulative deaths. Geocoder "failure clusters" (one fallback coordinate mixing many districts &amp; roads) are filtered out. Tap "Street View" to see the actual road.</span>
+    </p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">Victim</span>
+      <span class="pt-pill active" data-dmode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
+      <span class="pt-pill" data-dmode="機車"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="pt-pill" data-dmode="汽車"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
+      <span class="pt-pill" data-dmode="人"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="pt-pill" data-dmode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+    </div>
+  </div>
+
+  <div class="dseg-wrap"><div id="dsegList"></div></div>
+  <div class="ptmap-note" style="padding:0 2px">
+    <span class="t-zh">⚑ = 可解析里程之線型路段；其餘為點位群集。死亡數為該運具十年累計。A1（24 小時內死亡）。</span>
+    <span class="t-en">⚑ = a linear segment with km markers; others are point clusters. Deaths = 10-year cumulative for that mode. A1 (death within 24 h).</span>
+  </div>
+</div>
+
 <!-- 05 — Age × Accident Type -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">07 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">07 — Age × Accident Type</span></div>
+  <div class="section-label"><span class="t-zh">08 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">08 — Age × Accident Type</span></div>
 
   <div class="age-card">
     <div class="age-hero">
@@ -1203,7 +1265,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 07 — Gender Lens -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">08 — Gender Lens 性別視角</span><span class="t-en">08 — Gender Lens</span></div>
+  <div class="section-label"><span class="t-zh">09 — Gender Lens 性別視角</span><span class="t-en">09 — Gender Lens</span></div>
   <div class="age-card">
     <div class="card-zh" style="font-size:14px;color:var(--grey-2);margin-bottom:22px"><span class="t-zh">全國 A1 死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">National A1 victim gender · overall &amp; by mode (decade · identifiable victims)</span></div>
     <div id="natGender"></div>
@@ -1212,7 +1274,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — Structure (whitepaper data) -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">09 — Structure 結構的代價</span><span class="t-en">09 — The Price of Structure</span></div>
+  <div class="section-label"><span class="t-zh">10 — Structure 結構的代價</span><span class="t-en">10 — The Price of Structure</span></div>
   <a href="whitepaper.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--lime)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1227,7 +1289,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — International Comparison -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">10 — International 國際比較</span><span class="t-en">10 — International</span></div>
+  <div class="section-label"><span class="t-zh">11 — International 國際比較</span><span class="t-en">11 — International</span></div>
   <a href="international.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--red)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1242,7 +1304,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 09 — Climate Evidence -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">11 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">11 — Climate Evidence</span></div>
+  <div class="section-label"><span class="t-zh">12 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">12 — Climate Evidence</span></div>
   <a href="climate.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--gold,#E8A825)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1257,7 +1319,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 10 — Dual-Zero Vision -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">12 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">12 — Dual-Zero Vision</span></div>
+  <div class="section-label"><span class="t-zh">13 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">13 — Dual-Zero Vision</span></div>
   <a href="vision.html" style="display:block;background:var(--black);color:var(--white);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1272,7 +1334,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 11 — Notes -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">13 — Notes 資料說明</span><span class="t-en">13 — Notes</span></div>
+  <div class="section-label"><span class="t-zh">14 — Notes 資料說明</span><span class="t-en">14 — Notes</span></div>
   <div class="county-card">
     <div class="card-zh"><span class="t-zh">關於本面量圖</span><span class="t-en">About this choropleth</span></div>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
@@ -1345,6 +1407,7 @@ body.lang-en .t-en-b { display: block; }
 <script src="data/townships_en.js"></script>
 <script src="data/official_30day.js"></script>
 <script src="data/national_points.js"></script>
+<script src="data/hotspots_national.js"></script>
 <script>
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
@@ -2323,6 +2386,59 @@ document.addEventListener('DOMContentLoaded', () => {
   }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
   setTimeout(() => map.invalidateSize(), 300);
+})();
+</script>
+
+<!-- ════ Deadliest road segments · Section 07 ════ -->
+<script>
+(function () {
+  const H = window.NATIONAL_HOTSPOTS;
+  if (!H || !document.getElementById('dsegList')) return;
+  const isEN = () => document.body.classList.contains('lang-en');
+  const MC = { '機車': '#1A1A1A', '汽車': '#3A7CC3', '人': '#D94F3D', '慢車': '#E8A825', '其他': '#888888' };
+  const MODES = ['機車', '汽車', '人', '慢車', '其他'];
+  const enC = c => (window.__COUNTY2EN && window.__COUNTY2EN[c]) || c;
+  const enT = t => (window.TOWN_EN && window.TOWN_EN[t]) || t;
+  let cur = 'all';
+
+  function render() {
+    const list = H.by_mode[cur] || [];
+    const en = isEN();
+    document.getElementById('dsegList').innerHTML = list.map((h, i) => {
+      const rc = i === 0 ? 'top1' : (i < 3 ? 'top' + (i + 1) : '');
+      const county = en ? enC(h.countyZh) : h.countyZh;
+      const dists = h.districts.map(d => en ? enT(d) : d).join(' / ');
+      const tag = h.isSegment ? `<span class="seg-tag">⚑ ${en ? 'SEGMENT' : '路段'}</span>` : '';
+      const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${h.lat},${h.lon}`;
+      let mix = '';
+      if (cur === 'all') {
+        const tot = h.deaths || 1;
+        mix = `<div class="dseg-mix">` + MODES.map(m => {
+          const v = h.breakdown[m] || 0;
+          return v ? `<i style="width:${(v / tot * 100).toFixed(1)}%;background:${MC[m]}"></i>` : '';
+        }).join('') + `</div>`;
+      }
+      return `<div class="dseg-row ${rc}">
+        <div class="dseg-rank">${i + 1}</div>
+        <div class="dseg-info">
+          <div class="dseg-label">${h.label}${tag}</div>
+          <div class="dseg-meta">${county}<span class="sep">·</span>${dists}<span class="sep">·</span>${h.yrRange}<span class="sep">·</span>${h.events} ${en ? 'events' : '件'}</div>
+          ${mix}
+        </div>
+        <div class="dseg-right">
+          <div class="dseg-deaths">${h.deaths}<small> ${en ? 'deaths' : '死亡'}</small></div>
+          <a class="dseg-sv" href="${sv}" target="_blank" rel="noopener">📍 ${en ? 'Street View ↗' : '看街景 ↗'}</a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  render();
+  document.querySelectorAll('.pt-pill[data-dmode]').forEach(p =>
+    p.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-dmode]').forEach(x => x.classList.remove('active'));
+      p.classList.add('active'); cur = p.dataset.dmode; render();
+    }));
+  new MutationObserver(() => render()).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
 </body>
