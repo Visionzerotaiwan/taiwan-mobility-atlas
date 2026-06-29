@@ -556,7 +556,11 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   align-items: center; padding: 14px 22px; border-top: 1px solid var(--grey-4);
 }
 .dseg-row:first-child { border-top: none; }
+.dseg-row { cursor: pointer; }
 .dseg-row:hover { background: var(--grey-4); }
+.dseg-row:hover .dseg-label { color: var(--lime-dk); }
+@keyframes focusPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.focus-ring { animation: focusPulse 1.2s ease-in-out infinite; }
 .dseg-rank { font-family: var(--font-en); font-size: 20px; font-weight: 300; color: var(--grey-3); text-align: center; }
 .dseg-row.top1 .dseg-rank { color: var(--red); font-weight: 500; }
 .dseg-row.top2 .dseg-rank, .dseg-row.top3 .dseg-rank { color: var(--gold); }
@@ -1169,8 +1173,8 @@ body.lang-en .t-en-b { display: block; }
       <span class="t-en">The ten road segments that have killed the most</span>
     </div>
     <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
-      <span class="t-zh">依受害者運具切換。有道路名稱＋里程者聚合為「~3 公里路段」（標記 ⚑），其餘以 ~300 公尺方格聚合，依十年累計死亡排序。已濾除座標落在行政中心的「定位失敗群集」（同一座標混入多個行政區與路名者）。點「看街景」可直接看現場道路。</span>
-      <span class="t-en">Switch by victim's mode. Roads with a name + km are clustered into ~3 km segments (⚑); others into ~300 m cells, ranked by 10-year cumulative deaths. Geocoder "failure clusters" (one fallback coordinate mixing many districts &amp; roads) are filtered out. Tap "Street View" to see the actual road.</span>
+      <span class="t-zh">依受害者運具切換。有道路名稱＋里程者聚合為「~3 公里路段」（標記 ⚑），其餘以 ~300 公尺方格聚合，依十年累計死亡排序。已濾除座標落在行政中心的「定位失敗群集」（同一座標混入多個行政區與路名者）。<strong>點任一列可在上方 §04 地圖定位</strong>，點「看街景」直接看現場道路。</span>
+      <span class="t-en">Switch by victim's mode. Roads with a name + km are clustered into ~3 km segments (⚑); others into ~300 m cells, ranked by 10-year cumulative deaths. Geocoder "failure clusters" (one fallback coordinate mixing many districts &amp; roads) are filtered out. <strong>Click any row to locate it on the §04 map above</strong>; tap "Street View" to see the actual road.</span>
     </p>
   </div>
 
@@ -2385,6 +2389,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el && el.__n != null) updateCount(el.__n, el.__d);
   }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
+  // Hook for §07 "deadliest segments": fly here, drop a pulsing highlight ring.
+  const svgR = L.svg();
+  let focusRing = null;
+  window.__focusCrashMap = function (lat, lon, label) {
+    const wrap = document.getElementById('ptmap');
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => map.invalidateSize(), 350);
+    map.setView([lat, lon], 15, { animate: true });
+    if (focusRing) map.removeLayer(focusRing);
+    focusRing = L.circleMarker([lat, lon], {
+      renderer: svgR, radius: 16, color: '#D94F3D', weight: 3,
+      fill: false, className: 'focus-ring',
+    }).addTo(map);
+    if (label) focusRing.bindTooltip(label, { permanent: true, direction: 'top', offset: [0, -8] }).openTooltip();
+  };
+
   setTimeout(() => map.invalidateSize(), 300);
 })();
 </script>
@@ -2418,7 +2438,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return v ? `<i style="width:${(v / tot * 100).toFixed(1)}%;background:${MC[m]}"></i>` : '';
         }).join('') + `</div>`;
       }
-      return `<div class="dseg-row ${rc}">
+      return `<div class="dseg-row ${rc}" data-lat="${h.lat}" data-lon="${h.lon}" data-flabel="${h.label} · ${h.deaths}${en ? ' deaths' : ' 死亡'}">
         <div class="dseg-rank">${i + 1}</div>
         <div class="dseg-info">
           <div class="dseg-label">${h.label}${tag}</div>
@@ -2438,6 +2458,15 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.pt-pill[data-dmode]').forEach(x => x.classList.remove('active'));
       p.classList.add('active'); cur = p.dataset.dmode; render();
     }));
+
+  // Click a row → locate it on the §04 national crash-points map.
+  document.getElementById('dsegList').addEventListener('click', e => {
+    if (e.target.closest('.dseg-sv')) return;   // let the Street View link work
+    const row = e.target.closest('.dseg-row');
+    if (!row || !window.__focusCrashMap) return;
+    window.__focusCrashMap(+row.dataset.lat, +row.dataset.lon, row.dataset.flabel);
+  });
+
   new MutationObserver(() => render()).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
