@@ -1013,66 +1013,9 @@ body.lang-en .t-en-b { display: block; }
   </div>
 </div>
 
-<!-- 04 — National crash points (dot map) -->
-<div class="section">
-  <div class="section-label"><span class="t-zh">04 — National Crash Points 全國事故點位地圖</span><span class="t-en">04 — National Crash Points</span></div>
-
-  <div class="county-card" style="margin-bottom:18px">
-    <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
-      <span class="t-zh">每一個點，都是一條在 24 小時內逝去的人命</span>
-      <span class="t-en">Every dot is a life lost within 24 hours</span>
-    </div>
-    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
-      <span class="t-zh">全台 <strong>13,708</strong> 件可定位的 A1 死亡事故（2016–2025），依受害者運具著色。其餘約 3,000 件因原始資料缺座標（多為 2016–2017、2021 簡式年度）未能標點。點選任一點可進入該縣市的完整互動地圖。</span>
-      <span class="t-en"><strong>13,708</strong> geolocatable A1 fatal crashes nationwide (2016–2025), coloured by victim's mode of travel. ~3,000 more lack coordinates in the source data (mostly the 2016–2017 &amp; 2021 simplified years). Click any dot to open that county's full interactive map.</span>
-    </p>
-  </div>
-
-  <div class="filter-bar">
-    <div class="filter-group">
-      <span class="filter-group-label">Victim</span>
-      <span class="pt-pill active" data-pmode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
-      <span class="pt-pill" data-pmode="0"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
-      <span class="pt-pill" data-pmode="1"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
-      <span class="pt-pill" data-pmode="2"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
-      <span class="pt-pill" data-pmode="3"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
-    </div>
-    <div class="filter-group">
-      <span class="filter-group-label">Year</span>
-      <span class="pt-pill en active" data-pyear="all">All</span>
-      <span class="pt-pill en" data-pyear="2016">2016</span>
-      <span class="pt-pill en" data-pyear="2017">2017</span>
-      <span class="pt-pill en" data-pyear="2018">2018</span>
-      <span class="pt-pill en" data-pyear="2019">2019</span>
-      <span class="pt-pill en" data-pyear="2020">2020</span>
-      <span class="pt-pill en" data-pyear="2021">2021</span>
-      <span class="pt-pill en" data-pyear="2022">2022</span>
-      <span class="pt-pill en" data-pyear="2023">2023</span>
-      <span class="pt-pill en" data-pyear="2024">2024</span>
-      <span class="pt-pill en" data-pyear="2025">2025</span>
-    </div>
-    <div class="filter-group" style="margin-left:auto">
-      <span class="filter-group-label" id="ptCount">— A1</span>
-    </div>
-  </div>
-
-  <div class="ptmap-wrap">
-    <div id="ptmap"></div>
-    <div class="ptmap-legend">
-      <span class="legend-title">Victim</span>
-      <span class="lg-dot"><i style="background:#1A1A1A"></i><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
-      <span class="lg-dot"><i style="background:#3A7CC3"></i><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
-      <span class="lg-dot"><i style="background:#D94F3D"></i><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
-      <span class="lg-dot"><i style="background:#E8A825"></i><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
-      <span class="lg-dot"><i style="background:#888888"></i><span class="t-zh">其他</span><span class="t-en">Other</span></span>
-      <span class="ptmap-note"><span class="t-zh">點大小依死亡人數 · 滑過看地點 · 點擊進入縣市地圖</span><span class="t-en">Dot size ∝ deaths · hover for location · click to open the county map</span></span>
-    </div>
-  </div>
-</div>
-
 <!-- 03 — Choropleth -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">05 — District-Level Choropleth 行政區面量圖</span><span class="t-en">05 — District-Level Choropleth</span></div>
+  <div class="section-label"><span class="t-zh">04 — District-Level Choropleth 行政區面量圖</span><span class="t-en">04 — District-Level Choropleth</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -1129,7 +1072,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 04 — County choropleth -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">06 — County Choropleth 縣市熱力圖</span><span class="t-en">06 — County Choropleth</span></div>
+  <div class="section-label"><span class="t-zh">05 — County Choropleth 縣市熱力圖</span><span class="t-en">05 — County Choropleth</span></div>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -1163,18 +1106,72 @@ body.lang-en .t-en-b { display: block; }
   </div>
 </div>
 
-<!-- 07 — Deadliest road segments -->
+<!-- 06 — National crash points (dot map) + deadliest segments (merged) -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">07 — Deadliest Road Segments 全國最危險路段</span><span class="t-en">07 — Deadliest Road Segments</span></div>
+  <div class="section-label"><span class="t-zh">06 — Crash Points &amp; Deadliest Segments 全國事故點位與最危險路段</span><span class="t-en">06 — Crash Points &amp; Deadliest Segments</span></div>
 
-  <div class="county-card" style="margin-bottom:16px">
+  <!-- 6A · national crash-points dot map -->
+  <div class="county-card" style="margin-bottom:18px">
+    <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
+      <span class="t-zh">每一個點，都是一條在 24 小時內逝去的人命</span>
+      <span class="t-en">Every dot is a life lost within 24 hours</span>
+    </div>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
+      <span class="t-zh">全台 <strong>13,708</strong> 件可定位的 A1 死亡事故（2016–2025），依受害者運具著色。其餘約 3,000 件因原始資料缺座標（多為 2016–2017、2021 簡式年度）未能標點。點選任一點可進入該縣市的完整互動地圖。</span>
+      <span class="t-en"><strong>13,708</strong> geolocatable A1 fatal crashes nationwide (2016–2025), coloured by victim's mode of travel. ~3,000 more lack coordinates in the source data (mostly the 2016–2017 &amp; 2021 simplified years). Click any dot to open that county's full interactive map.</span>
+    </p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">Victim</span>
+      <span class="pt-pill active" data-pmode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
+      <span class="pt-pill" data-pmode="0"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="pt-pill" data-pmode="1"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
+      <span class="pt-pill" data-pmode="2"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="pt-pill" data-pmode="3"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Year</span>
+      <span class="pt-pill en active" data-pyear="all">All</span>
+      <span class="pt-pill en" data-pyear="2016">2016</span>
+      <span class="pt-pill en" data-pyear="2017">2017</span>
+      <span class="pt-pill en" data-pyear="2018">2018</span>
+      <span class="pt-pill en" data-pyear="2019">2019</span>
+      <span class="pt-pill en" data-pyear="2020">2020</span>
+      <span class="pt-pill en" data-pyear="2021">2021</span>
+      <span class="pt-pill en" data-pyear="2022">2022</span>
+      <span class="pt-pill en" data-pyear="2023">2023</span>
+      <span class="pt-pill en" data-pyear="2024">2024</span>
+      <span class="pt-pill en" data-pyear="2025">2025</span>
+    </div>
+    <div class="filter-group" style="margin-left:auto">
+      <span class="filter-group-label" id="ptCount">— A1</span>
+    </div>
+  </div>
+
+  <div class="ptmap-wrap">
+    <div id="ptmap"></div>
+    <div class="ptmap-legend">
+      <span class="legend-title">Victim</span>
+      <span class="lg-dot"><i style="background:#1A1A1A"></i><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="lg-dot"><i style="background:#3A7CC3"></i><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
+      <span class="lg-dot"><i style="background:#D94F3D"></i><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="lg-dot"><i style="background:#E8A825"></i><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+      <span class="lg-dot"><i style="background:#888888"></i><span class="t-zh">其他</span><span class="t-en">Other</span></span>
+      <span class="ptmap-note"><span class="t-zh">點大小依死亡人數 · 滑過看地點 · 點擊進入縣市地圖</span><span class="t-en">Dot size ∝ deaths · hover for location · click to open the county map</span></span>
+    </div>
+  </div>
+
+  <!-- 6B · deadliest segments ranking -->
+  <div class="county-card" style="margin:34px 0 16px;border-top:3px solid var(--red);padding-top:20px">
     <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
       <span class="t-zh">十年來，奪命最多的十個路段</span>
       <span class="t-en">The ten road segments that have killed the most</span>
     </div>
     <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
-      <span class="t-zh">依受害者運具切換。有道路名稱＋里程者聚合為「~3 公里路段」（標記 ⚑），其餘以 ~300 公尺方格聚合，依十年累計死亡排序。已濾除座標落在行政中心的「定位失敗群集」（同一座標混入多個行政區與路名者）。<strong>點任一列可在上方 §04 地圖定位</strong>，點「看街景」直接看現場道路。</span>
-      <span class="t-en">Switch by victim's mode. Roads with a name + km are clustered into ~3 km segments (⚑); others into ~300 m cells, ranked by 10-year cumulative deaths. Geocoder "failure clusters" (one fallback coordinate mixing many districts &amp; roads) are filtered out. <strong>Click any row to locate it on the §04 map above</strong>; tap "Street View" to see the actual road.</span>
+      <span class="t-zh">依受害者運具切換。有道路名稱＋里程者聚合為「~3 公里路段」（標記 ⚑），其餘以 ~300 公尺方格聚合，依十年累計死亡排序。已濾除座標落在行政中心的「定位失敗群集」（同一座標混入多個行政區與路名者）。<strong>點任一列可在上方地圖定位</strong>，點「看街景」直接看現場道路。</span>
+      <span class="t-en">Switch by victim's mode. Roads with a name + km are clustered into ~3 km segments (⚑); others into ~300 m cells, ranked by 10-year cumulative deaths. Geocoder "failure clusters" (one fallback coordinate mixing many districts &amp; roads) are filtered out. <strong>Click any row to locate it on the map above</strong>; tap "Street View" to see the actual road.</span>
     </p>
   </div>
 
@@ -1198,7 +1195,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 05 — Age × Accident Type -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">08 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">08 — Age × Accident Type</span></div>
+  <div class="section-label"><span class="t-zh">07 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">07 — Age × Accident Type</span></div>
 
   <div class="age-card">
     <div class="age-hero">
@@ -1269,7 +1266,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 07 — Gender Lens -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">09 — Gender Lens 性別視角</span><span class="t-en">09 — Gender Lens</span></div>
+  <div class="section-label"><span class="t-zh">08 — Gender Lens 性別視角</span><span class="t-en">08 — Gender Lens</span></div>
   <div class="age-card">
     <div class="card-zh" style="font-size:14px;color:var(--grey-2);margin-bottom:22px"><span class="t-zh">全國 A1 死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">National A1 victim gender · overall &amp; by mode (decade · identifiable victims)</span></div>
     <div id="natGender"></div>
@@ -1278,7 +1275,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — Structure (whitepaper data) -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">10 — Structure 結構的代價</span><span class="t-en">10 — The Price of Structure</span></div>
+  <div class="section-label"><span class="t-zh">09 — Structure 結構的代價</span><span class="t-en">09 — The Price of Structure</span></div>
   <a href="whitepaper.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--lime)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1293,7 +1290,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — International Comparison -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">11 — International 國際比較</span><span class="t-en">11 — International</span></div>
+  <div class="section-label"><span class="t-zh">10 — International 國際比較</span><span class="t-en">10 — International</span></div>
   <a href="international.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--red)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1308,7 +1305,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 09 — Climate Evidence -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">12 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">12 — Climate Evidence</span></div>
+  <div class="section-label"><span class="t-zh">11 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">11 — Climate Evidence</span></div>
   <a href="climate.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--gold,#E8A825)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1323,7 +1320,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 10 — Dual-Zero Vision -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">13 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">13 — Dual-Zero Vision</span></div>
+  <div class="section-label"><span class="t-zh">12 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">12 — Dual-Zero Vision</span></div>
   <a href="vision.html" style="display:block;background:var(--black);color:var(--white);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1338,7 +1335,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 11 — Notes -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">14 — Notes 資料說明</span><span class="t-en">14 — Notes</span></div>
+  <div class="section-label"><span class="t-zh">13 — Notes 資料說明</span><span class="t-en">13 — Notes</span></div>
   <div class="county-card">
     <div class="card-zh"><span class="t-zh">關於本面量圖</span><span class="t-en">About this choropleth</span></div>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
