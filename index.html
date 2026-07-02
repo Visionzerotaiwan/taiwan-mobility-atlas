@@ -1268,7 +1268,7 @@ body.lang-en .t-en-b { display: block; }
     <div class="age-combos">
       <h4>TOP COMBINATIONS</h4>
       <div class="card-zh">
-        <span class="t-zh">最常見的（年齡 × 運具 × 態樣）組合 — 排行越前面，越值得針對性對策</span>
+        <span class="t-zh">最常見的（年齡 × 運具 × 態樣）組合：排行越前面，越值得針對性對策</span>
         <span class="t-en">Most-frequent age × mode × type combinations — top-ranked combos warrant targeted intervention</span>
       </div>
       <div id="ageCombos"></div>
@@ -1297,8 +1297,8 @@ body.lang-en .t-en-b { display: block; }
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
         <div style="font-family:var(--font-en);font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:14px">r = 0.66 · 22 counties · 17 years · 3 scenarios</div>
-        <div style="font-size:28px;font-weight:900;letter-spacing:0.04em;line-height:1.4"><span class="t-zh">公共運輸愈不足,<span style="color:var(--lime-dk)">死傷率愈高</span></span><span class="t-en">Less transit, <span style="color:var(--lime-dk)">more casualties</span></span></div>
-        <div style="font-size:13.5px;font-weight:300;color:var(--grey-1);margin-top:10px;line-height:1.8;max-width:640px"><span class="t-zh">街道願景白皮書互動數據:22 縣市市佔×死傷散佈、17 年死亡率賽跑、2050 三情境推估 — 結構決定死傷,選擇決定未來。</span><span class="t-en">Interactive whitepaper data: the share-casualty scatter, a 17-year county race, and three scenarios to 2050 — structure decides casualties; choices decide the future.</span></div>
+        <div style="font-size:28px;font-weight:900;letter-spacing:0.04em;line-height:1.4"><span class="t-zh">公共運輸愈不足，<span style="color:var(--lime-dk)">死傷率愈高</span></span><span class="t-en">Less transit, <span style="color:var(--lime-dk)">more casualties</span></span></div>
+        <div style="font-size:13.5px;font-weight:300;color:var(--grey-1);margin-top:10px;line-height:1.8;max-width:640px"><span class="t-zh">街道願景白皮書互動數據：22 縣市市佔×死傷散佈、17 年死亡率賽跑、2050 三情境推估：結構決定死傷，選擇決定未來。</span><span class="t-en">Interactive whitepaper data: the share-casualty scatter, a 17-year county race, and three scenarios to 2050 — structure decides casualties; choices decide the future.</span></div>
       </div>
       <span style="font-family:var(--font-en);font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:var(--black);color:var(--lime);padding:14px 22px;white-space:nowrap"><span class="t-zh">看數據 →</span><span class="t-en">Explore →</span></span>
     </div>
@@ -1469,7 +1469,7 @@ function renderGenderNat(g) {
       <div class="gx-split"><div class="m" style="width:${mp}%">${ML} ${mp}%</div><div class="f" style="width:${fp}%">${fp}% ${FL}</div></div>
       <div class="gx-legend"><span><i style="background:var(--blue)"></i><span class="t-zh">男性</span><span class="t-en">Male</span></span><span><i style="background:var(--gold)"></i><span class="t-zh">女性</span><span class="t-en">Female</span></span><span><span class="t-zh">男/女 % · 死者數</span><span class="t-en">M/F % · victims</span></span></div>
       <div class="gx-rows">${rows}</div>
-      ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">全國 A1 死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（男女相近）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''}。男性死亡風險高度集中於<strong>機動車駕駛</strong>（汽車駕駛死者逾九成為男性），女性則以<strong>高齡行人</strong>最為脆弱——對策需分流：管制車速與酒駕／重機風險（男），以及保護行人穿越與高齡友善設計（女）。</span><span class="t-en">~<strong>${mp}%</strong> of national A1 victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''}. Male risk concentrates in <strong>motor-vehicle driving</strong> (>90% of car-driver deaths are men); women are most exposed as <strong>older pedestrians</strong> — implying two policy tracks: speed/DUI/heavy-motorcycle control (men) and pedestrian-crossing protection + age-friendly design (women).</span></div>` : ''}
+      ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">全國 A1 死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（男女相近）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''}。男性死亡風險高度集中於<strong>機動車駕駛</strong>（汽車駕駛死者逾九成為男性），女性則以<strong>高齡行人</strong>最為脆弱，對策需分流：管制車速與酒駕／重機風險（男），以及保護行人穿越與高齡友善設計（女）。</span><span class="t-en">~<strong>${mp}%</strong> of national A1 victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''}. Male risk concentrates in <strong>motor-vehicle driving</strong> (>90% of car-driver deaths are men); women are most exposed as <strong>older pedestrians</strong> — implying two policy tracks: speed/DUI/heavy-motorcycle control (men) and pedestrian-crossing protection + age-friendly design (women).</span></div>` : ''}
     </div>`;
 }
 function setLang(l) {
@@ -1821,7 +1821,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `<span class="t-zh">青壯年機車事故，是日常受傷的<br>主要來源。</span>` +
         `<span class="t-en">Working-age motorcycle crashes are the<br>top source of everyday injuries.</span>`;
       metaEl.innerHTML =
-        `<span class="t-zh">25–44 歲 × 機車 × 車與車事故的受傷件數，佔 A2 切面 <strong>${share}</strong>。汽車與機車並列為前兩大受傷貢獻者，與 A1 完全以機車主導的格局不同 — 揭示「致命的偏機車、日常受傷的偏汽機車並重」之分流。</span>` +
+        `<span class="t-zh">25–44 歲 × 機車 × 車與車事故的受傷件數，佔 A2 切面 <strong>${share}</strong>。汽車與機車並列為前兩大受傷貢獻者，與 A1 完全以機車主導的格局不同：揭示「致命的偏機車、日常受傷的偏汽機車並重」之分流。</span>` +
         `<span class="t-en">25–44 × motorcycle × vehicle-on-vehicle accounts for <strong>${share}</strong> of A2 events. Cars and motorcycles are co-leaders here, unlike the motorcycle-dominated A1 picture — fatal vs everyday-injury patterns split.</span>`;
       document.getElementById('ageCoverage').textContent =
         TT(`${total.toLocaleString()} 件樣本（A2，8 年）`, `${total.toLocaleString()} events (A2, 8 yrs)`);
