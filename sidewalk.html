@@ -377,9 +377,37 @@ body.lang-en .t-en { display: inline; }
   </div>
 </div>
 
-<!-- 03 — County ranking -->
+<!-- 03 — Segment-level map -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">03 — 縣市排行</span><span class="t-en">03 — County Ranking</span></div>
+  <div class="section-label"><span class="t-zh">03 — 逐路段地圖</span><span class="t-en">03 — Segment-Level Map</span></div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">County</span>
+      <select id="segCounty" style="font-family:var(--font-zh);font-size:12px;padding:6px 10px;border:1px solid var(--grey-3);background:var(--white);cursor:pointer"></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Colour by</span>
+      <span class="cat-pill active" data-segcolor="net"><span class="t-zh">淨寬</span><span class="t-en">Clear width</span></span>
+      <span class="cat-pill" data-segcolor="ramp"><span class="t-zh">路緣斜坡</span><span class="t-en">Curb ramps</span></span>
+    </div>
+    <div class="filter-group" style="margin-left:auto">
+      <span class="filter-group-label" id="segCount">—</span>
+    </div>
+  </div>
+
+  <div class="map-wrap">
+    <div id="segmap" style="height:640px;background:var(--grey-4);border:1px solid var(--grey-3)"></div>
+    <div class="map-legend" id="segLegend"></div>
+  </div>
+  <div class="notes-card" style="margin-top:16px">
+    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; data loads on demand per county (0.03–6.2 MB each).</span></p>
+  </div>
+</div>
+
+<!-- 04 — County ranking -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">04 — 縣市排行</span><span class="t-en">04 — County Ranking</span></div>
   <div class="county-card">
     <h4>Ranking<span class="t-zh"> · 全 22 縣市</span><span class="t-en"> · all 22 counties</span></h4>
     <div class="card-zh"><span class="t-zh">依當前指標排序，點選縣市可在上方地圖定位</span><span class="t-en">Ranked by the current metric · tap a county to locate it on the map above</span></div>
@@ -387,9 +415,9 @@ body.lang-en .t-en { display: inline; }
   </div>
 </div>
 
-<!-- 04 — Notes -->
+<!-- 05 — Notes -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">04 — 資料說明</span><span class="t-en">04 — Data Notes</span></div>
+  <div class="section-label"><span class="t-zh">05 — 資料說明</span><span class="t-en">05 — Data Notes</span></div>
   <div class="notes-card">
     <p><span class="t-zh"><strong>資料來源</strong>：交通部「全國人行道整體區位」開放資料，兩次全國普查快照：2023 年 6 月（83,301 個路段，全國 10,167 公里）、2026 年 6 月（92,326 個路段，全國 10,939 公里）。逐路段欄位包含道路名稱、路段長度、人行道寬度、淨寬（扣除路燈、招牌等障礙物後的可通行寬度）、路緣斜坡設置數量、所在縣市與鄉鎮市區。</span><span class="t-en"><strong>Source</strong>: MOTC's national sidewalk-location open dataset, two nationwide snapshots — June 2023 (83,301 segments, 10,167 km total) and June 2026 (92,326 segments, 10,939 km total). Per-segment fields include road name, segment length, sidewalk width, clear width (net of obstructions such as poles and signage), curb-ramp count, and county/district.</span></p>
     <p><span class="t-zh"><strong>路緣斜坡缺口率怎麼算</strong>：原始欄位 SW_RAMP 是「已設置之路緣斜坡數量」，但若此處本來就不需要斜坡（例如路段中段、無側向通行需求），會標記為「N」（2023）或留空（2026）。我們只在「需要斜坡」的路段中，計算 SW_RAMP 為 0（該裝而未裝）的比例，作為缺口率：這是一個保守、只算「真正缺口」的指標。</span><span class="t-en"><strong>How the ramp gap rate is computed</strong>: the source field SW_RAMP counts installed curb ramps, but is marked "N" (2023) or left blank (2026) where no ramp is needed at all. We compute the gap rate only among segments that DO need a ramp, as the share where SW_RAMP = 0 (needed but not installed) — a conservative measure of genuine gaps only.</span></p>
@@ -748,8 +776,119 @@ document.addEventListener('DOMContentLoaded', () => {
     p.classList.add('active'); state.metric = p.dataset.metric; recompute();
   }));
 
-  window.__rerender = () => { renderHero(); recompute(); };
+  // ── §03 segment-level map (per-county, on-demand) ────────────────────
+  const segMap = L.map('segmap', {
+    center: [25.04, 121.53], zoom: 13, minZoom: 8, maxZoom: 19,
+    zoomControl: true, scrollWheelZoom: true, preferCanvas: true,
+    attributionControl: true,
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
+  }).addTo(segMap);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd', maxZoom: 19, pane: 'shadowPane',
+  }).addTo(segMap);
+  const segRenderer = L.canvas({ padding: 0.3 });
+
+  const segState = { slug: 'taipei', color: 'net' };
+  const segCache = {};       // slug -> geojson
+  let segLayer = null;
+
+  // colour scales
+  function segColor(p) {
+    if (segState.color === 'ramp') {
+      if (p.r == null) return '#B9B9B9';          // no ramp needed here
+      return p.r === 0 ? '#D94F3D' : '#A8B200';   // needed-but-missing vs installed
+    }
+    const c = p.c;
+    if (c == null) return '#B9B9B9';
+    if (c < 1.5) return '#D94F3D';
+    if (c < 2.5) return '#E8A825';
+    return '#A8B200';
+  }
+
+  function segLegendHTML() {
+    const sw = (color, zh, en) =>
+      `<span style="display:inline-flex;align-items:center;gap:5px;margin-right:10px"><span class="legend-swatch" style="background:${color}"></span><span class="t-zh">${zh}</span><span class="t-en">${en}</span></span>`;
+    if (segState.color === 'ramp') {
+      return `<span class="legend-title">Curb ramps</span>` +
+        sw('#D94F3D', '該設而未設', 'needed · missing') +
+        sw('#A8B200', '已設置', 'installed') +
+        sw('#B9B9B9', '無須設置', 'not needed');
+    }
+    return `<span class="legend-title">Clear width</span>` +
+      sw('#D94F3D', '淨寬 < 1.5 m', '< 1.5 m') +
+      sw('#E8A825', '1.5 – 2.5 m', '1.5 – 2.5 m') +
+      sw('#A8B200', '≥ 2.5 m', '≥ 2.5 m') +
+      sw('#B9B9B9', '無資料', 'no data');
+  }
+
+  function renderSegLayer() {
+    if (segLayer) { segMap.removeLayer(segLayer); segLayer = null; }
+    const geo = segCache[segState.slug];
+    if (!geo) return;
+    segLayer = L.geoJSON(geo, {
+      renderer: segRenderer,
+      // At city-wide zoom the black outline would swamp the tiny fills — only
+      // stroke when zoomed in enough for segments to be readable.
+      style: f => ({ stroke: segMap.getZoom() >= 15, color: '#1A1A1A', weight: 0.4, fillColor: segColor(f.properties), fillOpacity: 0.9 }),
+      onEachFeature: (f, lyr) => {
+        const p = f.properties;
+        lyr.bindTooltip(
+          `<strong>${p.n || TT('（未命名）', '(unnamed)')}</strong> · ${enTown(p.v)}<br>` +
+          `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
+          `${TT('斜坡', 'ramps')} ${p.r == null ? TT('無須設置', 'n/a') : p.r}`,
+          { sticky: true, direction: 'top', offset: [0, -4] });
+      },
+    }).addTo(segMap);
+    document.getElementById('segLegend').innerHTML = segLegendHTML();
+    const n = geo.features.length;
+    document.getElementById('segCount').textContent =
+      `${TT(bySlugZh[segState.slug] || '', enCounty(bySlugZh[segState.slug] || ''))} · ${n.toLocaleString()} ${TT('段', 'segments')}`;
+  }
+
+  const bySlugZh = {};
+  (window.CITIES || []).forEach(c => { bySlugZh[c.slug] = c.zh; });
+
+  async function loadSegCounty(slug) {
+    segState.slug = slug;
+    document.getElementById('segCount').textContent = TT('載入中…', 'loading…');
+    if (!segCache[slug]) {
+      try {
+        segCache[slug] = await fetch(`data/sidewalks26/${slug}.geojson`).then(r => r.json());
+      } catch (e) {
+        document.getElementById('segCount').textContent = TT('載入失敗', 'failed to load');
+        return;
+      }
+    }
+    renderSegLayer();
+    if (segLayer && segLayer.getBounds().isValid()) segMap.fitBounds(segLayer.getBounds(), { padding: [16, 16] });
+  }
+
+  // county selector (ordered by 2026 sidewalk length, longest first)
+  const sel = document.getElementById('segCounty');
+  function buildSegSelect() {
+    const order = Object.keys(SW.by_county['2026'])
+      .sort((a, b) => SW.by_county['2026'][b].length_km - SW.by_county['2026'][a].length_km);
+    sel.innerHTML = order.map(zh => {
+      const slug = window.__COUNTY2SLUG[zh];
+      return slug ? `<option value="${slug}" ${slug === segState.slug ? 'selected' : ''}>${TT(zh, enCounty(zh))}</option>` : '';
+    }).join('');
+  }
+  buildSegSelect();
+  sel.addEventListener('change', () => loadSegCounty(sel.value));
+  segMap.on('zoomend', () => {
+    if (segLayer) segLayer.setStyle({ stroke: segMap.getZoom() >= 15 });
+  });
+  document.querySelectorAll('.cat-pill[data-segcolor]').forEach(p => p.addEventListener('click', () => {
+    document.querySelectorAll('.cat-pill[data-segcolor]').forEach(x => x.classList.remove('active'));
+    p.classList.add('active'); segState.color = p.dataset.segcolor; renderSegLayer();
+  }));
+
+  window.__rerender = () => { renderHero(); recompute(); buildSegSelect(); renderSegLayer(); };
   recompute();
+  loadSegCounty(segState.slug);
+  setTimeout(() => segMap.invalidateSize(), 300);
 })();
 </script>
 </body>
