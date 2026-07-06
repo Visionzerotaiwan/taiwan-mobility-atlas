@@ -140,6 +140,35 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 .map-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 24px; }
 .map-wrap { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px; }
 #map { height: 720px; background: var(--grey-4); border: 1px solid var(--grey-3); }
+
+/* ── Street View comparison mode (§03) ── */
+#svStage { display: none; }
+#svStage .sv-bar {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--black); color: var(--white); padding: 10px 14px;
+}
+#svStage .sv-info { flex: 1; min-width: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#svStage .sv-info strong { color: var(--lime); font-weight: 700; }
+#svStage .sv-ext { font-size: 11.5px; font-weight: 700; color: var(--lime); text-decoration: none; white-space: nowrap; }
+#svStage .sv-ext:hover { text-decoration: underline; }
+#svStage .sv-close {
+  font-family: var(--font-zh); font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+  background: var(--lime); color: var(--black); border: none; padding: 7px 12px; cursor: pointer; white-space: nowrap;
+}
+#svStage .sv-close:hover { background: var(--lime-dk); }
+#svStage .sv-body { position: relative; }
+#svFrame { width: 100%; height: 620px; border: 0; display: block; background: var(--grey-4); }
+#svDock {
+  position: absolute; top: 14px; right: 14px; z-index: 500;
+  width: min(380px, 44%); height: 264px;
+  border: 2px solid var(--white); box-shadow: 0 6px 22px rgba(0,0,0,0.4);
+  background: var(--grey-4);
+}
+#svDock #segmap { height: 100% !important; border: none !important; }
+@media (max-width: 640px) {
+  #svFrame { height: 460px; }
+  #svDock { width: 58%; height: 180px; top: 10px; right: 10px; }
+}
 .map-legend {
   display: flex; flex-wrap: wrap; gap: 4px 10px; padding: 12px 4px 4px;
   align-items: center; font-family: var(--font-en); font-size: 10px;
@@ -398,10 +427,22 @@ body.lang-en .t-en { display: inline; }
 
   <div class="map-wrap">
     <div id="segmap" style="height:640px;background:var(--grey-4);border:1px solid var(--grey-3)"></div>
+    <!-- Street View comparison mode: iframe stage + the Leaflet map docked top-right -->
+    <div id="svStage">
+      <div class="sv-bar">
+        <span class="sv-info" id="svInfo">—</span>
+        <a class="sv-ext" id="svExt" href="#" target="_blank" rel="noopener">↗ <span class="t-zh">開新視窗</span><span class="t-en">Open in Maps</span></a>
+        <button class="sv-close" id="svClose">✕ <span class="t-zh">關閉街景</span><span class="t-en">Close</span></button>
+      </div>
+      <div class="sv-body">
+        <iframe id="svFrame" title="Google Street View" allow="accelerometer; gyroscope" loading="lazy"></iframe>
+        <div id="svDock"></div>
+      </div>
+    </div>
     <div class="map-legend" id="segLegend"></div>
   </div>
   <div class="notes-card" style="margin-top:16px">
-    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; data loads on demand per county (0.03–6.2 MB each).</span></p>
+    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，可在小地圖續點其他路段切換。資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, where you can click other segments to switch. Data loads on demand per county (0.03–6.2 MB each).</span></p>
   </div>
 </div>
 
@@ -839,6 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
           `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
           `${TT('斜坡', 'ramps')} ${p.r == null ? TT('無須設置', 'n/a') : p.r}`,
           { sticky: true, direction: 'top', offset: [0, -4] });
+        lyr.on('click', () => enterSV(lyr));
       },
     }).addTo(segMap);
     document.getElementById('segLegend').innerHTML = segLegendHTML();
@@ -850,7 +892,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const bySlugZh = {};
   (window.CITIES || []).forEach(c => { bySlugZh[c.slug] = c.zh; });
 
+  // ── Street View comparison mode ──────────────────────────────────
+  // Click a segment → keyless Google SV embed takes the stage, and the live
+  // Leaflet map is re-parented into a top-right dock for side-by-side checks.
+  const segmapEl = document.getElementById('segmap');
+  const svStage = document.getElementById('svStage');
+  const svFrame = document.getElementById('svFrame');
+  const svDock = document.getElementById('svDock');
+  let svSelLayer = null;
+
+  function enterSV(lyr) {
+    const c = lyr.getBounds().getCenter();
+    const p = lyr.feature.properties;
+    // Keyless Street View embed (the official share-embed "pb" format).
+    // !1s0 = no fixed pano id → Google resolves the nearest panorama to !1d/!2d.
+    svFrame.src = `https://www.google.com/maps/embed?pb=!4v1700000000000!6m8!1m7!1s0!2m2!1d${c.lat.toFixed(6)}!2d${c.lng.toFixed(6)}!3f0!4f0!5f0.7820865974627469&hl=${TT('zh-TW', 'en')}`;
+    document.getElementById('svInfo').innerHTML =
+      `<strong>${p.n || TT('（未命名）', '(unnamed)')}</strong> · ${enTown(p.v)} · ` +
+      `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
+      `${TT('斜坡', 'ramps')} ${p.r == null ? TT('無須設置', 'n/a') : p.r}`;
+    document.getElementById('svExt').href =
+      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${c.lat.toFixed(6)},${c.lng.toFixed(6)}`;
+    if (svStage.style.display !== 'block') {
+      svStage.style.display = 'block';
+      svDock.appendChild(segmapEl);
+    }
+    if (svSelLayer && segLayer) { try { segLayer.resetStyle(svSelLayer); } catch (e) {} }
+    svSelLayer = lyr;
+    lyr.setStyle({ stroke: true, color: '#C8D400', weight: 3 });
+    setTimeout(() => {
+      segMap.invalidateSize();
+      segMap.setView(c, Math.max(segMap.getZoom(), 17));
+    }, 80);
+    svStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function exitSV() {
+    if (svStage.style.display !== 'block') return;
+    svStage.style.display = 'none';
+    svStage.parentElement.insertBefore(segmapEl, svStage);   // back to full width
+    svFrame.src = 'about:blank';
+    if (svSelLayer && segLayer) { try { segLayer.resetStyle(svSelLayer); } catch (e) {} }
+    svSelLayer = null;
+    setTimeout(() => segMap.invalidateSize(), 80);
+  }
+  document.getElementById('svClose').addEventListener('click', exitSV);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') exitSV(); });
+
   async function loadSegCounty(slug) {
+    exitSV();                       // county switch resets the comparison
+    svSelLayer = null;              // old layer is destroyed below
     segState.slug = slug;
     document.getElementById('segCount').textContent = TT('載入中…', 'loading…');
     if (!segCache[slug]) {
