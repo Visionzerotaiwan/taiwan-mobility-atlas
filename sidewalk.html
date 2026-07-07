@@ -420,6 +420,10 @@ body.lang-en .t-en { display: inline; }
       <span class="cat-pill active" data-segcolor="net"><span class="t-zh">淨寬</span><span class="t-en">Clear width</span></span>
       <span class="cat-pill" data-segcolor="ramp"><span class="t-zh">路緣斜坡</span><span class="t-en">Curb ramps</span></span>
     </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Obstacles</span>
+      <span class="cat-pill" id="polesToggle"><span class="t-zh">⚡ 電線桿</span><span class="t-en">⚡ Utility poles</span></span>
+    </div>
     <div class="filter-group" style="margin-left:auto">
       <span class="filter-group-label" id="segCount">—</span>
     </div>
@@ -443,6 +447,7 @@ body.lang-en .t-en { display: inline; }
   </div>
   <div class="notes-card" style="margin-top:16px">
     <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，可在小地圖續點其他路段切換。資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, where you can click other segments to switch. Data loads on demand per county (0.03–6.2 MB each).</span></p>
+    <p style="font-size:12px;margin-top:8px"><span class="t-zh"><strong>⚡ 電線桿圖層</strong>：台電桿籍資料（全國約 273 萬支，TWD97 座標轉換；本島 121 分帶、離島 119 分帶），開啟後放大至街區尺度（zoom ≥ 16）顯示視窗內桿位。電線桿常立於人行道上，是輪椅與嬰兒車的實體障礙：與淨寬著色對照可看出「帳面有人行道、實際過不去」的路段。注意：屏東縣桿籍近乎缺漏（僅 88 筆）；桿位為台電登記位置，可能與現地略有出入。</span><span class="t-en"><strong>⚡ Utility-pole layer</strong>: Taipower pole registry (~2.73M poles nationwide, TWD97→WGS84; 121°E zone for the main island, 119°E for offshore counties). When on, poles in the viewport render at zoom ≥ 16. Poles standing on sidewalks are physical barriers for wheelchairs and strollers — overlay them on the clear-width colours to spot segments that exist on paper but cannot be passed. Note: Pingtung's registry is nearly empty (88 records); positions are as registered and may differ slightly on site.</span></p>
   </div>
 </div>
 
@@ -851,17 +856,55 @@ document.addEventListener('DOMContentLoaded', () => {
   function segLegendHTML() {
     const sw = (color, zh, en) =>
       `<span style="display:inline-flex;align-items:center;gap:5px;margin-right:10px"><span class="legend-swatch" style="background:${color}"></span><span class="t-zh">${zh}</span><span class="t-en">${en}</span></span>`;
+    const pole = polesOn
+      ? `<span style="display:inline-flex;align-items:center;gap:5px;margin-right:10px;margin-left:8px"><span style="width:9px;height:9px;border-radius:50%;background:#1A1A1A;border:2px solid #FFF;box-shadow:0 0 0 1px #1A1A1A"></span><span class="t-zh">電線桿${segMap.getZoom() < 16 ? '（放大後顯示）' : ''}</span><span class="t-en">utility poles${segMap.getZoom() < 16 ? ' (zoom in)' : ''}</span></span>`
+      : '';
     if (segState.color === 'ramp') {
       return `<span class="legend-title">Curb ramps</span>` +
         sw('#D94F3D', '該設而未設', 'needed · missing') +
         sw('#A8B200', '已設置', 'installed') +
-        sw('#B9B9B9', '無須設置', 'not needed');
+        sw('#B9B9B9', '無須設置', 'not needed') + pole;
     }
     return `<span class="legend-title">Clear width</span>` +
       sw('#D94F3D', '淨寬 < 1.5 m', '< 1.5 m') +
       sw('#E8A825', '1.5 – 2.5 m', '1.5 – 2.5 m') +
       sw('#A8B200', '≥ 2.5 m', '≥ 2.5 m') +
-      sw('#B9B9B9', '無資料', 'no data');
+      sw('#B9B9B9', '無資料', 'no data') + pole;
+  }
+
+  // ── Utility-pole obstacle overlay (Taipower registry, per county) ──
+  // 2.7M poles nationally → per-county JSON fetched on demand; only the
+  // poles inside the current viewport are drawn, and only at zoom ≥ 16.
+  let polesOn = false;
+  const poleCache = {};          // slug -> [[lat,lng],...]
+  let poleGroup = null;
+  const POLE_MIN_ZOOM = 16, POLE_CAP = 4000;
+
+  async function ensurePoles(slug) {
+    if (poleCache[slug]) return poleCache[slug];
+    try {
+      poleCache[slug] = await fetch(`data/poles/${slug}.json`).then(r => r.json());
+    } catch (e) { poleCache[slug] = []; }
+    return poleCache[slug];
+  }
+
+  function renderPoles() {
+    if (poleGroup) { segMap.removeLayer(poleGroup); poleGroup = null; }
+    document.getElementById('segLegend').innerHTML = segLegendHTML();
+    if (!polesOn || segMap.getZoom() < POLE_MIN_ZOOM) return;
+    const pts = poleCache[segState.slug];
+    if (!pts) return;
+    const b = segMap.getBounds().pad(0.1);
+    const layers = [];
+    for (const p of pts) {
+      if (p[0] < b.getSouth() || p[0] > b.getNorth() || p[1] < b.getWest() || p[1] > b.getEast()) continue;
+      layers.push(L.circleMarker([p[0], p[1]], {
+        renderer: segRenderer, radius: 3.2,
+        color: '#FFFFFF', weight: 1.4, fillColor: '#1A1A1A', fillOpacity: 1,
+      }).bindTooltip(TT('⚡ 電線桿', '⚡ Utility pole'), { direction: 'top', offset: [0, -4] }));
+      if (layers.length >= POLE_CAP) break;
+    }
+    poleGroup = L.layerGroup(layers).addTo(segMap);
   }
 
   function renderSegLayer() {
@@ -954,6 +997,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     renderSegLayer();
     if (segLayer && segLayer.getBounds().isValid()) segMap.fitBounds(segLayer.getBounds(), { padding: [16, 16] });
+    if (polesOn) { await ensurePoles(slug); renderPoles(); }
   }
 
   // county selector (ordered by 2026 sidewalk length, longest first)
@@ -971,10 +1015,21 @@ document.addEventListener('DOMContentLoaded', () => {
   segMap.on('zoomend', () => {
     if (segLayer) segLayer.setStyle({ stroke: segMap.getZoom() >= 15 });
   });
+  segMap.on('moveend', renderPoles);   // covers zoom changes too (zoom ends with a move)
   document.querySelectorAll('.cat-pill[data-segcolor]').forEach(p => p.addEventListener('click', () => {
     document.querySelectorAll('.cat-pill[data-segcolor]').forEach(x => x.classList.remove('active'));
     p.classList.add('active'); segState.color = p.dataset.segcolor; renderSegLayer();
   }));
+  document.getElementById('polesToggle').addEventListener('click', async () => {
+    polesOn = !polesOn;
+    document.getElementById('polesToggle').classList.toggle('active', polesOn);
+    if (polesOn && !poleCache[segState.slug]) {
+      document.getElementById('segCount').textContent = TT('載入電線桿…', 'loading poles…');
+      await ensurePoles(segState.slug);
+      renderSegLayer();   // restore the count text
+    }
+    renderPoles();
+  });
 
   window.__rerender = () => { renderHero(); recompute(); buildSegSelect(); renderSegLayer(); };
   recompute();
