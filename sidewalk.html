@@ -166,6 +166,10 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   font-family: var(--font-en); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
   background: var(--lime); color: var(--black); padding: 1px 5px; border-radius: 2px; min-width: 20px; text-align: center;
 }
+#svStage .sv-date {
+  font-family: var(--font-en); font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--grey-3); border: 1px solid var(--grey-1); padding: 3px 8px; white-space: nowrap;
+}
 
 /* pegman marker: fixed person glyph over a rotating view-cone */
 .pegman-wrap { pointer-events: none; }
@@ -184,6 +188,8 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   opacity: 0; transition: opacity .28s ease; pointer-events: none;
 }
 #svStage .sv-body iframe.sv-active { opacity: 1; pointer-events: auto; }
+#svPano { position: absolute; inset: 0; display: none; z-index: 200; }
+#svPano.on { display: block; }
 #svStage .sv-loading {
   position: absolute; inset: 0; display: none; z-index: 300;
   align-items: center; justify-content: center; gap: 12px; pointer-events: none;
@@ -474,6 +480,7 @@ body.lang-en .t-en { display: inline; }
     <div id="svStage">
       <div class="sv-bar">
         <span class="sv-info" id="svInfo">—</span>
+        <span class="sv-date" id="svDate" style="display:none"></span>
         <button class="sv-rotate" id="svRotate" title="旋轉視角 / rotate view">↻ <span class="t-zh">旋轉 90°</span><span class="t-en">Rotate 90°</span><span class="sv-dir" id="svDir">N</span></button>
         <a class="sv-ext" id="svExt" href="#" target="_blank" rel="noopener">↗ <span class="t-zh">看最新街景（Google Maps）</span><span class="t-en">Latest imagery (Google Maps)</span></a>
         <button class="sv-close" id="svClose">✕ <span class="t-zh">關閉街景</span><span class="t-en">Close</span></button>
@@ -481,6 +488,7 @@ body.lang-en .t-en { display: inline; }
       <div class="sv-body">
         <iframe id="svFrameA" title="Google Street View" allow="accelerometer; gyroscope" aria-hidden="true" tabindex="-1"></iframe>
         <iframe id="svFrameB" title="Google Street View" allow="accelerometer; gyroscope" aria-hidden="true" tabindex="-1"></iframe>
+        <div id="svPano" role="application" aria-label="Google Street View"></div>
         <div class="sv-loading" id="svLoading"><span class="spin"></span><span class="t-zh">載入街景中…</span><span class="t-en">Loading Street View…</span></div>
         <div id="svDock"></div>
       </div>
@@ -488,7 +496,7 @@ body.lang-en .t-en { display: inline; }
     <div class="map-legend" id="segLegend"></div>
   </div>
   <div class="notes-card" style="margin-top:16px">
-    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，小地圖上的<strong>小人與視角錐</strong>標示目前檢視點與朝向，「↻ 旋轉 90°」可同步轉動街景與視角錐；續點其他路段即切換。（在全景內自行拖轉時，視角錐不會跟動：以旋轉鈕為準。）<strong>嵌入版街景的影像日期由 Google 決定，可能非最新一輪拍攝</strong>；點「看最新街景」開新視窗可取得最新影像與拍攝日期。資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, with a <strong>pegman + view cone</strong> marking the viewpoint and facing; "↻ Rotate 90°" turns the panorama and cone together. (Dragging inside the panorama won't move the cone — use the rotate button to stay in sync.) <strong>The embedded panorama's capture date is chosen by Google and may not be the newest pass</strong>; "Latest imagery" opens Google Maps with the newest capture and its date. Data loads on demand per county (0.03–6.2 MB each).</span></p>
+    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，小地圖上的<strong>小人與視角錐</strong>標示實際全景位置與朝向：在全景內拖轉、前進時會<strong>即時跟動</strong>；「↻ 旋轉 90°」可快速換邊看。資訊列顯示<strong>影像拍攝日期</strong>；街景取該點最新一輪官方拍攝（若 Google 服務無法載入，會自動退回精簡嵌入模式，該模式下視角錐僅跟隨旋轉鈕）。資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, with a <strong>pegman + view cone</strong> marking the true panorama position and facing — they <strong>follow live</strong> as you drag or walk inside the panorama; "↻ Rotate 90°" flips sides quickly. The info bar shows the <strong>imagery capture date</strong>, and the panorama uses the newest official pass at that spot (if Google's service fails to load, a lightweight embed takes over, where the cone follows the rotate button only). Data loads on demand per county (0.03–6.2 MB each).</span></p>
     <p style="font-size:12px;margin-top:8px"><span class="t-zh"><strong>⚡ 電線桿圖層</strong>：台電桿籍資料（全國約 273 萬支，TWD97 座標轉換；本島 121 分帶、離島 119 分帶），開啟後放大至街區尺度（zoom ≥ 16）顯示視窗內桿位。電線桿常立於人行道上，是輪椅與嬰兒車的實體障礙：與淨寬著色對照可看出「帳面有人行道、實際過不去」的路段。注意：屏東縣桿籍近乎缺漏（僅 88 筆）；桿位為台電登記位置，可能與現地略有出入。</span><span class="t-en"><strong>⚡ Utility-pole layer</strong>: Taipower pole registry (~2.73M poles nationwide, TWD97→WGS84; 121°E zone for the main island, 119°E for offshore counties). When on, poles in the viewport render at zoom ≥ 16. Poles standing on sidewalks are physical barriers for wheelchairs and strollers — overlay them on the clear-width colours to spot segments that exist on paper but cannot be passed. Note: Pingtung's registry is nearly empty (88 records); positions are as registered and may differ slightly on site.</span></p>
   </div>
 </div>
@@ -537,6 +545,7 @@ body.lang-en .t-en { display: inline; }
 <script src="data/cities.js"></script>
 <script src="data/townships_en.js"></script>
 <script src="data/sidewalk_national.js"></script>
+<script src="data/gmaps_key.js"></script>
 <script>
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
@@ -1076,15 +1085,117 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let segSwitching = false;   // true while a county's geojson is being fetched
 
+  // ── Official Maps JS API path (when data/gmaps_key.js provides a key) ──
+  // Upgrades the panorama to the newest official imagery (+ capture date)
+  // and, crucially, live-syncs the pegman: position_changed / pov_changed
+  // fire as the user walks or drags inside the panorama, so the cone and
+  // the true pano location always match. Any failure falls back to the
+  // keyless double-buffered embed.
+  const svPanoDiv = document.getElementById('svPano');
+  const svDateEl = document.getElementById('svDate');
+  let gmapsPromise = null, svPanoObj = null, svSvc = null;
+  let svMode = 'iframe';           // 'js' | 'iframe' — which backend is active
+  let svPanoApplying = false;      // true while WE set pov/pano (skip echo events)
+
+  function loadGmapsApi() {
+    if (!window.GMAPS_KEY) return Promise.reject(new Error('no key'));
+    if (gmapsPromise) return gmapsPromise;
+    gmapsPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      window.__gmapsReady = () => resolve();
+      s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(window.GMAPS_KEY)}&v=weekly&loading=async&callback=__gmapsReady&language=${TT('zh-TW', 'en')}`;
+      s.onerror = () => { gmapsPromise = null; reject(new Error('gmaps load failed')); };
+      document.head.appendChild(s);
+      setTimeout(() => reject(new Error('gmaps timeout')), 10000);
+    }).then(() => google.maps.importLibrary('streetView'));
+    return gmapsPromise;
+  }
+
+  function setSvDate(dateStr) {
+    if (dateStr) {
+      svDateEl.textContent = `${TT('影像', 'imagery')} ${dateStr}`;
+      svDateEl.style.display = '';
+    } else {
+      svDateEl.style.display = 'none';
+    }
+  }
+
+  function ensurePanoObj(lib) {
+    if (svPanoObj) return;
+    svSvc = new lib.StreetViewService();
+    svPanoObj = new lib.StreetViewPanorama(svPanoDiv, {
+      pov: { heading: svHeading, pitch: 0 },
+      addressControl: true, imageDateControl: true, motionTracking: false,
+      fullscreenControl: true, enableCloseButton: false,
+    });
+    svPanoObj.addListener('pov_changed', () => {
+      if (svMode !== 'js' || svPanoApplying) return;
+      svHeading = ((svPanoObj.getPov().heading % 360) + 360) % 360;
+      updatePegman();               // cone follows drags inside the pano, live
+    });
+    svPanoObj.addListener('position_changed', () => {
+      if (svMode !== 'js' || svPanoApplying) return;
+      const pos = svPanoObj.getPosition();
+      if (!pos) return;
+      svPoint = L.latLng(pos.lat(), pos.lng());
+      updatePegman();               // pegman walks with the user
+      if (!segMap.getBounds().contains(svPoint)) segMap.panTo(svPoint);
+    });
+    svPanoObj.addListener('pano_changed', () => {
+      if (svMode !== 'js') return;
+      const id = svPanoObj.getPano();
+      if (id && svSvc) svSvc.getPanorama({ pano: id }).then(({ data }) => {
+        if (svMode === 'js' && svPanoObj.getPano() === id) setSvDate(data.imageDate || null);
+      }).catch(() => {});
+    });
+  }
+
+  async function jsApiEnter(c) {
+    const lib = await loadGmapsApi();
+    ensurePanoObj(lib);
+    // Nearest OUTDOOR official pano within 120 m (skips user photospheres,
+    // which are the usual source of ancient/odd imagery).
+    const { data } = await svSvc.getPanorama({
+      location: { lat: c.lat, lng: c.lng }, radius: 120,
+      source: google.maps.StreetViewSource.OUTDOOR,
+      preference: google.maps.StreetViewPreference.NEAREST,
+    });
+    svPanoApplying = true;
+    svPanoObj.setPano(data.location.pano);
+    svPanoObj.setPov({ heading: svHeading, pitch: 0 });
+    svPanoApplying = false;
+    svMode = 'js';
+    svPanoDiv.classList.add('on');
+    svLoading.classList.remove('on');
+    setSvDate(data.imageDate || null);
+    // Pegman at the TRUE pano position (may sit tens of metres from the
+    // requested segment centre — this is the map↔pano sync fix).
+    if (data.location.latLng) {
+      svPoint = L.latLng(data.location.latLng.lat(), data.location.latLng.lng());
+      updatePegman();
+    }
+  }
+
   function enterSV(lyr) {
     if (segSwitching) return;  // old layer is being torn down — ignore clicks
     const c = lyr.getBounds().getCenter();
     const p = lyr.feature.properties;
     svPoint = c;
     svHeading = Math.round(segBearing(lyr));
-    // Keyless Street View embed (the official share-embed "pb" format).
-    // !1s0 = no fixed pano id → Google resolves the nearest panorama to !1d/!2d.
-    loadPano(svFrameSrc());
+    setSvDate(null);
+    svLoading.classList.add('on');
+    if (window.GMAPS_KEY) {
+      jsApiEnter(c).catch(() => {           // no pano nearby / API failure
+        svMode = 'iframe';
+        svPanoDiv.classList.remove('on');
+        loadPano(svFrameSrc());
+      });
+    } else {
+      svMode = 'iframe';
+      // Keyless Google SV embed (the official share-embed "pb" format).
+      // !1s0 = no fixed pano id → Google resolves the nearest panorama.
+      loadPano(svFrameSrc());
+    }
     document.getElementById('svInfo').innerHTML =
       `<strong>${p.n || TT('（未命名）', '(unnamed)')}</strong> · ${enTown(p.v)} · ` +
       `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
@@ -1118,6 +1229,9 @@ document.addEventListener('DOMContentLoaded', () => {
       f.setAttribute('tabindex', '-1');
     });
     svActive = 0;
+    svPanoDiv.classList.remove('on');          // JS-API pano off (instance kept for reuse)
+    svMode = 'iframe';
+    setSvDate(null);
     if (svSelLayer && segLayer) { try { segLayer.resetStyle(svSelLayer); } catch (e) {} }
     svSelLayer = null;
     if (pegman) { segMap.removeLayer(pegman); pegman = null; }
@@ -1128,7 +1242,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('svRotate').addEventListener('click', () => {
     if (!svPoint) return;
     svHeading = (svHeading + 90) % 360;
-    loadPano(svFrameSrc());         // panorama and cone rotate together
+    if (svMode === 'js' && svPanoObj) {
+      svPanoApplying = true;
+      svPanoObj.setPov({ heading: svHeading, pitch: svPanoObj.getPov().pitch });
+      svPanoApplying = false;        // instant — no reload with the JS API
+    } else {
+      loadPano(svFrameSrc());        // keyless: panorama and cone rotate together
+    }
     updatePegman();
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') exitSV(); });
