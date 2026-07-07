@@ -507,15 +507,15 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--grey-2); font-weight: 600;
 }
-.cat-pill {
+.cat-pill, .pt-pill {
   font-size: 11px; font-weight: 400; padding: 6px 11px;
   border: 1px solid var(--grey-3); cursor: pointer;
   letter-spacing: 0.03em; background: var(--white);
   user-select: none; transition: background .12s, border-color .12s;
 }
-.cat-pill.en { font-family: var(--font-en); letter-spacing: 0.05em; font-weight: 500; }
-.cat-pill:hover { border-color: var(--black); }
-.cat-pill.active { background: var(--lime); border-color: var(--lime); font-weight: 700; }
+.cat-pill.en, .pt-pill.en { font-family: var(--font-en); letter-spacing: 0.05em; font-weight: 500; }
+.cat-pill:hover, .pt-pill:hover { border-color: var(--black); }
+.cat-pill.active, .pt-pill.active { background: var(--lime); border-color: var(--lime); font-weight: 700; }
 
 /* Map area */
 .map-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 24px; }
@@ -531,6 +531,66 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 .legend-title {
   font-family: var(--font-en); font-size: 9px; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--grey-2); margin-right: 8px;
+}
+
+/* ── National crash-points (dot) map — Section 04 ── */
+.ptmap-wrap { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px; }
+#ptmap { height: 760px; background: var(--grey-4); border: 1px solid var(--grey-3); }
+#ptmap .leaflet-interactive { cursor: pointer; }
+#ptmap .leaflet-heatmap-layer { mix-blend-mode: multiply; }
+#ptmap .leaflet-popup-content { margin: 12px 14px; }
+.ptpop { font-family: var(--font-zh); }
+.ptpop .pp-when { font-family: var(--font-en); font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: var(--lime-dk); margin-bottom: 4px; }
+.ptpop .pp-loc { font-size: 13px; font-weight: 700; color: var(--black); line-height: 1.45; margin-bottom: 7px; }
+.ptpop .pp-row { font-size: 12px; color: var(--grey-1); display: flex; align-items: center; gap: 5px; }
+.ptpop .pp-row strong { color: var(--black); }
+.ptpop .pp-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.ptpop .pp-links { display: flex; gap: 14px; margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--grey-3); }
+.ptpop .pp-links a { font-size: 11.5px; font-weight: 700; color: var(--blue); text-decoration: none; white-space: nowrap; }
+.ptpop .pp-links a:hover { text-decoration: underline; }
+.ptmap-legend {
+  display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 12px 4px 2px;
+  align-items: center; font-family: var(--font-zh); font-size: 12px;
+  color: var(--grey-1); letter-spacing: 0.03em;
+}
+.ptmap-legend .lg-dot { display: inline-flex; align-items: center; gap: 6px; }
+.ptmap-legend .lg-dot i {
+  width: 11px; height: 11px; border-radius: 50%;
+  border: 1px solid #1A1A1A; display: inline-block;
+}
+.ptmap-note { width: 100%; margin-top: 4px; font-size: 11px; font-weight: 300; color: var(--grey-2); letter-spacing: 0.02em; }
+
+/* ── Deadliest road segments (Section 07) ── */
+.dseg-wrap { background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.dseg-row {
+  display: grid; grid-template-columns: 40px 1fr auto; gap: 14px;
+  align-items: center; padding: 14px 22px; border-top: 1px solid var(--grey-4);
+}
+.dseg-row:first-child { border-top: none; }
+.dseg-row { cursor: pointer; }
+.dseg-row:hover { background: var(--grey-4); }
+.dseg-row:hover .dseg-label { color: var(--lime-dk); }
+@keyframes focusPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.focus-ring { animation: focusPulse 1.2s ease-in-out infinite; }
+.dseg-rank { font-family: var(--font-en); font-size: 20px; font-weight: 300; color: var(--grey-3); text-align: center; }
+.dseg-row.top1 .dseg-rank { color: var(--red); font-weight: 500; }
+.dseg-row.top2 .dseg-rank, .dseg-row.top3 .dseg-rank { color: var(--gold); }
+.dseg-info { min-width: 0; }
+.dseg-label { font-size: 15px; font-weight: 700; color: var(--black); letter-spacing: 0.02em; line-height: 1.3; }
+.dseg-label .seg-tag { font-family: var(--font-en); font-size: 8.5px; font-weight: 700; letter-spacing: 0.15em; color: var(--gold-dk, #A8801A); margin-left: 7px; vertical-align: 1px; }
+.dseg-meta { font-size: 11.5px; font-weight: 300; color: var(--grey-1); margin-top: 3px; }
+.dseg-meta .sep { color: var(--grey-3); margin: 0 6px; }
+.dseg-mix { display: flex; height: 5px; margin-top: 7px; max-width: 280px; border-radius: 2px; overflow: hidden; background: var(--grey-4); }
+.dseg-mix i { height: 100%; }
+.dseg-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.dseg-deaths { font-family: var(--font-en); font-size: 26px; font-weight: 400; color: var(--red); line-height: 1; }
+.dseg-deaths small { font-size: 10px; color: var(--grey-2); font-weight: 300; letter-spacing: 0.04em; }
+.dseg-sv { font-family: var(--font-zh); font-size: 11px; color: var(--blue); text-decoration: none; white-space: nowrap; }
+.dseg-sv:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .dseg-row { grid-template-columns: 28px 1fr auto; padding: 12px 14px; gap: 10px; }
+  .dseg-label { font-size: 14px; }
+  .dseg-deaths { font-size: 22px; }
 }
 
 /* Side panel */
@@ -725,6 +785,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   .filter-bar { padding: 14px 14px; gap: 10px 14px; }
   .filter-group { width: 100%; }
   .filter-group-label { width: 100%; }
+  #ptmap { height: 480px; }
 }
 
 /* ── i18n + logo ── */
@@ -791,7 +852,7 @@ body.lang-en .t-en-b { display: block; }
     <span style="min-width:0">
       <span style="font-family:var(--font-en);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--grey-1);display:block"><span class="t-zh">線上手冊 · 點我閱讀</span><span class="t-en">Online Handbook · Read now</span></span>
       <span style="font-size:19px;font-weight:700;letter-spacing:0.04em;display:block;margin-top:3px"><span class="t-zh">【2026 雙齊零街道願景手冊】</span><span class="t-en">2026 Dual-Zero Street Vision Handbook</span></span>
-      <span style="display:block;font-size:12.5px;font-weight:300;color:var(--grey-1);margin-top:3px;letter-spacing:0.03em"><span class="t-zh">交通零死亡 × 碳排歸零 — 完整願景與五大訴求,一次讀懂</span><span class="t-en">Zero road deaths × net-zero carbon — the full vision &amp; Five Demands</span></span>
+      <span style="display:block;font-size:12.5px;font-weight:300;color:var(--grey-1);margin-top:3px;letter-spacing:0.03em"><span class="t-zh">交通零死亡 × 碳排歸零 — 完整願景與五大訴求，一次讀懂</span><span class="t-en">Zero road deaths × net-zero carbon — the full vision &amp; Five Demands</span></span>
     </span>
   </span>
   <span style="font-family:var(--font-en);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:var(--black);color:var(--lime);padding:11px 20px;white-space:nowrap"><span class="t-zh">開啟手冊 →</span><span class="t-en">Open handbook →</span></span>
@@ -813,8 +874,8 @@ body.lang-en .t-en-b { display: block; }
 <!-- 「我家附近」entry banner -->
 <a href="nearby.html" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:var(--black);color:var(--white);text-decoration:none;padding:20px 26px;margin-bottom:48px;border-left:6px solid var(--lime)">
   <span>
-    <span style="font-size:18px;font-weight:700;letter-spacing:0.05em"><span class="t-zh">📍 我家附近安全嗎?</span><span class="t-en">📍 How safe is my area?</span></span>
-    <span style="display:block;font-size:12.5px;font-weight:300;color:var(--grey-3);margin-top:4px;letter-spacing:0.04em"><span class="t-zh">輸入你住的鄉鎮市區,看十年死亡、全國排名與最危險路段</span><span class="t-en">Type your district — deaths, national rank &amp; most dangerous roads</span></span>
+    <span style="font-size:18px;font-weight:700;letter-spacing:0.05em"><span class="t-zh">📍 我家附近安全嗎？</span><span class="t-en">📍 How safe is my area?</span></span>
+    <span style="display:block;font-size:12.5px;font-weight:300;color:var(--grey-3);margin-top:4px;letter-spacing:0.04em"><span class="t-zh">輸入你住的鄉鎮市區，看十年死亡、全國排名與最危險路段</span><span class="t-en">Type your district — deaths, national rank &amp; most dangerous roads</span></span>
   </span>
   <span style="font-family:var(--font-en);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:var(--lime);color:var(--black);padding:10px 18px;white-space:nowrap"><span class="t-zh">立即查詢 →</span><span class="t-en">Check now →</span></span>
 </a>
@@ -833,7 +894,7 @@ body.lang-en .t-en-b { display: block; }
       <div class="big-label-zh"><span class="t-zh">十年內全台道路 A1 死亡人數</span><span class="t-en">A1 road deaths nationwide, last 10 years</span></div>
       <div class="big-label-en">Lives lost on Taiwan's roads · 2016 — 2025</div>
       <div class="span-meta"><span class="t-zh">364 個鄉鎮市區 · 22 個縣市 · 平均每年 1,718 人</span><span class="t-en">364 districts · 22 counties · ~1,718 deaths per year</span></div>
-      <div class="cal-note"><span class="t-zh">本站採 <b>A1(當場或 24 小時內死亡)</b>口徑;官方 <b>30 日死亡</b>口徑(國際標準)十年約 <b>29,000 人</b>。<a href="#caliber" style="color:var(--red)">兩者差異說明 ↓</a></span><span class="t-en">This Atlas uses the <b>A1 (death on scene or within 24 h)</b> calibre; the official <b>30-day death</b> calibre (international standard) is ~<b>29,000</b> over the decade. <a href="#caliber" style="color:var(--red)">Why they differ ↓</a></span></div>
+      <div class="cal-note"><span class="t-zh">本站採 <b>A1（當場或 24 小時內死亡）</b>分類；官方 <b>30 日死亡</b>分類（國際標準）十年約 <b>29,000 人</b>。<a href="#caliber" style="color:var(--red)">兩者差異說明 ↓</a></span><span class="t-en">This Atlas uses the <b>A1 (death on scene or within 24 h)</b> classification; the official <b>30-day death</b> classification (international standard) is ~<b>29,000</b> over the decade. <a href="#caliber" style="color:var(--red)">Why they differ ↓</a></span></div>
     </div>
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-zh"><span class="t-zh">A1 死亡事故件數</span><span class="t-en">A1 fatal crash events</span></div><div class="kpi-num">16,713</div></div>
@@ -888,37 +949,37 @@ body.lang-en .t-en-b { display: block; }
   <!-- A1 (24h) vs official 30-day calibre — answers "why not ~29,000?" -->
   <div class="caliber" id="caliber">
     <div class="cal-title">
-      <span class="t-zh">為什麼是 17,175,而不是官方常聽到的「約 3 萬」?</span>
+      <span class="t-zh">為什麼是 17,175，而不是官方常聽到的「約 3 萬」？</span>
       <span class="t-en">Why 17,175 — and not the official "~29,000"?</span>
     </div>
     <div class="cal-sub">
-      <span class="t-zh">兩個數字都對,差在<b>死亡口徑</b>。本站採 <b>A1(當場或 24 小時內死亡)</b>,因為它是唯一逐案、含經緯度與運具的開放資料,才能畫成這裡的每一張地圖。官方頭條用 <b>30 日內死亡</b>(國際通用標準),十年合計約 <b>29,000 人</b>——兩者並不矛盾。</span>
-      <span class="t-en">Both numbers are correct — they use different <b>death calibres</b>. This Atlas uses <b>A1 (death on scene or within 24 h)</b>, the only case-level, geocoded, per-vehicle open dataset, and therefore the basis of every map here. The official headline uses <b>death within 30 days</b> (the international standard): ~<b>29,000</b> over the decade. The two do not conflict.</span>
+      <span class="t-zh">兩個數字都對，差在<b>資料分類</b>。本站採 <b>A1（當場或 24 小時內死亡）</b>，因為它是唯一逐案、含經緯度與運具的開放資料，才能畫成這裡的每一張地圖。官方頭條用 <b>30 日內死亡</b>（國際通用標準），十年合計約 <b>29,000 人</b>：兩者並不矛盾。</span>
+      <span class="t-en">Both numbers are correct — they use different <b>data classifications</b>. This Atlas uses <b>A1 (death on scene or within 24 h)</b>, the only case-level, geocoded, per-vehicle open dataset, and therefore the basis of every map here. The official headline uses <b>death within 30 days</b> (the international standard): ~<b>29,000</b> over the decade. The two do not conflict.</span>
     </div>
     <div class="cal-grid">
       <div class="cal-stat cal-a1">
         <div class="cal-tag">A1 · 24h</div>
         <div class="cal-num">17,175</div>
-        <div class="cal-cap"><span class="t-zh">本站口徑 · 當場或 24 小時內死亡</span><span class="t-en">This Atlas · death within 24 h</span></div>
+        <div class="cal-cap"><span class="t-zh">本站分類 · 當場或 24 小時內死亡</span><span class="t-en">This Atlas · death within 24 h</span></div>
       </div>
       <div class="cal-op">≈ 0.59 ×</div>
       <div class="cal-stat cal-30">
         <div class="cal-tag">30-day</div>
         <div class="cal-num">29,018</div>
-        <div class="cal-cap"><span class="t-zh">官方頭條 · 30 日內死亡(國際標準)</span><span class="t-en">Official headline · death within 30 days</span></div>
+        <div class="cal-cap"><span class="t-zh">官方頭條 · 30 日內死亡（國際標準）</span><span class="t-en">Official headline · death within 30 days</span></div>
       </div>
       <div class="cal-op">→</div>
       <div class="cal-stat cal-gap">
         <div class="cal-tag">A2</div>
         <div class="cal-num">~11,843</div>
-        <div class="cal-cap"><span class="t-zh">事後(24h–30 日)死亡 · 事故當下記為 A2</span><span class="t-en">Died 24 h–30 days later · recorded as A2</span></div>
+        <div class="cal-cap"><span class="t-zh">事後（24h–30 日）死亡 · 事故當下記為 A2</span><span class="t-en">Died 24 h–30 days later · recorded as A2</span></div>
       </div>
     </div>
     <div class="cal-chart-wrap">
       <svg id="caliberSvg" viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block"></svg>
     </div>
     <div class="cal-foot">
-      <span class="t-zh">逐年對照:本站 A1(紅)約為官方 30 日死亡(灰)的六成,十年比值穩定落在 0.54–0.65,內部一致——這反而證明資料正確,只是口徑較嚴格。<b>30 日死亡資料來源:交通部道安資訊平臺／roadsafety.tw「30 日死亡人數」;A30 歷年彙整 tadd.org.tw。</b></span>
+      <span class="t-zh">逐年對照：本站 A1（紅）約為官方 30 日死亡（灰）的六成，十年比值穩定落在 0.54–0.65，內部一致：這反而證明資料正確，只是分類較嚴格。<b>30 日死亡資料來源：交通部道安資訊平臺／roadsafety.tw「30 日死亡人數」；A30 歷年彙整 tadd.org.tw。</b></span>
       <span class="t-en">Year by year, this Atlas's A1 (red) runs at ~60% of the official 30-day count (grey); the ratio holds a stable 0.54–0.65 across the decade — internally consistent, confirming the data is right, just stricter. <b>30-day source: MOTC Road Safety Information Platform / roadsafety.tw "30-day deaths"; A30 series, tadd.org.tw.</b></span>
     </div>
   </div>
@@ -935,8 +996,8 @@ body.lang-en .t-en-b { display: block; }
         <span class="t-en">A1 deaths edged down, but A2 casualties kept climbing</span>
       </div>
       <div class="tn-meta">
-        <span class="t-zh">死亡（A1）的改善被「受傷與長期失能」的擴大遮蓋。當 A2 件數成長，意味著危險路口、過快車速、混合車流的暴露面持續擴大 — 治理重點應從「降死亡」延伸至「降傷亡規模」。</span>
-        <span class="t-en">Improvement on the death count masks a growing tide of injuries and long-term disability. Rising A2 events means dangerous junctions, excess speed, and mixed traffic are still expanding exposure. Policy must shift from "reduce deaths" to "reduce total harm".</span>
+        <span class="t-zh">我們關注 A1 車禍死亡的改善，但同時仍必須關注「受傷與長期失能」的嚴重車禍。當 A2 件數成長，意味著危險路口、過快車速、混合車流的暴露面持續擴大：治理重點應從「降低死亡」進一步推進到「降低嚴重傷亡」。</span>
+        <span class="t-en">We welcome the fall in A1 road deaths, but must stay just as focused on the serious crashes behind injury and long-term disability. As A2 events climb, dangerous junctions, excess speed and mixed traffic keep expanding exposure: the goal must move from "reducing deaths" to "reducing serious casualties".</span>
       </div>
     </div>
     <div class="tn-chart-wrap">
@@ -1011,7 +1072,7 @@ body.lang-en .t-en-b { display: block; }
     <div class="side-panel">
       <h3>District Detail<span class="t-zh"> — 行政區明細</span><span class="t-en"></span></h3>
       <div class="detail-empty" id="detailEmpty">
-        <span class="t-zh">點選任一行政區（區/鄉/鎮/市）以查看分布</span>
+        <span class="t-zh">點選任一行政區（區、鄉、鎮、市）以查看分布</span>
         <span class="en t-en">Click a district on the map to inspect</span>
         <span class="en t-zh">Click a district on the map</span>
       </div>
@@ -1056,9 +1117,102 @@ body.lang-en .t-en-b { display: block; }
   </div>
 </div>
 
+<!-- 06 — National crash points (dot map) + deadliest segments (merged) -->
+<div class="section">
+  <div class="section-label"><span class="t-zh">06 — Crash Points &amp; Deadliest Segments 全國事故點位與最危險路段</span><span class="t-en">06 — Crash Points &amp; Deadliest Segments</span></div>
+
+  <!-- 6A · national crash-points dot map -->
+  <div class="county-card" style="margin-bottom:18px">
+    <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
+      <span class="t-zh">每一個點，都是一條在 24 小時內逝去的人命</span>
+      <span class="t-en">Every dot is a life lost within 24 hours</span>
+    </div>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
+      <span class="t-zh">全台 <strong>13,708</strong> 件可定位的 A1 死亡事故（2016–2025），依受害者運具著色。其餘約 3,000 件因原始資料缺座標（多為 2016–2017、2021 簡式年度）未能標點。<strong>點選任一點可查看該事故細節</strong>（時間、地點、傷亡、街景），並連往該縣市的完整地圖。</span>
+      <span class="t-en"><strong>13,708</strong> geolocatable A1 fatal crashes nationwide (2016–2025), coloured by victim's mode of travel. ~3,000 more lack coordinates in the source data (mostly the 2016–2017 &amp; 2021 simplified years). <strong>Click any dot for that crash's details</strong> (date, place, casualties, Street View), with a link to the county's full map.</span>
+    </p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">View</span>
+      <span class="pt-pill active" data-pview="points"><span class="t-zh">點位</span><span class="t-en">Points</span></span>
+      <span class="pt-pill" data-pview="heat"><span class="t-zh">熱力</span><span class="t-en">Heatmap</span></span>
+      <span class="pt-pill" data-pview="both"><span class="t-zh">兩者</span><span class="t-en">Both</span></span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Victim</span>
+      <span class="pt-pill active" data-pmode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
+      <span class="pt-pill" data-pmode="0"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="pt-pill" data-pmode="1"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
+      <span class="pt-pill" data-pmode="2"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="pt-pill" data-pmode="3"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Year</span>
+      <span class="pt-pill en active" data-pyear="all">All</span>
+      <span class="pt-pill en" data-pyear="2016">2016</span>
+      <span class="pt-pill en" data-pyear="2017">2017</span>
+      <span class="pt-pill en" data-pyear="2018">2018</span>
+      <span class="pt-pill en" data-pyear="2019">2019</span>
+      <span class="pt-pill en" data-pyear="2020">2020</span>
+      <span class="pt-pill en" data-pyear="2021">2021</span>
+      <span class="pt-pill en" data-pyear="2022">2022</span>
+      <span class="pt-pill en" data-pyear="2023">2023</span>
+      <span class="pt-pill en" data-pyear="2024">2024</span>
+      <span class="pt-pill en" data-pyear="2025">2025</span>
+    </div>
+    <div class="filter-group" style="margin-left:auto">
+      <span class="filter-group-label" id="ptCount">— A1</span>
+    </div>
+  </div>
+
+  <div class="ptmap-wrap">
+    <div id="ptmap"></div>
+    <div class="ptmap-legend">
+      <span class="legend-title">Victim</span>
+      <span class="lg-dot"><i style="background:#1A1A1A"></i><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="lg-dot"><i style="background:#3A7CC3"></i><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
+      <span class="lg-dot"><i style="background:#D94F3D"></i><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="lg-dot"><i style="background:#E8A825"></i><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+      <span class="lg-dot"><i style="background:#888888"></i><span class="t-zh">其他</span><span class="t-en">Other</span></span>
+      <span class="ptmap-note"><span class="t-zh">點大小依死亡人數 · 滑過看地點 · 點擊看事故細節</span><span class="t-en">Dot size ∝ deaths · hover for location · click a dot for crash details</span></span>
+    </div>
+  </div>
+
+  <!-- 6B · deadliest segments ranking -->
+  <div class="county-card" style="margin:34px 0 16px;border-top:3px solid var(--red);padding-top:20px">
+    <div class="card-zh" style="font-size:16px;font-weight:700;line-height:1.7;color:var(--black)">
+      <span class="t-zh">十年來，奪命最多的十個路段</span>
+      <span class="t-en">The ten road segments that have killed the most</span>
+    </div>
+    <p style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:820px;margin-top:6px">
+      <span class="t-zh">依受害者運具切換。有道路名稱＋里程者聚合為「~3 公里路段」（標記 ⚑），其餘以 ~300 公尺方格聚合，依十年累計死亡排序。已濾除座標落在行政中心的「定位失敗群集」（同一座標混入多個行政區與路名者）。<strong>點任一列可在上方地圖定位</strong>，點「看街景」直接看現場道路。</span>
+      <span class="t-en">Switch by victim's mode. Roads with a name + km are clustered into ~3 km segments (⚑); others into ~300 m cells, ranked by 10-year cumulative deaths. Geocoder "failure clusters" (one fallback coordinate mixing many districts &amp; roads) are filtered out. <strong>Click any row to locate it on the map above</strong>; tap "Street View" to see the actual road.</span>
+    </p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-group-label">Victim</span>
+      <span class="pt-pill active" data-dmode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
+      <span class="pt-pill" data-dmode="機車"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
+      <span class="pt-pill" data-dmode="汽車"><span class="t-zh">汽/貨車</span><span class="t-en">Car/Truck</span></span>
+      <span class="pt-pill" data-dmode="人"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
+      <span class="pt-pill" data-dmode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+    </div>
+  </div>
+
+  <div class="dseg-wrap"><div id="dsegList"></div></div>
+  <div class="ptmap-note" style="padding:0 2px">
+    <span class="t-zh">⚑ = 可解析里程之線型路段；其餘為點位群集。死亡數為該運具十年累計。A1（24 小時內死亡）。</span>
+    <span class="t-en">⚑ = a linear segment with km markers; others are point clusters. Deaths = 10-year cumulative for that mode. A1 (death within 24 h).</span>
+  </div>
+</div>
+
 <!-- 05 — Age × Accident Type -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">06 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">06 — Age × Accident Type</span></div>
+  <div class="section-label"><span class="t-zh">07 — Age × Accident Type 年齡層與事故態樣</span><span class="t-en">07 — Age × Accident Type</span></div>
 
   <div class="age-card">
     <div class="age-hero">
@@ -1114,7 +1268,7 @@ body.lang-en .t-en-b { display: block; }
     <div class="age-combos">
       <h4>TOP COMBINATIONS</h4>
       <div class="card-zh">
-        <span class="t-zh">最常見的（年齡 × 運具 × 態樣）組合 — 排行越前面，越值得針對性對策</span>
+        <span class="t-zh">最常見的（年齡 × 運具 × 態樣）組合：排行越前面，越值得針對性對策</span>
         <span class="t-en">Most-frequent age × mode × type combinations — top-ranked combos warrant targeted intervention</span>
       </div>
       <div id="ageCombos"></div>
@@ -1129,7 +1283,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 07 — Gender Lens -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">07 — Gender Lens 性別視角</span><span class="t-en">07 — Gender Lens</span></div>
+  <div class="section-label"><span class="t-zh">08 — Gender Lens 性別視角</span><span class="t-en">08 — Gender Lens</span></div>
   <div class="age-card">
     <div class="card-zh" style="font-size:14px;color:var(--grey-2);margin-bottom:22px"><span class="t-zh">全國 A1 死者性別 · 整體與運具別（十年，取可辨識性別之死者）</span><span class="t-en">National A1 victim gender · overall &amp; by mode (decade · identifiable victims)</span></div>
     <div id="natGender"></div>
@@ -1138,13 +1292,13 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — Structure (whitepaper data) -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">08 — Structure 結構的代價</span><span class="t-en">08 — The Price of Structure</span></div>
+  <div class="section-label"><span class="t-zh">09 — Structure 結構的代價</span><span class="t-en">09 — The Price of Structure</span></div>
   <a href="whitepaper.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--lime)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
         <div style="font-family:var(--font-en);font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--grey-2);font-weight:600;margin-bottom:14px">r = 0.66 · 22 counties · 17 years · 3 scenarios</div>
-        <div style="font-size:28px;font-weight:900;letter-spacing:0.04em;line-height:1.4"><span class="t-zh">公共運輸愈不足,<span style="color:var(--lime-dk)">死傷率愈高</span></span><span class="t-en">Less transit, <span style="color:var(--lime-dk)">more casualties</span></span></div>
-        <div style="font-size:13.5px;font-weight:300;color:var(--grey-1);margin-top:10px;line-height:1.8;max-width:640px"><span class="t-zh">街道願景白皮書互動數據:22 縣市市佔×死傷散佈、17 年死亡率賽跑、2050 三情境推估 — 結構決定死傷,選擇決定未來。</span><span class="t-en">Interactive whitepaper data: the share-casualty scatter, a 17-year county race, and three scenarios to 2050 — structure decides casualties; choices decide the future.</span></div>
+        <div style="font-size:28px;font-weight:900;letter-spacing:0.04em;line-height:1.4"><span class="t-zh">公共運輸愈不足，<span style="color:var(--lime-dk)">死傷率愈高</span></span><span class="t-en">Less transit, <span style="color:var(--lime-dk)">more casualties</span></span></div>
+        <div style="font-size:13.5px;font-weight:300;color:var(--grey-1);margin-top:10px;line-height:1.8;max-width:640px"><span class="t-zh">街道願景白皮書互動數據：22 縣市市佔×死傷散佈、17 年死亡率賽跑、2050 三情境推估：結構決定死傷，選擇決定未來。</span><span class="t-en">Interactive whitepaper data: the share-casualty scatter, a 17-year county race, and three scenarios to 2050 — structure decides casualties; choices decide the future.</span></div>
       </div>
       <span style="font-family:var(--font-en);font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;background:var(--black);color:var(--lime);padding:14px 22px;white-space:nowrap"><span class="t-zh">看數據 →</span><span class="t-en">Explore →</span></span>
     </div>
@@ -1153,7 +1307,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 08 — International Comparison -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">09 — International 國際比較</span><span class="t-en">09 — International</span></div>
+  <div class="section-label"><span class="t-zh">10 — International 國際比較</span><span class="t-en">10 — International</span></div>
   <a href="international.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--red)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1168,7 +1322,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 09 — Climate Evidence -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">10 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">10 — Climate Evidence</span></div>
+  <div class="section-label"><span class="t-zh">11 — Climate Evidence 臺灣升溫的真相</span><span class="t-en">11 — Climate Evidence</span></div>
   <a href="climate.html" style="display:block;background:var(--white);color:var(--black);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-top:4px solid var(--gold,#E8A825)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1183,7 +1337,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 10 — Dual-Zero Vision -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">11 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">11 — Dual-Zero Vision</span></div>
+  <div class="section-label"><span class="t-zh">12 — Dual-Zero Vision 雙齊零願景</span><span class="t-en">12 — Dual-Zero Vision</span></div>
   <a href="vision.html" style="display:block;background:var(--black);color:var(--white);text-decoration:none;padding:44px 40px;box-shadow:0 1px 4px rgba(0,0,0,0.08)">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
       <div style="min-width:260px">
@@ -1198,7 +1352,7 @@ body.lang-en .t-en-b { display: block; }
 
 <!-- 11 — Notes -->
 <div class="section">
-  <div class="section-label"><span class="t-zh">12 — Notes 資料說明</span><span class="t-en">12 — Notes</span></div>
+  <div class="section-label"><span class="t-zh">13 — Notes 資料說明</span><span class="t-en">13 — Notes</span></div>
   <div class="county-card">
     <div class="card-zh"><span class="t-zh">關於本面量圖</span><span class="t-en">About this choropleth</span></div>
     <p class="t-zh-b" style="font-size:13px;font-weight:300;line-height:1.85;color:var(--grey-1);max-width:780px">
@@ -1267,9 +1421,12 @@ body.lang-en .t-en-b { display: block; }
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <script src="data/cities.js"></script>
 <script src="data/townships_en.js"></script>
 <script src="data/official_30day.js"></script>
+<script src="data/national_points.js"></script>
+<script src="data/hotspots_national.js"></script>
 <script>
 // ── i18n core ──
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
@@ -1312,7 +1469,7 @@ function renderGenderNat(g) {
       <div class="gx-split"><div class="m" style="width:${mp}%">${ML} ${mp}%</div><div class="f" style="width:${fp}%">${fp}% ${FL}</div></div>
       <div class="gx-legend"><span><i style="background:var(--blue)"></i><span class="t-zh">男性</span><span class="t-en">Male</span></span><span><i style="background:var(--gold)"></i><span class="t-zh">女性</span><span class="t-en">Female</span></span><span><span class="t-zh">男/女 % · 死者數</span><span class="t-en">M/F % · victims</span></span></div>
       <div class="gx-rows">${rows}</div>
-      ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">全國 A1 死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（男女相近）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''}。男性死亡風險高度集中於<strong>機動車駕駛</strong>（汽車駕駛死者逾九成為男性），女性則以<strong>高齡行人</strong>最為脆弱——對策需分流：管制車速與酒駕／重機風險（男），以及保護行人穿越與高齡友善設計（女）。</span><span class="t-en">~<strong>${mp}%</strong> of national A1 victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''}. Male risk concentrates in <strong>motor-vehicle driving</strong> (>90% of car-driver deaths are men); women are most exposed as <strong>older pedestrians</strong> — implying two policy tracks: speed/DUI/heavy-motorcycle control (men) and pedestrian-crossing protection + age-friendly design (women).</span></div>` : ''}
+      ${(eldF != null || pedF != null) ? `<div class="gx-note"><span class="t-zh">全國 A1 死者約 <strong>${mp}%</strong> 為男性${pedF != null ? `，但<strong>行人死者女性占 ${pedF}%</strong>（男女相近）` : ''}${eldF != null ? `，且<strong>高齡死者中女性達 ${eldF}%</strong>，遠高於年輕族群` : ''}。男性死亡風險高度集中於<strong>機動車駕駛</strong>（汽車駕駛死者逾九成為男性），女性則以<strong>高齡行人</strong>最為脆弱，對策需分流：管制車速與酒駕／重機風險（男），以及保護行人穿越與高齡友善設計（女）。此外，交通規劃也應正視日常生活中「接送、照顧與照護」行為所需的特殊出行型態，滿足多節點、多目的地之複合行程需求。</span><span class="t-en">~<strong>${mp}%</strong> of national A1 victims are male${pedF != null ? `, but women are <strong>${pedF}% of pedestrian deaths</strong>` : ''}${eldF != null ? ` and <strong>${eldF}% of elderly victims</strong>` : ''}. Male risk concentrates in <strong>motor-vehicle driving</strong> (>90% of car-driver deaths are men); women are most exposed as <strong>older pedestrians</strong> — implying two policy tracks: speed/DUI/heavy-motorcycle control (men) and pedestrian-crossing protection + age-friendly design (women). Planning must also serve the everyday travel behind care work — school runs, errands, accompanying elderly relatives — which needs support for multi-stop, multi-destination trips.</span></div>` : ''}
     </div>`;
 }
 function setLang(l) {
@@ -1664,7 +1821,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `<span class="t-zh">青壯年機車事故，是日常受傷的<br>主要來源。</span>` +
         `<span class="t-en">Working-age motorcycle crashes are the<br>top source of everyday injuries.</span>`;
       metaEl.innerHTML =
-        `<span class="t-zh">25–44 歲 × 機車 × 車與車事故的受傷件數，佔 A2 切面 <strong>${share}</strong>。汽車與機車並列為前兩大受傷貢獻者，與 A1 完全以機車主導的格局不同 — 揭示「致命的偏機車、日常受傷的偏汽機車並重」之分流。</span>` +
+        `<span class="t-zh">25–44 歲 × 機車 × 車與車事故的受傷件數，佔 A2 切面 <strong>${share}</strong>。汽車與機車並列為前兩大受傷貢獻者，與 A1 完全以機車主導的格局不同：揭示「致命的偏機車、日常受傷的偏汽機車並重」之分流。</span>` +
         `<span class="t-en">25–44 × motorcycle × vehicle-on-vehicle accounts for <strong>${share}</strong> of A2 events. Cars and motorcycles are co-leaders here, unlike the motorcycle-dominated A1 picture — fatal vs everyday-injury patterns split.</span>`;
       document.getElementById('ageCoverage').textContent =
         TT(`${total.toLocaleString()} 件樣本（A2，8 年）`, `${total.toLocaleString()} events (A2, 8 yrs)`);
@@ -2151,6 +2308,224 @@ document.addEventListener('DOMContentLoaded', () => {
   recomputeCounty();
   // County map needs a size invalidation once laid out
   setTimeout(() => countyMap.invalidateSize(), 200);
+})();
+</script>
+
+<!-- ════ National crash-points (dot) map · Section 04 ════ -->
+<script>
+(function () {
+  const NP = window.NATIONAL_POINTS;
+  if (!NP || !document.getElementById('ptmap')) return;
+  const isEN = () => document.body.classList.contains('lang-en');
+  const MODE_COLOR = ['#1A1A1A', '#3A7CC3', '#D94F3D', '#E8A825', '#888888'];
+
+  const map = L.map('ptmap', {
+    center: [23.75, 120.95], zoom: 7, minZoom: 6, maxZoom: 16,
+    zoomControl: true, scrollWheelZoom: true, preferCanvas: true,
+    attributionControl: true,
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
+  }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd', maxZoom: 19, pane: 'shadowPane',
+  }).addTo(map);
+
+  const renderer = L.canvas({ padding: 0.5 });
+  const group = L.featureGroup().addTo(map);   // featureGroup → child events bubble up
+
+  // Heat layer — VZT gradient lime → gold → red, weighted by deaths.
+  const heatLayer = L.heatLayer([], {
+    radius: 16, blur: 18, maxZoom: 13, minOpacity: 0.3, max: 8,
+    gradient: { 0.0: 'rgba(200,212,0,0)', 0.2: '#C8D400', 0.45: '#E8F000', 0.7: '#E8A825', 1.0: '#D94F3D' },
+  });
+  // Guard leaflet.heat@0.2.0: a queued _redraw can fire after the layer is
+  // removed (this._map === null) and crash on getSize(), permanently breaking it.
+  const _heatRedraw = heatLayer._redraw;
+  heatLayer._redraw = function () { if (!this._map) { this._frame = null; return; } return _heatRedraw.apply(this, arguments); };
+
+  // Pre-build every marker once; filters just re-select from this array.
+  const all = NP.pts.map(p => {
+    const r = 2.4 + Math.min((p[4] || 1) - 1, 3) * 0.7;   // radius ∝ deaths (small & clean)
+    const m = L.circleMarker([p[0], p[1]], {
+      renderer, radius: r, stroke: false,
+      fillColor: MODE_COLOR[p[2]] || '#888', fillOpacity: 0.82,
+    });
+    m._p = p;
+    return m;
+  });
+
+  // One hover + one click handler for the whole group (no per-marker listeners).
+  group.on('mouseover', e => {
+    const p = e.layer && e.layer._p; if (!p) return;
+    const c = NP.counties[p[5]] || {};
+    const cN = isEN() ? (c.en || c.zh || '') : (c.zh || '');
+    const dN = isEN() ? ((window.TOWN_EN && window.TOWN_EN[p[6]]) || p[6]) : p[6];
+    const mN = isEN() ? NP.modes_en[p[2]] : NP.modes[p[2]];
+    const dl = isEN() ? 'deaths' : '死亡';
+    e.layer.bindTooltip(`${p[3]} · ${cN} ${dN}<br>${mN} · ${p[4]} ${dl}`,
+      { direction: 'top', offset: [0, -3] }).openTooltip();
+  });
+  // Click a dot → a detail popup (like the county maps' detail card).
+  group.on('click', e => {
+    const p = e.layer && e.layer._p; if (!p) return;
+    const en = isEN();
+    const c = NP.counties[p[5]] || {};
+    const cN = en ? (c.en || c.zh || '') : (c.zh || '');
+    const dN = en ? ((window.TOWN_EN && window.TOWN_EN[p[6]]) || p[6]) : p[6];
+    const mN = en ? NP.modes_en[p[2]] : NP.modes[p[2]];
+    const dd = p[7] ? `${p[7].slice(0, 4)}.${p[7].slice(4, 6)}.${p[7].slice(6, 8)}` : '';
+    const tt = (p[8] && p[8] !== '000000') ? `${p[8].slice(0, 2)}:${p[8].slice(2, 4)}` : '';
+    const when = [dd, tt].filter(Boolean).join(' · ');
+    const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${p[0]},${p[1]}`;
+    const outcome = en ? `${p[4]} dead / ${p[9]} injured` : `${p[4]} 死 / ${p[9]} 傷`;
+    const html = `<div class="ptpop">
+      ${when ? `<div class="pp-when">${when}</div>` : ''}
+      <div class="pp-loc">${cN} ${dN}${p[10] ? ' · ' + p[10] : ''}</div>
+      <div class="pp-row"><span class="pp-dot" style="background:${MODE_COLOR[p[2]] || '#888'}"></span>${mN} · <strong>${outcome}</strong></div>
+      <div class="pp-links">
+        <a href="${sv}" target="_blank" rel="noopener">📍 ${en ? 'Street View ↗' : '看街景 ↗'}</a>
+        ${c.slug ? `<a href="city.html?c=${c.slug}">${en ? 'County map →' : '縣市完整地圖 →'}</a>` : ''}
+      </div>
+    </div>`;
+    L.popup({ className: 'pt-popup', maxWidth: 280, autoPanPadding: [24, 24] })
+      .setLatLng([p[0], p[1]]).setContent(html).openOn(map);
+  });
+
+  let curMode = 'all', curYear = 'all', curView = 'points';
+  function updateCount(n, d) {
+    const el = document.getElementById('ptCount');
+    if (!el) return;
+    el.__n = n; el.__d = d;
+    el.textContent = isEN()
+      ? `${n.toLocaleString()} crashes · ${d.toLocaleString()} deaths`
+      : `${n.toLocaleString()} 件 · ${d.toLocaleString()} 死亡`;
+  }
+  function draw() {
+    group.clearLayers();
+    const layers = [], heatPts = []; let n = 0, d = 0;
+    for (const m of all) {
+      const p = m._p;
+      if (curMode !== 'all' && p[2] !== +curMode) continue;
+      if (curYear !== 'all' && p[3] !== +curYear) continue;
+      if (curView === 'points' || curView === 'both') layers.push(m);
+      heatPts.push([p[0], p[1], p[4] || 1]);
+      n++; d += (p[4] || 1);
+    }
+    layers.forEach(m => group.addLayer(m));
+    if (curView === 'heat' || curView === 'both') {
+      if (!map.hasLayer(heatLayer)) heatLayer.addTo(map);
+      heatLayer.setLatLngs(heatPts);
+    } else if (map.hasLayer(heatLayer)) {
+      map.removeLayer(heatLayer);
+    }
+    updateCount(n, d);
+  }
+
+  map.fitBounds([[21.9, 120.0], [25.35, 122.05]]);  // main island
+  draw();
+
+  document.querySelectorAll('.pt-pill[data-pview]').forEach(pill =>
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-pview]').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active'); curView = pill.dataset.pview; draw();
+    }));
+  document.querySelectorAll('.pt-pill[data-pmode]').forEach(pill =>
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-pmode]').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active'); curMode = pill.dataset.pmode; draw();
+    }));
+  document.querySelectorAll('.pt-pill[data-pyear]').forEach(pill =>
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-pyear]').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active'); curYear = pill.dataset.pyear; draw();
+    }));
+
+  // Re-localize the count when the site language toggles.
+  new MutationObserver(() => {
+    const el = document.getElementById('ptCount');
+    if (el && el.__n != null) updateCount(el.__n, el.__d);
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  // Hook for §07 "deadliest segments": fly here, drop a pulsing highlight ring.
+  const svgR = L.svg();
+  let focusRing = null;
+  window.__focusCrashMap = function (lat, lon, label) {
+    const wrap = document.getElementById('ptmap');
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => map.invalidateSize(), 350);
+    map.setView([lat, lon], 15, { animate: true });
+    if (focusRing) map.removeLayer(focusRing);
+    focusRing = L.circleMarker([lat, lon], {
+      renderer: svgR, radius: 16, color: '#D94F3D', weight: 3,
+      fill: false, className: 'focus-ring',
+    }).addTo(map);
+    if (label) focusRing.bindTooltip(label, { permanent: true, direction: 'top', offset: [0, -8] }).openTooltip();
+  };
+
+  setTimeout(() => map.invalidateSize(), 300);
+})();
+</script>
+
+<!-- ════ Deadliest road segments · Section 07 ════ -->
+<script>
+(function () {
+  const H = window.NATIONAL_HOTSPOTS;
+  if (!H || !document.getElementById('dsegList')) return;
+  const isEN = () => document.body.classList.contains('lang-en');
+  const MC = { '機車': '#1A1A1A', '汽車': '#3A7CC3', '人': '#D94F3D', '慢車': '#E8A825', '其他': '#888888' };
+  const MODES = ['機車', '汽車', '人', '慢車', '其他'];
+  const enC = c => (window.__COUNTY2EN && window.__COUNTY2EN[c]) || c;
+  const enT = t => (window.TOWN_EN && window.TOWN_EN[t]) || t;
+  let cur = 'all';
+
+  function render() {
+    const list = H.by_mode[cur] || [];
+    const en = isEN();
+    document.getElementById('dsegList').innerHTML = list.map((h, i) => {
+      const rc = i === 0 ? 'top1' : (i < 3 ? 'top' + (i + 1) : '');
+      const county = en ? enC(h.countyZh) : h.countyZh;
+      const dists = h.districts.map(d => en ? enT(d) : d).join(' / ');
+      const tag = h.isSegment ? `<span class="seg-tag">⚑ ${en ? 'SEGMENT' : '路段'}</span>` : '';
+      const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${h.lat},${h.lon}`;
+      let mix = '';
+      if (cur === 'all') {
+        const tot = h.deaths || 1;
+        mix = `<div class="dseg-mix">` + MODES.map(m => {
+          const v = h.breakdown[m] || 0;
+          return v ? `<i style="width:${(v / tot * 100).toFixed(1)}%;background:${MC[m]}"></i>` : '';
+        }).join('') + `</div>`;
+      }
+      return `<div class="dseg-row ${rc}" data-lat="${h.lat}" data-lon="${h.lon}" data-flabel="${h.label} · ${h.deaths}${en ? ' deaths' : ' 死亡'}">
+        <div class="dseg-rank">${i + 1}</div>
+        <div class="dseg-info">
+          <div class="dseg-label">${h.label}${tag}</div>
+          <div class="dseg-meta">${county}<span class="sep">·</span>${dists}<span class="sep">·</span>${h.yrRange}<span class="sep">·</span>${h.events} ${en ? 'events' : '件'}</div>
+          ${mix}
+        </div>
+        <div class="dseg-right">
+          <div class="dseg-deaths">${h.deaths}<small> ${en ? 'deaths' : '死亡'}</small></div>
+          <a class="dseg-sv" href="${sv}" target="_blank" rel="noopener">📍 ${en ? 'Street View ↗' : '看街景 ↗'}</a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  render();
+  document.querySelectorAll('.pt-pill[data-dmode]').forEach(p =>
+    p.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pill[data-dmode]').forEach(x => x.classList.remove('active'));
+      p.classList.add('active'); cur = p.dataset.dmode; render();
+    }));
+
+  // Click a row → locate it on the §04 national crash-points map.
+  document.getElementById('dsegList').addEventListener('click', e => {
+    if (e.target.closest('.dseg-sv')) return;   // let the Street View link work
+    const row = e.target.closest('.dseg-row');
+    if (!row || !window.__focusCrashMap) return;
+    window.__focusCrashMap(+row.dataset.lat, +row.dataset.lon, row.dataset.flabel);
+  });
+
+  new MutationObserver(() => render()).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
 </body>
