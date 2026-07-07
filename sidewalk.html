@@ -178,8 +178,25 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   width: 22px; height: 22px;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
 }
-#svStage .sv-body { position: relative; }
-#svFrame { width: 100%; height: 620px; border: 0; display: block; background: var(--grey-4); }
+#svStage .sv-body { position: relative; height: 620px; background: #2A2A2A; }
+#svStage .sv-body iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  opacity: 0; transition: opacity .28s ease; pointer-events: none;
+}
+#svStage .sv-body iframe.sv-active { opacity: 1; pointer-events: auto; }
+#svStage .sv-loading {
+  position: absolute; inset: 0; display: none; z-index: 300;
+  align-items: center; justify-content: center; gap: 12px; pointer-events: none;
+  color: var(--grey-3); font-size: 13px; letter-spacing: 0.06em;
+  background: rgba(26,26,26,0.25);
+}
+#svStage .sv-loading.on { display: flex; }
+#svStage .sv-loading .spin {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.25); border-top-color: var(--lime);
+  animation: svspin 0.8s linear infinite;
+}
+@keyframes svspin { to { transform: rotate(360deg); } }
 #svDock {
   position: absolute; top: 14px; right: 14px; z-index: 500;
   width: min(380px, 44%); height: 264px;
@@ -188,7 +205,7 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 }
 #svDock #segmap { height: 100% !important; border: none !important; }
 @media (max-width: 640px) {
-  #svFrame { height: 460px; }
+  #svStage .sv-body { height: 460px; }
   #svDock { width: 58%; height: 180px; top: 10px; right: 10px; }
 }
 .map-legend {
@@ -458,18 +475,20 @@ body.lang-en .t-en { display: inline; }
       <div class="sv-bar">
         <span class="sv-info" id="svInfo">—</span>
         <button class="sv-rotate" id="svRotate" title="旋轉視角 / rotate view">↻ <span class="t-zh">旋轉 90°</span><span class="t-en">Rotate 90°</span><span class="sv-dir" id="svDir">N</span></button>
-        <a class="sv-ext" id="svExt" href="#" target="_blank" rel="noopener">↗ <span class="t-zh">開新視窗</span><span class="t-en">Open in Maps</span></a>
+        <a class="sv-ext" id="svExt" href="#" target="_blank" rel="noopener">↗ <span class="t-zh">看最新街景（Google Maps）</span><span class="t-en">Latest imagery (Google Maps)</span></a>
         <button class="sv-close" id="svClose">✕ <span class="t-zh">關閉街景</span><span class="t-en">Close</span></button>
       </div>
       <div class="sv-body">
-        <iframe id="svFrame" title="Google Street View" allow="accelerometer; gyroscope" loading="lazy"></iframe>
+        <iframe id="svFrameA" title="Google Street View" allow="accelerometer; gyroscope" aria-hidden="true" tabindex="-1"></iframe>
+        <iframe id="svFrameB" title="Google Street View" allow="accelerometer; gyroscope" aria-hidden="true" tabindex="-1"></iframe>
+        <div class="sv-loading" id="svLoading"><span class="spin"></span><span class="t-zh">載入街景中…</span><span class="t-en">Loading Street View…</span></div>
         <div id="svDock"></div>
       </div>
     </div>
     <div class="map-legend" id="segLegend"></div>
   </div>
   <div class="notes-card" style="margin-top:16px">
-    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，小地圖上的<strong>小人與視角錐</strong>標示目前檢視點與朝向，「↻ 旋轉 90°」可同步轉動街景與視角錐；續點其他路段即切換。（在全景內自行拖轉時，視角錐不會跟動：以旋轉鈕為準。）資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, with a <strong>pegman + view cone</strong> marking the viewpoint and facing; "↻ Rotate 90°" turns the panorama and cone together. (Dragging inside the panorama won't move the cone — use the rotate button to stay in sync.) Data loads on demand per county (0.03–6.2 MB each).</span></p>
+    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，小地圖上的<strong>小人與視角錐</strong>標示目前檢視點與朝向，「↻ 旋轉 90°」可同步轉動街景與視角錐；續點其他路段即切換。（在全景內自行拖轉時，視角錐不會跟動：以旋轉鈕為準。）<strong>嵌入版街景的影像日期由 Google 決定，可能非最新一輪拍攝</strong>；點「看最新街景」開新視窗可取得最新影像與拍攝日期。資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, with a <strong>pegman + view cone</strong> marking the viewpoint and facing; "↻ Rotate 90°" turns the panorama and cone together. (Dragging inside the panorama won't move the cone — use the rotate button to stay in sync.) <strong>The embedded panorama's capture date is chosen by Google and may not be the newest pass</strong>; "Latest imagery" opens Google Maps with the newest capture and its date. Data loads on demand per county (0.03–6.2 MB each).</span></p>
     <p style="font-size:12px;margin-top:8px"><span class="t-zh"><strong>⚡ 電線桿圖層</strong>：台電桿籍資料（全國約 273 萬支，TWD97 座標轉換；本島 121 分帶、離島 119 分帶），開啟後放大至街區尺度（zoom ≥ 16）顯示視窗內桿位。電線桿常立於人行道上，是輪椅與嬰兒車的實體障礙：與淨寬著色對照可看出「帳面有人行道、實際過不去」的路段。注意：屏東縣桿籍近乎缺漏（僅 88 筆）；桿位為台電登記位置，可能與現地略有出入。</span><span class="t-en"><strong>⚡ Utility-pole layer</strong>: Taipower pole registry (~2.73M poles nationwide, TWD97→WGS84; 121°E zone for the main island, 119°E for offshore counties). When on, poles in the viewport render at zoom ≥ 16. Poles standing on sidewalks are physical barriers for wheelchairs and strollers — overlay them on the clear-width colours to spot segments that exist on paper but cannot be passed. Note: Pingtung's registry is nearly empty (88 records); positions are as registered and may differ slightly on site.</span></p>
   </div>
 </div>
@@ -963,10 +982,48 @@ document.addEventListener('DOMContentLoaded', () => {
   // Leaflet map is re-parented into a top-right dock for side-by-side checks.
   const segmapEl = document.getElementById('segmap');
   const svStage = document.getElementById('svStage');
-  const svFrame = document.getElementById('svFrame');
   const svDock = document.getElementById('svDock');
   let svSelLayer = null;
   let svPoint = null, svHeading = 0, pegman = null;
+
+  // Double-buffered panorama: load the next view in the hidden iframe and
+  // fade-swap once it's ready — no white flash on rotate / segment switch.
+  const svFrames = [document.getElementById('svFrameA'), document.getElementById('svFrameB')];
+  const svLoading = document.getElementById('svLoading');
+  let svActive = 0, svPending = null, svSwapTimer = null;
+  const svAssignedAt = [0, 0];                 // per-frame src-assignment timestamp
+  function svSwapTo(idx) {
+    const out = svFrames[svActive], inn = svFrames[idx];
+    out.classList.remove('sv-active');
+    out.setAttribute('aria-hidden', 'true');
+    out.setAttribute('tabindex', '-1');
+    inn.classList.add('sv-active');
+    inn.removeAttribute('aria-hidden');        // the visible pano is the one AT sees
+    inn.removeAttribute('tabindex');
+    svActive = idx;
+    svPending = null;
+    svLoading.classList.remove('on');
+    clearTimeout(svSwapTimer);
+  }
+  svFrames.forEach((f, i) => f.addEventListener('load', () => {
+    // Ignore load events that arrive within 60 ms of this frame's last src
+    // assignment: those are stale queued events from a superseded navigation
+    // (a real cross-origin pano load always takes longer than that). Without
+    // this, a rapid second rotate could swap in the OLD document and disarm
+    // the 7 s watchdog.
+    if (svPending && f.src === svPending && performance.now() - svAssignedAt[i] > 60) svSwapTo(i);
+  }));
+  function loadPano(url) {
+    const bufIdx = 1 - svActive;
+    svPending = url;
+    svLoading.classList.add('on');
+    svAssignedAt[bufIdx] = performance.now();
+    svFrames[bufIdx].src = url;
+    clearTimeout(svSwapTimer);
+    svSwapTimer = setTimeout(() => {           // safety net if load never fires
+      if (svPending === url) svSwapTo(bufIdx);
+    }, 7000);
+  }
 
   // Pegman: a fixed person glyph over a rotating view-cone, marking the
   // panorama viewpoint + facing on the docked map (Google-style).
@@ -1017,14 +1074,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('svDir').textContent = dirLabel(svHeading);
   }
 
+  let segSwitching = false;   // true while a county's geojson is being fetched
+
   function enterSV(lyr) {
+    if (segSwitching) return;  // old layer is being torn down — ignore clicks
     const c = lyr.getBounds().getCenter();
     const p = lyr.feature.properties;
     svPoint = c;
     svHeading = Math.round(segBearing(lyr));
     // Keyless Street View embed (the official share-embed "pb" format).
     // !1s0 = no fixed pano id → Google resolves the nearest panorama to !1d/!2d.
-    svFrame.src = svFrameSrc();
+    loadPano(svFrameSrc());
     document.getElementById('svInfo').innerHTML =
       `<strong>${p.n || TT('（未命名）', '(unnamed)')}</strong> · ${enTown(p.v)} · ` +
       `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
@@ -1050,7 +1110,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (svStage.style.display !== 'block') return;
     svStage.style.display = 'none';
     svStage.parentElement.insertBefore(segmapEl, svStage);   // back to full width
-    svFrame.src = 'about:blank';
+    svPending = null; svLoading.classList.remove('on'); clearTimeout(svSwapTimer);
+    svFrames.forEach(f => {
+      f.src = 'about:blank';
+      f.classList.remove('sv-active');
+      f.setAttribute('aria-hidden', 'true');   // nothing meaningful in either frame now
+      f.setAttribute('tabindex', '-1');
+    });
+    svActive = 0;
     if (svSelLayer && segLayer) { try { segLayer.resetStyle(svSelLayer); } catch (e) {} }
     svSelLayer = null;
     if (pegman) { segMap.removeLayer(pegman); pegman = null; }
@@ -1061,7 +1128,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('svRotate').addEventListener('click', () => {
     if (!svPoint) return;
     svHeading = (svHeading + 90) % 360;
-    svFrame.src = svFrameSrc();     // panorama and cone rotate together
+    loadPano(svFrameSrc());         // panorama and cone rotate together
     updatePegman();
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') exitSV(); });
@@ -1069,6 +1136,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadSegCounty(slug) {
     exitSV();                       // county switch resets the comparison
     svSelLayer = null;              // old layer is destroyed below
+    segSwitching = true;            // block enterSV on the outgoing layer mid-fetch
     segState.slug = slug;
     document.getElementById('segCount').textContent = TT('載入中…', 'loading…');
     if (!segCache[slug]) {
@@ -1076,9 +1144,11 @@ document.addEventListener('DOMContentLoaded', () => {
         segCache[slug] = await fetch(`data/sidewalks26/${slug}.geojson`).then(r => r.json());
       } catch (e) {
         document.getElementById('segCount').textContent = TT('載入失敗', 'failed to load');
+        segSwitching = false;
         return;
       }
     }
+    segSwitching = false;
     renderSegLayer();
     if (segLayer && segLayer.getBounds().isValid()) segMap.fitBounds(segLayer.getBounds(), { padding: [16, 16] });
     if (polesOn) { await ensurePoles(slug); renderPoles(); }
