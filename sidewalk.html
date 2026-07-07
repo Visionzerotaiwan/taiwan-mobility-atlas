@@ -156,6 +156,28 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   background: var(--lime); color: var(--black); border: none; padding: 7px 12px; cursor: pointer; white-space: nowrap;
 }
 #svStage .sv-close:hover { background: var(--lime-dk); }
+#svStage .sv-rotate {
+  font-family: var(--font-zh); font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+  background: transparent; color: var(--white); border: 1px solid var(--grey-2);
+  padding: 6px 11px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
+}
+#svStage .sv-rotate:hover { border-color: var(--lime); color: var(--lime); }
+#svStage .sv-rotate .sv-dir {
+  font-family: var(--font-en); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  background: var(--lime); color: var(--black); padding: 1px 5px; border-radius: 2px; min-width: 20px; text-align: center;
+}
+
+/* pegman marker: fixed person glyph over a rotating view-cone */
+.pegman-wrap { pointer-events: none; }
+.pegman-wrap .peg-cone {
+  position: absolute; inset: 0; transform-origin: 50% 50%;
+  transition: transform .3s ease;
+}
+.pegman-wrap .peg-man {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 22px; height: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
+}
 #svStage .sv-body { position: relative; }
 #svFrame { width: 100%; height: 620px; border: 0; display: block; background: var(--grey-4); }
 #svDock {
@@ -435,6 +457,7 @@ body.lang-en .t-en { display: inline; }
     <div id="svStage">
       <div class="sv-bar">
         <span class="sv-info" id="svInfo">—</span>
+        <button class="sv-rotate" id="svRotate" title="旋轉視角 / rotate view">↻ <span class="t-zh">旋轉 90°</span><span class="t-en">Rotate 90°</span><span class="sv-dir" id="svDir">N</span></button>
         <a class="sv-ext" id="svExt" href="#" target="_blank" rel="noopener">↗ <span class="t-zh">開新視窗</span><span class="t-en">Open in Maps</span></a>
         <button class="sv-close" id="svClose">✕ <span class="t-zh">關閉街景</span><span class="t-en">Close</span></button>
       </div>
@@ -446,7 +469,7 @@ body.lang-en .t-en { display: inline; }
     <div class="map-legend" id="segLegend"></div>
   </div>
   <div class="notes-card" style="margin-top:16px">
-    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，可在小地圖續點其他路段切換。資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, where you can click other segments to switch. Data loads on demand per county (0.03–6.2 MB each).</span></p>
+    <p style="font-size:12px"><span class="t-zh">2026 年 6 月路網（實際多邊形範圍，幾何經 ±0.3 公尺簡化）。放大後滑過任一段可看路名、寬度、淨寬與斜坡數；<strong>點擊路段即開啟街景比對</strong>：街景為主畫面、地圖縮至右上角，小地圖上的<strong>小人與視角錐</strong>標示目前檢視點與朝向，「↻ 旋轉 90°」可同步轉動街景與視角錐；續點其他路段即切換。（在全景內自行拖轉時，視角錐不會跟動：以旋轉鈕為準。）資料依縣市按需載入（0.03–6.2 MB／縣市）。</span><span class="t-en">June 2026 network (actual polygon extents, geometry simplified within ±0.3 m). Zoom in and hover a segment for road name, width, clear width and ramp count; <strong>click a segment to open Street View comparison</strong> — the panorama takes the stage and the map docks top-right, with a <strong>pegman + view cone</strong> marking the viewpoint and facing; "↻ Rotate 90°" turns the panorama and cone together. (Dragging inside the panorama won't move the cone — use the rotate button to stay in sync.) Data loads on demand per county (0.03–6.2 MB each).</span></p>
     <p style="font-size:12px;margin-top:8px"><span class="t-zh"><strong>⚡ 電線桿圖層</strong>：台電桿籍資料（全國約 273 萬支，TWD97 座標轉換；本島 121 分帶、離島 119 分帶），開啟後放大至街區尺度（zoom ≥ 16）顯示視窗內桿位。電線桿常立於人行道上，是輪椅與嬰兒車的實體障礙：與淨寬著色對照可看出「帳面有人行道、實際過不去」的路段。注意：屏東縣桿籍近乎缺漏（僅 88 筆）；桿位為台電登記位置，可能與現地略有出入。</span><span class="t-en"><strong>⚡ Utility-pole layer</strong>: Taipower pole registry (~2.73M poles nationwide, TWD97→WGS84; 121°E zone for the main island, 119°E for offshore counties). When on, poles in the viewport render at zoom ≥ 16. Poles standing on sidewalks are physical barriers for wheelchairs and strollers — overlay them on the clear-width colours to spot segments that exist on paper but cannot be passed. Note: Pingtung's registry is nearly empty (88 records); positions are as registered and may differ slightly on site.</span></p>
   </div>
 </div>
@@ -943,13 +966,65 @@ document.addEventListener('DOMContentLoaded', () => {
   const svFrame = document.getElementById('svFrame');
   const svDock = document.getElementById('svDock');
   let svSelLayer = null;
+  let svPoint = null, svHeading = 0, pegman = null;
+
+  // Pegman: a fixed person glyph over a rotating view-cone, marking the
+  // panorama viewpoint + facing on the docked map (Google-style).
+  const PEG_CONE_SVG =
+    `<svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="pegg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#C8D400" stop-opacity="0.85"/>
+        <stop offset="1" stop-color="#C8D400" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="M32 32 L14 3 A34 34 0 0 1 50 3 Z" fill="url(#pegg)" stroke="#A8B200" stroke-width="0.8" stroke-opacity="0.5"/>
+    </svg>`;
+  const PEG_MAN_SVG =
+    `<svg viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="5.4" r="3.4" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.4"/>
+      <path d="M12 9.6 C8.6 9.6 7 11.6 7 14.6 L7 16.2 L9.4 16.2 L9.6 22.4 L14.4 22.4 L14.6 16.2 L17 16.2 L17 14.6 C17 11.6 15.4 9.6 12 9.6 Z"
+            fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>`;
+  function pegmanIcon() {
+    return L.divIcon({
+      className: 'pegman-wrap', iconSize: [64, 64], iconAnchor: [32, 32],
+      html: `<div class="peg-cone" style="transform:rotate(${svHeading}deg)">${PEG_CONE_SVG}</div><div class="peg-man">${PEG_MAN_SVG}</div>`,
+    });
+  }
+  function dirLabel(h) {
+    return ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(((h % 360) + 360) % 360 / 45) % 8];
+  }
+  // Rough initial facing: along the segment's long axis (sidewalk strips are
+  // elongated; facing along the road keeps the sidewalk in frame).
+  function segBearing(lyr) {
+    const b = lyr.getBounds();
+    const dLat = b.getNorth() - b.getSouth();
+    const dLng = (b.getEast() - b.getWest()) * Math.cos(b.getCenter().lat * Math.PI / 180);
+    const deg = Math.atan2(dLng, dLat) * 180 / Math.PI;   // 0 = north, cw
+    return (deg + 360) % 360;
+  }
+  function svFrameSrc() {
+    return `https://www.google.com/maps/embed?pb=!4v1700000000000!6m8!1m7!1s0!2m2!1d${svPoint.lat.toFixed(6)}!2d${svPoint.lng.toFixed(6)}!3f${svHeading.toFixed(0)}!4f0!5f0.7820865974627469&hl=${TT('zh-TW', 'en')}`;
+  }
+  function updatePegman() {
+    if (!svPoint) return;
+    if (!pegman) {
+      pegman = L.marker(svPoint, { icon: pegmanIcon(), interactive: false, keyboard: false, zIndexOffset: 1200 }).addTo(segMap);
+    } else {
+      pegman.setLatLng(svPoint);
+      const cone = pegman.getElement() && pegman.getElement().querySelector('.peg-cone');
+      if (cone) cone.style.transform = `rotate(${svHeading}deg)`;
+    }
+    document.getElementById('svDir').textContent = dirLabel(svHeading);
+  }
 
   function enterSV(lyr) {
     const c = lyr.getBounds().getCenter();
     const p = lyr.feature.properties;
+    svPoint = c;
+    svHeading = Math.round(segBearing(lyr));
     // Keyless Street View embed (the official share-embed "pb" format).
     // !1s0 = no fixed pano id → Google resolves the nearest panorama to !1d/!2d.
-    svFrame.src = `https://www.google.com/maps/embed?pb=!4v1700000000000!6m8!1m7!1s0!2m2!1d${c.lat.toFixed(6)}!2d${c.lng.toFixed(6)}!3f0!4f0!5f0.7820865974627469&hl=${TT('zh-TW', 'en')}`;
+    svFrame.src = svFrameSrc();
     document.getElementById('svInfo').innerHTML =
       `<strong>${p.n || TT('（未命名）', '(unnamed)')}</strong> · ${enTown(p.v)} · ` +
       `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
@@ -963,6 +1038,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (svSelLayer && segLayer) { try { segLayer.resetStyle(svSelLayer); } catch (e) {} }
     svSelLayer = lyr;
     lyr.setStyle({ stroke: true, color: '#C8D400', weight: 3 });
+    updatePegman();
     setTimeout(() => {
       segMap.invalidateSize();
       segMap.setView(c, Math.max(segMap.getZoom(), 17));
@@ -977,9 +1053,17 @@ document.addEventListener('DOMContentLoaded', () => {
     svFrame.src = 'about:blank';
     if (svSelLayer && segLayer) { try { segLayer.resetStyle(svSelLayer); } catch (e) {} }
     svSelLayer = null;
+    if (pegman) { segMap.removeLayer(pegman); pegman = null; }
+    svPoint = null;
     setTimeout(() => segMap.invalidateSize(), 80);
   }
   document.getElementById('svClose').addEventListener('click', exitSV);
+  document.getElementById('svRotate').addEventListener('click', () => {
+    if (!svPoint) return;
+    svHeading = (svHeading + 90) % 360;
+    svFrame.src = svFrameSrc();     // panorama and cone rotate together
+    updatePegman();
+  });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') exitSV(); });
 
   async function loadSegCounty(slug) {
