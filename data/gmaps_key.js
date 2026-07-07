@@ -10,4 +10,4 @@
 //        https://yunching0513.github.io/*    (production)
 //        http://localhost:8848/*             (local preview)
 //   2. API restrictions → restrict to "Maps JavaScript API".
-window.GMAPS_KEY = '';
+window.GMAPS_KEY = 'AIzaSyCyAbVt-K4KaACv88ZBPwatGYpEJ_j2-lk';
