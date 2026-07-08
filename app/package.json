@@ -1,0 +1,25 @@
+{
+  "name": "vzt-atlas-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Native (Capacitor) shell for the Taiwan Street Vision Project atlas — iOS + Android store builds.",
+  "scripts": {
+    "sync": "cap sync",
+    "assets": "capacitor-assets generate --iconBackgroundColor '#E5E670' --iconBackgroundColorDark '#141414' --splashBackgroundColor '#E5E670' --splashBackgroundColorDark '#141414'",
+    "open:ios": "cap open ios",
+    "open:android": "cap open android",
+    "add:ios": "cap add ios",
+    "add:android": "cap add android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
+    "@capacitor/splash-screen": "^7.0.0",
+    "@capacitor/status-bar": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.0",
+    "@capacitor/cli": "^7.0.0"
+  }
+}
