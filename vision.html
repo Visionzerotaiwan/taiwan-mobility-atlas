@@ -240,6 +240,25 @@ body.lang-en .t-en { display: inline; }
 </style>
 </head>
 <body>
+<style>
+.site-masthead{display:block;background:var(--black);color:var(--white);text-decoration:none;border-bottom:3px solid var(--lime);position:relative;z-index:1500}
+.site-masthead .sm-inner{max-width:1440px;margin:0 auto;width:100%;box-sizing:border-box;display:flex;align-items:center;gap:15px;padding:11px 40px}
+.site-masthead .sm-mark{flex:none;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;background:var(--lime);color:var(--black);font-family:var(--font-zh);font-weight:900;font-size:17px}
+.site-masthead .sm-title{font-family:var(--font-zh);font-weight:900;font-size:17px;letter-spacing:0.06em;color:var(--white);white-space:nowrap}
+.site-masthead .sm-tag{font-family:var(--font-zh);font-weight:900;font-size:15px;letter-spacing:0.1em;background:var(--lime);color:var(--black);padding:3px 11px;white-space:nowrap}
+.site-masthead .sm-en{margin-left:auto;font-family:var(--font-en);font-size:9.5px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-3);padding-right:92px;white-space:nowrap}
+.site-masthead:hover .sm-tag{background:var(--lime-lt,#E8F000)}
+.site-masthead:hover .sm-title{color:var(--lime)}
+@media(max-width:720px){.site-masthead .sm-inner{padding:9px 18px;gap:10px}.site-masthead .sm-mark{width:28px;height:28px;font-size:15px}.site-masthead .sm-title{font-size:14px;letter-spacing:0.03em}.site-masthead .sm-tag{font-size:12.5px;padding:2px 8px}.site-masthead .sm-en{display:none}}
+</style>
+<a class="site-masthead" href="index.html" aria-label="台灣街道願景計畫：還路於民">
+  <span class="sm-inner">
+    <span class="sm-mark">街</span>
+    <span class="sm-title"><span class="t-zh">台灣街道願景計畫</span><span class="t-en">Taiwan Street Vision Project</span></span>
+    <span class="sm-tag"><span class="t-zh">還路於民</span><span class="t-en">Reclaim the Streets</span></span>
+    <span class="sm-en"><span class="t-zh">Taiwan Street Vision Project</span><span class="t-en">台灣街道願景計畫 · 還路於民</span></span>
+  </span>
+</a>
 <div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
 <a class="float-petition" href="https://forms.gle/wqWe1f8peB4Qn5c66" target="_blank" rel="noopener">
   <span class="t-zh">支持五大訴求<span class="fp-arrow">→</span></span>
