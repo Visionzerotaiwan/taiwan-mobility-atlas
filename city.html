@@ -120,12 +120,14 @@ body {
 }
 .fp-wrap .fp-mascot {
   position: absolute; z-index: 1; right: 18px; bottom: 100%;
-  width: 80px; height: auto; margin-bottom: -14px;
+  width: 120px; height: auto; margin-bottom: -18px;
   pointer-events: none; user-select: none;
   filter: drop-shadow(0 3px 3px rgba(0,0,0,0.16));
-  transition: transform .18s ease;
+  transition: opacity .2s ease, transform .2s ease;
 }
-.fp-wrap:hover .fp-mascot { transform: translateY(-5px); }
+.fp-wrap .fp-mascot-like { opacity: 0; }
+.fp-wrap:hover .fp-mascot-default { opacity: 0; }
+.fp-wrap:hover .fp-mascot-like { opacity: 1; transform: translateY(-4px); }
 .float-petition {
   position: relative; z-index: 2; display: block;
   background: var(--lime); color: var(--black);
@@ -140,7 +142,7 @@ body {
 @media (max-width: 600px) {
   .fp-wrap { bottom: 12px; right: 12px; }
   .float-petition { padding: 10px 14px; font-size: 12px; }
-  .fp-wrap .fp-mascot { width: 64px; margin-bottom: -12px; }
+  .fp-wrap .fp-mascot { width: 96px; margin-bottom: -14px; }
 }
 
 /* ── Section titles ── */
@@ -1383,7 +1385,8 @@ body.lang-en #hdrTitleZh { display: none; }
 </style>
 <div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
 <div class="fp-wrap">
-  <img class="fp-mascot" src="assets/vzt_mascot.png" alt="" aria-hidden="true">
+  <img class="fp-mascot fp-mascot-default" src="assets/vzt_mascot.png" alt="" aria-hidden="true">
+  <img class="fp-mascot fp-mascot-like" src="assets/vzt_mascot_like.png" alt="" aria-hidden="true">
   <a class="float-petition" href="https://forms.gle/wqWe1f8peB4Qn5c66" target="_blank" rel="noopener">
     <span class="t-zh">支持五大訴求<span class="fp-arrow">→</span></span>
     <span class="t-en">Sign the Petition<span class="fp-arrow">→</span></span>
