@@ -437,8 +437,19 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
 .petition-foot strong { color: var(--black); font-weight: 700; }
 
 /* Floating CTA pill (small screens + persistent) */
-.float-petition {
+.fp-wrap {
   position: fixed; bottom: 18px; right: 18px; z-index: 1500;
+}
+.fp-wrap .fp-mascot {
+  position: absolute; z-index: 1; right: 18px; bottom: 100%;
+  width: 60px; height: auto; margin-bottom: -12px;
+  pointer-events: none; user-select: none;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,0.16));
+  transition: transform .18s ease;
+}
+.fp-wrap:hover .fp-mascot { transform: translateY(-5px); }
+.float-petition {
+  position: relative; z-index: 2; display: block;
   background: var(--lime); color: var(--black);
   border: 2px solid var(--black); padding: 12px 18px;
   font-family: var(--font-zh); font-weight: 700; font-size: 13px;
@@ -459,7 +470,9 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   .petition-sub { font-size: 13px; }
   .petition-cta { font-size: 18px; padding: 24px 20px; }
   .demands-grid { grid-template-columns: 1fr; gap: 12px; }
-  .float-petition { bottom: 12px; right: 12px; padding: 10px 14px; font-size: 12px; }
+  .fp-wrap { bottom: 12px; right: 12px; }
+  .float-petition { padding: 10px 14px; font-size: 12px; }
+  .fp-wrap .fp-mascot { width: 50px; margin-bottom: -10px; }
 }
 
 .section { margin-bottom: 48px; }
@@ -864,10 +877,13 @@ body.lang-en .t-en-b { display: block; }
 </head>
 <body>
 <div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
-<a class="float-petition" href="https://forms.gle/wqWe1f8peB4Qn5c66" target="_blank" rel="noopener">
-  <span class="t-zh">支持五大訴求<span class="fp-arrow">→</span></span>
-  <span class="t-en">Sign the Petition<span class="fp-arrow">→</span></span>
-</a>
+<div class="fp-wrap">
+  <img class="fp-mascot" src="assets/vzt_mascot.png" alt="" aria-hidden="true">
+  <a class="float-petition" href="https://forms.gle/wqWe1f8peB4Qn5c66" target="_blank" rel="noopener">
+    <span class="t-zh">支持五大訴求<span class="fp-arrow">→</span></span>
+    <span class="t-en">Sign the Petition<span class="fp-arrow">→</span></span>
+  </a>
+</div>
 <div class="shell">
 
 <!-- 2026 雙齊零街道願景手冊 — top reference banner -->
