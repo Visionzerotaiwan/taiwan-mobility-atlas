@@ -1157,6 +1157,16 @@ body.lang-en #hdrTitleZh { display: none; }
   text-transform: uppercase; color: var(--grey-2); margin-bottom: 18px;
 }
 .partner-logos img { max-width: 560px; width: 100%; height: auto; }
+.partner-logos .pl-visit {
+  display: inline-flex; align-items: center; gap: 9px; margin-top: 20px;
+  font-family: var(--font-zh); font-weight: 700; font-size: 13px; letter-spacing: 0.04em;
+  color: var(--black); text-decoration: none; border: 1.5px solid var(--black);
+  border-radius: 999px; padding: 8px 18px; transition: background .16s ease, color .16s ease;
+}
+.partner-logos .pl-visit:hover { background: var(--black); color: var(--lime); }
+.partner-logos .pl-visit .pl-url { font-family: var(--font-en); font-weight: 600; font-size: 11.5px; letter-spacing: 0.06em; color: var(--lime-dk); }
+.partner-logos .pl-visit:hover .pl-url { color: var(--lime); }
+.partner-logos .pl-visit > span { flex: none; white-space: nowrap; }
 
 /* ── Vision Zero Trajectory section ── */
 .vz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -1852,6 +1862,7 @@ body.lang-en #hdrTitleZh { display: none; }
   <div class="pl-label t-zh">資料夥伴 · 合作單位</div>
   <div class="pl-label t-en">In partnership with</div>
   <img src="assets/tcan_vzt_logo.png" alt="TCAN 台灣氣候行動網路 · Vision Zero Taiwan 還路於民行人路權促進會">
+  <div><a class="pl-visit" href="https://www.visionzero.tw/" target="_blank" rel="noopener noreferrer"><span class="t-zh">還路於民 Vision Zero Taiwan · 官方網站</span><span class="t-en">Vision Zero Taiwan · Official site</span><span class="pl-url">visionzero.tw ↗</span></a></div>
 </div>
 
 <footer>
