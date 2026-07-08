@@ -441,15 +441,16 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   position: fixed; bottom: 18px; right: 18px; z-index: 1500;
 }
 .fp-wrap .fp-mascot {
-  position: absolute; z-index: 1; right: 18px; bottom: 100%;
-  width: 120px; height: auto; margin-bottom: -18px;
+  position: absolute; z-index: 1; left: 50%; bottom: 100%;
+  transform: translateX(-50%);
+  width: 170px; height: auto; margin-bottom: -22px;
   pointer-events: none; user-select: none;
   filter: drop-shadow(0 3px 3px rgba(0,0,0,0.16));
   transition: opacity .2s ease, transform .2s ease;
 }
 .fp-wrap .fp-mascot-like { opacity: 0; }
 .fp-wrap:hover .fp-mascot-default { opacity: 0; }
-.fp-wrap:hover .fp-mascot-like { opacity: 1; transform: translateY(-4px); }
+.fp-wrap:hover .fp-mascot-like { opacity: 1; transform: translateX(-50%) translateY(-4px); }
 .float-petition {
   position: relative; z-index: 2; display: block;
   background: var(--lime); color: var(--black);
@@ -474,7 +475,7 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   .demands-grid { grid-template-columns: 1fr; gap: 12px; }
   .fp-wrap { bottom: 12px; right: 12px; }
   .float-petition { padding: 10px 14px; font-size: 12px; }
-  .fp-wrap .fp-mascot { width: 96px; margin-bottom: -14px; }
+  .fp-wrap .fp-mascot { width: 134px; margin-bottom: -18px; }
 }
 
 .section { margin-bottom: 48px; }
