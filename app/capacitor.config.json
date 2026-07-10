@@ -1,0 +1,38 @@
+{
+  "appId": "tw.visionzero.atlas",
+  "appName": "還路於民",
+  "webDir": "www",
+  "server": {
+    "url": "https://yunching0513.github.io/taiwan-mobility-atlas/",
+    "cleartext": false,
+    "allowNavigation": [
+      "yunching0513.github.io",
+      "*.githubusercontent.com",
+      "unpkg.com",
+      "*.googleapis.com",
+      "*.gstatic.com"
+    ]
+  },
+  "backgroundColor": "#141414",
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#141414",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "android": {
+    "backgroundColor": "#141414"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "launchAutoHide": true,
+      "backgroundColor": "#E5E670",
+      "showSpinner": false,
+      "androidScaleType": "CENTER_CROP"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#1A1A1A"
+    }
+  }
+}

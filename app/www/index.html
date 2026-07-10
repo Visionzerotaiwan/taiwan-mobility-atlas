@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>還路於民 · Vision Zero Taiwan</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #E5E670; color: #1A1A1A;
+    font-family: -apple-system, "Noto Sans TC", "PingFang TC", sans-serif; }
+  .c { position: fixed; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px; padding: 24px; text-align: center; }
+  .t { font-size: 22px; font-weight: 900; letter-spacing: 0.08em; }
+  .s { font-size: 13px; line-height: 1.7; color: #4a4a4a; max-width: 300px; }
+  a { color: #1A1A1A; font-weight: 700; }
+</style>
+</head>
+<body>
+  <!--
+    This is the local webDir fallback. In the default config the app loads the
+    live site via server.url (https://yunching0513.github.io/taiwan-mobility-atlas/).
+    This page only shows if you remove server.url (offline/bundled mode) or if the
+    site cannot be reached. See README "Offline / bundled mode".
+  -->
+  <div class="c">
+    <div class="t">還路於民 · Vision Zero Taiwan</div>
+    <div class="s" id="m">載入中… Loading the atlas…</div>
+  </div>
+  <script>
+    setTimeout(function () {
+      document.getElementById('m').innerHTML =
+        '需要網路連線才能載入完整地圖。<br>An internet connection is required to load the atlas.<br><br>' +
+        '<a href="https://yunching0513.github.io/taiwan-mobility-atlas/">在瀏覽器開啟 · Open in browser</a>';
+    }, 4500);
+  </script>
+</body>
+</html>

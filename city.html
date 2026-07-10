@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>台灣交通安全地圖｜各縣市 · Taiwan Mobility Atlas</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1A1A1A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="還路於民">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+  <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="台灣街道願景計畫 Taiwan Street Vision Project">
   <meta property="og:locale" content="zh_TW">
@@ -143,7 +153,7 @@ body {
 @media (max-width: 600px) {
   .fp-wrap { bottom: 12px; right: 12px; }
   .float-petition { padding: 10px 14px; font-size: 12px; }
-  .fp-wrap .fp-mascot { width: 134px; margin-bottom: -18px; }
+  .fp-wrap .fp-mascot { width: 96px; margin-bottom: -14px; }
 }
 
 /* ── Section titles ── */

@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>台灣街道願景計畫：還路於民｜全國交通安全地圖 · Taiwan Street Vision Project</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1A1A1A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="還路於民">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+  <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="台灣街道願景計畫 Taiwan Street Vision Project">
   <meta property="og:locale" content="zh_TW">
@@ -475,7 +485,7 @@ body { font-family: var(--font-zh); background: var(--grey-4); color: var(--blac
   .demands-grid { grid-template-columns: 1fr; gap: 12px; }
   .fp-wrap { bottom: 12px; right: 12px; }
   .float-petition { padding: 10px 14px; font-size: 12px; }
-  .fp-wrap .fp-mascot { width: 134px; margin-bottom: -18px; }
+  .fp-wrap .fp-mascot { width: 96px; margin-bottom: -14px; }
 }
 
 .section { margin-bottom: 48px; }
@@ -868,9 +878,18 @@ body.lang-en .t-en-b { display: block; }
 .top-partners img { height: 108px; width: auto; max-width: 100%; }
 .top-partners .pl-visit { margin-top: 0; }
 @media (max-width: 760px) {
-  .top-partners { justify-content: center; text-align: center; }
+  .top-partners { justify-content: center; text-align: center; padding: 22px 18px; }
   .top-partners .tp-brand { justify-content: center; width: 100%; }
-  .top-partners img { height: 84px; }
+  .top-partners img { height: 78px; }
+  .top-partners .pl-visit { font-size: 12px; padding: 8px 16px; }
+  .top-partners .pl-visit .t-zh, .top-partners .pl-visit .t-en { display: none; }
+}
+/* handbook banner — mobile: emoji to top, smaller title so it stops wrapping badly */
+@media (max-width: 600px) {
+  .hbanner { padding: 16px 18px !important; }
+  .hb-row { align-items: flex-start !important; gap: 12px !important; }
+  .hb-emoji { font-size: 24px !important; margin-top: 1px; }
+  .hb-title { font-size: 16px !important; }
 }
 
 /* ── Gender split bars ── */
@@ -920,12 +939,12 @@ body.lang-en .t-en-b { display: block; }
 </div>
 
 <!-- 2026 雙齊零街道願景手冊 — top reference banner -->
-<a href="https://canva.link/kqb5nqfzp1gdnhz" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--lime);color:var(--black);text-decoration:none;padding:20px 26px;margin-bottom:32px;border-left:6px solid var(--black)">
-  <span style="display:flex;align-items:center;gap:16px;min-width:0">
-    <span style="font-size:30px;line-height:1" aria-hidden="true">📖</span>
+<a class="hbanner" href="https://canva.link/kqb5nqfzp1gdnhz" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--lime);color:var(--black);text-decoration:none;padding:20px 26px;margin-bottom:32px;border-left:6px solid var(--black)">
+  <span class="hb-row" style="display:flex;align-items:center;gap:16px;min-width:0">
+    <span class="hb-emoji" style="font-size:30px;line-height:1" aria-hidden="true">📖</span>
     <span style="min-width:0">
       <span style="font-family:var(--font-en);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--grey-1);display:block"><span class="t-zh">線上手冊 · 點我閱讀</span><span class="t-en">Online Handbook · Read now</span></span>
-      <span style="font-size:19px;font-weight:700;letter-spacing:0.04em;display:block;margin-top:3px"><span class="t-zh">【2026 雙齊零街道願景手冊】</span><span class="t-en">2026 Dual-Zero Street Vision Handbook</span></span>
+      <span class="hb-title" style="font-size:19px;font-weight:700;letter-spacing:0.04em;display:block;margin-top:3px"><span class="t-zh">【2026 雙齊零街道願景手冊】</span><span class="t-en">2026 Dual-Zero Street Vision Handbook</span></span>
       <span style="display:block;font-size:12.5px;font-weight:300;color:var(--grey-1);margin-top:3px;letter-spacing:0.03em"><span class="t-zh">交通零死亡 × 碳排歸零 — 完整願景與五大訴求，一次讀懂</span><span class="t-en">Zero road deaths × net-zero carbon — the full vision &amp; Five Demands</span></span>
     </span>
   </span>
