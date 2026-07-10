@@ -485,6 +485,78 @@ body {
   background: var(--grey-4);
   border: 1px solid var(--grey-3);
 }
+
+/* ── Street View comparison mode (§04) — same engine as sidewalk.html ── */
+#svStage { display: none; }
+#svStage .sv-bar {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--black); color: var(--white); padding: 10px 14px;
+}
+#svStage .sv-info { flex: 1; min-width: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#svStage .sv-info strong { color: var(--lime); font-weight: 700; }
+#svStage .sv-ext { font-size: 11.5px; font-weight: 700; color: var(--lime); text-decoration: none; white-space: nowrap; }
+#svStage .sv-ext:hover { text-decoration: underline; }
+#svStage .sv-close {
+  font-family: var(--font-zh); font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+  background: var(--lime); color: var(--black); border: none; padding: 7px 12px; cursor: pointer; white-space: nowrap;
+}
+#svStage .sv-close:hover { background: var(--lime-dk); }
+#svStage .sv-rotate {
+  font-family: var(--font-zh); font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+  background: transparent; color: var(--white); border: 1px solid var(--grey-2);
+  padding: 6px 11px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
+}
+#svStage .sv-rotate:hover { border-color: var(--lime); color: var(--lime); }
+#svStage .sv-rotate .sv-dir {
+  font-family: var(--font-en); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  background: var(--lime); color: var(--black); padding: 1px 5px; border-radius: 2px; min-width: 20px; text-align: center;
+}
+#svStage .sv-date {
+  font-family: var(--font-en); font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--grey-3); border: 1px solid var(--grey-1); padding: 3px 8px; white-space: nowrap;
+}
+.pegman-wrap { pointer-events: none; }
+.pegman-wrap .peg-cone {
+  position: absolute; inset: 0; transform-origin: 50% 50%;
+  transition: transform .3s ease;
+}
+.pegman-wrap .peg-man {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 22px; height: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
+}
+#svStage .sv-body { position: relative; height: 620px; background: #2A2A2A; }
+#svStage .sv-body iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  opacity: 0; transition: opacity .28s ease; pointer-events: none;
+}
+#svStage .sv-body iframe.sv-active { opacity: 1; pointer-events: auto; }
+#svPano { position: absolute; inset: 0; display: none; z-index: 200; }
+#svPano.on { display: block; }
+#svStage .sv-loading {
+  position: absolute; inset: 0; display: none; z-index: 300;
+  align-items: center; justify-content: center; gap: 12px; pointer-events: none;
+  color: var(--grey-3); font-size: 13px; letter-spacing: 0.06em;
+  background: rgba(26,26,26,0.25);
+}
+#svStage .sv-loading.on { display: flex; }
+#svStage .sv-loading .spin {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.25); border-top-color: var(--lime);
+  animation: svspin 0.8s linear infinite;
+}
+@keyframes svspin { to { transform: rotate(360deg); } }
+#svDock {
+  position: absolute; top: 14px; right: 14px; z-index: 500;
+  width: min(380px, 44%); height: 264px;
+  border: 2px solid var(--white); box-shadow: 0 6px 22px rgba(0,0,0,0.4);
+  background: var(--grey-4);
+}
+#svDock #map { height: 100% !important; border: none !important; }
+@media (max-width: 640px) {
+  #svStage .sv-body { height: 440px; }
+  #svDock { width: 58%; height: 170px; top: 10px; right: 10px; }
+}
 .map-legend {
   display: flex;
   flex-wrap: wrap;
@@ -1635,6 +1707,23 @@ body.lang-en #hdrTitleZh { display: none; }
   <div class="map-grid">
     <div class="map-wrap">
       <div id="map"></div>
+      <!-- Street View comparison mode: pano stage + the crash map docked top-right -->
+      <div id="svStage">
+        <div class="sv-bar">
+          <span class="sv-info" id="svInfo">—</span>
+          <span class="sv-date" id="svDate" style="display:none"></span>
+          <button class="sv-rotate" id="svRotate" title="旋轉視角 / rotate view">↻ <span class="t-zh">旋轉 90°</span><span class="t-en">Rotate 90°</span><span class="sv-dir" id="svDir">N</span></button>
+          <a class="sv-ext" id="svExt" href="#" target="_blank" rel="noopener">↗ <span class="t-zh">Google Maps 開啟</span><span class="t-en">Open in Google Maps</span></a>
+          <button class="sv-close" id="svClose">✕ <span class="t-zh">關閉街景</span><span class="t-en">Close</span></button>
+        </div>
+        <div class="sv-body">
+          <iframe id="svFrameA" title="Google Street View" allow="accelerometer; gyroscope" aria-hidden="true" tabindex="-1"></iframe>
+          <iframe id="svFrameB" title="Google Street View" allow="accelerometer; gyroscope" aria-hidden="true" tabindex="-1"></iframe>
+          <div id="svPano" role="application" aria-label="Google Street View"></div>
+          <div class="sv-loading" id="svLoading"><span class="spin"></span><span class="t-zh">載入街景中…</span><span class="t-en">Loading Street View…</span></div>
+          <div id="svDock"></div>
+        </div>
+      </div>
       <div class="map-legend">
         <div class="legend-item"><span class="legend-dot" style="background:#1A1A1A"></span><span class="t-zh">機車 Motorcycle</span><span class="t-en">Motorcycle</span></div>
         <div class="legend-item"><span class="legend-dot" style="background:#3A7CC3"></span><span class="t-zh">汽/貨車 Car/Truck</span><span class="t-en">Car/Truck</span></div>
@@ -1651,7 +1740,7 @@ body.lang-en #hdrTitleZh { display: none; }
     <div class="side-panel">
       <h3>Event Detail<span class="t-zh"> — 事件明細</span></h3>
       <div class="detail-empty" id="detailEmpty">
-        <span class="t-zh">點選地圖上任一圓點以查看事故細節</span><span class="t-en">Click any dot on the map for crash details</span>
+        <span class="t-zh">點選地圖上任一圓點以查看事故細節，並可一鍵開啟街景比對現場道路</span><span class="t-en">Click any dot for crash details — then open Street View to inspect the scene</span>
         <span class="en">Click a marker to inspect</span>
       </div>
       <div class="detail-card" id="detailCard" style="display:none"></div>
@@ -1919,6 +2008,7 @@ body.lang-en #hdrTitleZh { display: none; }
 <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <script src="data/cities.js"></script>
 <script src="data/townships_en.js"></script>
+<script src="data/gmaps_key.js"></script>
 <script>
 window.__LANG = (function(){ try { return localStorage.getItem('lang') || 'zh'; } catch(e){ return 'zh'; } })();
 function TT(zh, en) { return window.__LANG === 'en' ? en : zh; }
@@ -2570,14 +2660,15 @@ const markerLayer = L.layerGroup().addTo(map);
       </div>
     `;
 
-    // Google Street View — opens the scene at this crash's coordinates (no API key).
+    // Street View — in-page comparison mode (pano stage + docked mini-map with
+    // pegman), same engine as sidewalk.html. External Google Maps stays
+    // available from the stage's ↗ link.
     let svBlock = '';
     if (+ev.lat && +ev.lon) {
-      const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${ev.lat},${ev.lon}`;
-      svBlock = `<a class="detail-sv" href="${sv}" target="_blank" rel="noopener">
-        <span class="sv-ico">📍</span>
-        <span class="sv-txt">${TT('在 Google 街景看現場道路', 'View this spot in Google Street View')}</span>
-        <span class="sv-arrow">↗</span>
+      svBlock = `<a class="detail-sv" href="#sv" onclick="window.__crashSV(${ev._id});return false">
+        <span class="sv-ico">🧍</span>
+        <span class="sv-txt">${TT('開啟街景比對：看現場道路', 'Open Street View of this crash site')}</span>
+        <span class="sv-arrow">→</span>
       </a>`;
     }
 
@@ -2609,7 +2700,259 @@ const markerLayer = L.layerGroup().addTo(map);
       m.bringToFront();
     }
     renderDetail(DATA[id]);
+    // Comparison already open → clicking another dot retargets the panorama.
+    if (svStage.style.display === 'block') enterSV(DATA[id]);
   }
+
+  // ====================================================================
+  //  STREET VIEW COMPARISON — same engine as sidewalk.html §03
+  //  Detail-card button → the panorama takes the stage and the crash map
+  //  docks top-right, with a pegman + view cone marking the true pano
+  //  position/facing. With data/gmaps_key.js: official Maps JS API
+  //  (newest imagery + capture date + live pegman sync). Without it, or
+  //  on any failure: keyless double-buffered embed.
+  // ====================================================================
+  const mapEl = document.getElementById('map');
+  const svStage = document.getElementById('svStage');
+  const svDock = document.getElementById('svDock');
+  let svPoint = null, svHeading = 0, pegman = null;
+
+  // Double-buffered panorama: load the next view in the hidden iframe and
+  // fade-swap once it's ready — no white flash on rotate / point switch.
+  const svFrames = [document.getElementById('svFrameA'), document.getElementById('svFrameB')];
+  const svLoading = document.getElementById('svLoading');
+  let svActive = 0, svPending = null, svSwapTimer = null;
+  const svAssignedAt = [0, 0];                 // per-frame src-assignment timestamp
+  function svSwapTo(idx) {
+    const out = svFrames[svActive], inn = svFrames[idx];
+    out.classList.remove('sv-active');
+    out.setAttribute('aria-hidden', 'true');
+    out.setAttribute('tabindex', '-1');
+    inn.classList.add('sv-active');
+    inn.removeAttribute('aria-hidden');        // the visible pano is the one AT sees
+    inn.removeAttribute('tabindex');
+    svActive = idx;
+    svPending = null;
+    svLoading.classList.remove('on');
+    clearTimeout(svSwapTimer);
+  }
+  svFrames.forEach((f, i) => f.addEventListener('load', () => {
+    // Ignore load events within 60 ms of this frame's last src assignment:
+    // those are stale queued events from a superseded navigation.
+    if (svPending && f.src === svPending && performance.now() - svAssignedAt[i] > 60) svSwapTo(i);
+  }));
+  function loadPano(url) {
+    const bufIdx = 1 - svActive;
+    svPending = url;
+    svLoading.classList.add('on');
+    svAssignedAt[bufIdx] = performance.now();
+    svFrames[bufIdx].src = url;
+    clearTimeout(svSwapTimer);
+    svSwapTimer = setTimeout(() => {           // safety net if load never fires
+      if (svPending === url) svSwapTo(bufIdx);
+    }, 7000);
+  }
+
+  // Pegman: a fixed person glyph over a rotating view-cone on the docked map.
+  const PEG_CONE_SVG =
+    `<svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="pegg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#C8D400" stop-opacity="0.85"/>
+        <stop offset="1" stop-color="#C8D400" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="M32 32 L14 3 A34 34 0 0 1 50 3 Z" fill="url(#pegg)" stroke="#A8B200" stroke-width="0.8" stroke-opacity="0.5"/>
+    </svg>`;
+  const PEG_MAN_SVG =
+    `<svg viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="5.4" r="3.4" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.4"/>
+      <path d="M12 9.6 C8.6 9.6 7 11.6 7 14.6 L7 16.2 L9.4 16.2 L9.6 22.4 L14.4 22.4 L14.6 16.2 L17 16.2 L17 14.6 C17 11.6 15.4 9.6 12 9.6 Z"
+            fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>`;
+  function pegmanIcon() {
+    return L.divIcon({
+      className: 'pegman-wrap', iconSize: [64, 64], iconAnchor: [32, 32],
+      html: `<div class="peg-cone" style="transform:rotate(${svHeading}deg)">${PEG_CONE_SVG}</div><div class="peg-man">${PEG_MAN_SVG}</div>`,
+    });
+  }
+  function dirLabel(h) {
+    return ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(((h % 360) + 360) % 360 / 45) % 8];
+  }
+  function svFrameSrc() {
+    return `https://www.google.com/maps/embed?pb=!4v1700000000000!6m8!1m7!1s0!2m2!1d${svPoint.lat.toFixed(6)}!2d${svPoint.lng.toFixed(6)}!3f${svHeading.toFixed(0)}!4f0!5f0.7820865974627469&hl=${TT('zh-TW', 'en')}`;
+  }
+  function updatePegman() {
+    if (!svPoint) return;
+    if (!pegman) {
+      pegman = L.marker(svPoint, { icon: pegmanIcon(), interactive: false, keyboard: false, zIndexOffset: 1200 }).addTo(map);
+    } else {
+      pegman.setLatLng(svPoint);
+      const cone = pegman.getElement() && pegman.getElement().querySelector('.peg-cone');
+      if (cone) cone.style.transform = `rotate(${svHeading}deg)`;
+    }
+    document.getElementById('svDir').textContent = dirLabel(svHeading);
+  }
+
+  // ── Official Maps JS API path (when data/gmaps_key.js provides a key) ──
+  const svPanoDiv = document.getElementById('svPano');
+  const svDateEl = document.getElementById('svDate');
+  let gmapsPromise = null, svPanoObj = null, svSvc = null;
+  let svMode = 'iframe';           // 'js' | 'iframe' — which backend is active
+  let svPanoApplying = false;      // true while WE set pov/pano (skip echo events)
+
+  function loadGmapsApi() {
+    if (!window.GMAPS_KEY) return Promise.reject(new Error('no key'));
+    if (gmapsPromise) return gmapsPromise;
+    gmapsPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      window.__gmapsReady = () => resolve();
+      s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(window.GMAPS_KEY)}&v=weekly&loading=async&callback=__gmapsReady&language=${TT('zh-TW', 'en')}`;
+      s.onerror = () => { gmapsPromise = null; reject(new Error('gmaps load failed')); };
+      document.head.appendChild(s);
+      setTimeout(() => reject(new Error('gmaps timeout')), 10000);
+    }).then(() => google.maps.importLibrary('streetView'));
+    return gmapsPromise;
+  }
+
+  function setSvDate(dateStr) {
+    if (dateStr) {
+      svDateEl.textContent = `${TT('影像', 'imagery')} ${dateStr}`;
+      svDateEl.style.display = '';
+    } else {
+      svDateEl.style.display = 'none';
+    }
+  }
+
+  function ensurePanoObj(lib) {
+    if (svPanoObj) return;
+    svSvc = new lib.StreetViewService();
+    svPanoObj = new lib.StreetViewPanorama(svPanoDiv, {
+      pov: { heading: svHeading, pitch: 0 },
+      addressControl: true, imageDateControl: true, motionTracking: false,
+      fullscreenControl: true, enableCloseButton: false,
+    });
+    svPanoObj.addListener('pov_changed', () => {
+      if (svMode !== 'js' || svPanoApplying) return;
+      svHeading = ((svPanoObj.getPov().heading % 360) + 360) % 360;
+      updatePegman();               // cone follows drags inside the pano, live
+    });
+    svPanoObj.addListener('position_changed', () => {
+      if (svMode !== 'js' || svPanoApplying) return;
+      const pos = svPanoObj.getPosition();
+      if (!pos) return;
+      svPoint = L.latLng(pos.lat(), pos.lng());
+      updatePegman();               // pegman walks with the user
+      if (!map.getBounds().contains(svPoint)) map.panTo(svPoint);
+    });
+    svPanoObj.addListener('pano_changed', () => {
+      if (svMode !== 'js') return;
+      const id = svPanoObj.getPano();
+      if (id && svSvc) svSvc.getPanorama({ pano: id }).then(({ data }) => {
+        if (svMode === 'js' && svPanoObj.getPano() === id) setSvDate(data.imageDate || null);
+      }).catch(() => {});
+    });
+  }
+
+  async function jsApiEnter(c) {
+    const lib = await loadGmapsApi();
+    ensurePanoObj(lib);
+    // Nearest OUTDOOR official pano within 120 m (skips user photospheres).
+    const { data } = await svSvc.getPanorama({
+      location: { lat: c.lat, lng: c.lng }, radius: 120,
+      source: google.maps.StreetViewSource.OUTDOOR,
+      preference: google.maps.StreetViewPreference.NEAREST,
+    });
+    svPanoApplying = true;
+    svPanoObj.setPano(data.location.pano);
+    svPanoObj.setPov({ heading: svHeading, pitch: 0 });
+    svPanoApplying = false;
+    svMode = 'js';
+    svPanoDiv.classList.add('on');
+    svLoading.classList.remove('on');
+    setSvDate(data.imageDate || null);
+    // Pegman at the TRUE pano position (may sit tens of metres from the
+    // crash coordinates — this is the map↔pano sync fix).
+    if (data.location.latLng) {
+      svPoint = L.latLng(data.location.latLng.lat(), data.location.latLng.lng());
+      updatePegman();
+    }
+  }
+
+  function enterSV(ev) {
+    if (!(+ev.lat && +ev.lon)) return;
+    svPoint = L.latLng(+ev.lat, +ev.lon);
+    setSvDate(null);
+    svLoading.classList.add('on');
+    const c = { lat: svPoint.lat, lng: svPoint.lng };
+    if (window.GMAPS_KEY) {
+      jsApiEnter(c).catch(() => {           // no pano nearby / API failure
+        svMode = 'iframe';
+        svPanoDiv.classList.remove('on');
+        loadPano(svFrameSrc());
+      });
+    } else {
+      svMode = 'iframe';
+      // Keyless Google SV embed. !1s0 = no fixed pano id → nearest panorama.
+      loadPano(svFrameSrc());
+    }
+    document.getElementById('svInfo').innerHTML =
+      `<strong>${fmtDate(ev.date)} ${fmtTime(ev.time)}</strong> · ${ev.location} · ` +
+      `${ev.deaths} ${TT('死', 'dead')} / ${ev.injuries} ${TT('傷', 'injured')}`;
+    document.getElementById('svExt').href =
+      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${svPoint.lat.toFixed(6)},${svPoint.lng.toFixed(6)}`;
+    if (svStage.style.display !== 'block') {
+      svStage.style.display = 'block';
+      svDock.appendChild(mapEl);
+    }
+    updatePegman();
+    setTimeout(() => {
+      map.invalidateSize();
+      map.setView(svPoint, Math.max(map.getZoom(), 17));
+    }, 80);
+    svStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function exitSV() {
+    if (svStage.style.display !== 'block') return;
+    svStage.style.display = 'none';
+    svStage.parentElement.insertBefore(mapEl, svStage);   // back to full width
+    svPending = null; svLoading.classList.remove('on'); clearTimeout(svSwapTimer);
+    svFrames.forEach(f => {
+      f.src = 'about:blank';
+      f.classList.remove('sv-active');
+      f.setAttribute('aria-hidden', 'true');
+      f.setAttribute('tabindex', '-1');
+    });
+    svActive = 0;
+    svPanoDiv.classList.remove('on');          // JS-API pano off (instance kept for reuse)
+    svMode = 'iframe';
+    setSvDate(null);
+    if (pegman) { map.removeLayer(pegman); pegman = null; }
+    svPoint = null;
+    setTimeout(() => map.invalidateSize(), 80);
+  }
+  document.getElementById('svClose').addEventListener('click', exitSV);
+  document.getElementById('svRotate').addEventListener('click', () => {
+    if (!svPoint) return;
+    svHeading = (svHeading + 90) % 360;
+    if (svMode === 'js' && svPanoObj) {
+      svPanoApplying = true;
+      svPanoObj.setPov({ heading: svHeading, pitch: svPanoObj.getPov().pitch });
+      svPanoApplying = false;        // instant — no reload with the JS API
+    } else {
+      loadPano(svFrameSrc());        // keyless: panorama and cone rotate together
+    }
+    updatePegman();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') exitSV(); });
+
+  // Detail-card button entry point.
+  window.__crashSV = (id) => {
+    const ev = DATA[id];
+    if (!ev) return;
+    const wasOpen = svStage.style.display === 'block';
+    selectEvent(id);                 // highlights the dot (and retargets if open)
+    if (!wasOpen) enterSV(ev);
+  };
 
   // ====================================================================
   //  BREAKDOWNS  (cumulative — react to filter)
