@@ -20,6 +20,8 @@
   <meta property="og:url" content="https://yunching0513.github.io/taiwan-mobility-atlas/moto.html">
   <meta property="og:title" content="機車事故十年解析｜台灣街道願景計畫">
   <meta property="og:description" content="十年 10,891 名機車騎士死亡，占全體 63%。年齡雙峰、好發路段、運具移轉與課責方向。">
+  <meta name="description" content="十年 10,891 名機車騎士死亡，占全體 63%。年齡雙峰、好發路段、運具移轉與課責方向。">
+  <link rel="canonical" href="https://yunching0513.github.io/taiwan-mobility-atlas/moto.html">
   <meta property="og:image" content="https://yunching0513.github.io/taiwan-mobility-atlas/assets/og.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
@@ -36,7 +38,7 @@ body { animation: pageFadeIn 0.45s ease-out; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
-  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888888; --grey-3:#D0D0D0; --grey-4:#F2F2F2;
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#6B6B6B; --grey-3:#D0D0D0; --grey-4:#F2F2F2;
   --white:#FFFFFF; --red:#D94F3D; --blue:#3A7CC3; --gold:#E8A825;
   --font-zh:'Noto Sans TC',sans-serif; --font-en:'Space Grotesk',sans-serif;
 }
@@ -152,6 +154,10 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 .partner-logos .pl-visit .pl-url { font-family: var(--font-en); font-weight: 600; font-size: 11.5px; letter-spacing: 0.06em; color: var(--lime-dk); }
 .partner-logos .pl-visit:hover .pl-url { color: var(--lime); }
 .partner-logos .pl-visit > span { flex: none; white-space: nowrap; }
+/* 窄螢幕：夥伴連結可換行並縮在容器內，否則固定寬度會撐出整頁水平捲動 */
+.partner-logos .pl-visit { flex-wrap: wrap; justify-content: center; max-width: 100%; row-gap: 4px; }
+.partner-logos .pl-visit > span { flex: 0 1 auto; min-width: 0; white-space: normal; word-break: keep-all; text-align: center; }
+.partner-logos .pl-visit .pl-url { white-space: nowrap; }
 @media (max-width:760px){ .shell{padding:32px 18px 70px;} .two-col{grid-template-columns:1fr; gap:18px;} .hero .big{font-size:58px;} section{padding:28px 22px;} .county-bar .cb-stat{margin-left:0; width:100%;} }
 </style>
 </head>
@@ -181,8 +187,8 @@ footer { margin-top:40px; padding-top:20px; border-top:1px solid var(--grey-3); 
 
 <!-- COUNTY SELECTOR -->
 <div class="county-bar">
-  <span class="cb-label"><span class="t-zh">檢視範圍 · Scope</span><span class="t-en">Scope</span></span>
-  <select id="countySel"></select>
+  <span class="cb-label" id="countySelLbl"><span class="t-zh">檢視範圍 · Scope</span><span class="t-en">Scope</span></span>
+  <select id="countySel" aria-labelledby="countySelLbl"></select>
   <span class="scope-note" id="scopeNote"></span>
   <span class="cb-stat" id="cbStat"></span>
 </div>

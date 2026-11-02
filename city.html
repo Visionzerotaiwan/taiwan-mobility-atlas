@@ -20,6 +20,7 @@
   <meta property="og:url" content="https://yunching0513.github.io/taiwan-mobility-atlas/city.html">
   <meta property="og:title" content="縣市交通安全深度地圖｜台灣街道願景計畫">
   <meta property="og:description" content="事故點位、熱力圖、優先治理路段、逐年趨勢、行政區面量。點選縣市查看完整互動地圖。">
+  <meta name="description" content="事故點位、熱力圖、優先治理路段、逐年趨勢、行政區面量。點選縣市查看完整互動地圖。">
   <meta property="og:image" content="https://yunching0513.github.io/taiwan-mobility-atlas/assets/og.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
@@ -42,7 +43,7 @@ body { animation: pageFadeIn 0.45s ease-out; }
   --lime-lt:#E8F000;
   --black:  #1A1A1A;
   --grey-1: #4A4A4A;
-  --grey-2: #888888;
+  --grey-2: #6B6B6B;
   --grey-3: #D0D0D0;
   --grey-4: #F2F2F2;
   --white:  #FFFFFF;
@@ -54,6 +55,10 @@ body { animation: pageFadeIn 0.45s ease-out; }
   --font-en: 'Space Grotesk', sans-serif;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
 body {
   font-family: var(--font-zh);
   background: var(--grey-4);
@@ -65,6 +70,7 @@ body {
   max-width: 1440px;
   margin: 0 auto;
   padding: 48px 40px 80px;
+  overflow-x: clip;
 }
 
 /* ── Page header ── */
@@ -128,6 +134,13 @@ body {
 .fp-wrap {
   position: fixed; bottom: 18px; right: 18px; z-index: 1500;
 }
+.fp-close {
+  position: absolute; z-index: 3; top: -14px; right: -10px;
+  width: 32px; height: 32px; border: 2px solid var(--black);
+  border-radius: 50%; background: var(--white); color: var(--black);
+  font: 700 16px/1 var(--font-en); cursor: pointer;
+  box-shadow: 2px 2px 0 var(--black);
+}
 .fp-wrap .fp-mascot {
   position: absolute; z-index: 1; left: 50%; bottom: 100%;
   transform: translateX(-50%);
@@ -151,9 +164,10 @@ body {
 .float-petition:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--black); }
 .float-petition .fp-arrow { font-family: var(--font-en); margin-left: 4px; }
 @media (max-width: 600px) {
-  .fp-wrap { bottom: 12px; right: 12px; }
+  .fp-wrap { bottom: max(12px, env(safe-area-inset-bottom)); right: 12px; }
   .float-petition { padding: 10px 14px; font-size: 12px; }
-  .fp-wrap .fp-mascot { width: 96px; margin-bottom: -14px; }
+  .fp-wrap .fp-mascot { display: none; }
+  .fp-close { width: 40px; height: 40px; top: -18px; right: -10px; }
 }
 
 /* ── Section titles ── */
@@ -301,6 +315,8 @@ body {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 0 -4px;
+  width: 100%;
+  max-width: 100%;
 }
 .trend-svg {
   width: 100%;
@@ -377,6 +393,8 @@ body {
   overflow-x: auto;
   overflow-y: auto;
   max-height: 640px;
+  width: 100%;
+  max-width: 100%;
 }
 .heatmap-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
 .heatmap-wrap::-webkit-scrollbar-thumb { background: var(--grey-3); border-radius: 3px; }
@@ -453,6 +471,9 @@ body {
   font-family: var(--font-zh);
   user-select: none;
   transition: background .12s, border-color .12s;
+  min-height: 40px;
+  color: inherit;
+  line-height: 1.2;
 }
 .cat-pill.en { font-family: var(--font-en); letter-spacing: 0.05em; font-weight: 500; }
 .cat-pill:hover { border-color: var(--black); }
@@ -467,6 +488,10 @@ body {
   text-decoration: line-through;
 }
 .cat-pill.disabled:hover { border-color: var(--grey-3); }
+.cat-pill:focus-visible, .lt-opt:focus-visible, .fp-close:focus-visible {
+  outline: 3px solid var(--blue); outline-offset: 3px;
+}
+.trend-card, .card, .map-wrap, .cover, .filter-bar { min-width: 0; }
 .mode-hint { align-self: center; margin-left: 4px; font-size: 10px; color: var(--grey-2); letter-spacing: 0.04em; font-style: italic; }
 
 /* ── Map + side panel ── */
@@ -621,7 +646,7 @@ body {
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--grey-3);
+  color: var(--grey-2);
   margin-top: 8px;
   display: block;
 }
@@ -1137,6 +1162,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   .filter-group { width: 100%; gap: 6px; }
   .filter-group-label { width: 100%; }
   .cat-pill { padding: 6px 10px; font-size: 10.5px; }
+  .cat-pill { min-height: 44px; }
 
   .bar-row { grid-template-columns: 72px 1fr 52px; gap: 8px; font-size: 10.5px; }
   .bar-row .bar-label { font-size: 10.5px; }
@@ -1219,7 +1245,7 @@ footer .tag.black { background: var(--black); color: var(--white); border-color:
   text-align: right;
 }
 .district-row .d-rate small {
-  font-size: 8px; letter-spacing: 0.18em; color: var(--grey-3);
+  font-size: 8px; letter-spacing: 0.18em; color: var(--grey-2);
   display: block; margin-top: -2px;
 }
 .district-row.lowN-row { opacity: 0.5; }
@@ -1244,7 +1270,11 @@ body.lang-en #hdrTitleZh { display: none; }
   font-family: var(--font-en); font-size: 11px; font-weight: 600;
   box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
-.lang-toggle .lt-opt { padding: 6px 12px; cursor: pointer; letter-spacing: 0.08em; color: var(--grey-2); }
+.lang-toggle .lt-opt {
+  min-width: 44px; min-height: 44px; padding: 6px 12px;
+  border: 0; background: transparent; cursor: pointer;
+  font: inherit; letter-spacing: 0.08em; color: var(--grey-1);
+}
 .lang-toggle .lt-opt.active { background: var(--black); color: var(--white); }
 .partner-logos {
   background: var(--white); padding: 36px 24px; text-align: center;
@@ -1265,6 +1295,10 @@ body.lang-en #hdrTitleZh { display: none; }
 .partner-logos .pl-visit .pl-url { font-family: var(--font-en); font-weight: 600; font-size: 11.5px; letter-spacing: 0.06em; color: var(--lime-dk); }
 .partner-logos .pl-visit:hover .pl-url { color: var(--lime); }
 .partner-logos .pl-visit > span { flex: none; white-space: nowrap; }
+/* 窄螢幕：夥伴連結可換行並縮在容器內，否則固定寬度會撐出整頁水平捲動 */
+.partner-logos .pl-visit { flex-wrap: wrap; justify-content: center; max-width: 100%; row-gap: 4px; }
+.partner-logos .pl-visit > span { flex: 0 1 auto; min-width: 0; white-space: normal; word-break: keep-all; text-align: center; }
+.partner-logos .pl-visit .pl-url { white-space: nowrap; }
 
 /* ── Vision Zero Trajectory section ── */
 .vz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -1308,7 +1342,7 @@ body.lang-en #hdrTitleZh { display: none; }
 .vt-lbl { color: #B0B0B0; letter-spacing: 0.04em; }
 .vt-val { font-weight: 600; letter-spacing: -0.01em; }
 .vt-val.lime { color: var(--lime); }
-.vt-val small { color: #888; font-weight: 400; margin-left: 3px; }
+.vt-val small { color: #6B6B6B; font-weight: 400; margin-left: 3px; }
 .vt-row.muted .vt-lbl, .vt-row.muted .vt-val { color: #777; }
 .vz-targets {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
@@ -1461,13 +1495,21 @@ body.lang-en #hdrTitleZh { display: none; }
   box-shadow: 2px 2px 0 var(--black); font-family: var(--font-zh);
 }
 .sc-dl:hover { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--black); }
+@media (prefers-reduced-motion: reduce) {
+  body, .focus-ring, .result.show { animation: none !important; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
 </style>
 </head>
 <body>
 <style>
 </style>
-<div class="lang-toggle" id="langToggle"><span class="lt-opt" data-lang="zh">中</span><span class="lt-opt" data-lang="en">EN</span></div>
+<div class="lang-toggle" id="langToggle" role="group" aria-label="Language">
+  <button type="button" class="lt-opt" data-lang="zh" aria-pressed="true">中</button>
+  <button type="button" class="lt-opt" data-lang="en" aria-pressed="false">EN</button>
+</div>
 <div class="fp-wrap">
+  <button class="fp-close" id="fpClose" type="button" aria-label="關閉連署提示">×</button>
   <img class="fp-mascot fp-mascot-default" src="assets/vzt_mascot.png" alt="" aria-hidden="true">
   <img class="fp-mascot fp-mascot-like" src="assets/vzt_mascot_like.png" alt="" aria-hidden="true">
   <a class="float-petition" href="https://forms.gle/wqWe1f8peB4Qn5c66" target="_blank" rel="noopener">
@@ -1656,57 +1698,57 @@ body.lang-en #hdrTitleZh { display: none; }
   <div class="filter-bar">
     <div class="filter-group">
       <span class="filter-group-label">Year</span>
-      <span class="cat-pill en active" data-year="all">All</span>
-      <span class="cat-pill en disabled" data-year="2016" title="No coordinates for 2016">2016</span>
-      <span class="cat-pill en disabled" data-year="2017" title="No coordinates for 2017">2017</span>
-      <span class="cat-pill en" data-year="2018">2018</span>
-      <span class="cat-pill en" data-year="2019">2019</span>
-      <span class="cat-pill en" data-year="2020">2020</span>
-      <span class="cat-pill en" data-year="2021">2021</span>
-      <span class="cat-pill en" data-year="2022">2022</span>
-      <span class="cat-pill en" data-year="2023">2023</span>
-      <span class="cat-pill en" data-year="2024">2024</span>
-      <span class="cat-pill en" data-year="2025">2025</span>
+      <button type="button" class="cat-pill en active" data-year="all" aria-pressed="true">All</button>
+      <button type="button" class="cat-pill en disabled" data-year="2016" title="No coordinates for 2016" disabled>2016</button>
+      <button type="button" class="cat-pill en disabled" data-year="2017" title="No coordinates for 2017" disabled>2017</button>
+      <button type="button" class="cat-pill en" data-year="2018" aria-pressed="false">2018</button>
+      <button type="button" class="cat-pill en" data-year="2019" aria-pressed="false">2019</button>
+      <button type="button" class="cat-pill en" data-year="2020" aria-pressed="false">2020</button>
+      <button type="button" class="cat-pill en" data-year="2021" aria-pressed="false">2021</button>
+      <button type="button" class="cat-pill en" data-year="2022" aria-pressed="false">2022</button>
+      <button type="button" class="cat-pill en" data-year="2023" aria-pressed="false">2023</button>
+      <button type="button" class="cat-pill en" data-year="2024" aria-pressed="false">2024</button>
+      <button type="button" class="cat-pill en" data-year="2025" aria-pressed="false">2025</button>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">Victim</span>
-      <span class="cat-pill active" data-mode="all"><span class="t-zh">全部</span><span class="t-en">All</span></span>
-      <span class="cat-pill" data-mode="機車"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></span>
-      <span class="cat-pill" data-mode="汽車"><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></span>
-      <span class="cat-pill" data-mode="人"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></span>
-      <span class="cat-pill" data-mode="慢車"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></span>
+      <button type="button" class="cat-pill active" data-mode="all" aria-pressed="true"><span class="t-zh">全部</span><span class="t-en">All</span></button>
+      <button type="button" class="cat-pill" data-mode="機車" aria-pressed="false"><span class="t-zh">機車</span><span class="t-en">Motorcycle</span></button>
+      <button type="button" class="cat-pill" data-mode="汽車" aria-pressed="false"><span class="t-zh">汽/貨車</span><span class="t-en">Car / Truck</span></button>
+      <button type="button" class="cat-pill" data-mode="人" aria-pressed="false"><span class="t-zh">行人</span><span class="t-en">Pedestrian</span></button>
+      <button type="button" class="cat-pill" data-mode="慢車" aria-pressed="false"><span class="t-zh">自行車/慢車</span><span class="t-en">Bicycle</span></button>
       <span class="mode-hint"><span class="t-zh">雙擊可複選</span><span class="t-en">dbl-click = multi</span></span>
     </div>
     <div class="filter-group">
       <span class="filter-group-label">View</span>
-      <span class="cat-pill active" data-view="points"><span class="t-zh">點位 Points</span><span class="t-en">Points</span></span>
-      <span class="cat-pill" data-view="heat"><span class="t-zh">熱力 Heatmap</span><span class="t-en">Heatmap</span></span>
-      <span class="cat-pill" data-view="both"><span class="t-zh">兩者 Both</span><span class="t-en">Both</span></span>
+      <button type="button" class="cat-pill active" data-view="points" aria-pressed="true"><span class="t-zh">點位 Points</span><span class="t-en">Points</span></button>
+      <button type="button" class="cat-pill" data-view="heat" aria-pressed="false"><span class="t-zh">熱力 Heatmap</span><span class="t-en">Heatmap</span></button>
+      <button type="button" class="cat-pill" data-view="both" aria-pressed="false"><span class="t-zh">兩者 Both</span><span class="t-en">Both</span></button>
     </div>
         <div class="filter-group">
       <span class="filter-group-label">Base</span>
-      <span class="cat-pill" data-base="minimal"><span class="t-zh">簡潔</span><span class="t-en">Minimal</span></span>
-      <span class="cat-pill active" data-base="roads"><span class="t-zh">道路</span><span class="t-en">Roads</span></span>
-      <span class="cat-pill" data-base="satellite"><span class="t-zh">衛星</span><span class="t-en">Satellite</span></span>
+      <button type="button" class="cat-pill" data-base="minimal" aria-pressed="false"><span class="t-zh">簡潔</span><span class="t-en">Minimal</span></button>
+      <button type="button" class="cat-pill active" data-base="roads" aria-pressed="true"><span class="t-zh">道路</span><span class="t-en">Roads</span></button>
+      <button type="button" class="cat-pill" data-base="satellite" aria-pressed="false"><span class="t-zh">衛星</span><span class="t-en">Satellite</span></button>
     </div>
     <div class="filter-group">
       <span class="filter-group-label"><span class="t-zh">幹線 Hwys</span><span class="t-en">Hwys</span></span>
-      <span class="cat-pill active" data-hwy="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
-      <span class="cat-pill" data-hwy="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
+      <button type="button" class="cat-pill active" data-hwy="on" aria-pressed="true"><span class="t-zh">顯示</span><span class="t-en">Show</span></button>
+      <button type="button" class="cat-pill" data-hwy="off" aria-pressed="false"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></button>
     </div>
     <div class="filter-group" id="swGroup" style="display:none">
       <span class="filter-group-label" id="swLabel"><span class="t-zh">人行道 Sidewalks</span><span class="t-en">Sidewalks</span></span>
-      <span class="cat-pill" data-sw="on"><span class="t-zh">顯示</span><span class="t-en">Show</span></span>
-      <span class="cat-pill active" data-sw="off"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></span>
+      <button type="button" class="cat-pill" data-sw="on" aria-pressed="false"><span class="t-zh">顯示</span><span class="t-en">Show</span></button>
+      <button type="button" class="cat-pill active" data-sw="off" aria-pressed="true"><span class="t-zh">隱藏</span><span class="t-en">Hide</span></button>
     </div>
     <div class="filter-group" style="margin-left:auto">
-      <span class="filter-group-label" id="filterCount">Showing — / —</span>
+      <span class="filter-group-label" id="filterCount" aria-live="polite">Showing — / —</span>
     </div>
   </div>
 
   <div class="map-grid">
     <div class="map-wrap">
-      <div id="map"></div>
+      <div id="map" aria-label="縣市 A1 事故點位與熱力互動地圖"></div>
       <!-- Street View comparison mode: pano stage + the crash map docked top-right -->
       <div id="svStage">
         <div class="sv-bar">
@@ -1733,6 +1775,9 @@ body.lang-en #hdrTitleZh { display: none; }
         <div class="legend-item" style="margin-left:14px;padding-left:14px;border-left:1px solid var(--grey-3)"><span style="display:inline-block;width:18px;height:3px;background:#D94F3D;margin-right:2px"></span><span class="t-zh">國道</span><span class="t-en">Freeway</span></div>
         <div class="legend-item"><span style="display:inline-block;width:18px;height:3px;background:#E8A825;margin-right:2px"></span><span class="t-zh">快速公路</span><span class="t-en">Expressway</span></div>
         <div class="legend-item"><span style="display:inline-block;width:18px;height:2px;background:#3A7CC3;margin-right:2px"></span><span class="t-zh">省道</span><span class="t-en">Provincial Hwy</span></div>
+        <div class="legend-item sw-leg" style="display:none;margin-left:14px;padding-left:14px;border-left:1px solid var(--grey-3)"><span class="legend-dot" style="background:#D94F3D;border-radius:0"></span><span class="t-zh">人行道淨寬 &lt;1.5m</span><span class="t-en">Sidewalk clear &lt;1.5m</span></div>
+        <div class="legend-item sw-leg" style="display:none"><span class="legend-dot" style="background:#E8A825;border-radius:0"></span>1.5–2.5m</div>
+        <div class="legend-item sw-leg" style="display:none"><span class="legend-dot" style="background:#A8B200;border-radius:0"></span>≥2.5m</div>
         <div class="legend-note">Tap a dot →</div>
       </div>
     </div>
@@ -1748,6 +1793,7 @@ body.lang-en #hdrTitleZh { display: none; }
   </div>
   <div style="font-family:var(--font-en);font-size:9px;letter-spacing:0.15em;color:var(--grey-2);text-transform:uppercase;margin-top:12px">
     Note · 2016 &amp; 2017 records lack coordinates and are excluded from the map; their counts remain in the trend &amp; breakdown sections.
+    Sidewalk layer · MOTC 2026-06 inventory, coloured by clear (passable) width — red &lt;1.5m / gold 1.5–2.5m / green ≥2.5m.
   </div>
 
   <div class="hotspot-card" style="margin-top:24px">
@@ -1791,7 +1837,7 @@ body.lang-en #hdrTitleZh { display: none; }
         <span class="pill active" data-sort="abs"><span class="t-zh">累計 Total</span><span class="t-en">Total</span></span>
         <span class="pill" data-sort="rate"><span class="t-zh">每萬人 Per 10k</span><span class="t-en">Per 10k</span></span>
       </div>
-      <div id="byDistrict" class="district-list"></div>
+      <div id="byDistrict" class="district-list" tabindex="0" role="region" aria-label="行政區排名 · District ranking"></div>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--grey-3);font-family:var(--font-en);font-size:9px;letter-spacing:0.12em;color:var(--grey-2);line-height:1.7">
         Rate · per 10,000 residents (2013 population, MOI dataset 8410)
       </div>
@@ -2021,18 +2067,40 @@ const CAT_EN = {
 function catEN(k) { return TT(k, CAT_EN[k] || k); }
 // English township/district name (Hanyu Pinyin), zh in zh-mode
 function enTown(t) { return TT(t, (window.TOWN_EN && window.TOWN_EN[t]) || t); }
+function syncPressedState(el) {
+  if (el && el.hasAttribute('aria-pressed')) {
+    el.setAttribute('aria-pressed', el.classList.contains('active') ? 'true' : 'false');
+  }
+}
 function setLang(l) {
   window.__LANG = l;
   document.body.classList.toggle('lang-en', l === 'en');
   document.documentElement.lang = l === 'en' ? 'en' : 'zh-TW';
   try { localStorage.setItem('lang', l); } catch(e) {}
-  document.querySelectorAll('#langToggle .lt-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === l));
+  document.querySelectorAll('#langToggle .lt-opt').forEach(o => {
+    o.classList.toggle('active', o.dataset.lang === l);
+    syncPressedState(o);
+  });
+  const fpClose = document.getElementById('fpClose');
+  if (fpClose) fpClose.setAttribute('aria-label', l === 'en' ? 'Dismiss petition prompt' : '關閉連署提示');
   if (window.__buildSelect) window.__buildSelect();
   if (window.__rerender) window.__rerender();
 }
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#langToggle .lt-opt').forEach(o =>
     o.addEventListener('click', () => setLang(o.dataset.lang)));
+  document.querySelectorAll('[aria-pressed]').forEach(syncPressedState);
+  new MutationObserver(records => records.forEach(r => syncPressedState(r.target)))
+    .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  const fp = document.querySelector('.fp-wrap');
+  const fpClose = document.getElementById('fpClose');
+  try {
+    if (sessionStorage.getItem('petitionPromptDismissed') === '1' && fp) fp.hidden = true;
+  } catch(e) {}
+  if (fpClose && fp) fpClose.addEventListener('click', () => {
+    fp.hidden = true;
+    try { sessionStorage.setItem('petitionPromptDismissed', '1'); } catch(e) {}
+  });
   setLang(window.__LANG);
 });
 </script>
@@ -2070,7 +2138,7 @@ function __main() {
     const el = document.getElementById('byGender');
     if (!el || !g) return;
     const tot = g.m + g.f;
-    if (!tot) { el.innerHTML = '<div style="font-size:11px;color:#888">—</div>'; return; }
+    if (!tot) { el.innerHTML = '<div style="font-size:11px;color:#6B6B6B">—</div>'; return; }
     const mp = Math.round(g.m / tot * 100), fp = 100 - mp;
     const ML = '<span class="t-zh">男</span><span class="t-en">M</span>';
     const FL = '<span class="t-zh">女</span><span class="t-en">F</span>';
@@ -2134,7 +2202,7 @@ function __main() {
     const gridLines = [];
     for (let g = 0; g <= maxY; g += gridStep) {
       gridLines.push(`<line x1="${padL}" x2="${W-padR}" y1="${y(g)}" y2="${y(g)}" stroke="#F2F2F2" stroke-width="1"/>`);
-      gridLines.push(`<text x="${padL-8}" y="${y(g)+3}" text-anchor="end" font-family="Space Grotesk" font-size="9" fill="#888">${g}</text>`);
+      gridLines.push(`<text x="${padL-8}" y="${y(g)+3}" text-anchor="end" font-family="Space Grotesk" font-size="9" fill="#6B6B6B">${g}</text>`);
     }
 
     // x ticks
@@ -2170,7 +2238,7 @@ function __main() {
       ${dthLabels}
       ${xTicks}
       <text x="${padL}" y="${padT-8}" font-family="Space Grotesk" font-size="9"
-        fill="#888" letter-spacing="0.2em">EVENTS · DEATHS</text>
+        fill="#6B6B6B" letter-spacing="0.2em">EVENTS · DEATHS</text>
     `;
   }
 
@@ -2211,9 +2279,9 @@ function __main() {
     ];
     document.getElementById('snapshot').innerHTML = `
       <div style="display:grid;grid-template-columns:1.4fr 0.6fr 0.6fr;gap:8px;align-items:baseline;font-size:11px">
-        <div style="font-family:'Space Grotesk';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#888">Metric</div>
-        <div style="font-family:'Space Grotesk';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#888;text-align:right">2025</div>
-        <div style="font-family:'Space Grotesk';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#888;text-align:right">10y Avg</div>
+        <div style="font-family:'Space Grotesk';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6B6B">Metric</div>
+        <div style="font-family:'Space Grotesk';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6B6B;text-align:right">2025</div>
+        <div style="font-family:'Space Grotesk';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6B6B;text-align:right">10y Avg</div>
         ${rows.map(([label, v, a]) => {
           const diff = v - a;
           const dStr = (diff===0)?'＝':((diff>0?'+':'')+diff);
@@ -2221,7 +2289,7 @@ function __main() {
           return `
             <div style="border-top:1px solid #D0D0D0;padding-top:10px;color:#4A4A4A">${label}</div>
             <div style="border-top:1px solid #D0D0D0;padding-top:10px;text-align:right;font-family:'Space Grotesk';font-size:22px;font-weight:300;color:#1A1A1A">${v}</div>
-            <div style="border-top:1px solid #D0D0D0;padding-top:10px;text-align:right;font-family:'Space Grotesk';font-size:14px;font-weight:400;color:#888">
+            <div style="border-top:1px solid #D0D0D0;padding-top:10px;text-align:right;font-family:'Space Grotesk';font-size:14px;font-weight:400;color:#6B6B6B">
               ${a}
               <div style="font-size:9px;color:${dColor};letter-spacing:0.1em">${dStr}</div>
             </div>
@@ -2350,35 +2418,53 @@ const markerLayer = L.layerGroup().addTo(map);
     .catch(err => console.warn('highways.geojson not loaded:', err));
 
   // ── Sidewalk overlay — MOTC 113-H1 inventory (MultiPolygon footprints).
-  //    Coverage as of 2024-06: Taipei / New Taipei / Taoyuan only, so the
-  //    toggle is shown just for those slugs. Lazy-loaded on first 顯示
-  //    (3.5–6 MB per county) and drawn on a canvas renderer — 10–18k
-  //    polygons per county would crush the default SVG renderer.
-  const SW_SLUGS = ['taipei', 'newtaipei', 'taoyuan'];
+  //    2026-06 MOTC per-segment inventory (data/sidewalks26/, all 22
+  //    counties, DP-simplified). Coloured by CLEAR width — the passable
+  //    width after obstacles — same palette as sidewalk.html §03.
+  //    Lazy-loaded on first 顯示 (0.03–6.2 MB per county) and drawn on a
+  //    canvas renderer — up to ~18k polygons would crush SVG.
   let sidewalkLayer = null, swLoading = false;
   map.createPane('sidewalkPane');
   map.getPane('sidewalkPane').style.zIndex = 370;
   const swRenderer = L.canvas({ pane: 'sidewalkPane', padding: 0.3 });
+  function swColor(p) {
+    const c = p.c;
+    if (c == null) return '#B9B9B9';
+    if (c < 1.5) return '#D94F3D';
+    if (c < 2.5) return '#E8A825';
+    return '#A8B200';
+  }
+  function swLegendToggle(on) {
+    document.querySelectorAll('.sw-leg').forEach(el => { el.style.display = on ? '' : 'none'; });
+  }
   function loadSidewalks() {
-    if (sidewalkLayer) { if (!map.hasLayer(sidewalkLayer)) sidewalkLayer.addTo(map); return; }
+    if (sidewalkLayer) {
+      if (!map.hasLayer(sidewalkLayer)) sidewalkLayer.addTo(map);
+      swLegendToggle(true);
+      return;
+    }
     if (swLoading) return;
     swLoading = true;
     const lbl = document.getElementById('swLabel');
     if (lbl) lbl.textContent = TT('人行道 載入中…', 'Sidewalks loading…');
-    fetch('data/sidewalks/' + (window.__SLUG || '') + '.geojson')
+    fetch('data/sidewalks26/' + (window.__SLUG || '') + '.geojson')
       .then(r => r.ok ? r.json() : Promise.reject(r.status))
       .then(geo => {
         sidewalkLayer = L.geoJSON(geo, {
           pane: 'sidewalkPane',
           renderer: swRenderer,
-          style: { color: '#2C7A7B', weight: 0.6, opacity: 0.85, fillColor: '#2C7A7B', fillOpacity: 0.45 },
+          // Stroke only when zoomed in — at county zoom the outline swamps the fills.
+          style: f => ({ stroke: map.getZoom() >= 15, color: '#1A1A1A', weight: 0.4, fillColor: swColor(f.properties), fillOpacity: 0.9 }),
           onEachFeature: (f, layer) => {
             const p = f.properties || {};
-            const parts = [p.n, p.v, p.w ? TT('寬 ', 'width ') + p.w + ' m' : ''].filter(Boolean);
-            if (parts.length) layer.bindTooltip(parts.join(' · '), { sticky: true, className: 'taitung-tt' });
+            layer.bindTooltip(
+              `<strong>${p.n || TT('（未命名）', '(unnamed)')}</strong> · ${enTown(p.v || '')}<br>` +
+              `${TT('寬', 'width')} ${p.w != null ? p.w + ' m' : '—'} · ${TT('淨寬', 'clear')} ${p.c != null ? p.c + ' m' : '—'} · ` +
+              `${TT('斜坡', 'ramps')} ${p.r == null ? TT('無須設置', 'n/a') : p.r}`,
+              { sticky: true, className: 'taitung-tt' });
           },
         });
-        if (state.sw === 'on') sidewalkLayer.addTo(map);
+        if (state.sw === 'on') { sidewalkLayer.addTo(map); swLegendToggle(true); }
         if (lbl) lbl.textContent = TT('人行道 Sidewalks', 'Sidewalks');
       })
       .catch(err => {
@@ -2387,10 +2473,10 @@ const markerLayer = L.layerGroup().addTo(map);
         if (lbl) lbl.textContent = TT('人行道(載入失敗)', 'Sidewalks (failed)');
       });
   }
-  if (SW_SLUGS.includes(window.__SLUG)) {
-    const g = document.getElementById('swGroup');
-    if (g) g.style.display = '';
-  }
+  map.on('zoomend', () => {
+    if (sidewalkLayer) sidewalkLayer.setStyle({ stroke: map.getZoom() >= 15 });
+  });
+  document.getElementById('swGroup').style.display = '';
 
   // Heat layer — VZT gradient: lime → gold → red. Weight by deaths.
   const heatLayer = L.heatLayer([], {
@@ -2556,7 +2642,7 @@ const markerLayer = L.layerGroup().addTo(map);
     const tops = computeHotspots(events, 10);
     const el = document.getElementById('hotspots');
     if (!tops.length) {
-      el.innerHTML = `<div style="font-size:11px;color:#888;padding:24px 0;font-weight:300">— ${TT('篩選條件下無熱點資料','No hotspots under this filter')} —</div>`;
+      el.innerHTML = `<div style="font-size:11px;color:#6B6B6B;padding:24px 0;font-weight:300">— ${TT('篩選條件下無熱點資料','No hotspots under this filter')} —</div>`;
       return;
     }
     el.innerHTML = tops.map((h, i) => {
@@ -2656,7 +2742,7 @@ const markerLayer = L.layerGroup().addTo(map);
     ` : `
       <div class="detail-row">
         <span class="dlabel">Schema</span>
-        <span class="dval" style="font-family:'Space Grotesk';font-size:10px;letter-spacing:0.1em;color:#888">SIMPLIFIED RECORD${TT(' · 簡式資料，僅含時間／地點／傷亡／車種',' · time/place/casualties/vehicle only')}</span>
+        <span class="dval" style="font-family:'Space Grotesk';font-size:10px;letter-spacing:0.1em;color:#6B6B6B">SIMPLIFIED RECORD${TT(' · 簡式資料，僅含時間／地點／傷亡／車種',' · time/place/casualties/vehicle only')}</span>
       </div>
     `;
 
@@ -3013,7 +3099,7 @@ const markerLayer = L.layerGroup().addTo(map);
   }
   function renderBars(elId, rows, opts={}) {
     const el = document.getElementById(elId);
-    if (!rows.length) { el.innerHTML = `<div style="font-size:11px;color:#888;font-weight:300">— ${TT('篩選條件下無資料','No data under this filter')} —</div>`; return; }
+    if (!rows.length) { el.innerHTML = `<div style="font-size:11px;color:#6B6B6B;font-weight:300">— ${TT('篩選條件下無資料','No data under this filter')} —</div>`; return; }
     const max = Math.max(1, ...rows.map(r => r[1]));
     const total = rows.reduce((s,r)=>s+r[1],0) || 1;
     el.innerHTML = rows.map(([k, v]) => {
@@ -3177,7 +3263,10 @@ const markerLayer = L.layerGroup().addTo(map);
       el.classList.add('active');
       state.sw = el.dataset.sw;
       if (state.sw === 'on') loadSidewalks();
-      else if (sidewalkLayer && map.hasLayer(sidewalkLayer)) map.removeLayer(sidewalkLayer);
+      else {
+        if (sidewalkLayer && map.hasLayer(sidewalkLayer)) map.removeLayer(sidewalkLayer);
+        swLegendToggle(false);
+      }
     });
   });
 
@@ -3413,12 +3502,12 @@ const markerLayer = L.layerGroup().addTo(map);
     });
     // x-axis labels
     [2016, 2025, 2035, 2050].forEach(y => {
-      s += `<text x="${xS(y)}" y="${H-pad.b+18}" font-family="Space Grotesk" font-size="11" fill="#888" text-anchor="middle">${y}</text>`;
+      s += `<text x="${xS(y)}" y="${H-pad.b+18}" font-family="Space Grotesk" font-size="11" fill="#6B6B6B" text-anchor="middle">${y}</text>`;
     });
     // y-axis ticks
     [0, yMax / 2, yMax].forEach(v => {
       s += `<line x1="${pad.l-3}" y1="${yS(v)}" x2="${pad.l}" y2="${yS(v)}" stroke="#888" stroke-width="0.5"/>`;
-      s += `<text x="${pad.l-6}" y="${yS(v)+4}" font-family="Space Grotesk" font-size="10" fill="#888" text-anchor="end">${_vzFmt(v)}</text>`;
+      s += `<text x="${pad.l-6}" y="${yS(v)+4}" font-family="Space Grotesk" font-size="10" fill="#6B6B6B" text-anchor="end">${_vzFmt(v)}</text>`;
     });
 
     // ── BAU envelope (drawn first so other lines sit on top) ──
@@ -4046,13 +4135,13 @@ const markerLayer = L.layerGroup().addTo(map);
     let s = '';
     [0, 0.2, 0.4, 0.6, 0.8].forEach(v => {
       s += '<line x1="' + padL + '" y1="' + y(v) + '" x2="' + (W - padR) + '" y2="' + y(v) + '" stroke="#F2F2F2" stroke-width="1"/>';
-      s += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#888">' + Math.round(v * 100) + '%</text>';
+      s += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-family="Space Grotesk" font-size="11" fill="#6B6B6B">' + Math.round(v * 100) + '%</text>';
     });
     [2025, 2030, 2035, 2040, 2045, 2050].forEach(yr => {
-      s += '<text x="' + x(yr) + '" y="' + (H - 8) + '" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#888">' + yr + '</text>';
+      s += '<text x="' + x(yr) + '" y="' + (H - 8) + '" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#6B6B6B">' + yr + '</text>';
     });
     s += '<line x1="' + padL + '" y1="' + y(g0) + '" x2="' + (W - padR) + '" y2="' + y(g0) + '" stroke="#888" stroke-width="1.2" stroke-dasharray="5,4"/>';
-    s += '<text x="' + (W - padR - 4) + '" y="' + (y(g0) - 6) + '" text-anchor="end" font-family="Noto Sans TC, Space Grotesk, sans-serif" font-size="11" fill="#888">' + TT('不積極作為情境 ', 'No-action baseline ') + Math.round(g0 * 100) + '%</text>';
+    s += '<text x="' + (W - padR - 4) + '" y="' + (y(g0) - 6) + '" text-anchor="end" font-family="Noto Sans TC, Space Grotesk, sans-serif" font-size="11" fill="#6B6B6B">' + TT('不積極作為情境 ', 'No-action baseline ') + Math.round(g0 * 100) + '%</text>';
     let area = 'M' + x(2025) + ',' + y(g0), line = 'M' + x(2025) + ',' + y(g0);
     for (let yr = 2026; yr <= 2050; yr++) {
       const g = lcfModel(yr).g;

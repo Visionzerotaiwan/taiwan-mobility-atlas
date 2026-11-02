@@ -20,6 +20,8 @@
   <meta property="og:url" content="https://yunching0513.github.io/taiwan-mobility-atlas/nearby.html">
   <meta property="og:title" content="我家附近安全嗎？｜台灣街道願景計畫">
   <meta property="og:description" content="輸入你住的鄉鎮市區，看十年交通死亡、全國排名與最危險路段。">
+  <meta name="description" content="輸入你住的鄉鎮市區，看十年交通死亡、全國排名與最危險路段。">
+  <link rel="canonical" href="https://yunching0513.github.io/taiwan-mobility-atlas/nearby.html">
   <meta property="og:image" content="https://yunching0513.github.io/taiwan-mobility-atlas/assets/og.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
@@ -35,7 +37,7 @@
 body { animation: pageFadeIn 0.45s ease-out; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#888; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
+  --black:#1A1A1A; --grey-1:#4A4A4A; --grey-2:#6B6B6B; --grey-3:#D0D0D0; --grey-4:#F2F2F2; --white:#FFF;
   --lime:#C8D400; --lime-dk:#A8B200; --lime-lt:#E8F000;
   --red:#D94F3D; --red-dk:#A33A2D; --gold:#E8A825; --blue:#3A7CC3;
   --font-zh:'Noto Sans TC',sans-serif;
@@ -63,7 +65,7 @@ a { color: inherit; }
 }
 .hero .en {
   font-family: var(--font-en); font-size: 10px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--grey-2); margin-top: 6px;
+  text-transform: uppercase; color: #9A9A9A; margin-top: 6px;
 }
 
 /* ── search ── */
@@ -217,10 +219,10 @@ a { color: inherit; }
 
 <div class="search-wrap">
   <div class="search-box">
-    <input id="q" type="text" placeholder="輸入鄉鎮市區,例:中壢、斗六、恆春…" autocomplete="off" aria-label="搜尋鄉鎮市區">
+    <input id="q" type="text" role="combobox" placeholder="輸入鄉鎮市區,例:中壢、斗六、恆春…" autocomplete="off" aria-label="搜尋鄉鎮市區" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
     <button class="geo-btn" id="geoBtn">📍 用我的位置</button>
   </div>
-  <div class="suggest" id="suggest"></div>
+  <div class="suggest" id="suggest" role="listbox" aria-label="符合的鄉鎮市區"></div>
   <div class="geo-status" id="geoStatus"></div>
 </div>
 
@@ -312,15 +314,17 @@ function norm(s) { return (s || '').replace(/臺/g, '台').trim(); }
 q.addEventListener('input', () => {
   const v = norm(q.value);
   hlIdx = -1;
-  if (v.length < 1) { sg.classList.remove('open'); return; }
+  q.removeAttribute('aria-activedescendant');
+  if (v.length < 1) { sg.classList.remove('open'); q.setAttribute('aria-expanded', 'false'); return; }
   current = INDEX.filter(r =>
     r.district.includes(v) || r.county.includes(v) || (r.county + r.district).includes(v)
   ).slice(0, 12);
-  if (!current.length) { sg.classList.remove('open'); return; }
+  if (!current.length) { sg.classList.remove('open'); q.setAttribute('aria-expanded', 'false'); return; }
   sg.innerHTML = current.map((r, i) =>
-    `<div class="sg-row" data-key="${r.key}"><span class="sg-d">${r.district}</span><span class="sg-c">${r.county} · ${D[r.key].d} 死</span></div>`
+    `<div class="sg-row" id="sg-${i}" role="option" aria-selected="false" data-key="${r.key}"><span class="sg-d">${r.district}</span><span class="sg-c">${r.county} · ${D[r.key].d} 死</span></div>`
   ).join('');
   sg.classList.add('open');
+  q.setAttribute('aria-expanded', 'true');
   sg.querySelectorAll('.sg-row').forEach(row =>
     row.addEventListener('click', () => select(row.dataset.key)));
 });
@@ -331,10 +335,19 @@ q.addEventListener('keydown', e => {
   else if (e.key === 'ArrowUp') { e.preventDefault(); hlIdx = Math.max(hlIdx - 1, 0); }
   else if (e.key === 'Enter') { e.preventDefault(); select((rows[Math.max(hlIdx,0)] || rows[0]).dataset.key); return; }
   else return;
-  rows.forEach((r, i) => r.classList.toggle('hl', i === hlIdx));
+  rows.forEach((r, i) => {
+    const selected = i === hlIdx;
+    r.classList.toggle('hl', selected);
+    r.setAttribute('aria-selected', selected ? 'true' : 'false');
+  });
+  if (hlIdx >= 0) q.setAttribute('aria-activedescendant', rows[hlIdx].id);
 });
 document.addEventListener('click', e => {
-  if (!e.target.closest('.search-wrap')) sg.classList.remove('open');
+  if (!e.target.closest('.search-wrap')) {
+    sg.classList.remove('open');
+    q.setAttribute('aria-expanded', 'false');
+    q.removeAttribute('aria-activedescendant');
+  }
 });
 
 // ── geolocation → point-in-polygon ─────────────────────────
@@ -402,6 +415,8 @@ function select(key) {
   if (!p) return;
   const [county, district] = key.split('|');
   sg.classList.remove('open');
+  q.setAttribute('aria-expanded', 'false');
+  q.removeAttribute('aria-activedescendant');
   q.value = district;
 
   $('rName').textContent = district;
@@ -457,7 +472,7 @@ function select(key) {
   s += `<polyline fill="none" stroke="#D94F3D" stroke-width="3" points="${yr.map((v, i) => px(i).toFixed(1) + ',' + py(v).toFixed(1)).join(' ')}"/>`;
   yr.forEach((v, i) => {
     s += `<circle cx="${px(i).toFixed(1)}" cy="${py(v).toFixed(1)}" r="3.4" fill="#D94F3D"/>`;
-    s += `<text x="${px(i).toFixed(1)}" y="${(py(v) - 9).toFixed(1)}" font-family="Space Grotesk" font-size="12" fill="#888" text-anchor="middle">${v}</text>`;
+    s += `<text x="${px(i).toFixed(1)}" y="${(py(v) - 9).toFixed(1)}" font-family="Space Grotesk" font-size="12" fill="#6B6B6B" text-anchor="middle">${v}</text>`;
   });
   $('rSpark').innerHTML = s;
 
